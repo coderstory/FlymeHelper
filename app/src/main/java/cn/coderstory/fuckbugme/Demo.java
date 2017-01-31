@@ -24,9 +24,11 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  */
 
 public class Demo implements IXposedHookLoadPackage {
+
+
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
-        XposedBridge.log("plugin was loaded");
+        // XposedBridge.log("plugin was loaded");
         if (loadPackageParam.packageName.equals("com.meizu.customizecenter")) {
             XposedBridge.log("customizecenter is loading");
             XposedBridge.log("crack by coderstory");
@@ -43,12 +45,11 @@ public class Demo implements IXposedHookLoadPackage {
              }
              catch(NumberFormatException v0_2) {
              }
-
              ((RuntimeException)v0_1).printStackTrace();
              return 3;
              }
              */
-            XposedHelpers.findAndHookMethod("com.meizu.customizecenter.g.ae", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));//-1
+            findAndHookMethod("com.meizu.customizecenter.g.ae", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));//-1
 
             //禁止试用倒计时com.meizu.customizecenter.common.theme
             /**
@@ -62,10 +63,10 @@ public class Demo implements IXposedHookLoadPackage {
              this.d.startService(v1);
              }
              */
-            XposedHelpers.findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", boolean.class, boolean.class, XC_MethodReplacement.returnConstant(null));
+            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", boolean.class, boolean.class, XC_MethodReplacement.returnConstant(null));
 
 
-            XposedHelpers.findAndHookMethod("com.meizu.customizecenter.RestoreProgressActivity", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(null));//-1
+            findAndHookMethod("com.meizu.customizecenter.RestoreProgressActivity", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(null));//-1
 
             /**
              private void a(String arg5) {
@@ -78,7 +79,7 @@ public class Demo implements IXposedHookLoadPackage {
              this.d.startService(this.k);
              }
              */
-            XposedHelpers.findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", String.class, XC_MethodReplacement.returnConstant(null));//-1
+            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", String.class, XC_MethodReplacement.returnConstant(null));//-1
 
             /**
              public void a(long arg4, String arg6) {
@@ -88,7 +89,7 @@ public class Demo implements IXposedHookLoadPackage {
              this.d.startService(this.k);
              }
              */
-            XposedHelpers.findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", long.class, String.class, XC_MethodReplacement.returnConstant(null));//-1
+            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", long.class, String.class, XC_MethodReplacement.returnConstant(null));//-1
 
             /**
              public void a(boolean arg5) {
@@ -115,19 +116,42 @@ public class Demo implements IXposedHookLoadPackage {
              this.d.startService(this.k);
              }
              */
-            XposedHelpers.findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", boolean.class, XC_MethodReplacement.returnConstant(null));//-1
+            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", boolean.class, XC_MethodReplacement.returnConstant(null));//-1
             //主题恢复相关
             /**
              public boolean a() {
              return 1;  //本方法以被修改
              }
              */
-            XposedHelpers.findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "a", new XC_MethodReplacement() {
+//            XposedHelpers.findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "a", boolean.class, new XC_MethodReplacement() {
+//                @Override
+//                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+//                    return null;
+//                }
+//            });
+
+            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "i", new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
-                    return true;
+                    return null;
                 }
             });
+
+            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "m", new XC_MethodReplacement() {
+                @Override
+                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+                    return null;
+                }
+            });
+
+            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "h", new XC_MethodReplacement() {
+                @Override
+                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+                    return null;
+                }
+            });
+
+
             // 主题恢复相关
             /**
              public void b(boolean arg10) {
@@ -154,10 +178,24 @@ public class Demo implements IXposedHookLoadPackage {
              v2.apply();
              }
              */
-            XposedHelpers.findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "b", boolean.class, new XC_MethodReplacement() {
+            findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "b", boolean.class, new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
                     return null;
+                }
+            });
+
+            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "e", new XC_MethodReplacement() {
+                @Override
+                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+                    return null;
+                }
+            });
+
+            findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "a", new XC_MethodReplacement() {
+                @Override
+                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+                    return 1;
                 }
             });
 
@@ -172,7 +210,7 @@ public class Demo implements IXposedHookLoadPackage {
              this.startActivity(v0);
              }
              **/
-            XposedHelpers.findAndHookMethod("com.meizu.customizecenter.service.ThemeRestoreService", loadPackageParam.classLoader, "g", XC_MethodReplacement.returnConstant(null));
+            findAndHookMethod("com.meizu.customizecenter.service.ThemeRestoreService", loadPackageParam.classLoader, "g", XC_MethodReplacement.returnConstant(null));
 
 
             /**
@@ -188,20 +226,45 @@ public class Demo implements IXposedHookLoadPackage {
              ThemeRestoreService.a = 1;
              }
              */
-            XposedHelpers.findAndHookMethod("com.meizu.customizecenter.service.ThemeRestoreService", loadPackageParam.classLoader, "a", int.class, XC_MethodReplacement.returnConstant(null));
+            findAndHookMethod("com.meizu.customizecenter.service.ThemeRestoreService$1", loadPackageParam.classLoader, "a", int.class, XC_MethodReplacement.returnConstant(null));
 
 
             //fix theme restore on  boot complete
-            XposedHelpers.findAndHookMethod("com.meizu.customizecenter.common.helper.BootBroadcastReceiver", loadPackageParam.classLoader, "onReceive",Context.class, Intent.class, int.class,new  XC_MethodHook(){
+            findAndHookMethod("com.meizu.customizecenter.common.helper.BootBroadcastReceiver", loadPackageParam.classLoader, "onReceive", Context.class, Intent.class, new XC_MethodHook() {
                 protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-                    Intent intnet=  (Intent)   param.args[1];
-                    if (intnet.getAction().contains("trial")){
+                    Intent intnet = (Intent) param.args[1];
+                    XposedBridge.log("action:" + intnet.getAction());
+                    if (intnet.getAction().contains("trial")) {
+                        XposedBridge.log("已修改");
                         intnet.setAction("Fuck U");
+                    } else {
+                        XposedBridge.log("没修改");
                     }
                 }
             });
 
 
+        }
+
+
+    }
+
+
+    private static void findAndHookMethod(String p1, ClassLoader lpparam, String p2, Object... parameterTypesAndCallback) {
+        try {
+            XposedHelpers.findAndHookMethod(p1, lpparam, p2, parameterTypesAndCallback);
+
+        } catch (Throwable localString3) {
+            XposedBridge.log(localString3);
+        }
+    }
+
+    private static void findAndHookConstructor(String p1, ClassLoader lpparam, Object... parameterTypesAndCallback) {
+        try {
+            XposedHelpers.findAndHookConstructor(p1, lpparam, lpparam, parameterTypesAndCallback);
+
+        } catch (Throwable localString3) {
+            XposedBridge.log(localString3);
         }
     }
 }
