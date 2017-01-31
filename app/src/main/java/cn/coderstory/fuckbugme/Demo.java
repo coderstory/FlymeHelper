@@ -2,6 +2,7 @@ package cn.coderstory.fuckbugme;
 
 
 import android.content.Context;
+import android.content.Intent;
 
 import org.json.JSONObject;
 
@@ -17,7 +18,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * flyme6主题无限试用补丁
  * 适配主题美化6.0.7版本
- * hook函数的注释代码为hook方法的原型
+ * hook函数的注释代码为hook方法的原型（by jeb 2.2.7）
  * 因为入口都是混淆的 所以每个app版本都需要单独适配
  * Created by coder on 2017/1/29.
  */
@@ -188,6 +189,18 @@ public class Demo implements IXposedHookLoadPackage {
              }
              */
             XposedHelpers.findAndHookMethod("com.meizu.customizecenter.service.ThemeRestoreService", loadPackageParam.classLoader, "a", int.class, XC_MethodReplacement.returnConstant(null));
+
+
+            //fix theme restore on  boot complete
+            XposedHelpers.findAndHookMethod("com.meizu.customizecenter.common.helper.BootBroadcastReceiver", loadPackageParam.classLoader, "onReceive",Context.class, Intent.class, int.class,new  XC_MethodHook(){
+                protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+                    Intent intnet=  (Intent)   param.args[1];
+                    if (intnet.getAction().contains("trial")){
+                        intnet.setAction("Fuck U");
+                    }
+                }
+            });
+
 
         }
     }
