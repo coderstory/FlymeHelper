@@ -63,10 +63,10 @@ public class Demo implements IXposedHookLoadPackage {
              this.d.startService(v1);
              }
              */
-            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", boolean.class, boolean.class, XC_MethodReplacement.returnConstant(null));
+            //findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", boolean.class, boolean.class, XC_MethodReplacement.returnConstant(null));
 
 
-            findAndHookMethod("com.meizu.customizecenter.RestoreProgressActivity", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(null));//-1
+            //findAndHookMethod("com.meizu.customizecenter.RestoreProgressActivity", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(null));//-1
 
             /**
              private void a(String arg5) {
@@ -79,7 +79,7 @@ public class Demo implements IXposedHookLoadPackage {
              this.d.startService(this.k);
              }
              */
-            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", String.class, XC_MethodReplacement.returnConstant(null));//-1
+           // findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", String.class, XC_MethodReplacement.returnConstant(null));//-1
 
             /**
              public void a(long arg4, String arg6) {
@@ -89,7 +89,7 @@ public class Demo implements IXposedHookLoadPackage {
              this.d.startService(this.k);
              }
              */
-            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", long.class, String.class, XC_MethodReplacement.returnConstant(null));//-1
+           // findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", long.class, String.class, XC_MethodReplacement.returnConstant(null));//-1
 
             /**
              public void a(boolean arg5) {
@@ -116,7 +116,7 @@ public class Demo implements IXposedHookLoadPackage {
              this.d.startService(this.k);
              }
              */
-            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", boolean.class, XC_MethodReplacement.returnConstant(null));//-1
+          //  findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "a", boolean.class, XC_MethodReplacement.returnConstant(null));//-1
             //主题恢复相关
             /**
              public boolean a() {
@@ -130,26 +130,26 @@ public class Demo implements IXposedHookLoadPackage {
 //                }
 //            });
 
-            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "i", new XC_MethodReplacement() {
-                @Override
-                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
-                    return null;
-                }
-            });
-
-            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "m", new XC_MethodReplacement() {
-                @Override
-                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
-                    return null;
-                }
-            });
-
-            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "h", new XC_MethodReplacement() {
-                @Override
-                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
-                    return null;
-                }
-            });
+//            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "i", new XC_MethodReplacement() {
+//                @Override
+//                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+//                    return null;
+//                }
+//            });
+//
+//            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "m", new XC_MethodReplacement() {
+//                @Override
+//                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+//                    return null;
+//                }
+//            });
+//
+//            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "h", new XC_MethodReplacement() {
+//                @Override
+//                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+//                    return null;
+//                }
+//            });
 
 
             // 主题恢复相关
@@ -178,26 +178,26 @@ public class Demo implements IXposedHookLoadPackage {
              v2.apply();
              }
              */
-            findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "b", boolean.class, new XC_MethodReplacement() {
-                @Override
-                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
-                    return null;
-                }
-            });
-
-            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "e", new XC_MethodReplacement() {
-                @Override
-                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
-                    return null;
-                }
-            });
-
-            findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "a", new XC_MethodReplacement() {
-                @Override
-                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
-                    return 1;
-                }
-            });
+//            findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "b", boolean.class, new XC_MethodReplacement() {
+//                @Override
+//                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+//                    return null;
+//                }
+//            });
+//
+//            findAndHookMethod("com.meizu.customizecenter.common.theme.a", loadPackageParam.classLoader, "e", new XC_MethodReplacement() {
+//                @Override
+//                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+//                    return null;
+//                }
+//            });
+//
+//            findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "a", new XC_MethodReplacement() {
+//                @Override
+//                protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+//                    return 1;
+//                }
+//            });
 
             /**
              private void g() {
@@ -210,7 +210,7 @@ public class Demo implements IXposedHookLoadPackage {
              this.startActivity(v0);
              }
              **/
-            findAndHookMethod("com.meizu.customizecenter.service.ThemeRestoreService", loadPackageParam.classLoader, "g", XC_MethodReplacement.returnConstant(null));
+            //findAndHookMethod("com.meizu.customizecenter.service.ThemeRestoreService", loadPackageParam.classLoader, "g", XC_MethodReplacement.returnConstant(null));
 
 
             /**
@@ -226,22 +226,22 @@ public class Demo implements IXposedHookLoadPackage {
              ThemeRestoreService.a = 1;
              }
              */
-            findAndHookMethod("com.meizu.customizecenter.service.ThemeRestoreService$1", loadPackageParam.classLoader, "a", int.class, XC_MethodReplacement.returnConstant(null));
-
-
-            //fix theme restore on  boot complete
-            findAndHookMethod("com.meizu.customizecenter.common.helper.BootBroadcastReceiver", loadPackageParam.classLoader, "onReceive", Context.class, Intent.class, new XC_MethodHook() {
-                protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-                    Intent intnet = (Intent) param.args[1];
-                    XposedBridge.log("action:" + intnet.getAction());
-                    if (intnet.getAction().contains("trial")) {
-                        XposedBridge.log("已修改");
-                        intnet.setAction("Fuck U");
-                    } else {
-                        XposedBridge.log("没修改");
-                    }
-                }
-            });
+//            findAndHookMethod("com.meizu.customizecenter.service.ThemeRestoreService$1", loadPackageParam.classLoader, "a", int.class, XC_MethodReplacement.returnConstant(null));
+//
+//
+//            //fix theme restore on  boot complete
+//            findAndHookMethod("com.meizu.customizecenter.common.helper.BootBroadcastReceiver", loadPackageParam.classLoader, "onReceive", Context.class, Intent.class, new XC_MethodHook() {
+//                protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+//                    Intent intnet = (Intent) param.args[1];
+//                    XposedBridge.log("action:" + intnet.getAction());
+//                    if (intnet.getAction().contains("trial")) {
+//                        XposedBridge.log("已修改");
+//                        intnet.setAction("Fuck U");
+//                    } else {
+//                        XposedBridge.log("没修改");
+//                    }
+//                }
+//            });
 
 
         }
