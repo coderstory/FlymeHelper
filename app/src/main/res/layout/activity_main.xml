@@ -12,7 +12,7 @@
     tools:context="cn.coderstory.fuckbugme.MainActivity">
 
     <TextView
-        android:text="FuckBugMe是一款针对flyme系统的主题和谐插件,适用于flyme6系统.实现主题的无限试用且不会恢复"
+        android:text="Flyme6主题助手是一款针对flyme系统的主题和谐插件,适用于flyme6系统.实现主题的无限试用且不会恢复"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
