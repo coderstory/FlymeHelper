@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.coderstory.fuckbugme">
 
-    <!-- android:roundIcon="@mipmap/ic_launcher_round" -->
-    <!-- android:icon="@mipmap/ic_launcher" -->
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
@@ -15,7 +13,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="Fuck your mother" />
+            android:value="务必低调使用" />
         <meta-data
             android:name="xposedminversion"
             android:value="53" />
