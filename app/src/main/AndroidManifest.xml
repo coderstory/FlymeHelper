@@ -13,7 +13,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="务必低调使用" />
+            android:value="务必低调使用啦" />
         <meta-data
             android:name="xposedminversion"
             android:value="53" />

@@ -17,7 +17,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * Created by coder on 2017/1/29.
  */
 
-public class Demo implements IXposedHookLoadPackage {
+public class Hooks implements IXposedHookLoadPackage {
 
 
     @Override

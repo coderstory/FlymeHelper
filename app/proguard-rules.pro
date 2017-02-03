@@ -16,7 +16,7 @@
 #保护注解
 -keepattributes Annotation
 #保持哪些类不被混淆
--keep class cn.coderstory.fuckbugme.Demo
+-keep class cn.coderstory.fuckbugme.Hooks
 
 
 

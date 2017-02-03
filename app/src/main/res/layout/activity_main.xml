@@ -12,41 +12,22 @@
     tools:context="cn.coderstory.fuckbugme.MainActivity">
 
     <TextView
-        android:text="使用说明:\n\n插件的正常运行需要root权限，用于禁用主题美化的一些功能,防止主题自动恢复.\n\n当前支持的主题美化版本：6.0.7,6.1.0\n\n注意事项：\n因为xposed本身的原因,请确保你未更新系统自带的主题美化，因为你一旦安装了新版本的主题美化，那么本插件就会失效。（这个问题与你安装的主题美化的版本无关）或者你手动转移新版本的apk到system/priv-app目录下"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_below="@+id/textView3"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="43dp" />
-
-    <TextView
-        android:text="当前Root授权状态:尚未获取"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rootStatus"
-        android:textColor="#1f93ce"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="53dp" />
-
-    <TextView
-        android:text="Power by Coderstory  © 2017 blog.coderstory.cn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="22dp"
-        android:id="@+id/textView4" />
-
-    <TextView
-        android:text="Flyme6主题助手是一款针对flyme系统的主题和谐插件,适用于flyme6系统.实现主题的无限试用且不会恢复"
+        android:text="Flyme6主题助手是一款针对flyme系统的主题和谐插件,适用于flyme6系统.实现主题的无限试用且不会恢复\n\n如果你有能力的话,还请支持正版.不要把顺手拿来当做习惯"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="80dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Power by Coderstory "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="29dp"
+        android:id="@+id/textView4"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:text="授权Root"
@@ -56,8 +37,26 @@
         android:textAppearance="@android:style/TextAppearance.Material.Button"
         android:id="@+id/button"
         android:onClick="checkroot"
-        android:layout_below="@+id/rootStatus"
+        android:layout_above="@+id/textView4"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="21dp" />
+        android:layout_marginBottom="39dp" />
+
+    <TextView
+        android:text="当前Root授权状态:尚未获取"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rootStatus"
+        android:textColor="#1f93ce"
+        android:layout_above="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="22dp" />
+
+    <TextView
+        android:text="使用说明:\n插件的正常运行需要root权限，用于禁用主题美化的一些功能,防止主题自动恢复.\n因为xposed本身的原因,请确保你未更新系统自带的主题美化，因为你一旦安装了新版本的主题美化，那么本插件就会失效。（这个问题与你安装的主题美化的版本无关）或者你手动转移新版本的apk到system/priv-app目录下\n\n当前支持的主题美化版本：6.0.7,6.1.0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
