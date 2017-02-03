@@ -41,6 +41,16 @@ public class MainActivity extends Activity {
             list.add("pm disable com.meizu.customizecenter/com.meizu.customizecenter.common.theme.ThemeTrialService");
             list.add("pm disable com.meizu.customizecenter/com.meizu.customizecenter.service.ThemeRestoreService");
             list.add("pm disable com.meizu.customizecenter/com.meizu.customizecenter.service.FontRestoreService");
+            list.add("pm disable com.meizu.customizecenter/com.meizu.gslb.push.GslbDataRefreshReceiver");
+
+            list.add("pm disable com.meizu.customizecenter/com.meizu.customizecenter.common.push.CustomizePushReceiver");
+            list.add("pm disable com.meizu.customizecenter/com.meizu.customizecenter.common.helper.ShopDemoReceiver");
+            list.add("pm disable com.meizu.customizecenter/com.meizu.cloud.pushsdk.SystemReceiver");
+            list.add("pm disable com.meizu.customizecenter/com.meizu.advertise.api.AppDownloadAndInstallReceiver");
+
+
+
+
            if ( !execute(list)){
                getEditor().putInt("rootStatus",1);
            }
