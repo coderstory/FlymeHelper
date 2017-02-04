@@ -27,20 +27,17 @@ public class Hooks implements IXposedHookLoadPackage {
 
             XposedBridge.log("crack by coderstory");
 
-            //hook函数 搜索关键词 -> device_states | doCheckState
-
+            //device_states | doCheckState
             //6.0.7
-             findAndHookMethod("com.meizu.customizecenter.g.ae", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));//-1
+            findAndHookMethod("com.meizu.customizecenter.g.ae", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
             //6.1.0
-            findAndHookMethod("com.meizu.customizecenter.g.af", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));//-1
-            findAndHookMethod("com.meizu.statsapp.util.Utils", loadPackageParam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(false));//-1
+            findAndHookMethod("com.meizu.customizecenter.g.af", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
 
-
-            findAndHookMethod("com.meizu.flyme.activeview.version.VersionManager", loadPackageParam.classLoader, "checkUpdate", Context.class, XC_MethodReplacement.returnConstant(null));//-1
+            //resetToSystemTheme
+            // 6.0.7 6.1.0
+            findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
 
         }
-
-
     }
 
 
