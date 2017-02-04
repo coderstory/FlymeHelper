@@ -37,6 +37,9 @@ public class Hooks implements IXposedHookLoadPackage {
             // 6.0.7 6.1.0
             findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
 
+            //data/data/com.meizu.customizecenter/font/   system_font
+            //6.0.7 6.1.0
+            findAndHookMethod("com.meizu.customizecenter.common.font.FontManager", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
         }
     }
 
@@ -53,7 +56,6 @@ public class Hooks implements IXposedHookLoadPackage {
     private static void findAndHookConstructor(String p1, ClassLoader lpparam, Object... parameterTypesAndCallback) {
         try {
             XposedHelpers.findAndHookConstructor(p1, lpparam, lpparam, parameterTypesAndCallback);
-
         } catch (Throwable localString3) {
             XposedBridge.log(localString3);
         }
