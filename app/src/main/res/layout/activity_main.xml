@@ -52,7 +52,7 @@
         android:layout_marginBottom="22dp" />
 
     <TextView
-        android:text="使用说明:\n插件的正常运行需要root权限，用于禁用主题美化的一些功能,防止主题自动恢复.\n因为xposed本身的原因,请确保你未更新系统自带的主题美化，因为你一旦安装了新版本的主题美化，那么本插件就会失效。（这个问题与你安装的主题美化的版本无关）或者你手动转移新版本的apk到system/priv-app目录下\n\n当前支持的主题美化版本：6.0.7,6.1.0"
+        android:text="使用说明:\n插件的正常运行需要root权限，用于禁用主题美化的一些功能,防止主题自动恢复.\n因为xposed本身的原因,请确保你未更新系统自带的主题美化，因为你一旦安装了新版本的主题美化，那么本插件就会失效。（这个问题与你安装的主题美化的版本无关）或者你手动转移新版本的apk到system/priv-app目录下\n\n当前支持的主题美化版本：6.0.7 6.1.0 6.2.0 6.3.2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
