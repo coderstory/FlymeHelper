@@ -2,8 +2,9 @@ package cn.coderstory.fuckbugme;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -87,5 +88,9 @@ public class MainActivity extends Activity {
                 break;
         }
     }
-
+     public  void openBlog(View v){
+         Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("https://blog.coderstory.cn"));
+         it.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
+         getApplication().startActivity(it);
+     }
 }

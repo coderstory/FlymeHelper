@@ -32,8 +32,10 @@ public class Hooks implements IXposedHookLoadPackage {
             findAndHookMethod("com.meizu.customizecenter.g.ae", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
             //6.1.0 6.2.0
             findAndHookMethod("com.meizu.customizecenter.g.af", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
-            //6.3.2
+            //6.3.2 6.4.0
             findAndHookMethod("com.meizu.customizecenter.utils.ah", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
+            //6.5.0
+            findAndHookMethod("com.meizu.customizecenter.utils.ai", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
 
             //resetToSystemTheme
             // 6.0.7 6.1.0 6.2.0 6.3.2
@@ -44,6 +46,8 @@ public class Hooks implements IXposedHookLoadPackage {
             findAndHookMethod("com.meizu.customizecenter.common.font.FontManager", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
             //6.3.2
             findAndHookMethod("com.meizu.customizecenter.common.font.FontManager", loadPackageParam.classLoader, "b", XC_MethodReplacement.returnConstant(true));
+            //6.4.0
+            findAndHookMethod("com.meizu.customizecenter.common.font.FontManager", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(""));
         }
     }
 
