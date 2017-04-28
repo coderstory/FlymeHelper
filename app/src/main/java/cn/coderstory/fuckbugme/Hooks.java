@@ -36,6 +36,8 @@ public class Hooks implements IXposedHookLoadPackage {
             findAndHookMethod("com.meizu.customizecenter.utils.ah", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
             //6.5.0
             findAndHookMethod("com.meizu.customizecenter.utils.ai", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
+            //6.6.1
+            findAndHookMethod("com.meizu.customizecenter.utils.ak", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
 
             //resetToSystemTheme
             // 6.0.7 6.1.0 6.2.0 6.3.2

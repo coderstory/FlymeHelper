@@ -51,7 +51,7 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="使用说明:\n插件的正常运行需要root权限，用于禁用主题美化的一些功能,防止主题自动恢复.\n当前支持的主题美化6.0.7-6.5.0的所有版本"
+        android:text="使用说明:\n插件的正常运行需要root权限，用于禁用主题美化的一些功能,防止主题自动恢复.\n当前支持的主题美化6.0.7-6.6.1的所有版本"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
