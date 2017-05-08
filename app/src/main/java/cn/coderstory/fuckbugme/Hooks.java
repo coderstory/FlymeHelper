@@ -50,6 +50,26 @@ public class Hooks implements IXposedHookLoadPackage {
             findAndHookMethod("com.meizu.customizecenter.common.font.FontManager", loadPackageParam.classLoader, "b", XC_MethodReplacement.returnConstant(true));
             //6.4.0
             findAndHookMethod("com.meizu.customizecenter.common.font.FontManager", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(""));
+           
+           findAndHookMethod("com.meizu.customizecenter.common.dao.ThemeContentProvider", loadPackageParam.classLoader, "query", Uri.class, String[].class, String.class, String[].class, String.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    Object[] objs = param.args;
+                    XposedBridge.log("默认数据");
+                    for (int i = 0; i < objs.length; i++) {
+                        if (objs[i] instanceof String[]) {
+                          for(int j=0;j<(( String[]) objs[i]).length;j++){
+                              if ((( String[]) objs[i])[j].contains("/storage/emulated/0/Customize")) {
+                                  XposedBridge.log("xiugai "+(( String[]) objs[i])[j]);
+                                  (( String[]) objs[i])[j]= "/storage/emulated/0/Customize%";
+                              }
+                            }
+                        }
+                    }
+                    super.beforeHookedMethod(param);
+                }
+            });
+        
         }
     }
 
