@@ -62,9 +62,10 @@ public class Hooks implements IXposedHookLoadPackage {
                     for (int i = 0; i < objs.length; i++) {
                         if (objs[i] instanceof String[]) {
                           for(int j=0;j<(( String[]) objs[i]).length;j++){
-                              if ((( String[]) objs[i])[j].contains("/storage/emulated/0/Customize")) {
-                                  XposedBridge.log("xiugai "+(( String[]) objs[i])[j]);
+                              if ((( String[]) objs[i])[j].contains("/storage/emulated/0/Customize/Themes")) {
                                   (( String[]) objs[i])[j]= "/storage/emulated/0/Customize%";
+                              }else if ((( String[]) objs[i])[j].contains("/storage/emulated/0/Customize/TrialThemes")) {
+                                  (( String[]) objs[i])[j]= "NONE";
                               }
                             }
                         }
