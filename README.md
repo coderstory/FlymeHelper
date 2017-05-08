@@ -1,7 +1,8 @@
+# Flym6助手
+一款基于xposed开发的flyme6主题美化App和谐插件
 
-### Flym6助手
-
-##### flyme6主题破解 无限制试用补丁 xposed模块
+[![license](https://img.shields.io/badge/license-GPLV2-blue.svg)](#)
+[![platform](https://img.shields.io/badge/platform-Android-yellow.svg)](https://www.android.com)
 
 ## License
 ```text
