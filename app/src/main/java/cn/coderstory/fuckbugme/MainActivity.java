@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,11 +20,13 @@ public class MainActivity extends Activity {
     private static SharedPreferences prefs;
     private static SharedPreferences.Editor editor;
     TextView rootStatus_txt;
+    Button getRoot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         rootStatus_txt=(TextView)findViewById(R.id.rootStatus);
+        getRoot= (Button) findViewById(R.id.button);
         setRootStatus();
     }
 
@@ -79,6 +82,7 @@ public class MainActivity extends Activity {
         switch (rootStatus){
             case 0:
                 rootStatus_txt.setText("当前Root授权状态:已获取授权");
+                getRoot.setText("重新授权");
                 break;
             case 1:
                 rootStatus_txt.setText("当前Root授权状态:已获取授权,但命令执行出错");

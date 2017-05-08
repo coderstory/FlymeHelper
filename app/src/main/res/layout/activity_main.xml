@@ -16,16 +16,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="79dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:text="Power by Coderstory "
+        android:text="使用说明:\n插件的正常运行需要root权限，用于禁用主题美化的一些功能,防止主题自动恢复.\n当前支持的主题美化6.0.7-6.6.1的所有版本"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView4"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/textView"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="18dp" />
+
+    <TextView
+        android:text="当前Root授权状态:尚未获取"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rootStatus"
+        android:textColor="#1f93ce"
+        android:layout_marginBottom="47dp"
+        android:layout_above="@+id/button"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -40,24 +51,6 @@
         android:layout_above="@+id/textView2"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:text="当前Root授权状态:尚未获取"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rootStatus"
-        android:textColor="#1f93ce"
-        android:layout_marginBottom="69dp"
-        android:layout_above="@+id/button"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:text="使用说明:\n插件的正常运行需要root权限，用于禁用主题美化的一些功能,防止主题自动恢复.\n当前支持的主题美化6.0.7-6.6.1的所有版本"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_below="@+id/textView3"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="18dp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -67,6 +60,14 @@
         android:onClick="openBlog"
         android:layout_marginBottom="15dp"
         android:layout_above="@+id/textView4"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="Power by Coderstory "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
