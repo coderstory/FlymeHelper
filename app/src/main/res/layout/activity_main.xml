@@ -65,7 +65,7 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="©2017 Power by Coderstory Version 1.8"
+        android:text="©2017 Power by Coderstory Version 1.9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView4"
