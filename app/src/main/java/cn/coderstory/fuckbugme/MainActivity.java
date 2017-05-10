@@ -94,7 +94,6 @@ public class MainActivity extends Activity {
     }
      public  void openBlog(View v){
          Intent it = new Intent(Intent.ACTION_VIEW, Uri.parse("https://blog.coderstory.cn"));
-         it.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
-         getApplication().startActivity(it);
+         startActivity(it);
      }
 }
