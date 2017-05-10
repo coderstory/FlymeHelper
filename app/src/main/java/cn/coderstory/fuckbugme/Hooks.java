@@ -59,20 +59,22 @@ public class Hooks implements IXposedHookLoadPackage {
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     Object[] objs = param.args;
                     XposedBridge.log("默认数据");
-                    for (int i = 0; i < objs.length; i++) {
-                        if (objs[i] instanceof String[]) {
-                          for(int j=0;j<(( String[]) objs[i]).length;j++){
-                              if ((( String[]) objs[i])[j].contains("/storage/emulated/0/Customize/Themes")) {
-                                  (( String[]) objs[i])[j]= "/storage/emulated/0/Customize%";
-                              }else if ((( String[]) objs[i])[j].contains("/storage/emulated/0/Customize/TrialThemes")) {
-                                  (( String[]) objs[i])[j]= "NONE";
-                              }
+                    for (Object obj : objs) {
+                        if (obj instanceof String[]) {
+                            for (int j = 0; j < ((String[]) obj).length; j++) {
+                                if (((String[]) obj)[j].contains("/storage/emulated/0/Customize/Themes")) {
+                                    ((String[]) obj)[j] = "/storage/emulated/0/Customize%";
+                                } else if (((String[]) obj)[j].contains("/storage/emulated/0/Customize/TrialThemes")) {
+                                    ((String[]) obj)[j] = "NONE";
+                                }
                             }
                         }
                     }
                     super.beforeHookedMethod(param);
                 }
             });
+        }else if (loadPackageParam.packageName.equals("com.android.packageinstaller")){
+            findAndHookMethod("com.meizu.permissioncommon.AppInfoUtil", loadPackageParam.classLoader, "isSystemApp",Context.class,String.class ,XC_MethodReplacement.returnConstant(true));
         }
     }
 
