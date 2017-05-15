@@ -1,31 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.coderstory.fuckbugme">
+    package="com.coderstory.FTool">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
+        android:name="ren.solid.library.SolidApplication"
         android:allowBackup="true"
-        android:label="@string/app_name"
-        android:theme="@android:style/Theme.Material.Light"
         android:icon="@mipmap/ic_launcher"
-        android:supportsRtl="true">
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:fullBackupContent="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.coderstory.FTool.activity.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.coderstory.FTool.activity.AboutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ren.solid.library.activity.WebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="ren.solid.library.activity.ViewPicActivity"
+            android:screenOrientation="portrait" />
+
+
+        <activity
+            android:name="com.coderstory.FTool.activity.SplashActivity"
+
+            android:theme="@style/fulscreen_theme" >
+
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="务必低调使用啦" />
+            android:value="Flyme6助手 by coderstory" />
         <meta-data
             android:name="xposedminversion"
-            android:value="53" />
+            android:value="54" />
 
-        <activity android:name=".MainActivity"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

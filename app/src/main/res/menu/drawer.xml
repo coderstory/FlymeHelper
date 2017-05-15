@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    tools:context=".MainActivity">
+    <group android:checkableBehavior="single">
+
+
+        <item
+            android:id="@+id/navigation_item_blockads"
+            android:checked="true"
+            android:icon="@drawable/skin"
+            android:title="@string/fucktheme" />
+
+        <item
+            android:id="@+id/navigation_item_disableapps"
+            android:icon="@drawable/disable"
+            android:title="@string/disableapp" />
+        <item
+            android:id="@+id/navigation_item_Clean"
+            android:icon="@drawable/clean"
+            android:title="@string/appclean" />
+        <item
+            android:id="@+id/navigation_item_hosts"
+            android:icon="@drawable/hosts"
+            android:title="@string/hosts" />
+
+        <item
+            android:id="@+id/navigation_item_ManagerApp"
+            android:icon="@drawable/hosts"
+            android:title="应用管理" />
+
+        <item android:title="@string/other">
+            <menu>
+
+                <item
+                    android:id="@+id/navigation_item_donation"
+                    android:icon="@drawable/iconfont_custom_view"
+                    android:title="捐赠" />
+
+                <item
+                    android:id="@+id/navigation_item_settings"
+                    android:icon="@drawable/iconfont_custom_view"
+                    android:title="@string/othersettings" />
+
+
+            </menu>
+        </item>
+    </group>
+
+</menu>

@@ -1,75 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+    xmlns:skin="http://schemas.android.com/android/skin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:background="#54bee1"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="cn.coderstory.fuckbugme.MainActivity">
+    android:fitsSystemWindows="true">
 
-    <TextView
-        android:text="Flyme6主题助手是一款针对flyme系统的主题和谐插件,适用于flyme6系统.实现主题的无限试用且不会恢复.如果你有能力的话,还请支持正版."
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:layout_marginTop="79dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/windowBackground">
 
-    <TextView
-        android:text="使用说明:\n插件的正常运行需要root权限，用于禁用主题美化的一些功能,防止主题自动恢复.\n当前支持的主题美化6.0.7-6.6.1的所有版本"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_below="@+id/textView3"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="18dp" />
+        <!--内容区-->
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/windowBackground"
+            android:fitsSystemWindows="true"
+            android:orientation="vertical"
+            skin:enable="true">
 
-    <TextView
-        android:text="当前Root授权状态:尚未获取"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rootStatus"
-        android:textColor="#5d62cf"
-        android:layout_marginBottom="47dp"
-        android:layout_above="@+id/button"
-        android:layout_centerHorizontal="true" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-    <Button
-        android:text="授权Root"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="10dp"
+                <android.support.design.widget.AppBarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+                    <android.support.v7.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="?attr/colorPrimary"
+                        app:layout_collapseMode="pin"
+                        app:layout_scrollFlags="scroll|enterAlways"
+                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                        app:titleTextColor="#ffffff" />
+                </android.support.design.widget.AppBarLayout>
 
-        android:id="@+id/button"
-        android:background="@drawable/shape"
-        android:onClick="checkroot"
-        android:layout_marginBottom="53dp"
-        android:layout_above="@+id/textView2"
-        android:layout_centerHorizontal="true" />
+                <FrameLayout
+                    android:id="@+id/frame_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            </LinearLayout>
+        </android.support.design.widget.CoordinatorLayout>
 
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="访问作者的博客"
-        android:onClick="openBlog"
-        android:layout_marginBottom="16dp"
-        android:layout_above="@+id/textView4"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:text="©2017 Power by Coderstory Version 1.9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView4"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-</RelativeLayout>
+        <!--左侧导航菜单-->
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/windowBackground"
+            app:headerLayout="@layout/navigation_header"
+            android:fitsSystemWindows="true"
+            app:menu="@menu/drawer"
+            skin:enable="true" />
+    </android.support.v4.widget.DrawerLayout>
+</FrameLayout>

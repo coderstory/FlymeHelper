@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="transparent">#00000000</color>
+    <color name="success_stroke_color">#A5DC86</color>
+    <color name="error_stroke_color">#F27474</color>
+    <color name="gray_btn_bg_pressed_color">#B6B6B6</color>
+    <color name="gray_btn_bg_color">#D0D0D0</color>
+    <color name="blue_btn_bg_color">#AEDEF4</color>
+    <color name="blue_btn_bg_pressed_color">#96BFD2</color>
+    <color name="trans_success_stroke_color">#33A5DC86</color>
+    <color name="warning_stroke_color">#F8BB86</color>
+    <color name="kprogresshud_default_color">#b1000000</color>
+    <color name="red_btn_bg_color">#DD6B55</color>
+    <color name="red_btn_bg_pressed_color">#CD5B55</color>
+    <color name="color_item_bg">#6086a3</color>
+    <color name="blue_color">#00afff</color>
+
     <!--ToolBar-->
-    <color name="colorPrimary">#4c4646</color>
+    <color name="colorPrimary">#0288d1</color>
     <!--状态栏-->
-    <color name="colorPrimaryDark">#4c4646</color>
-    <color name="colorAccent">#4c4646</color>
-    <color name="colorItem">#4c4646</color>
-    <color name="enableApp">#4c4646</color>
-    <color name="windowBackground">#fafafa</color>
+    <color name="colorPrimaryDark">#0288d1</color>
+    <color name="colorAccent">#0288d1</color>
+    <color name="colorItem">#4bb8e9</color>
+    <color name="enableApp">#0288d1</color>
+    <!--<color name="divider">#5CACEE</color>-->
     <color name="disablefunction">#cacaca</color>
-    <color name="splash">#5acace</color>
+
     <color name="white">#ffffff</color>
     <color name="switchBtn">#fff</color>
     <color name="divider">#00f7f7f7</color>
     <color name="disableApp">#b337ae60</color>
 
-    <!--<color name="divider">#7e57c2</color>-->
+
     <color name="md_red_50">#fde0dc</color>
     <color name="md_red_100">#f9bdbb</color>
     <color name="md_red_200">#f69988</color>
