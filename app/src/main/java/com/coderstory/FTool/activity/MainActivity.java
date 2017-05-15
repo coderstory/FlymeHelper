@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.coderstory.FTool.R;
+import com.coderstory.FTool.fragment.ShowFragment;
 import com.coderstory.FTool.fragment.themePatchFragment;
 import com.coderstory.FTool.fragment.BlogFragment;
 import com.coderstory.FTool.fragment.CleanFragment;
@@ -100,7 +101,7 @@ public class MainActivity extends BaseActivity {
             SnackBarUtils.makeLong(mNavigationView, "插件尚未激活,Xposed功能将不可用,请重启再试！").show();
         }
 
-        mToolbar.setTitle("净化广告");
+        mToolbar.setTitle("Flyme6助手");
 
         //这句一定要在下面几句之前调用，不然就会出现点击无反应
         setSupportActionBar(mToolbar);
@@ -134,10 +135,10 @@ public class MainActivity extends BaseActivity {
 
     private void initDefaultFragment() {
         Log.i(TAG, "initDefaultFragment");
-        mCurrentFragment = ViewUtils.createFragment(themePatchFragment.class);
+        mCurrentFragment = ViewUtils.createFragment(ShowFragment.class);
         mFragmentManager.beginTransaction().add(R.id.frame_content, mCurrentFragment).commit();
-        mPreMenuItem = mNavigationView.getMenu().getItem(0);
-        mPreMenuItem.setChecked(true);
+       // mPreMenuItem = mNavigationView.getMenu().getItem(0);
+       // mPreMenuItem.setChecked(true);
     }
 
     @Override

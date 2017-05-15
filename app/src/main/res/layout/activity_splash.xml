@@ -8,7 +8,7 @@ android:background="#fff"
     <TextView android:id="@+id/copy_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="12dip"
+        android:padding="10dip"
         android:layout_centerHorizontal="true"
         android:textColor="@color/md_black_1000"
         android:layout_alignParentBottom="true"
@@ -17,7 +17,7 @@ android:background="#fff"
 
     <RelativeLayout android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:paddingTop="100dp"
+        android:paddingTop="0dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
