@@ -81,13 +81,12 @@ public class HostsFragment extends BaseFragment {
             if (getPrefs().getBoolean("enableHosts", false)) { //如果未启用hosts
 
                 if (enableGoogleHosts) {
-                    HostsContext += fh.getFromAssets("enableGoogleHosts", getMContext());
                         HostsContext += fh.getFromAssets("hosts_google", getMContext());
-                }else  if (enableBlockAdsHostsSet) {
+                       // HostsContext += fh.getFromAssets("hosts_google", getMContext());
+                }
+                if (enableBlockAdsHostsSet) {
                     HostsContext += fh.getFromAssets("hosts_noad", getMContext());
                 }
-
-
             }
 
             HostsHelper h = new HostsHelper(HostsContext,getMContext());
