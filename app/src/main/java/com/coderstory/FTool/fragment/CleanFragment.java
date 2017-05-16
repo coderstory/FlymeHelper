@@ -201,6 +201,7 @@ public class CleanFragment extends BaseFragment {
         try {
             newAppPath = newAppPath.substring(0, newAppPath.indexOf("@"));
         } catch (Exception e) {
+
         }
 
         boolean ret = false;

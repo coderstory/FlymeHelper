@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.coderstory.FTool.utils.DirManager;
 import com.yalantis.phoenix.PullToRefreshView;
 
 import java.io.DataOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,9 @@ import ren.solid.library.fragment.base.BaseFragment;
 public class BackupAppFragment extends BaseFragment {
 
 
+    private static final String TAG = "backApp";
+
+
     @Override
     protected int setLayoutResourceID() {
         return R.layout.fragment_backupapp;
@@ -45,16 +50,21 @@ public class BackupAppFragment extends BaseFragment {
 
 
     private View view;
-    private List<AppInfo> appInfoList = new ArrayList<AppInfo>();
-    private List<AppInfo> appInfoList2 = new ArrayList<AppInfo>();
-    List<PackageInfo> packages = new ArrayList<PackageInfo>();
+    private List<AppInfo> appInfoList = new ArrayList<>();
+    private List<AppInfo> appInfoList2 = new ArrayList<>();
+    List<PackageInfo> packages = new ArrayList<>();
     AppInfoAdapter adapter = null;
     ListView listView = null;
     AppInfo appInfo = null;
     int mPosition = 0;
     View mView = null;
     com.yalantis.phoenix.PullToRefreshView mPullToRefreshView;
-  final   String  path_backup=Environment.getExternalStorageDirectory().getPath() + "/MIUI FTool/backupAPP/";
+    final  String  path_backup=Environment.getExternalStorageDirectory().getPath() + "/FTool/backupAPP/";
+
+    @Override
+    protected void setUpView() {
+        super.setUpView();
+    }
 
     @Nullable
     @Override
@@ -161,11 +171,17 @@ public class BackupAppFragment extends BaseFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+
+                File dir = new File(path_backup);
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+
                 mPosition = position;
                 mView = view;
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                 dialog.setTitle(R.string.Tips_Title);
-                String tipsText = "";
+                String tipsText ;
                 String BtnText = getString(R.string.Btn_Sure);
                 appInfo = appInfoList.get(mPosition);
                 tipsText = "你确定要备份" + appInfo.getName() + "吗？";
@@ -176,28 +192,30 @@ public class BackupAppFragment extends BaseFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         DirManager.needReload=true;
                         String commandText = "cp -f " + appInfo.getappdir() +" \""+path_backup + appInfo.getPackageName() + ".apk\"";
+                        Log.e(TAG, "onClick: "+ commandText);
                         Process process = null;
                         DataOutputStream os = null;
                         try {
-                            String cmd = commandText;
                             process = Runtime.getRuntime().exec("su"); //切换到root帐号
                             os = new DataOutputStream(process.getOutputStream());
-                            os.writeBytes(cmd + "\n");
+                            os.writeBytes(commandText + "\n");
                             os.writeBytes("exit\n");
                             os.flush();
                             process.waitFor();
-                            View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.app_info_item, null);
+                            //View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.app_info_item, null);
                             appInfoList.remove(mPosition);
                             adapter.notifyDataSetChanged();
                         } catch (Exception e) {
-
+                            Log.e(TAG, "onClick: "+e.getMessage() );
                         } finally {
                             try {
                                 if (os != null) {
                                     os.close();
                                 }
+                                assert process != null;
                                 process.destroy();
                             } catch (Exception e) {
+                                Log.e(TAG, "onClick: "+e.getMessage() );
                             }
                         }
                         DirManager.needReload=true;
@@ -216,7 +234,7 @@ public class BackupAppFragment extends BaseFragment {
     }
 
 
-    class MyTask extends AsyncTask<String, Integer, String> {
+    private class MyTask extends AsyncTask<String, Integer, String> {
 
         @Override
         protected void onPreExecute() {
@@ -269,12 +287,9 @@ public class BackupAppFragment extends BaseFragment {
             dialog = null;
         }
     }
-
+/*
     public boolean isShowing() {
-        if (dialog != null) {
-            return dialog.isShowing();
-        }
-        return false;
-    }
+        return dialog != null && dialog.isShowing();
+    }*/
 
 }

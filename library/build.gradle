@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion '25.0.3'
     defaultConfig {
-        minSdkVersion 23
+        minSdkVersion 19
         targetSdkVersion 25
     }
     productFlavors {

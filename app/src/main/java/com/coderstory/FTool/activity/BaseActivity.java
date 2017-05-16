@@ -7,9 +7,7 @@ import android.view.View;
 
 
 
-/**
- * Created by Baby Song on 2016/10/18.
- */
+
 
 public abstract class BaseActivity extends AppCompatActivity {
     @Override
@@ -49,7 +47,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent(this, clazz);
         intent.putExtras(extras);
         startActivity(intent);
-
     }
 
 

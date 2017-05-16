@@ -60,7 +60,7 @@ public class BlogFragment extends WebViewFragment  {
             intent.setType("text/plain"); // 纯文本
         } else {
             File f = new File(imgPath);
-            if (f != null && f.exists() && f.isFile()) {
+            if (f.exists() && f.isFile()) {
                 intent.setType("image/jpg");
                 Uri u = Uri.fromFile(f);
                 intent.putExtra(Intent.EXTRA_STREAM, u);

@@ -308,7 +308,7 @@ public class DisbaleAppFragment extends BaseFragment {
 
     private void restoreList() {
         FileInputStream fos = null;
-        String CrashFilePath = Environment.getExternalStorageDirectory().getPath() + "/MIUI FTool/backup/";
+        String CrashFilePath = Environment.getExternalStorageDirectory().getPath() + "/FTool/backup/";
         File dir = new File(CrashFilePath);
         String fileName = "userList";
         String content = "";
@@ -385,7 +385,7 @@ public class DisbaleAppFragment extends BaseFragment {
                 SB.append(info.getPackageName() + "\n");
             }
         }
-        String CrashFilePath = Environment.getExternalStorageDirectory().getPath() + "/MIUI FTool/backup/";
+        String CrashFilePath = Environment.getExternalStorageDirectory().getPath() + "/FTool/backup/";
         File dir = new File(CrashFilePath);
         String fileName = "userList";
         if (!dir.exists()) {

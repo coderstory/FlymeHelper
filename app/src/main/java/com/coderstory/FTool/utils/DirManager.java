@@ -40,7 +40,7 @@ public class DirManager {
 
     public static PackageInfo loadAppInfo(String appPath, Activity content) {
         AppInfo app = new AppInfo();
-        app.setAppDir(Environment.getExternalStorageDirectory().getPath() + "/MIUI FTool/backupAPP/"+ appPath);
+        app.setAppDir(Environment.getExternalStorageDirectory().getPath() + "/FTool/backupAPP/"+ appPath);
        // Log.e("11",app.appdir);
         PackageManager pm = content.getPackageManager();
        // Log.e("22",app.appdir);

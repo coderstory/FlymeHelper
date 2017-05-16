@@ -52,7 +52,7 @@ public class RestoreAppFragment extends BaseFragment {
     View mView = null;
     private Context context;
     PullToRefreshView mPullToRefreshView;
-    final   String  path_backup=Environment.getExternalStorageDirectory().getPath() + "/MIUI FTool/backupAPP/";
+    final   String  path_backup=Environment.getExternalStorageDirectory().getPath() + "/FTool/backupAPP/";
 
     @Nullable
     @Override
