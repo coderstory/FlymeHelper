@@ -59,10 +59,18 @@ public class Hooks implements IModule {
             findAndHookMethod("com.meizu.customizecenter.utils.ai", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
             //6.6.1
             findAndHookMethod("com.meizu.customizecenter.utils.ak", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
+            //6.7.0
+            findAndHookMethod("com.meizu.customizecenter.h.al", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
+            findAndHookMethod("com.meizu.statsapp.util.Utils", loadPackageParam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(false));
+
+
 
             //resetToSystemTheme
             // 6.0.7 6.1.0 6.2.0 6.3.2
             findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
+
+
+
 
             //data/data/com.meizu.customizecenter/font/   system_font
             //6.0.7 6.1.0 6.2.0
@@ -71,6 +79,11 @@ public class Hooks implements IModule {
             findAndHookMethod("com.meizu.customizecenter.common.font.FontManager", loadPackageParam.classLoader, "b", XC_MethodReplacement.returnConstant(true));
             //6.4.0
             findAndHookMethod("com.meizu.customizecenter.common.font.FontManager", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(""));
+            //6.7.0
+            findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
+
+
+
 
             //主题混搭
             findAndHookMethod("com.meizu.customizecenter.common.dao.ThemeContentProvider", loadPackageParam.classLoader, "query", Uri.class, String[].class, String.class, String[].class, String.class, new XC_MethodHook() {
