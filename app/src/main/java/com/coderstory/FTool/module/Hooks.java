@@ -77,7 +77,7 @@ public class Hooks implements IModule {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     Object[] objs = param.args;
-                    XposedBridge.log("默认数据");
+                    //XposedBridge.log("默认数据");
                     for (Object obj : objs) {
                         if (obj instanceof String[]) {
                             for (int j = 0; j < ((String[]) obj).length; j++) {
