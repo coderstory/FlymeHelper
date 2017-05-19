@@ -36,7 +36,7 @@ public class themePatchFragment extends BaseFragment {
                         getEditor().apply();
 
                         final SweetAlertDialog dialog = new SweetAlertDialog(getMContext());
-                        dialog.setTitleText("正在处理,请稍候...");
+                        dialog.setTitleText("正在处理...");
                         dialog.show();
                         handler.postDelayed(new Runnable() {
                             @Override
