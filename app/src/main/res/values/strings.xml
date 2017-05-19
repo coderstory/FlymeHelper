@@ -74,17 +74,8 @@
     <string name="loading">请稍后&#8230;</string>
     <string name="version">2.0.1</string>
     <string name="notices_default_style" translatable="false">
-        p.license {
-        background:grey;
-        }
-        body {
-        font-family: sans-serif;
-        overflow-wrap: break-word;
-        }
-        pre {
-        background-color: #eeeeee;
-        padding: 1em;
-        white-space: pre-wrap;
-        }
+        p.license {background:grey;}body {font-family: sans-serif;overflow-wrap: break-word;}pre {background-color: #eeeeee;padding: 1em;white-space: pre-wrap;
+     }
     </string>
+    <string name="not_support_android_target_version">不受支持的安卓版本 SDK:</string>
 </resources>

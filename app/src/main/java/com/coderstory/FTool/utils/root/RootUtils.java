@@ -38,8 +38,8 @@ public class RootUtils {
 
         CommandResult ret = new CommandResult();
         try {
-            StringBuffer output = new StringBuffer();
-            StringBuffer error = new StringBuffer();
+            StringBuilder output = new StringBuilder();
+            StringBuilder error = new StringBuilder();
             if (root) {
 
                 process = Runtime.getRuntime().exec("su");
