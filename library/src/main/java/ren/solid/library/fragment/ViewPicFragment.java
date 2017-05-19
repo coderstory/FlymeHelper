@@ -11,7 +11,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import ren.solid.library.R;
-import ren.solid.library.activity.ViewPicActivity;
 import ren.solid.library.fragment.base.BaseFragment;
 import ren.solid.library.http.HttpHelper;
 import ren.solid.library.http.ImageLoader;
@@ -45,7 +44,7 @@ public class ViewPicFragment extends BaseFragment {
 
     @Override
     protected void init() {
-        mUrlList = getArguments().getStringArrayList(ViewPicActivity.IMG_URLS);
+
     }
 
     @Override
@@ -77,16 +76,7 @@ public class ViewPicFragment extends BaseFragment {
             return photoView;
         }
 
-        private void setUpPhotoViewAttacher(PhotoView photoView) {
-            PhotoViewAttacher photoViewAttacher = new PhotoViewAttacher(photoView);
-            photoViewAttacher.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
-                @Override
-                public void onViewTap(View view, float v, float v1) {
-                    ViewPicActivity activity = (ViewPicActivity) getMContext();
-                    activity.hideOrShowToolbar();
-                }
-            });
-        }
+
 
         @Override
         public int getCount() {

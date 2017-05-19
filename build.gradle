@@ -12,7 +12,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven { url "https://jitpack.io" }//photoview required
+        maven { url "https://jitpack.io" }
     }
 }
 

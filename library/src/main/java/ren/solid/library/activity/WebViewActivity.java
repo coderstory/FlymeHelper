@@ -61,42 +61,8 @@ public class WebViewActivity extends BaseActivity {
                 onBackPressed();
             }
         });
-
-
-
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_webview_toolbar, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_copy) {
-            ClipboardUtils.setText(this, mUrl);
-            Snackbar.make(mToolbar, "已复制到剪切板", Snackbar.LENGTH_SHORT).show();
-            return true;
-        } else if (id == R.id.action_share) {
-            SystemShareUtils.shareText(this, "【" + mTitle + "】链接:" + mUrl);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-  /*  @Override
-    protected void setUpData() {
-        mWebViewFragment = new WebViewFragment() {
-            @Override
-            protected String getLoadUrl() {
-                return mUrl;
-            }
-        };
-        mFragmentManager.beginTransaction().replace(R.id.fl_content, mWebViewFragment).commit();
-    }*/
 
     @Override
     public void onBackPressed() {
