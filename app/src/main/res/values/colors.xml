@@ -30,7 +30,7 @@
     <color name="switchBtn">#fff</color>
     <color name="divider">#00f7f7f7</color>
     <color name="disableApp">#b337ae60</color>
-
+    <color name="md_black_1000">#b337ae60</color>
 
 
 </resources>
