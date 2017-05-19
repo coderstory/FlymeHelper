@@ -33,11 +33,11 @@ import java.util.Map;
  */
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
-    public static String CrashFilePath;
+    private static String CrashFilePath;
 
-    public static final int LogFileLimit = 10;
+    private static final int LogFileLimit = 10;
 
-    public static final String TAG = "CrashHandler";
+    private static final String TAG = "CrashHandler";
 
     //系统默认的UncaughtException处理类
     private Thread.UncaughtExceptionHandler mDefaultHandler;
@@ -75,7 +75,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         //设置该CrashHandler为程序的默认处理器
         Thread.setDefaultUncaughtExceptionHandler(this);
-        CrashFilePath = Environment.getExternalStorageDirectory().getPath() + "/MIUI Purify/crashlog/";
+        CrashFilePath = Environment.getExternalStorageDirectory().getPath() + "/FTool/crashlog/";
     }
 
     /**
@@ -109,7 +109,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             PackageManager pm = ctx.getPackageManager();
             PackageInfo pi = pm.getPackageInfo(ctx.getPackageName(), PackageManager.GET_ACTIVITIES);
             if (pi != null) {
-                String versionName = pi.versionName == null ? "null" : pi.versionName.toString();
+                String versionName = pi.versionName == null ? "null" : pi.versionName;
                 String versionCode =  pi.versionCode+"";
                 infos.put("versionName", versionName);
                 infos.put("versionCode", versionCode);

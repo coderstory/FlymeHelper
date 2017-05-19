@@ -9,6 +9,13 @@ android {
     }
     productFlavors {
     }
+    buildTypes {
+        release {
+            shrinkResources true
+           // minifyEnabled true
+          //  proguardFiles  'proguard-rules.pro'
+        }
+    }
 }
 
 dependencies {
