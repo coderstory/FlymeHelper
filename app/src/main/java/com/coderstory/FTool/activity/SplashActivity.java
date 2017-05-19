@@ -1,28 +1,54 @@
 package com.coderstory.FTool.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.widget.Toast;
 
 import com.coderstory.FTool.R;
 
 public class SplashActivity extends Activity {
 
     private static final int SHOW_TIME_MIN = 1200;
+    protected  static Context mContext=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        mContext = this;
 
         //倒计时返回主界面
         new AsyncTask<Void, Void, Integer>() {
             @Override
             protected void onPostExecute(Integer result) {
-                Intent intent = new Intent(SplashActivity.this,MainActivity.class);
-                startActivity(intent);
+
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            Looper.prepare();
+                            Toast.makeText(mContext, "不受支持的安卓版本", Toast.LENGTH_LONG).show();
+                            Looper.loop();
+                        }
+                    }.start();
+                    try {
+                        Thread.sleep(2000);
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
                 finish();
             }
+
             @Override
             protected Integer doInBackground(Void... params) {
                 long startTime = System.currentTimeMillis();
@@ -38,6 +64,4 @@ public class SplashActivity extends Activity {
             }
         }.execute();
     }
-
-
 }
