@@ -32,7 +32,7 @@ public class SplashActivity extends Activity {
                         @Override
                         public void run() {
                             Looper.prepare();
-                            Toast.makeText(mContext, "不受支持的安卓版本", Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, "不受支持的安卓版本 SDK:"+Build.VERSION.SDK_INT, Toast.LENGTH_LONG).show();
                             Looper.loop();
                         }
                     }.start();
