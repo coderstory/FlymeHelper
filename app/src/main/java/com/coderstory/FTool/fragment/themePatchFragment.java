@@ -1,20 +1,18 @@
 package com.coderstory.FTool.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Switch;
-
 import com.coderstory.FTool.R;
+import com.coderstory.FTool.utils.app.checkAppVersion;
 import com.coderstory.FTool.utils.dialog.SweetAlertDialog;
-
 import java.util.ArrayList;
-
 import ren.solid.library.fragment.base.BaseFragment;
 import ren.solid.library.utils.SnackBarUtils;
-
 import static com.coderstory.FTool.utils.root.ShellUtils.execute;
 import static com.coderstory.FTool.utils.root.SuHelper.canRunRootCommands;
-
 
 public class themePatchFragment extends BaseFragment {
     private Handler handler = new Handler();
@@ -27,6 +25,21 @@ public class themePatchFragment extends BaseFragment {
     @Override
     protected void setUpView() {
 
+        if(  !   new checkAppVersion().isSupport(getMContext())){
+            AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+            dialog.setTitle(R.string.Tips_Title);
+
+
+            dialog.setMessage(R.string.notSupportVersionTips);
+            dialog.setPositiveButton(R.string.Btn_Sure, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            dialog.show();
+        }
 
             $(R.id.enableThemePatch).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -36,7 +49,7 @@ public class themePatchFragment extends BaseFragment {
                         getEditor().apply();
 
                         final SweetAlertDialog dialog = new SweetAlertDialog(getMContext());
-                        dialog.setTitleText("正在处理...");
+                        dialog.setTitleText(getString(R.string.processing));
                         dialog.show();
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -66,7 +79,7 @@ public class themePatchFragment extends BaseFragment {
                         }
                     } else {
                         //  T.showAnimErrorToast(this.getMContext(), "尚未获取Root权限");
-                        SnackBarUtils.makeLong($(R.id.enableThemePatch), "尚未获取Root权限！").show();
+                        SnackBarUtils.makeLong($(R.id.enableThemePatch), getString(R.string.noRootTips)).show();
                     }
                 }
             });

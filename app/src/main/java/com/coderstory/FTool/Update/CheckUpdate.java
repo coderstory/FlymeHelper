@@ -1,25 +1,21 @@
 package com.coderstory.FTool.Update;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.coderstory.FTool.R;
+import com.coderstory.FTool.service.UpdateService;
 
-
-
-        import android.app.Activity;
-        import android.app.AlertDialog;
-        import android.content.Context;
-        import android.content.DialogInterface;
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.os.Handler;
-        import android.os.Message;
-        import android.util.Log;
-        import android.widget.Toast;
-
-        import com.coderstory.FTool.R;
-        import com.coderstory.FTool.service.UpdateService;
-
-        import org.json.JSONException;
-        import org.json.JSONObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class CheckUpdate {
@@ -33,7 +29,6 @@ public class CheckUpdate {
 
     /**
      * 检测app的更新信息并保存到UpdateConfig中
-     *
      */
     private static void initUpdateInfo() {
         HttpHelper HH = new HttpHelper();
@@ -41,7 +36,7 @@ public class CheckUpdate {
 
         if (!result.equals("")) {
 
-            JSONObject JsonString ;//转换为JSONObject
+            JSONObject JsonString;//转换为JSONObject
             try {
                 JsonString = new JSONObject(result);
                 UpdateConfig.URL = JsonString.getString("URL");

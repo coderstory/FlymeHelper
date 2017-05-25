@@ -16,7 +16,7 @@
     </string>
     <string name="about_msg3"><b>声明</b>\n软件授权协议</string>
     <string name="alipay_url">https://qr.alipay.com/aex06874ga0wkuhwuajgzb8</string>
-    <string name="enableBlockADS"><b>主题和谐</b>\n主题无限制试用和混搭 \n当前支持主题美化6.0.7&#8211;6.7.0</string>
+    <string name="enableBlockADS"><b>主题和谐</b>\n主题无限制试用和混搭</string>
     <string name="blockadsbasic"><b>功能基础模块(必选)</b>\n开启去广告功能必选项</string>
     <string name="enableHosts"><b>启用模块</b>\n开启Hosts支持模块</string>
     <string name="blockads"><b>开启常规去广告</b>\nGithub上的hosts合集,用于屏蔽国内广告.</string>
@@ -78,4 +78,7 @@
      }
     </string>
     <string name="not_support_android_target_version">不受支持的安卓版本 SDK:</string>
+    <string name="noRootTips">尚未获取Root权限！</string>
+    <string name="processing">正在处理...</string>
+    <string name="notSupportVersionTips">插件尚未适配当前主题美化版本，功能可能无法正常使用！</string>
 </resources>

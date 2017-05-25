@@ -14,5 +14,5 @@ public class UpdateConfig {
     public static String Version = "";//最新版的versionCode
     static String Info = ""; //更新内容
     static String errorMsg = ""; //错误提示
-    static String UpdateServer = "http://blog.coderstory.cn/info";
+    static String UpdateServer = "https://blog.coderstory.cn/info";
 }

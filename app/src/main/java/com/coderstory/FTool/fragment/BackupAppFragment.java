@@ -102,8 +102,7 @@ public class BackupAppFragment extends BaseFragment {
         packages = new ArrayList<>();
 
         appInfoList2.clear();
-        for (String item : DirManager.apkAll
-                ) {
+        for (String item : DirManager.apkAll) {
             PackageInfo packageInfo = DirManager.loadAppInfo(item, getActivity());
             if (packageInfo != null) {
                 ApplicationInfo appInfo = packageInfo.applicationInfo;
