@@ -92,10 +92,10 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             } catch (InterruptedException e) {
                 Log.e(TAG, "error : ", e);
             }
-            //退出程序
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
         }
+        Log.e(TAG, "*******正在退出********" );
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
     }
 
 
@@ -227,6 +227,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 Looper.prepare();
                 Toast.makeText(mContext, "很抱歉,程序出现异常", Toast.LENGTH_LONG).show();
                 Looper.loop();
+
             }
         }.start();
 
