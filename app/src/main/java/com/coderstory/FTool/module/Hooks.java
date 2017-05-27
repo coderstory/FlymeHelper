@@ -67,9 +67,12 @@ public class Hooks implements IModule {
 
             //resetToSystemTheme
             // 6.0.7 6.1.0 6.2.0 6.3.2
+            findAndHookMethod("com.meizu.customizecenter.common.theme.common.theme.a", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(false));
+
             findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
 
 
+            findAndHookMethod("com.meizu.customizecenter.utils.ThemePreviewUtils", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(null));
 
 
             //data/data/com.meizu.customizecenter/font/   system_font
@@ -80,24 +83,39 @@ public class Hooks implements IModule {
             //6.4.0
             findAndHookMethod("com.meizu.customizecenter.common.font.FontManager", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(""));
             //6.7.0
-            findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
+            findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "a",String.class, XC_MethodReplacement.returnConstant(true));
 
 
 
 
-            //主题混搭
+           //主题混搭
             findAndHookMethod("com.meizu.customizecenter.common.dao.ThemeContentProvider", loadPackageParam.classLoader, "query", Uri.class, String[].class, String.class, String[].class, String.class, new XC_MethodHook() {
                 @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                     Object[] objs = param.args;
-                    //XposedBridge.log("默认数据");
+                    String Tag = "(ITEMS LIKE ?) AND ((PATH LIKE ? AND MZOS = ?) OR PATH LIKE ? OR PATH LIKE ?)";
+                    boolean result = false;
                     for (Object obj : objs) {
+                        if (obj instanceof String && obj.equals(Tag)) {
+                            result = true;
+                        }
                         if (obj instanceof String[]) {
                             for (int j = 0; j < ((String[]) obj).length; j++) {
-                                if (((String[]) obj)[j].contains("/storage/emulated/0/Customize/Themes")) {
-                                    ((String[]) obj)[j] = "/storage/emulated/0/Customize%";
-                                } else if (((String[]) obj)[j].contains("/storage/emulated/0/Customize/TrialThemes")) {
-                                    ((String[]) obj)[j] = "NONE";
+                                if (((String[]) obj)[j].equals(Tag)) {
+                                    result = true;
+                                }
+                            }
+                        }
+                    }
+                    if (result) {
+                        for (Object obj : objs) {
+                            if (obj instanceof String[]) {
+                                for (int j = 0; j < ((String[]) obj).length; j++) {
+                                    if (((String[]) obj)[j].contains("/storage/emulated/0/Customize/Themes")) {
+                                        ((String[]) obj)[j] = "/storage/emulated/0/Customize%";
+                                    } else if (((String[]) obj)[j].contains("/storage/emulated/0/Customize/TrialThemes")) {
+                                        ((String[]) obj)[j] = "NONE";
+                                    }
                                 }
                             }
                         }
