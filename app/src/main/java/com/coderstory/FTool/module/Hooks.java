@@ -69,9 +69,8 @@ public class Hooks implements IModule {
             // 6.0.7 6.1.0 6.2.0 6.3.2
             findAndHookMethod("com.meizu.customizecenter.common.theme.common.theme.a", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(false));
 
+            //忘了干啥的
             findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
-
-
             findAndHookMethod("com.meizu.customizecenter.utils.ThemePreviewUtils", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(null));
 
 
