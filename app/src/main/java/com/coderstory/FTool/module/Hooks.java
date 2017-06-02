@@ -63,12 +63,9 @@ public class Hooks implements IModule {
             findAndHookMethod("com.meizu.customizecenter.h.al", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
             findAndHookMethod("com.meizu.statsapp.util.Utils", loadPackageParam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(false));
 
-
-
             //resetToSystemTheme
             // 6.0.7 6.1.0 6.2.0 6.3.2
             findAndHookMethod("com.meizu.customizecenter.common.theme.common.theme.a", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(false));
-
 
             //data/data/com.meizu.customizecenter/font/   system_font
             //6.0.7 6.1.0 6.2.0
@@ -80,28 +77,30 @@ public class Hooks implements IModule {
             //6.7.0
             findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
 
-
-
-
             //主题混搭
             findAndHookMethod("com.meizu.customizecenter.common.dao.ThemeContentProvider", loadPackageParam.classLoader, "query", Uri.class, String[].class, String.class, String[].class, String.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                     Object[] objs = param.args;
                     String Tag = "(ITEMS LIKE ?) AND ((PATH LIKE ? AND MZOS = ?) OR PATH LIKE ? OR PATH LIKE ?)";
+                    String Tag2 = "%zklockscreen;%";
+                    XposedBridge.log("开始");
                     boolean result = false;
                     for (Object obj : objs) {
-                        if (obj instanceof String && obj.equals(Tag)) {
+                        XposedBridge.log(obj==null?"":obj.toString());
+                        if (obj instanceof String && (obj.equals(Tag) || obj.equals(Tag2))   ) {
                             result = true;
                         }
                         if (obj instanceof String[]) {
                             for (int j = 0; j < ((String[]) obj).length; j++) {
-                                if (((String[]) obj)[j].equals(Tag)) {
+                                XposedBridge.log(((String[]) obj)[j]);
+                                if (((String[]) obj)[j].equals(Tag) || ((String[]) obj)[j].equals(Tag2)) {
                                     result = true;
                                 }
                             }
                         }
                     }
+                    XposedBridge.log("结束");
                     if (result) {
                         for (Object obj : objs) {
                             if (obj instanceof String[]) {
@@ -128,7 +127,6 @@ public class Hooks implements IModule {
     private static void findAndHookMethod(String p1, ClassLoader lpparam, String p2, Object... parameterTypesAndCallback) {
         try {
             XposedHelpers.findAndHookMethod(p1, lpparam, p2, parameterTypesAndCallback);
-
         } catch (Throwable localString3) {
             XposedBridge.log(localString3);
         }
