@@ -82,22 +82,15 @@ public class Hooks implements IModule {
                 @Override
                 protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                     Object[] objs = param.args;
-                    String Tag = "(ITEMS LIKE ?) AND ((PATH LIKE ? AND MZOS = ?) OR PATH LIKE ? OR PATH LIKE ?)";
+                    String Tag = "(ITEMS LIKE";
                     String Tag2 = "%zklockscreen;%";
+                    String Tag3 = "%com.meizu.flyme.weather;%";
                     XposedBridge.log("开始");
                     boolean result = false;
                     for (Object obj : objs) {
                         XposedBridge.log(obj==null?"":obj.toString());
-                        if (obj instanceof String && (obj.equals(Tag) || obj.equals(Tag2))   ) {
+                        if (obj instanceof String && (((String) obj).contains(Tag) || obj.equals(Tag2) || obj.equals(Tag3)  )) {
                             result = true;
-                        }
-                        if (obj instanceof String[]) {
-                            for (int j = 0; j < ((String[]) obj).length; j++) {
-                                XposedBridge.log(((String[]) obj)[j]);
-                                if (((String[]) obj)[j].equals(Tag) || ((String[]) obj)[j].equals(Tag2)) {
-                                    result = true;
-                                }
-                            }
                         }
                     }
                     XposedBridge.log("结束");
