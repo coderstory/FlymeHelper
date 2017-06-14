@@ -50,8 +50,6 @@ public class themePatchFragment extends BaseFragment {
         if(  !   new checkAppVersion().isSupport(getMContext())){
             AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
             dialog.setTitle(R.string.Tips_Title);
-
-
             dialog.setMessage(R.string.notSupportVersionTips);
             dialog.setPositiveButton(R.string.Btn_Sure, new DialogInterface.OnClickListener() {
                 @Override
