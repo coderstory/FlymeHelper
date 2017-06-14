@@ -49,14 +49,6 @@ public class Hooks implements IModule {
             XposedBridge.log("crack by coderstory");
 
             //device_states | doCheckState
-            //6.0.7
-            findAndHookMethod("com.meizu.customizecenter.g.ae", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
-            //6.1.0 6.2.0
-            findAndHookMethod("com.meizu.customizecenter.g.af", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
-            //6.3.2 6.4.0
-            findAndHookMethod("com.meizu.customizecenter.utils.ah", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
-            //6.5.0
-            findAndHookMethod("com.meizu.customizecenter.utils.ai", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
             //6.6.1
             findAndHookMethod("com.meizu.customizecenter.utils.ak", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
             //6.7.0
@@ -70,10 +62,6 @@ public class Hooks implements IModule {
             //data/data/com.meizu.customizecenter/font/   system_font
             //6.0.7 6.1.0 6.2.0
             findAndHookMethod("com.meizu.customizecenter.common.font.FontManager", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
-            //6.3.2
-            findAndHookMethod("com.meizu.customizecenter.common.font.FontManager", loadPackageParam.classLoader, "b", XC_MethodReplacement.returnConstant(true));
-            //6.4.0
-            findAndHookMethod("com.meizu.customizecenter.common.font.FontManager", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(""));
             //6.7.0
             findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
 
@@ -85,15 +73,15 @@ public class Hooks implements IModule {
                     String Tag = "(ITEMS LIKE";
                     String Tag2 = "%zklockscreen;%";
                     String Tag3 = "%com.meizu.flyme.weather;%";
-                    XposedBridge.log("开始");
+                    //XposedBridge.log("开始");
                     boolean result = false;
                     for (Object obj : objs) {
-                        XposedBridge.log(obj==null?"":obj.toString());
+                       // XposedBridge.log(obj==null?"":obj.toString());
                         if (obj instanceof String && (((String) obj).contains(Tag) || obj.equals(Tag2) || obj.equals(Tag3)  )) {
                             result = true;
                         }
                     }
-                    XposedBridge.log("结束");
+                   // XposedBridge.log("结束");
                     if (result) {
                         for (Object obj : objs) {
                             if (obj instanceof String[]) {
