@@ -22,7 +22,6 @@ public class isEnable implements IModule {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (lpparam.packageName.equals("com.coderstory.FTool")) {
             try {
-              // XposedBridge.log("小米净化 1.x 开始Patch");
                 XposedHelpers.findAndHookMethod("com.coderstory.FTool.activity.MainActivity", lpparam.classLoader, "isEnable", XC_MethodReplacement.returnConstant(true));
             } catch (Throwable p1) {
                 XposedBridge.log(p1);
