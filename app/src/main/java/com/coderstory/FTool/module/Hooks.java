@@ -56,6 +56,8 @@ public class Hooks implements IModule {
             //resetToSystemTheme
             // 6.0.7 6.1.0 6.2.0 6.3.2
             findAndHookMethod("com.meizu.customizecenter.common.theme.common.theme.a", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(false));
+            //6.9.0
+            findAndHookMethod("com.meizu.customizecenter.common.theme.common.theme.b", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(false));
 
             //data/data/com.meizu.customizecenter/font/   system_font
             //6.0.7 6.1.0 6.2.0
@@ -65,7 +67,7 @@ public class Hooks implements IModule {
              //6.8.0
             findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(true));
 
-            //主题混搭
+            //主题混搭 ThemeContentProvider query Unknown URI
             findAndHookMethod("com.meizu.customizecenter.common.dao.ThemeContentProvider", loadPackageParam.classLoader, "query", Uri.class, String[].class, String.class, String[].class, String.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
@@ -101,7 +103,6 @@ public class Hooks implements IModule {
         }
 
         if (loadPackageParam.packageName.equals("com.android.packageinstaller") && prefs.getBoolean("enableCheckInstaller", false)){
-           // findAndHookMethod("com.meizu.permissioncommon.AppInfoUtil", loadPackageParam.classLoader, "isSystemApp",Context.class,String.class ,XC_MethodReplacement.returnConstant(true));
             findAndHookMethod("com.meizu.common.app.PermissionDialogBuilder", loadPackageParam.classLoader, "isProductInternational",XC_MethodReplacement.returnConstant(true));
             findAndHookMethod("com.android.packageinstaller.InstallFlowAnalytics", loadPackageParam.classLoader, "isSystemApp",XC_MethodReplacement.returnConstant(true));
         }
