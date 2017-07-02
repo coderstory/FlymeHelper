@@ -65,7 +65,8 @@ public class Hooks implements IModule {
             //6.7.0
             findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
              //6.8.0
-            findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(true));
+            findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(""));
+            findAndHookMethod("com.meizu.customizecenter.common.font.f", loadPackageParam.classLoader, "b", XC_MethodReplacement.returnConstant(false));
 
             //主题混搭 ThemeContentProvider query Unknown URI
             findAndHookMethod("com.meizu.customizecenter.common.dao.ThemeContentProvider", loadPackageParam.classLoader, "query", Uri.class, String[].class, String.class, String[].class, String.class, new XC_MethodHook() {
