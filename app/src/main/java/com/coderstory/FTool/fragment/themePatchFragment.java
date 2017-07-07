@@ -1,14 +1,11 @@
 package com.coderstory.FTool.fragment;
 
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -16,11 +13,13 @@ import android.widget.Toast;
 import com.coderstory.FTool.R;
 import com.coderstory.FTool.utils.app.checkAppVersion;
 import com.coderstory.FTool.utils.dialog.SweetAlertDialog;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import ren.solid.library.fragment.base.BaseFragment;
 import ren.solid.library.utils.SnackBarUtils;
+
 import static com.coderstory.FTool.utils.root.ShellUtils.execute;
 import static com.coderstory.FTool.utils.root.SuHelper.canRunRootCommands;
 
