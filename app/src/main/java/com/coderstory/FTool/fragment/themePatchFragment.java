@@ -8,8 +8,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.Toast;
+
 import com.coderstory.FTool.R;
 import com.coderstory.FTool.utils.app.checkAppVersion;
 import com.coderstory.FTool.utils.dialog.SweetAlertDialog;
@@ -82,8 +85,7 @@ public class themePatchFragment extends BaseFragment {
                             disableApplication();
                         }
                     } else {
-                        //  T.showAnimErrorToast(this.getMContext(), "尚未获取Root权限");
-                        SnackBarUtils.makeLong($(R.id.enableThemePatch), getString(R.string.noRootTips)).show();
+                                             SnackBarUtils.makeLong($(R.id.enableThemePatch), getString(R.string.noRootTips)).show();
                     }
                 }
             });
@@ -105,10 +107,10 @@ public class themePatchFragment extends BaseFragment {
             for (ResolveInfo resolveInfo : resolveInfoList) {
                 if (resolveInfo.activityInfo.applicationInfo.packageName.equals("com.meizu.customizecenter")) {
                     String name = resolveInfo.activityInfo.name;
+
                     for (String str : needDisableStr) {
                         if (str.equals(name)) {
-                            ComponentName mComponentName = new ComponentName(resolveInfo.activityInfo.packageName, resolveInfo.activityInfo.name);
-                            // pm.setComponentEnabledSetting(mComponentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP);
+                            Toast.makeText(getMContext(),"检测到主题美化的相关组件已经恢复,正在重新重新禁用", Toast.LENGTH_SHORT).show();
                             disableApplication();
                             break;
                         }
