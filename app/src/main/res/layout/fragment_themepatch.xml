@@ -37,11 +37,10 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/switchBtn"
                 android:maxLines="10"
+                android:visibility="gone"
                 android:paddingEnd="30dp"
                 android:paddingStart="30dp"
                 android:text="@string/checkapp" />
-
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
