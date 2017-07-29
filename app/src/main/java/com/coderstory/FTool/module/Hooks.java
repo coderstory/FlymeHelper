@@ -5,6 +5,8 @@ import android.net.Uri;
 
 import com.coderstory.FTool.plugins.IModule;
 
+import java.io.File;
+
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -61,7 +63,8 @@ public class Hooks implements IModule {
             //findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "f", XC_MethodReplacement.returnConstant(""));
             //findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "b", XC_MethodReplacement.returnConstant(false));
             //findAndHookMethod("com.meizu.customizecenter.common.font.f", loadPackageParam.classLoader, "b",boolean.class,XC_MethodReplacement.returnConstant(false));
-            findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "g", XC_MethodReplacement.returnConstant(null));
+            //findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "g", XC_MethodReplacement.returnConstant(null));
+            findAndHookMethod("com.meizu.customizecenter.common.font.g", loadPackageParam.classLoader, "b",boolean.class,XC_MethodReplacement.returnConstant(false));
 
             //主题混搭 ThemeContentProvider query Unknown URI
             findAndHookMethod("com.meizu.customizecenter.common.dao.ThemeContentProvider", loadPackageParam.classLoader, "query", Uri.class, String[].class, String.class, String[].class, String.class, new XC_MethodHook() {
