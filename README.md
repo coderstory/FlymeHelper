@@ -20,6 +20,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ```
-## 协议补充款
-  为了减少本软件的扩散，增加软件的存活时长,不得通过直接编译源码，或者通过修改软件名，软件logo，软件作者等方式重新分发本软件。
-  但如果以作为第三方软件的补充功能形式发布时，不受本条例限制。
+## 版本支持说明
+在主题美化6.10.0之前的版本，适配代码都存在于master分支，之后的适配版本都是单独一个分支，
+因为适配得版本多了之后，对于单个版本而言，无效的hook实在太多了。因为代码混淆得原因，hook的类名和方法名经常在变。
