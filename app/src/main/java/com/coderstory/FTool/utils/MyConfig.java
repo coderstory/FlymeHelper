@@ -6,5 +6,5 @@ package com.coderstory.FTool.utils;
 
 public class MyConfig {
     public static boolean isProcessing = false;
-    public static String[] versions = new String[]{"6.10.0"};
+    public static String[] versions = new String[]{"6.12.1"};
 }
