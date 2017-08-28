@@ -44,7 +44,7 @@ public class Hooks implements IModule {
         prefs.makeWorldReadable();
         prefs.reload();
 
-        if (loadPackageParam.packageName.equals("com.meizu.customizecenter") && prefs.getBoolean("enableThemePatch", false)) {
+        if (loadPackageParam.packageName.equals("com.meizu.customizecenter") && prefs.getBoolean("enableThemePatch", true)) {
 
             XposedBridge.log("crack by coderstory");
 
