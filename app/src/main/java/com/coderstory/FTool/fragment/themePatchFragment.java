@@ -84,7 +84,7 @@ public class themePatchFragment extends BaseFragment {
                             disableApplication();
                         }
                     } else {
-                                             SnackBarUtils.makeLong($(R.id.enableThemePatch), getString(R.string.noRootTips)).show();
+                        SnackBarUtils.makeLong($(R.id.enableThemePatch), getString(R.string.noRootTips)).show();
                     }
                 }
             });
@@ -96,27 +96,6 @@ public class themePatchFragment extends BaseFragment {
                 getEditor().apply();
             }
         });
-
-        //检测被禁用的组建是否被恢复 目前仅判断 BOOT COMPLETED
-        if (getPrefs().getBoolean("enableThemePatch", false)) {
-            PackageManager pm = getActivity().getPackageManager();
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_BOOT_COMPLETED);
-            List<ResolveInfo> resolveInfoList = pm.queryBroadcastReceivers(intent, PackageManager.GET_DISABLED_COMPONENTS);//MATCH_DISABLED_COMPONENTS
-            for (ResolveInfo resolveInfo : resolveInfoList) {
-                if (resolveInfo.activityInfo.applicationInfo.packageName.equals("com.meizu.customizecenter")) {
-                    String name = resolveInfo.activityInfo.name;
-
-                    for (String str : needDisableStr) {
-                        if (str.equals(name)) {
-                            Toast.makeText(getMContext(),"检测到主题美化的相关组件已经恢复,正在重新重新禁用", Toast.LENGTH_SHORT).show();
-                            disableApplication();
-                            break;
-                        }
-                    }
-                }
-            }
-        }
     }
     @Override
     protected void setUpData() {

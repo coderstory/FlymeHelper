@@ -1,6 +1,7 @@
 package com.coderstory.FTool.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -30,6 +31,8 @@ import com.coderstory.FTool.fragment.ManagerAppFragment;
 import com.coderstory.FTool.fragment.SettingsFragment;
 import com.coderstory.FTool.utils.MyConfig;
 import com.coderstory.FTool.utils.root.SuHelper;
+
+import java.io.File;
 
 import ren.solid.library.fragment.WebViewFragment;
 import ren.solid.library.utils.SnackBarUtils;
@@ -138,8 +141,8 @@ public class MainActivity extends BaseActivity {
         Log.i(TAG, "initDefaultFragment");
         mCurrentFragment = ViewUtils.createFragment(ShowFragment.class);
         mFragmentManager.beginTransaction().add(R.id.frame_content, mCurrentFragment).commit();
-       // mPreMenuItem = mNavigationView.getMenu().getItem(0);
-       // mPreMenuItem.setChecked(true);
+        // mPreMenuItem = mNavigationView.getMenu().getItem(0);
+        // mPreMenuItem.setChecked(true);
     }
 
     @Override
@@ -159,7 +162,7 @@ public class MainActivity extends BaseActivity {
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
-            public boolean onNavigationItemSelected( @NonNull  MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (null != mPreMenuItem) {
                     mPreMenuItem.setChecked(false);
                 }
@@ -187,7 +190,6 @@ public class MainActivity extends BaseActivity {
                         mToolbar.setTitle("其他设置");
                         switchFragment(SettingsFragment.class);
                         break;
-
 
 
                     case R.id.navigation_item_Clean:
@@ -285,6 +287,27 @@ public class MainActivity extends BaseActivity {
         } else {
             finish();
             System.exit(0);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Set preferences permissions to be world readable
+        // Workaround for Android N and above since MODE_WORLD_READABLE will cause security exception and FC.
+        final File dataDir = new File(this.getApplicationInfo().dataDir);
+        final File prefsDir = new File(dataDir, "shared_prefs");
+        final File prefsFile = new File(prefsDir, "UserSettings.xml");
+
+        if (prefsFile.exists()) {
+            dataDir.setReadable(true, false);
+            dataDir.setExecutable(true, false);
+
+            prefsDir.setReadable(true, false);
+            prefsDir.setExecutable(true, false);
+
+            prefsFile.setReadable(true, false);
+            prefsFile.setExecutable(true, false);
         }
     }
 }

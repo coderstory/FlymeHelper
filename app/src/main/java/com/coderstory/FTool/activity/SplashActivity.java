@@ -26,8 +26,7 @@ public class SplashActivity extends Activity {
             @Override
             protected void onPostExecute(Integer result) {
 
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-
+             /*   if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                     new Thread() {
                         @Override
                         public void run() {
@@ -41,10 +40,10 @@ public class SplashActivity extends Activity {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                } else {
+                } else {*/
                     Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
-                }
+             /*   }*/
                 finish();
             }
 
