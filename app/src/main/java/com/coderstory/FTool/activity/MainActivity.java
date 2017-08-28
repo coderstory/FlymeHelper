@@ -101,13 +101,13 @@ public class MainActivity extends BaseActivity {
         mDrawerLayout = $(R.id.drawer_layout);
         mNavigationView = $(navigation_view);
 
-        if (MainActivity.this.getSharedPreferences("UserSettings", Context.MODE_WORLD_READABLE).getBoolean("enableCheck", true) && !isEnable()) {
+        if (MainActivity.this.getSharedPreferences("UserSettings", Context.MODE_PRIVATE).getBoolean("enableCheck", true) && !isEnable()) {
             SnackBarUtils.makeLong(mNavigationView, "插件尚未激活,Xposed功能将不可用,请重启再试！").show();
         }
 
         mToolbar.setTitle("Flyme6助手");
 
-        //这句一定要在下面几句之前调用，不然就会出现点击无反应
+        //这句一定要在下面几句w之前调用，不然就会出现点击无反应
         setSupportActionBar(mToolbar);
         setNavigationViewItemClickListener();
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
