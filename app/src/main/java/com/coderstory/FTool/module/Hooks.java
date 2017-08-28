@@ -49,19 +49,14 @@ public class Hooks implements IModule {
             XposedBridge.log("crack by coderstory");
 
             //device_states | doCheckState
-
-
             findAndHookMethod("com.meizu.customizecenter.g.ak", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
 
             //resetToSystemTheme
-            //6.10
             findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "b", XC_MethodReplacement.returnConstant(false));
-            findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "b",boolean.class, XC_MethodReplacement.returnConstant(null));
+            findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "b", boolean.class, XC_MethodReplacement.returnConstant(null));
 
             //data/data/com.meizu.customizecenter/font/   system_font
-            // 6.10
             findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "b", XC_MethodReplacement.returnConstant(false));
-
 
             //主题混搭 ThemeContentProvider query Unknown URI
             findAndHookMethod("com.meizu.customizecenter.common.dao.ThemeContentProvider", loadPackageParam.classLoader, "query", Uri.class, String[].class, String.class, String[].class, String.class, new XC_MethodHook() {
@@ -71,11 +66,11 @@ public class Hooks implements IModule {
                     String Tag = "(ITEMS LIKE";
                     String Tag2 = "%zklockscreen;%";
                     String Tag3 = "%com.meizu.flyme.weather;%";
-                   // XposedBridge.log("开始");
+                    // XposedBridge.log("开始");
                     boolean result = false;
                     for (Object obj : objs) {
                         //XposedBridge.log(obj==null?"":obj.toString());
-                        if (obj instanceof String && (((String) obj).contains(Tag) || obj.equals(Tag2) || obj.equals(Tag3)  )) {
+                        if (obj instanceof String && (((String) obj).contains(Tag) || obj.equals(Tag2) || obj.equals(Tag3))) {
                             result = true;
                         }
                     }
