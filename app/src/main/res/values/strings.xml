@@ -2,7 +2,7 @@
     <string name="app_name">Flyme6助手</string>
     <string name="drawer_open">打开</string>
     <string name="drawer_close">关闭</string>
-    <string name="about_msg">\nFlyme6助手适配于Flyme6系统，主要用于去除系统自带的一些广告和其他一些修改.功能需要Xposed模块和ROOT支持
+    <string name="about_msg">\nFlyme6助手适配于Flyme6系统，主要用于去除系统自带的一些广告和其他一些修改.功能需要Xposed模块和ROOT支持\n因为魅族官方关闭了flyme的root,所以本插件基本不会再更新了.
         \n\n作者:CoderStory
         \n博客主页: blog.coderstory.cn
     </string>

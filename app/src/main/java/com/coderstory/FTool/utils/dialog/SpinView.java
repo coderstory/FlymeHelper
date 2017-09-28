@@ -23,7 +23,7 @@ import android.util.AttributeSet;
 import com.coderstory.FTool.R;
 
 
-public class SpinView extends  android.support.v7.widget.AppCompatImageView  implements Indeterminate {
+public class SpinView extends android.support.v7.widget.AppCompatImageView implements Indeterminate {
 
     private float mRotateDegrees;
     private int mFrameTime;

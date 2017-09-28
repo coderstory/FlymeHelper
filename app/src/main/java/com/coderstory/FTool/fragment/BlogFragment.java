@@ -23,11 +23,11 @@ import static android.content.Context.CLIPBOARD_SERVICE;
  * Date:2016/3/30
  * Time:17:46
  */
-public class BlogFragment extends WebViewFragment  {
+public class BlogFragment extends WebViewFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_webview_toolbar, menu);
-        super.onCreateOptionsMenu(menu,inflater);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -36,20 +36,19 @@ public class BlogFragment extends WebViewFragment  {
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-      if (item.getItemId()==R.id.action_copy){
-          ClipboardManager myClipboard;
-          myClipboard = (ClipboardManager)getActivity().getSystemService(CLIPBOARD_SERVICE);
-          ClipData myClip;
-          String text =mWebView.getUrl();
-          myClip = ClipData.newPlainText("text", text);
-          myClipboard.setPrimaryClip(myClip);
-          SnackBarUtils.makeLong(getView(), "已复制网址到粘贴板！").show();
-      }else if (item.getItemId()==R.id.action_share){
-          shareMsg("网址分享",mWebView.getTitle(),mWebView.getUrl(),null);
-      }
+        if (item.getItemId() == R.id.action_copy) {
+            ClipboardManager myClipboard;
+            myClipboard = (ClipboardManager) getActivity().getSystemService(CLIPBOARD_SERVICE);
+            ClipData myClip;
+            String text = mWebView.getUrl();
+            myClip = ClipData.newPlainText("text", text);
+            myClipboard.setPrimaryClip(myClip);
+            SnackBarUtils.makeLong(getView(), "已复制网址到粘贴板！").show();
+        } else if (item.getItemId() == R.id.action_share) {
+            shareMsg("网址分享", mWebView.getTitle(), mWebView.getUrl(), null);
+        }
         return false;
     }
 

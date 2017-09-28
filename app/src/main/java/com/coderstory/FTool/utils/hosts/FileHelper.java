@@ -15,32 +15,6 @@ import java.util.List;
 public class FileHelper {
 
 
-
-
-    /**
-     * 从Assets中读取文本
-     * @param FileName 文件名
-     * @param mContext context
-     * @return 读取到的文本
-     */
-    public String getFromAssets(String FileName, Context mContext) {
-        try {
-            InputStreamReader inputReader = new InputStreamReader(mContext.getAssets().open(FileName), "utf-8");
-            BufferedReader bufReader = new BufferedReader(inputReader);
-            String line;
-            String Result = "";
-            while ((line = bufReader.readLine()) != null)
-                Result += line + "\n";
-            return Result;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
-
-
-
     public static void rewriteFile(File file, String text) throws IOException {
         writeFileByWriter(file, text, false);
     }
@@ -49,8 +23,6 @@ public class FileHelper {
         File f = new File(path);
         rewriteFile(f, text);
     }
-
-
 
     private static void writeFileByWriter(File file, String text, boolean append) throws IOException {
         FileWriter writer = new FileWriter(file, append);
@@ -61,7 +33,6 @@ public class FileHelper {
         }
         writer.close();
     }
-
 
     public static List<String> readFile(File file) throws IOException {
         FileReader reader = new FileReader(file);
@@ -87,6 +58,28 @@ public class FileHelper {
         }
         DecimalFormat df = new DecimalFormat("#.##");
         return String.format("%s %s", df.format(nSize), units[i]);
+    }
+
+    /**
+     * 从Assets中读取文本
+     *
+     * @param FileName 文件名
+     * @param mContext context
+     * @return 读取到的文本
+     */
+    public String getFromAssets(String FileName, Context mContext) {
+        try {
+            InputStreamReader inputReader = new InputStreamReader(mContext.getAssets().open(FileName), "utf-8");
+            BufferedReader bufReader = new BufferedReader(inputReader);
+            String line;
+            String Result = "";
+            while ((line = bufReader.readLine()) != null)
+                Result += line + "\n";
+            return Result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
 

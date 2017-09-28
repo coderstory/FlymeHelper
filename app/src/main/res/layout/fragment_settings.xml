@@ -25,8 +25,7 @@
                 android:paddingEnd="30dp"
                 android:paddingStart="30dp"
                 android:paddingTop="10dp"
-                android:text="@string/common"
-             />
+                android:text="@string/common" />
 
             <Switch
                 android:id="@+id/hideicon"

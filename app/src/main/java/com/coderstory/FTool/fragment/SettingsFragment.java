@@ -1,7 +1,6 @@
 package com.coderstory.FTool.fragment;
 
 
-
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
 import android.view.View;
@@ -30,7 +29,7 @@ public class SettingsFragment extends BaseFragment {
         $(R.id.enableCheck).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getEditor().putBoolean("enableCheck",((Switch)v).isChecked());
+                getEditor().putBoolean("enableCheck", ((Switch) v).isChecked());
                 getEditor().apply();
             }
         });
@@ -38,19 +37,18 @@ public class SettingsFragment extends BaseFragment {
         $(R.id.hideicon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getEditor().putBoolean("hideicon",((Switch)v).isChecked());
+                getEditor().putBoolean("hideicon", ((Switch) v).isChecked());
                 getEditor().apply();
-                ComponentName localComponentName = new ComponentName( getMContext(), "com.coderstory.FTool.activity.SplashActivity");
-                PackageManager localPackageManager =  getMContext().getPackageManager();
+                ComponentName localComponentName = new ComponentName(getMContext(), "com.coderstory.FTool.activity.SplashActivity");
+                PackageManager localPackageManager = getMContext().getPackageManager();
                 localPackageManager.getComponentEnabledSetting(localComponentName);
-                PackageManager packageManager = getMContext(). getPackageManager();
-                ComponentName componentName = new ComponentName( getMContext(), "com.coderstory.FTool.activity.SplashActivity");
+                PackageManager packageManager = getMContext().getPackageManager();
+                ComponentName componentName = new ComponentName(getMContext(), "com.coderstory.FTool.activity.SplashActivity");
 
-                if(((Switch)v).isChecked()){
+                if (((Switch) v).isChecked()) {
                     packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                             PackageManager.DONT_KILL_APP);
-                }else
-                {
+                } else {
                     packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
                             PackageManager.DONT_KILL_APP);
                 }
@@ -63,8 +61,8 @@ public class SettingsFragment extends BaseFragment {
 
     @Override
     protected void setUpData() {
-        ((Switch) $(R.id.enableCheck)).setChecked(getPrefs().getBoolean("enableCheck",true));
-        ((Switch) $(R.id.hideicon)).setChecked(getPrefs().getBoolean("hideicon",false));
+        ((Switch) $(R.id.enableCheck)).setChecked(getPrefs().getBoolean("enableCheck", true));
+        ((Switch) $(R.id.hideicon)).setChecked(getPrefs().getBoolean("hideicon", false));
     }
 
 }

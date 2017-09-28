@@ -5,8 +5,6 @@ import android.net.Uri;
 
 import com.coderstory.FTool.plugins.IModule;
 
-import java.io.File;
-
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -19,6 +17,14 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class Hooks implements IModule {
 
     private static XC_LoadPackage.LoadPackageParam loadPackageParam;
+
+    private static void findAndHookMethod(String p1, ClassLoader lpparam, String p2, Object... parameterTypesAndCallback) {
+        try {
+            XposedHelpers.findAndHookMethod(p1, lpparam, p2, parameterTypesAndCallback);
+        } catch (Throwable localString3) {
+            XposedBridge.log(localString3);
+        }
+    }
 
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
@@ -91,14 +97,6 @@ public class Hooks implements IModule {
                     super.beforeHookedMethod(param);
                 }
             });
-        }
-    }
-
-    private static void findAndHookMethod(String p1, ClassLoader lpparam, String p2, Object... parameterTypesAndCallback) {
-        try {
-            XposedHelpers.findAndHookMethod(p1, lpparam, p2, parameterTypesAndCallback);
-        } catch (Throwable localString3) {
-            XposedBridge.log(localString3);
         }
     }
 

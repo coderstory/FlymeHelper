@@ -19,11 +19,11 @@ import java.util.ArrayList;
  */
 public class HostsHelper extends SuHelper {
     private String mcontent;
-    private  Context mcontext=null;
+    private Context mcontext = null;
 
-    public HostsHelper(String mcontent,Context m) {
+    public HostsHelper(String mcontent, Context m) {
         this.mcontent = mcontent;
-        this.mcontext=m;
+        this.mcontext = m;
     }
 
     /**
@@ -37,17 +37,17 @@ public class HostsHelper extends SuHelper {
         ArrayList<String> list = new ArrayList<>();
         list.add("mount -o rw,remount /system");
 
-        String path="/data/data/com.coderstory.FTool/files/hosts";
+        String path = "/data/data/com.coderstory.FTool/files/hosts";
 
-        FileOutputStream out=null;
+        FileOutputStream out = null;
         BufferedWriter writer;
         try {
-            out=mcontext.openFileOutput("hosts", Context.MODE_PRIVATE);
+            out = mcontext.openFileOutput("hosts", Context.MODE_PRIVATE);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        writer=new BufferedWriter(new OutputStreamWriter(out));
+        writer = new BufferedWriter(new OutputStreamWriter(out));
         try {
             writer.write(mcontent);
             writer.close();

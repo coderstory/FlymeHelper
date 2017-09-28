@@ -41,17 +41,7 @@ public class BackupAppFragment extends BaseFragment {
 
 
     private static final String TAG = "backApp";
-
-
-    @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_backupapp;
-    }
-
-
-    private View view;
-    private List<AppInfo> appInfoList = new ArrayList<>();
-    private List<AppInfo> appInfoList2 = new ArrayList<>();
+    final String path_backup = Environment.getExternalStorageDirectory().getPath() + "/FTool/backupAPP/";
     List<PackageInfo> packages = new ArrayList<>();
     AppInfoAdapter adapter = null;
     ListView listView = null;
@@ -59,7 +49,15 @@ public class BackupAppFragment extends BaseFragment {
     int mPosition = 0;
     View mView = null;
     com.yalantis.phoenix.PullToRefreshView mPullToRefreshView;
-    final  String  path_backup=Environment.getExternalStorageDirectory().getPath() + "/FTool/backupAPP/";
+    private View view;
+    private List<AppInfo> appInfoList = new ArrayList<>();
+    private List<AppInfo> appInfoList2 = new ArrayList<>();
+    private Dialog dialog;
+
+    @Override
+    protected int setLayoutResourceID() {
+        return R.layout.fragment_backupapp;
+    }
 
     @Override
     protected void setUpView() {
@@ -72,6 +70,7 @@ public class BackupAppFragment extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_backupapp, container, false);
         return view;
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -109,7 +108,7 @@ public class BackupAppFragment extends BaseFragment {
                 //必须设置apk的路径 否则无法读取app的图标和名称
                 appInfo.sourceDir = path_backup + item;
                 appInfo.publicSourceDir = path_backup + item;
-                AppInfo appInfos = new AppInfo(pm.getApplicationLabel(appInfo).toString(), pm.getApplicationIcon(appInfo), packageInfo.packageName, false, packageInfo.applicationInfo.sourceDir, packageInfo.versionName,packageInfo.versionCode);
+                AppInfo appInfos = new AppInfo(pm.getApplicationLabel(appInfo).toString(), pm.getApplicationIcon(appInfo), packageInfo.packageName, false, packageInfo.applicationInfo.sourceDir, packageInfo.versionName, packageInfo.versionCode);
                 appInfoList2.add(appInfos);
             }
         }
@@ -123,14 +122,14 @@ public class BackupAppFragment extends BaseFragment {
                 if (packageInfo.applicationInfo.sourceDir.startsWith("/data/")) {
                     switch (isBackuped(packageInfo)) {
                         case 0:
-                                AppInfo appInfo = new AppInfo(packageInfo.applicationInfo.loadLabel(getActivity().getPackageManager()).toString(), packageInfo.applicationInfo.loadIcon(getActivity().getPackageManager()), packageInfo.packageName, false, packageInfo.applicationInfo.sourceDir, packageInfo.versionName,packageInfo.versionCode);
-                                appInfoList.add(appInfo);
+                            AppInfo appInfo = new AppInfo(packageInfo.applicationInfo.loadLabel(getActivity().getPackageManager()).toString(), packageInfo.applicationInfo.loadIcon(getActivity().getPackageManager()), packageInfo.packageName, false, packageInfo.applicationInfo.sourceDir, packageInfo.versionName, packageInfo.versionCode);
+                            appInfoList.add(appInfo);
                             break;
                         case 1:
                             break;
                         default:
-                                AppInfo appInfo2 = new AppInfo(packageInfo.applicationInfo.loadLabel(getActivity().getPackageManager()).toString(), packageInfo.applicationInfo.loadIcon(getActivity().getPackageManager()), packageInfo.packageName, false, packageInfo.applicationInfo.sourceDir, packageInfo.versionName+"  有新版本未备份",packageInfo.versionCode);
-                                appInfoList.add(appInfo2);
+                            AppInfo appInfo2 = new AppInfo(packageInfo.applicationInfo.loadLabel(getActivity().getPackageManager()).toString(), packageInfo.applicationInfo.loadIcon(getActivity().getPackageManager()), packageInfo.packageName, false, packageInfo.applicationInfo.sourceDir, packageInfo.versionName + "  有新版本未备份", packageInfo.versionCode);
+                            appInfoList.add(appInfo2);
                             break;
 
                     }
@@ -138,19 +137,19 @@ public class BackupAppFragment extends BaseFragment {
             }
         }
     }
-//1 已备份  0未备份 2 有新的版本未备份
+
+    //1 已备份  0未备份 2 有新的版本未备份
     private int isBackuped(PackageInfo packageInfo) {
         int result = 0;
         if (DirManager.apkAll != null) {
-            for (AppInfo element :appInfoList2)
-            {
-                    if ((packageInfo.packageName).equals(element.getPackageName())) {
-                        if (packageInfo.versionCode > element.getVersionCode()) {
-                            result = 2;
-                        } else {
-                            result = 1;
-                        }
-                        break;
+            for (AppInfo element : appInfoList2) {
+                if ((packageInfo.packageName).equals(element.getPackageName())) {
+                    if (packageInfo.versionCode > element.getVersionCode()) {
+                        result = 2;
+                    } else {
+                        result = 1;
+                    }
+                    break;
                 }
             }
         }
@@ -180,7 +179,7 @@ public class BackupAppFragment extends BaseFragment {
                 mView = view;
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                 dialog.setTitle(R.string.Tips_Title);
-                String tipsText ;
+                String tipsText;
                 String BtnText = getString(R.string.Btn_Sure);
                 appInfo = appInfoList.get(mPosition);
                 tipsText = "你确定要备份" + appInfo.getName() + "吗？";
@@ -189,9 +188,9 @@ public class BackupAppFragment extends BaseFragment {
                 dialog.setPositiveButton(BtnText, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DirManager.needReload=true;
-                        String commandText = "cp -f " + appInfo.getappdir() +" \""+path_backup + appInfo.getPackageName() + ".apk\"";
-                        Log.e(TAG, "onClick: "+ commandText);
+                        DirManager.needReload = true;
+                        String commandText = "cp -f " + appInfo.getappdir() + " \"" + path_backup + appInfo.getPackageName() + ".apk\"";
+                        Log.e(TAG, "onClick: " + commandText);
                         Process process = null;
                         DataOutputStream os = null;
                         try {
@@ -205,7 +204,7 @@ public class BackupAppFragment extends BaseFragment {
                             appInfoList.remove(mPosition);
                             adapter.notifyDataSetChanged();
                         } catch (Exception e) {
-                            Log.e(TAG, "onClick: "+e.getMessage() );
+                            Log.e(TAG, "onClick: " + e.getMessage());
                         } finally {
                             try {
                                 if (os != null) {
@@ -214,10 +213,10 @@ public class BackupAppFragment extends BaseFragment {
                                 assert process != null;
                                 process.destroy();
                             } catch (Exception e) {
-                                Log.e(TAG, "onClick: "+e.getMessage() );
+                                Log.e(TAG, "onClick: " + e.getMessage());
                             }
                         }
-                        DirManager.needReload=true;
+                        DirManager.needReload = true;
                     }
                 });
                 dialog.setCancelable(true);
@@ -232,6 +231,21 @@ public class BackupAppFragment extends BaseFragment {
         });
     }
 
+    protected void showProgress() {
+        if (dialog == null) {
+            dialog = ProgressDialog.show(getActivity(), getString(R.string.Tips_Title), getString(R.string.loadappinfo));
+            dialog.show();
+        }
+    }
+
+    //
+    protected void closeProgress() {
+
+        if (dialog != null) {
+            dialog.cancel();
+            dialog = null;
+        }
+    }
 
     private class MyTask extends AsyncTask<String, Integer, String> {
 
@@ -261,29 +275,11 @@ public class BackupAppFragment extends BaseFragment {
 
         @Override
         protected String doInBackground(String... params) {
-            if(Looper.myLooper()==null) {
+            if (Looper.myLooper() == null) {
                 Looper.prepare();
             }
             initData();
             return null;
-        }
-    }
-
-    private Dialog dialog;
-
-    protected void showProgress() {
-        if (dialog == null) {
-            dialog = ProgressDialog.show(getActivity(), getString(R.string.Tips_Title), getString(R.string.loadappinfo));
-            dialog.show();
-        }
-    }
-
-    //
-    protected void closeProgress() {
-
-        if (dialog != null) {
-            dialog.cancel();
-            dialog = null;
         }
     }
 /*
