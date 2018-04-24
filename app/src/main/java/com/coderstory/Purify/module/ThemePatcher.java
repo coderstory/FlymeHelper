@@ -17,7 +17,7 @@ import static com.coderstory.Purify.config.Misc.isEnable;
 
 public class ThemePatcher extends XposedHelper implements IModule {
 
-    private final String[] CLASSES = new String[]{"ThemeOperationHandler", "ds", "du"};
+    private final String[] CLASSES = new String[]{"ThemeOperationHandler", "ds", "du","ed"};
     private final String Base_Package = "com.android.thememanager.util";
 
     @Override
@@ -46,6 +46,11 @@ public class ThemePatcher extends XposedHelper implements IModule {
             }
             // 修改为已购买
             CorePatch.findAndHookMethod("com.android.thememanager.e.p", lpparam.classLoader, "isProductBought", XC_MethodReplacement.returnConstant(true));
+            // 1.3.0.0
+            CorePatch.findAndHookMethod("com.android.thememanager.e.q", lpparam.classLoader, "isProductBought", XC_MethodReplacement.returnConstant(true));
+            // 1.3.0.0 這個是搜索列表的
+            CorePatch.findAndHookMethod("com.android.thememanager.e.t", lpparam.classLoader, "isProductBought", XC_MethodReplacement.returnConstant(true));
+
             CorePatch.findAndHookMethod("com.android.thememanager.util.dv", lpparam.classLoader, "k", XC_MethodReplacement.returnConstant(true));
         }
     }
@@ -56,16 +61,23 @@ public class ThemePatcher extends XposedHelper implements IModule {
         }
         CorePatch.findAndHookMethod(classStr, lpparam.classLoader, "isTrialable", XC_MethodReplacement.returnConstant(true));
         CorePatch.findAndHookMethod(classStr, lpparam.classLoader, "v", XC_MethodReplacement.returnConstant(true));
+        //1.3.0.0
+        CorePatch.findAndHookMethod(classStr, lpparam.classLoader, "v", XC_MethodReplacement.returnConstant(true));
 
         CorePatch.findAndHookMethod(classStr, lpparam.classLoader, "isLegal", XC_MethodReplacement.returnConstant(true));
         CorePatch.findAndHookMethod(classStr, lpparam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
         CorePatch.findAndHookMethod(classStr, lpparam.classLoader, "C", XC_MethodReplacement.returnConstant(true));
+        // 1.3.0.0
+        CorePatch.findAndHookMethod(classStr, lpparam.classLoader, "E", XC_MethodReplacement.returnConstant(true));
+
         CorePatch.findAndHookMethod(classStr, lpparam.classLoader, "isAuthorizedResource", XC_MethodReplacement.returnConstant(true));
         CorePatch.findAndHookMethod(classStr, lpparam.classLoader, "k", XC_MethodReplacement.returnConstant(true));
 
         CorePatch.findAndHookMethod(classStr, lpparam.classLoader, "isPermanentRights", XC_MethodReplacement.returnConstant(true));
         CorePatch.findAndHookMethod(classStr, lpparam.classLoader, "x", XC_MethodReplacement.returnConstant(true));
         CorePatch.findAndHookMethod(classStr, lpparam.classLoader, "w", XC_MethodReplacement.returnConstant(true));
+        // 1.3.0.0
+        CorePatch.findAndHookMethod(classStr, lpparam.classLoader, "z", XC_MethodReplacement.returnConstant(true));
         //  尝试修改主题价格
         CorePatch.findAndHookMethod(classStr, lpparam.classLoader, "l", XC_MethodReplacement.returnConstant(0));
         CorePatch.findAndHookMethod(classStr, lpparam.classLoader, "G", XC_MethodReplacement.returnConstant(0));

@@ -1,41 +1,24 @@
 public boolean isTrialable() {
-        boolean v0 = this.mResource.getTrialTime() > 0 ? true : false;
-        return v0;
-    }
+   public boolean x() {
+         return this.ex.getTrialTime() > 0;
+     }
 	
 	protected boolean isLegal() {
         return this.mIsLegal;
     }
 	
 	 public boolean isAuthorizedResource() {
-        return this.mResource.isProductBought();
-    }
+
+     public boolean k() {
+            return this.ex.isProductBought();
+        }
 	
 	
     public boolean isPermanentRights() {
-        boolean v1 = false;
-        File v0 = new File(this.mResResolver.getRightsPath());
-        if((this.isAuthorizedResource()) || this.getPrice() == 0) {
-        label_9:
-            v1 = true;
-        }
-        else {
-            if((this.isLocalResource()) && !v0.exists()) {
-                if(this.isTrialable()) {
-                }
-                else {
-                    goto label_9;
-                }
-            }
-
-            if(!v0.exists()) {
-                return v1;
-            }
-
-            v1 = DrmManager.isPermanentRights(v0);
-        }
-
-        return v1;
+    这个方法现在是这个样子
+    public boolean z() {
+        File file = new File(this.ey.c());
+        return k() || l() == 0 || (!(!n() || file.exists() || x()) || (file.exists() && DrmManager.isPermanentRights(file)));
     }
 	
 	
