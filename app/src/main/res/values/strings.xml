@@ -2,7 +2,7 @@
     <string name="app_name">Flyme7助手</string>
     <string name="drawer_open">打开</string>
     <string name="drawer_close">关闭</string>
-    <string name="about_msg">\nFlyme6助手适配于Flyme7系统，主要用于去除系统自带的一些广告和其他一些修改.功能需要Xposed模块和ROOT支持\n
+    <string name="about_msg">\nFlyme助手适配于Flyme7系统，主要用于修正BugMe的一些反人类设计.功能需要Xposed模块和ROOT支持\n
         \n\n作者:CoderStory
         \n博客主页: blog.coderstory.cn
     </string>
