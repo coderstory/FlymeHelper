@@ -13,6 +13,10 @@ android {
         release {
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -31,4 +35,5 @@ dependencies {
     compileOnly 'com.google.code.gson:gson:2.8.0'
     compileOnly 'com.android.support:recyclerview-v7:27.1.1'
     compileOnly 'com.zhy:okhttputils:2.4.1'
+    implementation 'eu.chainfire:libsuperuser:1.0.0.201704021214'
 }

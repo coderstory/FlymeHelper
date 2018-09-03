@@ -10,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.File;
+
+import eu.chainfire.libsuperuser.Shell;
+
 
 /**
  * Created by _SOLID
@@ -23,7 +27,10 @@ public abstract class BaseFragment extends Fragment {
     private ProgressDialog mProgressDialog;
     private static SharedPreferences prefs;
     private static SharedPreferences.Editor editor;
-
+    static String ApplicationName = "com.coderstory.FTool";
+    public static final String PREFS_FOLDER = " /data/data/" + ApplicationName + "/shared_prefs\n";
+    static String SharedPreferencesName = "UserSettings";
+    public static final String PREFS_FILE = " /data/data/" + ApplicationName + "/shared_prefs/" + SharedPreferencesName + ".xml\n";
 
     @Nullable
     @Override
@@ -55,26 +62,24 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected SharedPreferences getPrefs() {
-
-//        String  a="3149a6fe037f6ccd515fd229df6bebc4";
-
-//        if (prefs == null) {
-//         String ab=   getSign(getMContext());
-//            if (a.equals(ab)) {
-                prefs = getContext().getSharedPreferences("UserSettings", Context.MODE_WORLD_READABLE);
-//            }else {
-//                prefs = getContext().getSharedPreferences("UserSettings1", Context.MODE_WORLD_READABLE);
-//            }
-//        }
+        prefs = getContext().getSharedPreferences("UserSettings", Context.MODE_PRIVATE);
         return prefs;
     }
 
+    protected void sudoFixPermissions() {
+        new Thread(() -> {
+            File pkgFolder = new File("/data/data/" + ApplicationName);
+            if (pkgFolder.exists()) {
+                pkgFolder.setExecutable(true, false);
+                pkgFolder.setReadable(true, false);
+            }
+            Shell.SU.run("chmod  755 " + PREFS_FOLDER);
+            // Set preferences file permissions to be world readable
+            Shell.SU.run("chmod  644 " + PREFS_FILE);
+        }).start();
+    }
 
-
-
-
-
-        protected void init() {
+    protected void init() {
 
     }
 
