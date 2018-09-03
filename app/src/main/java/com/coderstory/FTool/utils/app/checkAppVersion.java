@@ -12,7 +12,6 @@ import java.util.List;
  */
 
 public class checkAppVersion {
-    private static final String TAG = "checkAppVersion";
 
     //检查系统安装的主题美化版本是否受支持
     public boolean isSupport(Context mContext) {

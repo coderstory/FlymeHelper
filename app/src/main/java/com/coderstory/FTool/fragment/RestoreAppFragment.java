@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -17,7 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -68,21 +66,13 @@ public class RestoreAppFragment extends BaseFragment {
 
         super.onActivityCreated(savedInstanceState);
         new MyTask().execute();
-        mPullToRefreshView = (PullToRefreshView) getActivity().findViewById(R.id.pull_to_refresh1);
-        mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mPullToRefreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        initData();
-                        showData();
-                        adapter.notifyDataSetChanged();
-                        mPullToRefreshView.setRefreshing(false);
-                    }
-                }, 2000);
-            }
-        });
+        mPullToRefreshView = getActivity().findViewById(R.id.pull_to_refresh1);
+        mPullToRefreshView.setOnRefreshListener(() -> mPullToRefreshView.postDelayed(() -> {
+            initData();
+            showData();
+            adapter.notifyDataSetChanged();
+            mPullToRefreshView.setRefreshing(false);
+        }, 2000));
     }
 
     private void initData() {
@@ -107,59 +97,48 @@ public class RestoreAppFragment extends BaseFragment {
 
     private void showData() {
         adapter = new AppInfoAdapter(getActivity(), R.layout.app_info_item, R.color.disableApp, appInfoList);
-        listView = (ListView) view.findViewById(R.id.listView);
+        listView = view.findViewById(R.id.listView);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mPosition = position;
-                mView = view;
-                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-                dialog.setTitle(R.string.Tips_Title);
-                String tipsText;
-                String BtnText = getString(R.string.Btn_Sure);
-                appInfo = appInfoList.get(mPosition);
-                tipsText = "你确定要安装" + appInfo.getName() + "吗？";
-                dialog.setMessage(tipsText);
-                dialog.setPositiveButton(BtnText, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String commandText = "pm install  " + path_backup + appInfo.getPackageName() + ".apk";
-                        Log.e("cc", commandText);
-                        Process process = null;
-                        DataOutputStream os = null;
-                        try {
-                            process = Runtime.getRuntime().exec("su"); //切换到root帐号
-                            os = new DataOutputStream(process.getOutputStream());
-                            os.writeBytes(commandText + "&\n");
-                            os.writeBytes("exit\n");
-                            os.flush();
-                            process.waitFor();
-                        } catch (Exception ignored) {
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            mPosition = position;
+            mView = view;
+            AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+            dialog.setTitle(R.string.Tips_Title);
+            String tipsText;
+            String BtnText = getString(R.string.Btn_Sure);
+            appInfo = appInfoList.get(mPosition);
+            tipsText = "你确定要安装" + appInfo.getName() + "吗？";
+            dialog.setMessage(tipsText);
+            dialog.setPositiveButton(BtnText, (dialog1, which) -> {
+                String commandText = "pm install  " + path_backup + appInfo.getPackageName() + ".apk";
+                Log.e("cc", commandText);
+                Process process = null;
+                DataOutputStream os = null;
+                try {
+                    process = Runtime.getRuntime().exec("su"); //切换到root帐号
+                    os = new DataOutputStream(process.getOutputStream());
+                    os.writeBytes(commandText + "&\n");
+                    os.writeBytes("exit\n");
+                    os.flush();
+                    process.waitFor();
+                } catch (Exception ignored) {
 
-                        } finally {
-                            try {
-                                if (os != null) {
-                                    os.close();
-                                }
-                                assert process != null;
-                                process.destroy();
-                            } catch (Exception ignored) {
-                            }
+                } finally {
+                    try {
+                        if (os != null) {
+                            os.close();
                         }
-                        closeProgress();
-                        Toast.makeText(context, "正在后台安装！", Toast.LENGTH_SHORT).show();
+                        assert process != null;
+                        process.destroy();
+                    } catch (Exception ignored) {
                     }
-                });
-                dialog.setCancelable(true);
-                dialog.setNegativeButton(R.string.Btn_Cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                dialog.show();
-            }
+                }
+                closeProgress();
+                Toast.makeText(context, "正在后台安装！", Toast.LENGTH_SHORT).show();
+            });
+            dialog.setCancelable(true);
+            dialog.setNegativeButton(R.string.Btn_Cancel, (dialog12, which) -> dialog12.cancel());
+            dialog.show();
         });
 
     }

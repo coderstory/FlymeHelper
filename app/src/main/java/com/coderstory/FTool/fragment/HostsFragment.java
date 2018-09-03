@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Looper;
-import android.view.View;
 import android.widget.Switch;
 
 import com.coderstory.FTool.R;
@@ -26,23 +25,17 @@ public class HostsFragment extends BaseFragment {
     @Override
     protected void setUpView() {
 
-        $(R.id.enableHosts).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getEditor().putBoolean("enableHosts", ((Switch) v).isChecked());
-                getEditor().apply();
-                setCheck(((Switch) v).isChecked());
-                new MyTask().execute();
-            }
+        $(R.id.enableHosts).setOnClickListener(v -> {
+            getEditor().putBoolean("enableHosts", ((Switch) v).isChecked());
+            getEditor().apply();
+            setCheck(((Switch) v).isChecked());
+            new MyTask().execute();
         });
 
-        $(R.id.enableBlockAdsHosts).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getEditor().putBoolean("enableBlockAdsHosts", ((Switch) v).isChecked());
-                getEditor().apply();
-                new MyTask().execute();
-            }
+        $(R.id.enableBlockAdsHosts).setOnClickListener(v -> {
+            getEditor().putBoolean("enableBlockAdsHosts", ((Switch) v).isChecked());
+            getEditor().apply();
+            new MyTask().execute();
         });
 
 

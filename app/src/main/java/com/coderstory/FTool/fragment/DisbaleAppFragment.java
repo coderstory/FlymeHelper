@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,7 +26,6 @@ import com.coderstory.FTool.R;
 import com.coderstory.FTool.adapter.AppInfo;
 import com.coderstory.FTool.adapter.AppInfoAdapter;
 import com.coderstory.FTool.utils.root.SuHelper;
-import com.yalantis.phoenix.PullToRefreshView;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -105,75 +103,67 @@ public class DisbaleAppFragment extends BaseFragment {
 
     private void showData() {
         adapter = new AppInfoAdapter(getContext(), R.layout.app_info_item, appInfoList);
-        listView = (ListView) getContentView().findViewById(R.id.listView);
+        listView = getContentView().findViewById(R.id.listView);
         assert listView != null;
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mposition = position;
-                mview = view;
-                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-                dialog.setTitle(R.string.Tips_Title);
-                String tipsText;
-                String BtnText = getString(R.string.Btn_Sure);
-                appInfo = appInfoList.get(mposition);
-                if (appInfo.getDisable()) {
-                    tipsText = getString(R.string.sureAntiDisable) + appInfo.getName() + getString(R.string.sureAntiDisableAfter);
-                } else {
-                    tipsText = getString(R.string.sureDisable) + appInfo.getName() + getString(R.string.sureDisableAfter);
-                }
-                dialog.setMessage(tipsText);
-                dialog.setPositiveButton(BtnText, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            mposition = position;
+            mview = view;
+            AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+            dialog.setTitle(R.string.Tips_Title);
+            String tipsText;
+            String BtnText = getString(R.string.Btn_Sure);
+            appInfo = appInfoList.get(mposition);
+            if (appInfo.getDisable()) {
+                tipsText = getString(R.string.sureAntiDisable) + appInfo.getName() + getString(R.string.sureAntiDisableAfter);
+            } else {
+                tipsText = getString(R.string.sureDisable) + appInfo.getName() + getString(R.string.sureDisableAfter);
+            }
+            dialog.setMessage(tipsText);
+            dialog.setPositiveButton(BtnText, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                        String commandText = (!appInfo.getDisable() ? "pm disable " : "pm enable ") + appInfo.getPackageName();
-                        Log.e("cc", commandText);
-                        Process process = null;
-                        DataOutputStream os = null;
+                    String commandText = (!appInfo.getDisable() ? "pm disable " : "pm enable ") + appInfo.getPackageName();
+                    Log.e("cc", commandText);
+                    Process process = null;
+                    DataOutputStream os = null;
+                    try {
+
+                        process = Runtime.getRuntime().exec("su"); //切换到root帐号
+                        os = new DataOutputStream(process.getOutputStream());
+                        os.writeBytes(commandText + "\n");
+                        os.writeBytes("exit\n");
+                        os.flush();
+                        process.waitFor();
+                        // View rootView = LayoutInflater.from(mContext).inflate(R.layout.app_info_item, null);
+                        if (appInfo.getDisable()) {
+                            appInfo.setDisable(false);
+                            appInfoList.set(mposition, appInfo);
+                            mview.setBackgroundColor(getResources().getColor(R.color.colorPrimary)); //正常的颜色
+                        } else {
+                            appInfo.setDisable(true);
+                            appInfoList.set(mposition, appInfo);
+                            mview.setBackgroundColor(Color.parseColor("#d0d7d7d7")); //冻结的颜色
+
+                        }
+                    } catch (Exception ignored) {
+
+                    } finally {
                         try {
-
-                            process = Runtime.getRuntime().exec("su"); //切换到root帐号
-                            os = new DataOutputStream(process.getOutputStream());
-                            os.writeBytes(commandText + "\n");
-                            os.writeBytes("exit\n");
-                            os.flush();
-                            process.waitFor();
-                            // View rootView = LayoutInflater.from(mContext).inflate(R.layout.app_info_item, null);
-                            if (appInfo.getDisable()) {
-                                appInfo.setDisable(false);
-                                appInfoList.set(mposition, appInfo);
-                                mview.setBackgroundColor(getResources().getColor(R.color.colorPrimary)); //正常的颜色
-                            } else {
-                                appInfo.setDisable(true);
-                                appInfoList.set(mposition, appInfo);
-                                mview.setBackgroundColor(Color.parseColor("#d0d7d7d7")); //冻结的颜色
-
+                            if (os != null) {
+                                os.close();
                             }
+                            assert process != null;
+                            process.destroy();
                         } catch (Exception ignored) {
-
-                        } finally {
-                            try {
-                                if (os != null) {
-                                    os.close();
-                                }
-                                assert process != null;
-                                process.destroy();
-                            } catch (Exception ignored) {
-                            }
                         }
                     }
-                });
-                dialog.setCancelable(true);
-                dialog.setNegativeButton(R.string.Btn_Cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                dialog.show();
-            }
+                }
+            });
+            dialog.setCancelable(true);
+            dialog.setNegativeButton(R.string.Btn_Cancel, (dialog1, which) -> dialog1.cancel());
+            dialog.show();
         });
     }
 
@@ -189,22 +179,14 @@ public class DisbaleAppFragment extends BaseFragment {
 
         new MyTask().execute();
 
-        mPullToRefreshView = (PullToRefreshView) getContentView().findViewById(R.id.pull_to_refresh);
+        mPullToRefreshView = getContentView().findViewById(R.id.pull_to_refresh);
 
-        mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mPullToRefreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        initData();
-                        showData();
-                        adapter.notifyDataSetChanged();
-                        mPullToRefreshView.setRefreshing(false);
-                    }
-                }, 2000);
-            }
-        });
+        mPullToRefreshView.setOnRefreshListener(() -> mPullToRefreshView.postDelayed(() -> {
+            initData();
+            showData();
+            adapter.notifyDataSetChanged();
+            mPullToRefreshView.setRefreshing(false);
+        }, 2000));
     }
 
     protected void showProgress() {
@@ -230,19 +212,9 @@ public class DisbaleAppFragment extends BaseFragment {
             dialog.setTitle("备份列表");
             String tipsText = "你确定要备份当前系统应用的冻结列表吗?";
             dialog.setMessage(tipsText);
-            dialog.setPositiveButton(getString(R.string.Btn_Sure), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    satrtBackuop();
-                }
-            });
+            dialog.setPositiveButton(getString(R.string.Btn_Sure), (dialog12, which) -> satrtBackuop());
             dialog.setCancelable(true);
-            dialog.setNegativeButton(R.string.Btn_Cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
+            dialog.setNegativeButton(R.string.Btn_Cancel, (dialog1, which) -> dialog1.cancel());
 
             mydialog = dialog.create();
             mydialog.show();
@@ -252,19 +224,9 @@ public class DisbaleAppFragment extends BaseFragment {
             dialog.setTitle("还原设置");
             String tipsText = "你确定要还原当前系统应用的冻结状态吗?";
             dialog.setMessage(tipsText);
-            dialog.setPositiveButton(getString(R.string.Btn_Sure), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    restoreList();
-                }
-            });
+            dialog.setPositiveButton(getString(R.string.Btn_Sure), (dialog13, which) -> restoreList());
             dialog.setCancelable(true);
-            dialog.setNegativeButton(R.string.Btn_Cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
+            dialog.setNegativeButton(R.string.Btn_Cancel, (dialog14, which) -> dialog14.cancel());
             mydialog = dialog.create();
             mydialog.show();
         }
@@ -301,12 +263,10 @@ public class DisbaleAppFragment extends BaseFragment {
         dialog.show();
 
 
-        new Thread(new Runnable() {
-            public void run() {
-                disableHelp dh = new disableHelp(list);
-                dh.execute();
-                myHandler.sendMessage(new Message());
-            }
+        new Thread(() -> {
+            disableHelp dh = new disableHelp(list);
+            dh.execute();
+            myHandler.sendMessage(new Message());
         }).start();
 
 

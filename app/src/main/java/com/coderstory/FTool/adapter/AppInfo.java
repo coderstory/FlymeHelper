@@ -9,15 +9,15 @@ public class AppInfo {
 
     private String name;
     private Drawable imageId;
-    //private String AppDir;
-    private boolean isDisable = true;
-    private String packageName = "";
-    private String Version = "";
+    private boolean isDisable;
+    private String packageName;
+    private String Version;
 
 
     public AppInfo(String name, Drawable imageId, String packageName, boolean Disable, String version) {
         this.name = name;
         this.imageId = imageId;
+        this.packageName = "";
         this.packageName = packageName;
         this.isDisable = Disable;
         this.Version = version;

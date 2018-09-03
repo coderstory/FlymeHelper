@@ -18,14 +18,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.coderstory.FTool.R;
 import com.coderstory.FTool.utils.Adapter.Application.AppInfo;
 import com.coderstory.FTool.utils.Adapter.Application.AppInfoAdapter;
 import com.coderstory.FTool.utils.DirManager;
-import com.yalantis.phoenix.PullToRefreshView;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -75,22 +73,14 @@ public class BackupAppFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         new MyTask().execute();
-        mPullToRefreshView = (PullToRefreshView) getActivity().findViewById(R.id.pull_to_refresh);
+        mPullToRefreshView = getActivity().findViewById(R.id.pull_to_refresh);
 
-        mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mPullToRefreshView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        initData();
-                        showData();
-                        adapter.notifyDataSetChanged();
-                        mPullToRefreshView.setRefreshing(false);
-                    }
-                }, 2000);
-            }
-        });
+        mPullToRefreshView.setOnRefreshListener(() -> mPullToRefreshView.postDelayed(() -> {
+            initData();
+            showData();
+            adapter.notifyDataSetChanged();
+            mPullToRefreshView.setRefreshing(false);
+        }, 2000));
     }
 
     private void initFruit() {
@@ -164,70 +154,62 @@ public class BackupAppFragment extends BaseFragment {
 
     private void showData() {
         adapter = new AppInfoAdapter(getActivity(), R.layout.app_info_item, R.color.disableApp, appInfoList);
-        listView = (ListView) view.findViewById(R.id.listView);
+        listView = view.findViewById(R.id.listView);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+        listView.setOnItemClickListener((parent, view, position, id) -> {
 
-                File dir = new File(path_backup);
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
+            File dir = new File(path_backup);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
 
-                mPosition = position;
-                mView = view;
-                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-                dialog.setTitle(R.string.Tips_Title);
-                String tipsText;
-                String BtnText = getString(R.string.Btn_Sure);
-                appInfo = appInfoList.get(mPosition);
-                tipsText = "你确定要备份" + appInfo.getName() + "吗？";
+            mPosition = position;
+            mView = view;
+            AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+            dialog.setTitle(R.string.Tips_Title);
+            String tipsText;
+            String BtnText = getString(R.string.Btn_Sure);
+            appInfo = appInfoList.get(mPosition);
+            tipsText = "你确定要备份" + appInfo.getName() + "吗？";
 
-                dialog.setMessage(tipsText);
-                dialog.setPositiveButton(BtnText, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        DirManager.needReload = true;
-                        String commandText = "cp -f " + appInfo.getappdir() + " \"" + path_backup + appInfo.getPackageName() + ".apk\"";
-                        Log.e(TAG, "onClick: " + commandText);
-                        Process process = null;
-                        DataOutputStream os = null;
+            dialog.setMessage(tipsText);
+            dialog.setPositiveButton(BtnText, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    DirManager.needReload = true;
+                    String commandText = "cp -f " + appInfo.getappdir() + " \"" + path_backup + appInfo.getPackageName() + ".apk\"";
+                    Log.e(TAG, "onClick: " + commandText);
+                    Process process = null;
+                    DataOutputStream os = null;
+                    try {
+                        process = Runtime.getRuntime().exec("su"); //切换到root帐号
+                        os = new DataOutputStream(process.getOutputStream());
+                        os.writeBytes(commandText + "\n");
+                        os.writeBytes("exit\n");
+                        os.flush();
+                        process.waitFor();
+                        //View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.app_info_item, null);
+                        appInfoList.remove(mPosition);
+                        adapter.notifyDataSetChanged();
+                    } catch (Exception e) {
+                        Log.e(TAG, "onClick: " + e.getMessage());
+                    } finally {
                         try {
-                            process = Runtime.getRuntime().exec("su"); //切换到root帐号
-                            os = new DataOutputStream(process.getOutputStream());
-                            os.writeBytes(commandText + "\n");
-                            os.writeBytes("exit\n");
-                            os.flush();
-                            process.waitFor();
-                            //View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.app_info_item, null);
-                            appInfoList.remove(mPosition);
-                            adapter.notifyDataSetChanged();
+                            if (os != null) {
+                                os.close();
+                            }
+                            assert process != null;
+                            process.destroy();
                         } catch (Exception e) {
                             Log.e(TAG, "onClick: " + e.getMessage());
-                        } finally {
-                            try {
-                                if (os != null) {
-                                    os.close();
-                                }
-                                assert process != null;
-                                process.destroy();
-                            } catch (Exception e) {
-                                Log.e(TAG, "onClick: " + e.getMessage());
-                            }
                         }
-                        DirManager.needReload = true;
                     }
-                });
-                dialog.setCancelable(true);
-                dialog.setNegativeButton(R.string.Btn_Cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                dialog.show();
-            }
+                    DirManager.needReload = true;
+                }
+            });
+            dialog.setCancelable(true);
+            dialog.setNegativeButton(R.string.Btn_Cancel, (dialog1, which) -> dialog1.cancel());
+            dialog.show();
         });
     }
 
@@ -282,9 +264,5 @@ public class BackupAppFragment extends BaseFragment {
             return null;
         }
     }
-/*
-    public boolean isShowing() {
-        return dialog != null && dialog.isShowing();
-    }*/
 
 }

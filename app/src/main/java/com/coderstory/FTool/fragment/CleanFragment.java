@@ -222,8 +222,8 @@ public class CleanFragment extends BaseFragment {
     }
 
     private class CacheSize {
-        String sizeReadable = "";
-        long size = 0L;
+        String sizeReadable;
+        long size;
 
         CacheSize(String sr, long s) {
             sizeReadable = sr;

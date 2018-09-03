@@ -40,11 +40,4 @@ public abstract class BaseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    protected void startActivityWithExtras(Class<?> clazz, Bundle extras) {
-        Intent intent = new Intent(this, clazz);
-        intent.putExtras(extras);
-        startActivity(intent);
-    }
-
-
 }

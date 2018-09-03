@@ -1,7 +1,5 @@
 package com.coderstory.FTool.fragment;
 
-import android.view.View;
-
 import com.coderstory.FTool.R;
 
 import ren.solid.library.fragment.base.BaseFragment;
@@ -20,45 +18,10 @@ public class SnackBarFragment extends BaseFragment {
 
     @Override
     protected void setUpView() {
-        $(R.id.btn_default).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SnackBarUtils.makeShort(v, "TEXT").show();
-            }
-        });
-        $(R.id.btn_danger).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SnackBarUtils.makeShort(v, "TEXT").danger();
-            }
-        });
-        $(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SnackBarUtils.makeShort(v, "TEXT").success();
-            }
-        });
-        $(R.id.btn_info).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SnackBarUtils.makeShort(v, "TEXT").info("action", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SnackBarUtils.makeShort(v, "TEXT").show();
-                    }
-                });
-            }
-        });
-        $(R.id.btn_warning).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SnackBarUtils.makeShort(v, "TEXT").warning("action", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SnackBarUtils.makeShort(v, "TEXT").show();
-                    }
-                });
-            }
-        });
+        $(R.id.btn_default).setOnClickListener(v -> SnackBarUtils.makeShort(v, "TEXT").show());
+        $(R.id.btn_danger).setOnClickListener(v -> SnackBarUtils.makeShort(v, "TEXT").danger());
+        $(R.id.btn_confirm).setOnClickListener(v -> SnackBarUtils.makeShort(v, "TEXT").success());
+        $(R.id.btn_info).setOnClickListener(v -> SnackBarUtils.makeShort(v, "TEXT").info("action", v1 -> SnackBarUtils.makeShort(v1, "TEXT").show()));
+        $(R.id.btn_warning).setOnClickListener(v -> SnackBarUtils.makeShort(v, "TEXT").warning("action", v12 -> SnackBarUtils.makeShort(v12, "TEXT").show()));
     }
 }

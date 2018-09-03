@@ -38,8 +38,8 @@ public class ManagerAppFragment extends BaseFragment implements ViewPager.OnPage
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, null);
-        tabHost = (TabHost) rootView.findViewById(android.R.id.tabhost);
-        viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
+        tabHost = rootView.findViewById(android.R.id.tabhost);
+        viewPager = rootView.findViewById(R.id.viewpager);
         viewPager.setOnPageChangeListener(this);
         fragments = new ArrayList<>();
         fragments.add(new BackupAppFragment());
