@@ -2,7 +2,6 @@ package com.coderstory.FTool.fragment;
 
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
-import android.view.View;
 import android.widget.TextView;
 
 import com.coderstory.FTool.BuildConfig;
@@ -36,19 +35,15 @@ public class AboutFragment extends BaseFragment {
                 .getInstance());
 
 
-        $(R.id.os).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Notices notices = new Notices();
-                notices.addNotice(new Notice("ApacheSoftwareLicense", "", "", new ApacheSoftwareLicense20()));
-                notices.addNotice(new Notice("GnuGeneralPublicLicense", "", "", new GnuGeneralPublicLicense20()));
+        $(R.id.os).setOnClickListener(v -> {
+            final Notices notices = new Notices();
+            notices.addNotice(new Notice("ApacheSoftwareLicense", "", "", new ApacheSoftwareLicense20()));
+            notices.addNotice(new Notice("GnuGeneralPublicLicense", "", "", new GnuGeneralPublicLicense20()));
 
-                new LicensesDialog.Builder(getMContext())
-                        .setNotices(notices)
-                        //.setIncludeOwnLicense(true)
-                        .build()
-                        .show();
-            }
+            new LicensesDialog.Builder(getMContext())
+                    .setNotices(notices)
+                    .build()
+                    .show();
         });
 
         ((TextView) $(R.id.version)).setText(BuildConfig.VERSION_NAME);
