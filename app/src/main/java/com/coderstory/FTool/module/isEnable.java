@@ -2,13 +2,13 @@ package com.coderstory.FTool.module;
 
 
 import com.coderstory.FTool.plugins.IModule;
+
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-
 
 
 public class isEnable implements IModule {

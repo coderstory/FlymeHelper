@@ -15,6 +15,7 @@ import com.coderstory.FTool.R;
 
 
 public class SweetAlertDialog extends Dialog {
+    public Context context;
     private View mDialogView;
     private AnimationSet mModalInAnim;
     private AnimationSet mModalOutAnim;
@@ -22,7 +23,6 @@ public class SweetAlertDialog extends Dialog {
     private TextView mTitleTextView;
     private String mTitleText;
     private boolean mCloseFromCancel;
-    public Context context;
 
     public SweetAlertDialog(Context context) {
         super(context, R.style.alert_dialog);

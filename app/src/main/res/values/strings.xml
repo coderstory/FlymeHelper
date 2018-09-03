@@ -2,7 +2,7 @@
     <string name="app_name">Flyme6助手</string>
     <string name="drawer_open">打开</string>
     <string name="drawer_close">关闭</string>
-    <string name="about_msg">\nFlyme6助手适配于Flyme6系统，主要用于去除系统自带的一些广告和其他一些修改.功能需要Xposed模块和ROOT支持
+    <string name="about_msg">\nFlyme6助手适配于Flyme6系统，主要用于去除系统自带的一些广告和其他一些修改.功能需要Xposed模块和ROOT支持\n因为魅族官方关闭了flyme的root,所以本插件基本不会再更新了.
         \n\n作者:CoderStory
         \n博客主页: blog.coderstory.cn
     </string>
@@ -14,7 +14,7 @@
     </string>
     <string name="about_msg3"><b>声明</b>\n软件授权协议</string>
     <string name="alipay_url">https://qr.alipay.com/aex06874ga0wkuhwuajgzb8</string>
-    <string name="enableBlockADS"><b>主题和谐</b>\n主题无限制试用和混搭\n当前版本仅支持主题美化6.6.1及以后的版本</string>
+    <string name="enableBlockADS"><b>主题和谐</b>\n主题无限制试用和混搭\n当前版本仅支持主题美化6.12.1版本</string>
     <string name="blockadsbasic"><b>功能基础模块(必选)</b>\n开启去广告功能必选项</string>
     <string name="enableHosts"><b>启用模块</b>\n开启Hosts支持模块</string>
     <string name="blockads"><b>开启常规去广告</b>\nGithub上的hosts合集,用于屏蔽国内广告.</string>
@@ -70,7 +70,7 @@
     <string name="notices_title">开放源代码许可</string>
     <string name="notices_close">关闭</string>
     <string name="loading">请稍后&#8230;</string>
-    <string name="version">2.0.6</string>
+    <string name="version">2.1.0</string>
     <string name="notices_default_style" translatable="false">
         p.license {background:grey;}body {font-family: sans-serif;overflow-wrap: break-word;}pre {background-color: #eeeeee;padding: 1em;white-space: pre-wrap;
      }

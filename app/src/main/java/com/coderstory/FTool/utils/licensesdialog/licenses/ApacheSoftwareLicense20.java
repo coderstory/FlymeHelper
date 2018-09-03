@@ -17,6 +17,7 @@
 package com.coderstory.FTool.utils.licensesdialog.licenses;
 
 import android.content.Context;
+
 import com.coderstory.FTool.R;
 
 public class ApacheSoftwareLicense20 extends License {

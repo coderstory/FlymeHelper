@@ -36,23 +36,23 @@ import ren.solid.library.fragment.base.BaseFragment;
 
 public class RestoreAppFragment extends BaseFragment {
 
-    @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_restoreapp;
-    }
-
-    private View view;
-    private List<AppInfo> appInfoList = new ArrayList<>();
-
+    final String path_backup = Environment.getExternalStorageDirectory().getPath() + "/FTool/backupAPP/";
     List<PackageInfo> packages = new ArrayList<>();
     AppInfoAdapter adapter = null;
     ListView listView = null;
     AppInfo appInfo = null;
     int mPosition = 0;
     View mView = null;
-    private Context context;
     PullToRefreshView mPullToRefreshView;
-    final   String  path_backup=Environment.getExternalStorageDirectory().getPath() + "/FTool/backupAPP/";
+    private View view;
+    private List<AppInfo> appInfoList = new ArrayList<>();
+    private Context context;
+    private Dialog dialog;
+
+    @Override
+    protected int setLayoutResourceID() {
+        return R.layout.fragment_restoreapp;
+    }
 
     @Nullable
     @Override
@@ -63,14 +63,12 @@ public class RestoreAppFragment extends BaseFragment {
         return view;
     }
 
-
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
         new MyTask().execute();
-        mPullToRefreshView = (PullToRefreshView) getActivity(). findViewById(R.id.pull_to_refresh1);
+        mPullToRefreshView = (PullToRefreshView) getActivity().findViewById(R.id.pull_to_refresh1);
         mPullToRefreshView.setOnRefreshListener(new PullToRefreshView.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -88,10 +86,10 @@ public class RestoreAppFragment extends BaseFragment {
     }
 
     private void initData() {
-        appInfoList= new ArrayList<>();
-        PackageManager pm=  getActivity().getPackageManager();
+        appInfoList = new ArrayList<>();
+        PackageManager pm = getActivity().getPackageManager();
         DirManager.apkAll = DirManager.GetApkFileName(path_backup);
-        packages= new ArrayList<>();
+        packages = new ArrayList<>();
 
         for (String item : DirManager.apkAll
                 ) {
@@ -99,9 +97,9 @@ public class RestoreAppFragment extends BaseFragment {
             if (packageInfo != null) {
                 ApplicationInfo appInfo = packageInfo.applicationInfo;
                 //必须设置apk的路径 否则无法读取app的图标和名称
-                appInfo.sourceDir = path_backup+ item;
-                appInfo.publicSourceDir =path_backup+ item;
-                AppInfo appInfos = new AppInfo(pm.getApplicationLabel(appInfo).toString(), pm.getApplicationIcon(appInfo), packageInfo.packageName, false, packageInfo.applicationInfo.sourceDir,packageInfo.versionName,packageInfo.versionCode);
+                appInfo.sourceDir = path_backup + item;
+                appInfo.publicSourceDir = path_backup + item;
+                AppInfo appInfos = new AppInfo(pm.getApplicationLabel(appInfo).toString(), pm.getApplicationIcon(appInfo), packageInfo.packageName, false, packageInfo.applicationInfo.sourceDir, packageInfo.versionName, packageInfo.versionCode);
                 appInfoList.add(appInfos);
             }
         }
@@ -166,11 +164,27 @@ public class RestoreAppFragment extends BaseFragment {
 
     }
 
+    protected void showProgress() {
+        if (dialog == null) {
+            dialog = ProgressDialog.show(getActivity(), getString(R.string.Tips_Title), getString(R.string.loadappinfo));
+            dialog.show();
+        }
+    }
+
+    //
+    protected void closeProgress() {
+
+        if (dialog != null) {
+            dialog.cancel();
+            dialog = null;
+        }
+    }
 
     public class MyTask extends AsyncTask<String, Integer, String> {
 
         @Override
-        protected void onPreExecute() {;
+        protected void onPreExecute() {
+            ;
             showProgress();
         }
 
@@ -195,31 +209,13 @@ public class RestoreAppFragment extends BaseFragment {
 
         @Override
         protected String doInBackground(String... params) {
-            if (Looper.myLooper()==null) {
+            if (Looper.myLooper() == null) {
                 Looper.prepare();
             }
             initData();
             return null;
         }
 
-    }
-
-    private Dialog dialog;
-
-    protected void showProgress() {
-        if (dialog == null) {
-            dialog = ProgressDialog.show(getActivity(), getString(R.string.Tips_Title), getString(R.string.loadappinfo));
-            dialog.show();
-        }
-    }
-
-    //
-    protected void closeProgress() {
-
-        if (dialog != null) {
-            dialog.cancel();
-            dialog = null;
-        }
     }
 
 }

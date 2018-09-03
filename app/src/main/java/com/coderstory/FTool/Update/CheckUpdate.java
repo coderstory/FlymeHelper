@@ -21,34 +21,6 @@ import org.json.JSONObject;
 public class CheckUpdate {
 
     private Context mcontext = null;
-
-    public CheckUpdate(Context context) {
-        this.mcontext = context;
-    }
-
-
-    /**
-     * 检测app的更新信息并保存到UpdateConfig中
-     */
-    private static void initUpdateInfo() {
-        HttpHelper HH = new HttpHelper();
-        String result = HH.RequestUrl(UpdateConfig.UpdateServer);
-
-        if (!result.equals("")) {
-
-            JSONObject JsonString;//转换为JSONObject
-            try {
-                JsonString = new JSONObject(result);
-                UpdateConfig.URL = JsonString.getString("URL");
-                UpdateConfig.Version = JsonString.getString("Version");
-                UpdateConfig.Info = JsonString.getString("info");
-            } catch (JSONException e) {
-                UpdateConfig.errorMsg = "Oops...软件更新服务器请求数据异常..";
-            }
-        }
-    }
-
-
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -105,7 +77,6 @@ public class CheckUpdate {
         }
 
     };
-
     /**
      * 网络操作相关的子线程
      */
@@ -127,5 +98,31 @@ public class CheckUpdate {
             handler.sendMessage(msg);
         }
     };
+
+
+    public CheckUpdate(Context context) {
+        this.mcontext = context;
+    }
+
+    /**
+     * 检测app的更新信息并保存到UpdateConfig中
+     */
+    private static void initUpdateInfo() {
+        HttpHelper HH = new HttpHelper();
+        String result = HH.RequestUrl(UpdateConfig.UpdateServer);
+
+        if (!result.equals("")) {
+
+            JSONObject JsonString;//转换为JSONObject
+            try {
+                JsonString = new JSONObject(result);
+                UpdateConfig.URL = JsonString.getString("URL");
+                UpdateConfig.Version = JsonString.getString("Version");
+                UpdateConfig.Info = JsonString.getString("info");
+            } catch (JSONException e) {
+                UpdateConfig.errorMsg = "Oops...软件更新服务器请求数据异常..";
+            }
+        }
+    }
 
 }

@@ -21,8 +21,26 @@ import ren.solid.library.utils.SnackBarUtils;
  * A simple {@link Fragment} subclass.
  */
 public class CleanFragment extends BaseFragment {
+    Thread th;
     private TextView tvClean = null;
+    private Handler hInfo = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
 
+            tvClean.append((String) msg.obj);
+            super.handleMessage(msg);
+
+        }
+    };
+    private Handler hComplete = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            ((Button) $(R.id.button)).setText("开始清理");
+            $(R.id.button).setEnabled(true);
+            SnackBarUtils.makeShort($(R.id.button), "应用清理完成！").info();
+        }
+    };
 
     public CleanFragment() {
         // Required empty public constructor
@@ -44,33 +62,11 @@ public class CleanFragment extends BaseFragment {
         return R.layout.fragment_clean;
     }
 
-    private Handler hInfo = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-
-            tvClean.append((String) msg.obj);
-            super.handleMessage(msg);
-
-        }
-    };
-
-    private Handler hComplete = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            ((Button) $(R.id.button)).setText("开始清理");
-            $(R.id.button).setEnabled(true);
-            SnackBarUtils.makeShort($(R.id.button), "应用清理完成！").info();
-        }
-    };
-
     private void sendMessageStr(String str) {
         Message msg = new Message();
         msg.obj = str;
         hInfo.sendMessage(msg);
     }
-
-    Thread th;
 
     public void threadClean() {
         tvClean = $(R.id.tvClean);

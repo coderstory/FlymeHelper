@@ -18,6 +18,14 @@ public class Hooks implements IModule {
 
     private static XC_LoadPackage.LoadPackageParam loadPackageParam;
 
+    private static void findAndHookMethod(String p1, ClassLoader lpparam, String p2, Object... parameterTypesAndCallback) {
+        try {
+            XposedHelpers.findAndHookMethod(p1, lpparam, p2, parameterTypesAndCallback);
+        } catch (Throwable localString3) {
+            XposedBridge.log(localString3);
+        }
+    }
+
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
     }
@@ -42,31 +50,19 @@ public class Hooks implements IModule {
         prefs.makeWorldReadable();
         prefs.reload();
 
-        if (loadPackageParam.packageName.equals("com.meizu.customizecenter") && prefs.getBoolean("enableThemePatch", false)) {
+        if (loadPackageParam.packageName.equals("com.meizu.customizecenter") && prefs.getBoolean("enableThemePatch", true)) {
 
             XposedBridge.log("crack by coderstory");
 
             //device_states | doCheckState
-            //6.6.1
-            findAndHookMethod("com.meizu.customizecenter.utils.ak", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
-            //6.7.0
-            findAndHookMethod("com.meizu.customizecenter.h.al", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
-            findAndHookMethod("com.meizu.statsapp.util.Utils", loadPackageParam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(false));
+            findAndHookMethod("com.meizu.customizecenter.g.ak", loadPackageParam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(0));
 
             //resetToSystemTheme
-            // 6.0.7 6.1.0 6.2.0 6.3.2
-            findAndHookMethod("com.meizu.customizecenter.common.theme.common.theme.a", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(false));
-            //6.9.0
-            findAndHookMethod("com.meizu.customizecenter.common.theme.common.theme.b", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(false));
+            findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "b", XC_MethodReplacement.returnConstant(false));
+            findAndHookMethod("com.meizu.customizecenter.common.theme.common.b", loadPackageParam.classLoader, "b", boolean.class, XC_MethodReplacement.returnConstant(null));
 
             //data/data/com.meizu.customizecenter/font/   system_font
-            //6.0.7 6.1.0 6.2.0
-            findAndHookMethod("com.meizu.customizecenter.common.font.FontManager", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
-            //6.7.0
-            findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "a", XC_MethodReplacement.returnConstant(true));
-             //6.8.0
-            findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "e", XC_MethodReplacement.returnConstant(""));
-            findAndHookMethod("com.meizu.customizecenter.common.font.f", loadPackageParam.classLoader, "b", XC_MethodReplacement.returnConstant(false));
+            findAndHookMethod("com.meizu.customizecenter.common.font.c", loadPackageParam.classLoader, "b", XC_MethodReplacement.returnConstant(false));
 
             //主题混搭 ThemeContentProvider query Unknown URI
             findAndHookMethod("com.meizu.customizecenter.common.dao.ThemeContentProvider", loadPackageParam.classLoader, "query", Uri.class, String[].class, String.class, String[].class, String.class, new XC_MethodHook() {
@@ -76,15 +72,15 @@ public class Hooks implements IModule {
                     String Tag = "(ITEMS LIKE";
                     String Tag2 = "%zklockscreen;%";
                     String Tag3 = "%com.meizu.flyme.weather;%";
-                    //XposedBridge.log("开始");
+                    // XposedBridge.log("开始");
                     boolean result = false;
                     for (Object obj : objs) {
-                       // XposedBridge.log(obj==null?"":obj.toString());
-                        if (obj instanceof String && (((String) obj).contains(Tag) || obj.equals(Tag2) || obj.equals(Tag3)  )) {
+                        //XposedBridge.log(obj==null?"":obj.toString());
+                        if (obj instanceof String && (((String) obj).contains(Tag) || obj.equals(Tag2) || obj.equals(Tag3))) {
                             result = true;
                         }
                     }
-                   // XposedBridge.log("结束");
+                    //XposedBridge.log("结束");
                     if (result) {
                         for (Object obj : objs) {
                             if (obj instanceof String[]) {
@@ -101,19 +97,6 @@ public class Hooks implements IModule {
                     super.beforeHookedMethod(param);
                 }
             });
-        }
-
-        if (loadPackageParam.packageName.equals("com.android.packageinstaller") && prefs.getBoolean("enableCheckInstaller", false)){
-            findAndHookMethod("com.meizu.common.app.PermissionDialogBuilder", loadPackageParam.classLoader, "isProductInternational",XC_MethodReplacement.returnConstant(true));
-            findAndHookMethod("com.android.packageinstaller.InstallFlowAnalytics", loadPackageParam.classLoader, "isSystemApp",XC_MethodReplacement.returnConstant(true));
-        }
-    }
-
-    private static void findAndHookMethod(String p1, ClassLoader lpparam, String p2, Object... parameterTypesAndCallback) {
-        try {
-            XposedHelpers.findAndHookMethod(p1, lpparam, p2, parameterTypesAndCallback);
-        } catch (Throwable localString3) {
-            XposedBridge.log(localString3);
         }
     }
 

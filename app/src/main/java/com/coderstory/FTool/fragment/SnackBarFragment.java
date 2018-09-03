@@ -2,9 +2,10 @@ package com.coderstory.FTool.fragment;
 
 import android.view.View;
 
+import com.coderstory.FTool.R;
+
 import ren.solid.library.fragment.base.BaseFragment;
 import ren.solid.library.utils.SnackBarUtils;
-import com.coderstory.FTool.R;
 
 /**
  * Created by _SOLID

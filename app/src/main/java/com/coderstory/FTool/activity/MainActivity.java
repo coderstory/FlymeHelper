@@ -19,8 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.coderstory.FTool.R;
-import com.coderstory.FTool.fragment.ShowFragment;
-import com.coderstory.FTool.fragment.themePatchFragment;
 import com.coderstory.FTool.fragment.BlogFragment;
 import com.coderstory.FTool.fragment.CleanFragment;
 import com.coderstory.FTool.fragment.DisbaleAppFragment;
@@ -28,8 +26,12 @@ import com.coderstory.FTool.fragment.DonationFragment;
 import com.coderstory.FTool.fragment.HostsFragment;
 import com.coderstory.FTool.fragment.ManagerAppFragment;
 import com.coderstory.FTool.fragment.SettingsFragment;
+import com.coderstory.FTool.fragment.ShowFragment;
+import com.coderstory.FTool.fragment.themePatchFragment;
 import com.coderstory.FTool.utils.MyConfig;
 import com.coderstory.FTool.utils.root.SuHelper;
+
+import java.io.File;
 
 import ren.solid.library.fragment.WebViewFragment;
 import ren.solid.library.utils.SnackBarUtils;
@@ -39,16 +41,16 @@ import static com.coderstory.FTool.R.id.navigation_view;
 
 public class MainActivity extends BaseActivity {
 
+    public static final long MAX_DOUBLE_BACK_DURATION = 1500;
+    private static final int READ_EXTERNAL_STORAGE_CODE = 1;
     private static String TAG = "MainActivity";
-
     private DrawerLayout mDrawerLayout;//侧边菜单视图
     private Toolbar mToolbar;
     private NavigationView mNavigationView;//侧边菜单项
-
     private FragmentManager mFragmentManager;
     private Fragment mCurrentFragment;
     private MenuItem mPreMenuItem;
-
+    private long lastBackKeyDownTick = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +68,6 @@ public class MainActivity extends BaseActivity {
 
 
     }
-
-
-    private static final int READ_EXTERNAL_STORAGE_CODE = 1;
 
     private void requestCameraPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -98,13 +97,13 @@ public class MainActivity extends BaseActivity {
         mDrawerLayout = $(R.id.drawer_layout);
         mNavigationView = $(navigation_view);
 
-        if (MainActivity.this.getSharedPreferences("UserSettings", Context.MODE_WORLD_READABLE).getBoolean("enableCheck", true) && !isEnable()) {
+        if (MainActivity.this.getSharedPreferences("UserSettings", Context.MODE_PRIVATE).getBoolean("enableCheck", true) && !isEnable()) {
             SnackBarUtils.makeLong(mNavigationView, "插件尚未激活,Xposed功能将不可用,请重启再试！").show();
         }
 
         mToolbar.setTitle("Flyme6助手");
 
-        //这句一定要在下面几句之前调用，不然就会出现点击无反应
+        //这句一定要在下面几句w之前调用，不然就会出现点击无反应
         setSupportActionBar(mToolbar);
         setNavigationViewItemClickListener();
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
@@ -134,12 +133,14 @@ public class MainActivity extends BaseActivity {
         Log.i(TAG, "onSaveInstanceState");
     }
 
+    //init the default checked fragment
+
     private void initDefaultFragment() {
         Log.i(TAG, "initDefaultFragment");
         mCurrentFragment = ViewUtils.createFragment(ShowFragment.class);
         mFragmentManager.beginTransaction().add(R.id.frame_content, mCurrentFragment).commit();
-       // mPreMenuItem = mNavigationView.getMenu().getItem(0);
-       // mPreMenuItem.setChecked(true);
+        // mPreMenuItem = mNavigationView.getMenu().getItem(0);
+        // mPreMenuItem.setChecked(true);
     }
 
     @Override
@@ -147,9 +148,6 @@ public class MainActivity extends BaseActivity {
         //super.onRestoreInstanceState(savedInstanceState);
         Log.i(TAG, "onRestoreInstanceState");
     }
-
-    //init the default checked fragment
-
 
     public boolean isEnable() {
         return false;
@@ -159,7 +157,7 @@ public class MainActivity extends BaseActivity {
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
-            public boolean onNavigationItemSelected( @NonNull  MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (null != mPreMenuItem) {
                     mPreMenuItem.setChecked(false);
                 }
@@ -187,7 +185,6 @@ public class MainActivity extends BaseActivity {
                         mToolbar.setTitle("其他设置");
                         switchFragment(SettingsFragment.class);
                         break;
-
 
 
                     case R.id.navigation_item_Clean:
@@ -259,10 +256,6 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    private long lastBackKeyDownTick = 0;
-    public static final long MAX_DOUBLE_BACK_DURATION = 1500;
-
     @Override
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {//当前抽屉是打开的，则关闭
@@ -285,6 +278,27 @@ public class MainActivity extends BaseActivity {
         } else {
             finish();
             System.exit(0);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Set preferences permissions to be world readable
+        // Workaround for Android N and above since MODE_WORLD_READABLE will cause security exception and FC.
+        final File dataDir = new File(this.getApplicationInfo().dataDir);
+        final File prefsDir = new File(dataDir, "shared_prefs");
+        final File prefsFile = new File(prefsDir, "UserSettings.xml");
+
+        if (prefsFile.exists()) {
+            dataDir.setReadable(true, false);
+            dataDir.setExecutable(true, false);
+
+            prefsDir.setReadable(true, false);
+            prefsDir.setExecutable(true, false);
+
+            prefsFile.setReadable(true, false);
+            prefsFile.setExecutable(true, false);
         }
     }
 }

@@ -6,9 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 
-
-
-
 public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +45,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         intent.putExtras(extras);
         startActivity(intent);
     }
-
 
 
 }
