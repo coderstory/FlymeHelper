@@ -5,6 +5,7 @@ import android.text.util.Linkify;
 import android.view.View;
 import android.widget.TextView;
 
+import com.coderstory.FTool.BuildConfig;
 import com.coderstory.FTool.R;
 import com.coderstory.FTool.utils.licensesdialog.LicensesDialog;
 import com.coderstory.FTool.utils.licensesdialog.licenses.ApacheSoftwareLicense20;
@@ -49,5 +50,7 @@ public class AboutFragment extends BaseFragment {
                         .show();
             }
         });
+
+        ((TextView) $(R.id.version)).setText(BuildConfig.VERSION_NAME);
     }
 }

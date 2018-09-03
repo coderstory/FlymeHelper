@@ -41,11 +41,10 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/version"
-
                     android:textColor="#2d2d2d"
                     android:textSize="16sp" />
 
@@ -55,7 +54,7 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
@@ -82,7 +81,7 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/os"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="5dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
@@ -93,13 +92,11 @@
 
                 <TextView
 
-
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="12dp"
                     android:autoLink="none"
                     android:linksClickable="false"
-
                     android:text="@string/about_msg3"
                     android:textColor="#262626"
                     android:textSize="14sp" />
@@ -115,7 +112,7 @@
                 android:layout_weight="1"
 
                 android:foreground="?android:attr/selectableItemBackground"
-                android:padding="10dp"
+                android:padding="5dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp">
 
