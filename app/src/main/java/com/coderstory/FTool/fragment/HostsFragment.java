@@ -36,15 +36,6 @@ public class HostsFragment extends BaseFragment {
             }
         });
 
-        $(R.id.enableGoogleHosts).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getEditor().putBoolean("enableGoogleHosts", ((Switch) v).isChecked());
-                getEditor().apply();
-                new MyTask().execute();
-            }
-        });
-
         $(R.id.enableBlockAdsHosts).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +51,6 @@ public class HostsFragment extends BaseFragment {
     @Override
     protected void setUpData() {
         ((Switch) $(R.id.enableHosts)).setChecked(getPrefs().getBoolean("enableHosts", false));
-        ((Switch) $(R.id.enableGoogleHosts)).setChecked(getPrefs().getBoolean("enableGoogleHosts", false));
         ((Switch) $(R.id.enableBlockAdsHosts)).setChecked(getPrefs().getBoolean("enableBlockAdsHosts", false));
         setCheck(getPrefs().getBoolean("enableHosts", false));
     }
@@ -72,19 +62,12 @@ public class HostsFragment extends BaseFragment {
     private boolean UpdateHosts() {
         boolean enableHosts = getPrefs().getBoolean("enableHosts", false); //1
         boolean enableBlockAdsHostsSet = getPrefs().getBoolean("enableBlockAdsHosts", false); //4
-        boolean enableGoogleHosts = getPrefs().getBoolean("enableGoogleHosts", false); //4
-
 
         if (enableHosts) {
             FileHelper fh = new FileHelper();
             String HostsContext = fh.getFromAssets("none", getMContext());
 
             if (getPrefs().getBoolean("enableHosts", false)) { //如果未启用hosts
-
-                if (enableGoogleHosts) {
-                    HostsContext += fh.getFromAssets("hosts_google", getMContext());
-                    // HostsContext += fh.getFromAssets("hosts_google", getMContext());
-                }
                 if (enableBlockAdsHostsSet) {
                     HostsContext += fh.getFromAssets("hosts_noad", getMContext());
                 }
@@ -115,12 +98,8 @@ public class HostsFragment extends BaseFragment {
 
         if (type) {
             $(R.id.enableBlockAdsHosts).setEnabled(true);
-            $(R.id.enableGoogleHosts).setEnabled(true);
-
         } else {
             $(R.id.enableBlockAdsHosts).setEnabled(false);
-            $(R.id.enableGoogleHosts).setEnabled(false);
-
         }
     }
 
