@@ -14,6 +14,7 @@ public class AppInfo {
     private String packageName = "";
     private String Version = "";
     private int VersionCode = 0;
+
     public AppInfo() {
     }
 
