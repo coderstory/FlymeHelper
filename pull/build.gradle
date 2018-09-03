@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 27
@@ -14,12 +13,11 @@ android {
     }
     buildTypes {
         release {
-            shrinkResources true
         }
     }
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
 }
 
