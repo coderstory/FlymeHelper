@@ -39,8 +39,8 @@
                 android:maxLines="10"
                 android:paddingEnd="30dp"
                 android:paddingStart="30dp"
-                android:text="@string/checkapp"
-                android:visibility="gone" />
+                android:text="@string/checkapp">
+            </Switch>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

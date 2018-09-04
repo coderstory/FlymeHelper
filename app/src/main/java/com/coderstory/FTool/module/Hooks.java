@@ -17,7 +17,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class Hooks implements IModule {
 
-
     private static void findAndHookMethod(String p1, ClassLoader lpparam, String p2, Object... parameterTypesAndCallback) {
         try {
             XposedHelpers.findAndHookMethod(p1, lpparam, p2, parameterTypesAndCallback);
@@ -35,6 +34,18 @@ public class Hooks implements IModule {
         XSharedPreferences prefs = new XSharedPreferences("com.coderstory.FTool", "UserSettings");
         prefs.makeWorldReadable();
         prefs.reload();
+
+        if (lpparam.packageName.equals("com.android.packageinstaller")&& prefs.getBoolean("enableCheckInstaller", true)) {
+
+            findAndHookMethod("com.android.packageinstaller.PackageInstallerActivity", lpparam.classLoader, "setVirusCheckTime", new XC_MethodReplacement() {
+                @Override
+                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                    Object mHandler = XposedHelpers.getObjectField(param.thisObject, "mHandler");
+                    XposedHelpers.callMethod(mHandler,"sendEmptyMessage",5);
+                    return null;
+                }
+            });
+        }
 
         if (lpparam.packageName.equals("com.meizu.customizecenter") && prefs.getBoolean("enableThemePatch", true)) {
 
