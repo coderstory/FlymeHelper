@@ -51,6 +51,6 @@ public class themePatchFragment extends BaseFragment {
     protected void setUpData() {
         ((Switch) $(R.id.enableThemePatch)).setChecked(getPrefs().getBoolean("enableThemePatch", false));
         ((Switch) $(R.id.enableCheckInstaller)).setChecked(getPrefs().getBoolean("enableCheckInstaller", false));
-        ((Switch) $(R.id.enableCheckInstaller)).setChecked(getPrefs().getBoolean("enableCTS", false));
+        ((Switch) $(R.id.enableCTS)).setChecked(getPrefs().getBoolean("enableCTS", false));
     }
 }

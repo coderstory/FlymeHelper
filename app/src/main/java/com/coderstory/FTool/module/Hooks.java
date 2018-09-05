@@ -73,6 +73,7 @@ public class Hooks implements IModule {
                 }
             }
             if (prefs.getBoolean("enableCTS", false)) {
+                XposedBridge.log("开启原生安装器");
                 findAndHookMethod("com.meizu.safe.security.utils.Utils", lpparam.classLoader, "isCtsRunning", XC_MethodReplacement.returnConstant(true));
                 findAndHookMethod("com.android.packageinstaller.PackageInstallerActivity", lpparam.classLoader, "isCtsRunning", XC_MethodReplacement.returnConstant(true));
             }
