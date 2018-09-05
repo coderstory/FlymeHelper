@@ -54,7 +54,7 @@ public class Hooks implements IModule {
         // 禁止安装app时候的安全检验
         if (lpparam.packageName.equals("com.android.packageinstaller")) {
 
-            if (prefs.getBoolean("enableCheckInstaller", true)) {
+            if (prefs.getBoolean("enableCheckInstaller", false)) {
                 // 8.x
                 Class<?> clazz = findclass("com.android.packageinstaller.FlymePackageInstallerActivity", lpparam.classLoader);
                 if (clazz == null) {

@@ -45,6 +45,12 @@ public class themePatchFragment extends BaseFragment {
             getEditor().apply();
             sudoFixPermissions();
         });
+
+        $(R.id.enableCheckInstaller).setOnClickListener(v -> {
+            getEditor().putBoolean("enableCheckInstaller", ((Switch) v).isChecked());
+            getEditor().apply();
+            sudoFixPermissions();
+        });
     }
 
     @Override
