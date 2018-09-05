@@ -39,7 +39,19 @@
                 android:maxLines="10"
                 android:paddingEnd="30dp"
                 android:paddingStart="30dp"
-                android:text="@string/checkapp">
+                android:text="@string/checkapp"></Switch>
+
+
+            <Switch
+                android:id="@+id/enableCTS"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/switchBtn"
+                android:maxLines="10"
+                android:paddingEnd="30dp"
+                android:paddingStart="30dp"
+                android:text="@string/enableCTS">
             </Switch>
         </LinearLayout>
     </ScrollView>

@@ -25,6 +25,22 @@ public class Hooks implements IModule {
         }
     }
 
+    private static void findAndHookMethod(Class<?> p1, String p2, Object... parameterTypesAndCallback) {
+        try {
+            XposedHelpers.findAndHookMethod(p1, p2, parameterTypesAndCallback);
+        } catch (Throwable localString3) {
+            XposedBridge.log(localString3);
+        }
+    }
+
+    private Class<?> findclass(String classpatch, ClassLoader classLoader) {
+        try {
+            return XposedHelpers.findClass(classpatch, classLoader);
+        } catch (XposedHelpers.ClassNotFoundError error) {
+            return null;
+        }
+    }
+
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
     }
@@ -35,16 +51,31 @@ public class Hooks implements IModule {
         prefs.makeWorldReadable();
         prefs.reload();
 
-        if (lpparam.packageName.equals("com.android.packageinstaller")&& prefs.getBoolean("enableCheckInstaller", true)) {
+        // 禁止安装app时候的安全检验
+        if (lpparam.packageName.equals("com.android.packageinstaller")) {
 
-            findAndHookMethod("com.android.packageinstaller.PackageInstallerActivity", lpparam.classLoader, "setVirusCheckTime", new XC_MethodReplacement() {
-                @Override
-                protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                    Object mHandler = XposedHelpers.getObjectField(param.thisObject, "mHandler");
-                    XposedHelpers.callMethod(mHandler,"sendEmptyMessage",5);
-                    return null;
+            if (prefs.getBoolean("enableCheckInstaller", true)) {
+                // 8.x
+                Class<?> clazz = findclass("com.android.packageinstaller.FlymePackageInstallerActivity", lpparam.classLoader);
+                if (clazz == null) {
+                    // 7.x
+                    clazz = findclass("com.android.packageinstaller.PackageInstallerActivity", lpparam.classLoader);
                 }
-            });
+                if (clazz != null) {
+                    findAndHookMethod(clazz, "setVirusCheckTime", new XC_MethodReplacement() {
+                        @Override
+                        protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                            Object mHandler = XposedHelpers.getObjectField(param.thisObject, "mHandler");
+                            XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 5);
+                            return null;
+                        }
+                    });
+                }
+            }
+            if (prefs.getBoolean("enableCTS", false)) {
+                findAndHookMethod("com.meizu.safe.security.utils.Utils", lpparam.classLoader, "isCtsRunning", XC_MethodReplacement.returnConstant(true));
+                findAndHookMethod("com.android.packageinstaller.PackageInstallerActivity", lpparam.classLoader, "isCtsRunning", XC_MethodReplacement.returnConstant(true));
+            }
         }
 
         if (lpparam.packageName.equals("com.meizu.customizecenter") && prefs.getBoolean("enableThemePatch", true)) {
