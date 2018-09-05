@@ -63,7 +63,6 @@
                     android:gravity="center_horizontal"
                     android:paddingBottom="6dip"
                     android:paddingTop="20dp"
-                    android:text="@string/version"
                     android:textColor="@color/md_black_1000"
                     android:textSize="14sp" />
             </LinearLayout>

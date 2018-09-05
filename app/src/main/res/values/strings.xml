@@ -70,7 +70,6 @@
     <string name="notices_title">开放源代码许可</string>
     <string name="notices_close">关闭</string>
     <string name="loading">请稍后&#8230;</string>
-    <string name="version">2.1.0</string>
     <string name="notices_default_style" translatable="false">
         p.license {background:grey;}body {font-family: sans-serif;overflow-wrap: break-word;}pre {background-color: #eeeeee;padding: 1em;white-space: pre-wrap;
      }
