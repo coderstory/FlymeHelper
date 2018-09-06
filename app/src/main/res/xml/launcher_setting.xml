@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Xposed设置">
+        <CheckBoxPreference
+            android:key="enableThemePatch"
+            android:summary="支持主题美化 7.1.2 - 7.3.0"
+            android:title="主题和谐" />
+        <CheckBoxPreference
+            android:key="enableCheckInstaller"
+            android:summary="禁止安装APP的时候执行安全扫描"
+            android:title="禁用安全检测" />
+        <CheckBoxPreference
+            android:key="enableCTS"
+            android:summary="使用原生的安装界面替换Flyme的安装界面"
+            android:title="原生安装界面" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Flyme桌面布局(切换可能导致图标修丢失,需要清除桌面数据)">
+        <ListPreference
+            android:dialogTitle="行数选择"
+            android:entries="@array/launcher_layout_row_number_key"
+            android:entryValues="@array/launcher_layout_row_number_value"
+            android:key="launcherX"
+            android:summary="需要展示多少行的图标"
+            android:title="自定义图标行数" />
+        <ListPreference
+            android:dialogTitle="列数选择"
+            android:entries="@array/launcher_layout_row_number_key"
+            android:entryValues="@array/launcher_layout_row_number_value"
+            android:key="launcherY"
+            android:summary="需要展示多少列的图标"
+            android:title="自定义图标列数" />
+    </PreferenceCategory>
+</PreferenceScreen>

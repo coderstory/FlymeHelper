@@ -29,6 +29,9 @@
             android:name="com.coderstory.FTool.activity.AboutActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.coderstory.FTool.activity.XposedSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="ren.solid.library.activity.WebViewActivity"
             android:screenOrientation="portrait" />
         <activity

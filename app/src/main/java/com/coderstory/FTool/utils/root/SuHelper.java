@@ -27,7 +27,7 @@ public abstract class SuHelper {
      */
     public static void showTips(final String commandText, String messageText, final Context mContext) {
 
-        //  SharedPreferences prefs = mContext.getSharedPreferences("UserSettings", Context.MODE_WORLD_READABLE);
+        //  SharedPreferences prefs = mContext.getSharedPreferences("com.coderstory.FTool_preferences", Context.MODE_WORLD_READABLE);
         // final    SharedPreferences.Editor  editor = prefs.edit();
         AlertDialog builder = new AlertDialog.Builder(mContext)
                 .setTitle(R.string.Tips_Title)

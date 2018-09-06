@@ -2,6 +2,7 @@ package com.coderstory.FTool.activity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,7 +28,6 @@ import com.coderstory.FTool.fragment.HostsFragment;
 import com.coderstory.FTool.fragment.ManagerAppFragment;
 import com.coderstory.FTool.fragment.SettingsFragment;
 import com.coderstory.FTool.fragment.ShowFragment;
-import com.coderstory.FTool.fragment.themePatchFragment;
 import com.coderstory.FTool.utils.MyConfig;
 import com.coderstory.FTool.utils.root.SuHelper;
 
@@ -97,7 +97,7 @@ public class MainActivity extends BaseActivity {
         mDrawerLayout = $(R.id.drawer_layout);
         mNavigationView = $(navigation_view);
 
-        if (MainActivity.this.getSharedPreferences("UserSettings", Context.MODE_PRIVATE).getBoolean("enableCheck", true) && !isEnable()) {
+        if (MainActivity.this.getSharedPreferences("com.coderstory.FTool_preferences", Context.MODE_PRIVATE).getBoolean("enableCheck", true) && !isEnable()) {
             SnackBarUtils.makeLong(mNavigationView, "插件尚未激活,Xposed功能将不可用,请重启再试！").show();
         }
 
@@ -171,8 +171,9 @@ public class MainActivity extends BaseActivity {
 
                     case R.id.navigation_item_blockads:
 
-                        mToolbar.setTitle("净化广告");
-                        switchFragment(themePatchFragment.class);
+                        mToolbar.setTitle("Xposed设置");
+                        Intent intent = new Intent(MainActivity.this, XposedSettingActivity.class);
+                        startActivity(intent);
                         break;
 
                     case R.id.navigation_item_hosts:
@@ -288,7 +289,7 @@ public class MainActivity extends BaseActivity {
         // Workaround for Android N and above since MODE_WORLD_READABLE will cause security exception and FC.
         final File dataDir = new File(this.getApplicationInfo().dataDir);
         final File prefsDir = new File(dataDir, "shared_prefs");
-        final File prefsFile = new File(prefsDir, "UserSettings.xml");
+        final File prefsFile = new File(prefsDir, "com.coderstory.FTool_preferences.xml");
 
         if (prefsFile.exists()) {
             dataDir.setReadable(true, false);

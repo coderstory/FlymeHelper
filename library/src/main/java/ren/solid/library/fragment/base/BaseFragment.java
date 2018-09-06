@@ -29,7 +29,7 @@ public abstract class BaseFragment extends Fragment {
     private static SharedPreferences.Editor editor;
     static String ApplicationName = "com.coderstory.FTool";
     public static final String PREFS_FOLDER = " /data/data/" + ApplicationName + "/shared_prefs\n";
-    static String SharedPreferencesName = "UserSettings";
+    static String SharedPreferencesName = "com.coderstory.FTool_preferences";
     public static final String PREFS_FILE = " /data/data/" + ApplicationName + "/shared_prefs/" + SharedPreferencesName + ".xml\n";
 
     @Nullable
@@ -62,7 +62,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected SharedPreferences getPrefs() {
-        prefs = getContext().getSharedPreferences("UserSettings", Context.MODE_PRIVATE);
+        prefs = getContext().getSharedPreferences("com.coderstory.FTool_preferences", Context.MODE_PRIVATE);
         return prefs;
     }
 

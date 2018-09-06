@@ -47,10 +47,24 @@ public class Hooks implements IModule {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        XSharedPreferences prefs = new XSharedPreferences("com.coderstory.FTool", "UserSettings");
+        XSharedPreferences prefs = new XSharedPreferences("com.coderstory.FTool", "com.coderstory.FTool_preferences");
         prefs.makeWorldReadable();
         prefs.reload();
 
+        if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
+            XposedBridge.hookAllConstructors(findclass("com.meizu.flyme.launcher.v", lpparam.classLoader),
+                    new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            super.beforeHookedMethod(param);
+                            XposedBridge.log("开启自定义布局");
+                            if (param.args[0].getClass().equals(String.class)) {
+                                param.args[3] = Float.valueOf(prefs.getString("launcherY", "4")); //y
+                                param.args[4] = Float.valueOf(prefs.getString("launcherX", "5")); // x
+                            }
+                        }
+                    });
+        }
         // 禁止安装app时候的安全检验
         if (lpparam.packageName.equals("com.android.packageinstaller")) {
 
