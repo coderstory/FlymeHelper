@@ -6,8 +6,8 @@ android {
         applicationId "com.coderstory.FTool"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 100
-        versionName "3.0.0 beta"
+        versionCode 101
+        versionName "3.0.0 beta1"
         resConfigs "cn"
     }
 
@@ -36,5 +36,5 @@ dependencies {
     implementation 'com.android.support:support-v4:27.1.1'
     compileOnly 'de.robv.android.xposed:api:82'
     implementation 'eu.chainfire:libsuperuser:1.0.0.201704021214'
-
+    implementation 'org.apache.httpcomponents:httpcore:4.4.5'
 }

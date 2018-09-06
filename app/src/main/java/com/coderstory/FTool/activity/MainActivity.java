@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity {
             SnackBarUtils.makeLong(mNavigationView, "插件尚未激活,Xposed功能将不可用,请重启再试！").show();
         }
 
-        mToolbar.setTitle("Flyme6助手");
+        mToolbar.setTitle("Flyme7助手");
 
         //这句一定要在下面几句w之前调用，不然就会出现点击无反应
         setSupportActionBar(mToolbar);

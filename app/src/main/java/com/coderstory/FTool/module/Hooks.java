@@ -6,6 +6,10 @@ import android.net.Uri;
 
 import com.coderstory.FTool.plugins.IModule;
 
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.List;
+
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -33,7 +37,20 @@ public class Hooks implements IModule {
         }
     }
 
-    private Class<?> findclass(String classpatch, ClassLoader classLoader) {
+    protected static Object getEnumUNROOT() {
+        try {
+            Class<Enum> drmSuccess = (Class<Enum>) Class.forName("com.ipaynow.wechatpay.plugin.g.a.c");
+            if (drmSuccess != null) {
+                return Enum.valueOf(drmSuccess, "UNROOT");
+            }
+        } catch (Throwable localString4) {
+            XposedBridge.log(localString4);
+
+        }
+        return null;
+    }
+
+    private Class findclass(String classpatch, ClassLoader classLoader) {
         try {
             return XposedHelpers.findClass(classpatch, classLoader);
         } catch (XposedHelpers.ClassNotFoundError error) {
@@ -51,6 +68,8 @@ public class Hooks implements IModule {
         prefs.makeWorldReadable();
         prefs.reload();
 
+
+        // 自定义桌面布局 com.meizu.flyme.launcher下第一个参数是String 并包含了很多个入参
         if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
             XposedBridge.hookAllConstructors(findclass("com.meizu.flyme.launcher.v", lpparam.classLoader),
                     new XC_MethodHook() {
@@ -59,12 +78,13 @@ public class Hooks implements IModule {
                             super.beforeHookedMethod(param);
                             XposedBridge.log("开启自定义布局");
                             if (param.args[0].getClass().equals(String.class)) {
-                                param.args[3] = Float.valueOf(prefs.getString("launcherY", "4")); //y
-                                param.args[4] = Float.valueOf(prefs.getString("launcherX", "5")); // x
+                                param.args[3] = Float.valueOf(prefs.getString("launcherX", "4"));
+                                param.args[4] = Float.valueOf(prefs.getString("launcherY", "5"));
                             }
                         }
                     });
         }
+
         // 禁止安装app时候的安全检验
         if (lpparam.packageName.equals("com.android.packageinstaller")) {
 
@@ -93,6 +113,25 @@ public class Hooks implements IModule {
             }
         }
 
+        // 隐藏root
+        if (lpparam.packageName.equals("com.meizu.mznfcpay") && prefs.getBoolean("hideRootWithMeiZuPay", false)) {
+            findAndHookMethod("com.alipay.b.a.a.b.d", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(false));
+            findAndHookMethod("com.alipay.sdk.sys.b", lpparam.classLoader, "b", XC_MethodReplacement.returnConstant(false));
+            findAndHookMethod("com.ipaynow.wechatpay.plugin.g.d.a", lpparam.classLoader, "af", findclass("com.ipaynow.wechatpay.plugin.g.a.c", lpparam.classLoader), XC_MethodReplacement.returnConstant(getEnumUNROOT()));
+            findAndHookMethod("com.payeco.android.plugin.http.biz.PluginInit", lpparam.classLoader, "getHttpParams", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    List list = (List) param.getResult();
+                    list.set(11, new BasicNameValuePair("IsRoot", "0"));
+                }
+            });
+        }
+        if (lpparam.packageName.equals("com.meizu.flyme.update") && prefs.getBoolean("hideRootWithUpdater", false)) {
+            findAndHookMethod("com.meizu.cloud.a.a.a", lpparam.classLoader, "b", Context.class, XC_MethodReplacement.returnConstant(false));
+        }
+
+        // 主题和谐
         if (lpparam.packageName.equals("com.meizu.customizecenter") && prefs.getBoolean("enableThemePatch", true)) {
 
             if (lpparam.packageName.equals("com.meizu.customizecenter")) {

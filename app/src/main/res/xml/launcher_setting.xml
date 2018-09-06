@@ -32,4 +32,16 @@
             android:summary="需要展示多少列的图标"
             android:title="自定义图标列数" />
     </PreferenceCategory>
+
+    <PreferenceCategory android:title="隐藏ROOT">
+        <CheckBoxPreference
+            android:key="hideRootWithUpdater"
+            android:summary="解决ROOT后无法OTA"
+            android:title="系统更新" />
+        <CheckBoxPreference
+            android:key="hideRootWithMeiZuPay"
+            android:summary="ROOT也能用魅族Pay"
+            android:title="魅族Pay" />
+    </PreferenceCategory>
+
 </PreferenceScreen>
