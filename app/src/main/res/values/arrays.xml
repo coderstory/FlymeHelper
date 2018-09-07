@@ -10,4 +10,13 @@
         <item>5</item>
         <item>6</item>
     </string-array>
+
+    <string-array name="launcher_layout_row_number_key2">
+        <item>4列</item>
+        <item>5列</item>
+    </string-array>
+    <string-array name="launcher_layout_row_number_value2">
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>

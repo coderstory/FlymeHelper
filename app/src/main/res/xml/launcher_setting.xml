@@ -26,8 +26,8 @@
             android:title="自定义图标行数" />
         <ListPreference
             android:dialogTitle="列数选择"
-            android:entries="@array/launcher_layout_row_number_key"
-            android:entryValues="@array/launcher_layout_row_number_value"
+            android:entries="@array/launcher_layout_row_number_key2"
+            android:entryValues="@array/launcher_layout_row_number_value2"
             android:key="launcherY"
             android:summary="需要展示多少列的图标"
             android:title="自定义图标列数" />

@@ -6,10 +6,6 @@ import android.net.Uri;
 
 import com.coderstory.FTool.plugins.IModule;
 
-import org.apache.http.message.BasicNameValuePair;
-
-import java.util.List;
-
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -71,8 +67,14 @@ public class Hooks implements IModule {
 
         // 自定义桌面布局 com.meizu.flyme.launcher下第一个参数是String 并包含了很多个入参
         if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
-            XposedBridge.hookAllConstructors(findclass("com.meizu.flyme.launcher.v", lpparam.classLoader),
-                    new XC_MethodHook() {
+
+            Class<?> clazz = findclass("com.meizu.flyme.launcher.u", lpparam.classLoader);
+            if (clazz == null) {
+                // 7.x
+                clazz = findclass("com.meizu.flyme.launcher.v", lpparam.classLoader);
+            }
+
+            XposedBridge.hookAllConstructors(clazz, new XC_MethodHook() {
                         @Override
                         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                             super.beforeHookedMethod(param);
@@ -115,19 +117,10 @@ public class Hooks implements IModule {
 
         // 隐藏root
         if (lpparam.packageName.equals("com.meizu.mznfcpay") && prefs.getBoolean("hideRootWithMeiZuPay", false)) {
-            findAndHookMethod("com.alipay.b.a.a.b.d", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(false));
-            findAndHookMethod("com.alipay.sdk.sys.b", lpparam.classLoader, "b", XC_MethodReplacement.returnConstant(false));
-            findAndHookMethod("com.ipaynow.wechatpay.plugin.g.d.a", lpparam.classLoader, "af", findclass("com.ipaynow.wechatpay.plugin.g.a.c", lpparam.classLoader), XC_MethodReplacement.returnConstant(getEnumUNROOT()));
-            findAndHookMethod("com.payeco.android.plugin.http.biz.PluginInit", lpparam.classLoader, "getHttpParams", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    List list = (List) param.getResult();
-                    list.set(11, new BasicNameValuePair("IsRoot", "0"));
-                }
-            });
+            findAndHookMethod("com.meizu.cloud.a.a.a", lpparam.classLoader, "c", Context.class, XC_MethodReplacement.returnConstant(false));
         }
         if (lpparam.packageName.equals("com.meizu.flyme.update") && prefs.getBoolean("hideRootWithUpdater", false)) {
+            // DEVICE_STATE_SERVICE
             findAndHookMethod("com.meizu.cloud.a.a.a", lpparam.classLoader, "b", Context.class, XC_MethodReplacement.returnConstant(false));
         }
 
