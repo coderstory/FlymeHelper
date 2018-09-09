@@ -2,9 +2,18 @@ package com.coderstory.FTool.module;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 
 import com.coderstory.FTool.plugins.IModule;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Set;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
@@ -33,15 +42,53 @@ public class Hooks implements IModule {
         }
     }
 
-    protected static Object getEnumUNROOT() {
+    public static Set<XC_MethodHook.Unhook> hookAllMethods(Class<?> hookClass, String methodName, XC_MethodHook callback) {
         try {
-            Class<Enum> drmSuccess = (Class<Enum>) Class.forName("com.ipaynow.wechatpay.plugin.g.a.c");
-            if (drmSuccess != null) {
-                return Enum.valueOf(drmSuccess, "UNROOT");
-            }
-        } catch (Throwable localString4) {
-            XposedBridge.log(localString4);
+            return XposedBridge.hookAllMethods(hookClass, methodName, callback);
+        } catch (Throwable localString3) {
+            XposedBridge.log(localString3.getMessage());
+        }
+        return null;
+    }
 
+    private static void writeFile(File file, File file1) {
+        FileInputStream fileInputStream;
+        FileOutputStream fileOutputStream;
+        BufferedInputStream bufferedInputStream;
+        BufferedOutputStream bufferedOutputStream;
+        try {
+            fileInputStream = new FileInputStream(file);
+            fileOutputStream = new FileOutputStream(file1);
+            if (!file1.getParentFile().exists()) {
+                file1.getParentFile().mkdirs();
+            }
+            bufferedInputStream = new BufferedInputStream(fileInputStream);
+            bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
+            byte[] bytes = new byte[5120];
+            while (true) {
+                int read = bufferedInputStream.read(bytes);
+                if (read == -1) {
+                    break;
+                }
+
+                bufferedOutputStream.write(bytes, 0, read);
+            }
+            bufferedOutputStream.flush();
+            bufferedInputStream.close();
+            bufferedOutputStream.close();
+            fileOutputStream.close();
+            fileInputStream.close();
+
+        } catch (IOException error) {
+            XposedBridge.log(error);
+        }
+    }
+
+    private Set<XC_MethodHook.Unhook> hookAllConstructors(Class<?> hookClass, XC_MethodHook callback) {
+        try {
+            return XposedBridge.hookAllConstructors(hookClass, callback);
+        } catch (Throwable localString3) {
+            XposedBridge.log(localString3.getMessage());
         }
         return null;
     }
@@ -50,8 +97,9 @@ public class Hooks implements IModule {
         try {
             return XposedHelpers.findClass(classpatch, classLoader);
         } catch (XposedHelpers.ClassNotFoundError error) {
-            return null;
+            XposedBridge.log(error.getMessage());
         }
+        return null;
     }
 
     @Override
@@ -73,18 +121,43 @@ public class Hooks implements IModule {
                 // 7.x
                 clazz = findclass("com.meizu.flyme.launcher.v", lpparam.classLoader);
             }
+            // 开启自定义布局
+            if (prefs.getBoolean("launcherMMO", false)) {
+                hookAllConstructors(clazz, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        XposedBridge.log("开启自定义布局");
+                        if (param.args[0].getClass().equals(String.class)) {
+                            param.args[3] = 5.0f;
+                            param.args[4] = 5.0f;
+                        }
+                    }
+                });
+            }
 
-            XposedBridge.hookAllConstructors(clazz, new XC_MethodHook() {
-                        @Override
-                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                            super.beforeHookedMethod(param);
-                            XposedBridge.log("开启自定义布局");
-                            if (param.args[0].getClass().equals(String.class)) {
-                                param.args[3] = Float.valueOf(prefs.getString("launcherX", "4"));
-                                param.args[4] = Float.valueOf(prefs.getString("launcherY", "5"));
+
+            // 不同布局使用不同的db
+            hookAllConstructors(SQLiteOpenHelper.class, new XC_MethodHook() {
+                protected void afterHookedMethod(MethodHookParam hookParam) {
+                    if ("launcher.db".equals(hookParam.args[1])) {
+                        Object arg = hookParam.args[0];
+                        if (arg != null) {
+                            String dbName = "launcher_coderStory" + prefs.getString("launcherX", "4") + prefs.getString("launcherY", "5") + ".db";
+                            XposedHelpers.setObjectField(hookParam.thisObject, "mName", dbName);
+
+                            File file = ((Context) arg).getDatabasePath("launcher.db");
+                            if (file != null && (file.exists())) {
+                                File databasePath = ((Context) arg).getDatabasePath(dbName);
+                                if (databasePath != null && (databasePath.exists())) {
+                                    return;
+                                }
+                                writeFile(file, databasePath);
                             }
                         }
-                    });
+                    }
+                }
+            });
         }
 
         // 禁止安装app时候的安全检验
@@ -111,7 +184,6 @@ public class Hooks implements IModule {
             if (prefs.getBoolean("enableCTS", false)) {
                 XposedBridge.log("开启原生安装器");
                 findAndHookMethod("com.meizu.safe.security.utils.Utils", lpparam.classLoader, "isCtsRunning", XC_MethodReplacement.returnConstant(true));
-                findAndHookMethod("com.android.packageinstaller.PackageInstallerActivity", lpparam.classLoader, "isCtsRunning", XC_MethodReplacement.returnConstant(true));
             }
         }
 

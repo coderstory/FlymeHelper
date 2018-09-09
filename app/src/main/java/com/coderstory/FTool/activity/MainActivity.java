@@ -65,8 +65,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void init() {
         mFragmentManager = getSupportFragmentManager();
-
-
     }
 
     private void requestCameraPermission() {

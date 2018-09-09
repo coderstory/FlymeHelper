@@ -36,16 +36,10 @@ public class XposedSettingActivity extends PreferenceActivity {
             return true;
         });
 
-        findPreference("launcherX").setOnPreferenceClickListener(preference -> {
+        findPreference("launcherMMO").setOnPreferenceClickListener(preference -> {
             sudoFixPermissions();
             return true;
         });
-
-        findPreference("launcherY").setOnPreferenceClickListener(preference -> {
-            sudoFixPermissions();
-            return true;
-        });
-
     }
 
 
