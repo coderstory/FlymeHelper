@@ -143,7 +143,7 @@ public class Hooks implements IModule {
                     if ("launcher.db".equals(hookParam.args[1])) {
                         Object arg = hookParam.args[0];
                         if (arg != null) {
-                            String dbName = "launcher_coderStory" + prefs.getString("launcherX", "4") + prefs.getString("launcherY", "5") + ".db";
+                            String dbName = "launcher_coderStory.db";
                             XposedHelpers.setObjectField(hookParam.thisObject, "mName", dbName);
 
                             File file = ((Context) arg).getDatabasePath("launcher.db");
