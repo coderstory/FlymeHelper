@@ -1,5 +1,6 @@
 package com.coderstory.FTool.module;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -95,6 +96,10 @@ public class Hooks extends XposedHelper implements IModule {
                     }
                 });
             }
+
+            // 隐藏图标 参数ComponentName  返回bool
+            // findAndHookMethod("com.meizu.flyme.launcher.ai", lpparam.classLoader, "a",ComponentName.class, XC_MethodReplacement.returnConstant(true));
+            findAndHookMethod("com.meizu.flyme.launcher.ca", lpparam.classLoader, "b", ComponentName.class, XC_MethodReplacement.returnConstant(true));
         }
 
         // 禁止安装app时候的安全检验
