@@ -22,6 +22,11 @@
             android:summary="使用5x5宫格布局"
             android:title="修改桌面布局" />
 
+        <CheckBoxPreference
+            android:key="HideName"
+            android:summary="隐藏应用图标的名称"
+            android:title="隐藏标签" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="隐藏ROOT">

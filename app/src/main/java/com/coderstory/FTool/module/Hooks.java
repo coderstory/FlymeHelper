@@ -4,16 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.view.View;
+import android.widget.TextView;
 
 import com.coderstory.FTool.plugins.IModule;
+import com.coderstory.FTool.utils.XposedHelper;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Set;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
@@ -24,83 +21,8 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class Hooks implements IModule {
+public class Hooks extends XposedHelper implements IModule {
 
-    private static void findAndHookMethod(String p1, ClassLoader lpparam, String p2, Object... parameterTypesAndCallback) {
-        try {
-            XposedHelpers.findAndHookMethod(p1, lpparam, p2, parameterTypesAndCallback);
-        } catch (Throwable localString3) {
-            XposedBridge.log(localString3);
-        }
-    }
-
-    private static void findAndHookMethod(Class<?> p1, String p2, Object... parameterTypesAndCallback) {
-        try {
-            XposedHelpers.findAndHookMethod(p1, p2, parameterTypesAndCallback);
-        } catch (Throwable localString3) {
-            XposedBridge.log(localString3);
-        }
-    }
-
-    public static Set<XC_MethodHook.Unhook> hookAllMethods(Class<?> hookClass, String methodName, XC_MethodHook callback) {
-        try {
-            return XposedBridge.hookAllMethods(hookClass, methodName, callback);
-        } catch (Throwable localString3) {
-            XposedBridge.log(localString3.getMessage());
-        }
-        return null;
-    }
-
-    private static void writeFile(File file, File file1) {
-        FileInputStream fileInputStream;
-        FileOutputStream fileOutputStream;
-        BufferedInputStream bufferedInputStream;
-        BufferedOutputStream bufferedOutputStream;
-        try {
-            fileInputStream = new FileInputStream(file);
-            fileOutputStream = new FileOutputStream(file1);
-            if (!file1.getParentFile().exists()) {
-                file1.getParentFile().mkdirs();
-            }
-            bufferedInputStream = new BufferedInputStream(fileInputStream);
-            bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
-            byte[] bytes = new byte[5120];
-            while (true) {
-                int read = bufferedInputStream.read(bytes);
-                if (read == -1) {
-                    break;
-                }
-
-                bufferedOutputStream.write(bytes, 0, read);
-            }
-            bufferedOutputStream.flush();
-            bufferedInputStream.close();
-            bufferedOutputStream.close();
-            fileOutputStream.close();
-            fileInputStream.close();
-
-        } catch (IOException error) {
-            XposedBridge.log(error);
-        }
-    }
-
-    private Set<XC_MethodHook.Unhook> hookAllConstructors(Class<?> hookClass, XC_MethodHook callback) {
-        try {
-            return XposedBridge.hookAllConstructors(hookClass, callback);
-        } catch (Throwable localString3) {
-            XposedBridge.log(localString3.getMessage());
-        }
-        return null;
-    }
-
-    private Class findclass(String classpatch, ClassLoader classLoader) {
-        try {
-            return XposedHelpers.findClass(classpatch, classLoader);
-        } catch (XposedHelpers.ClassNotFoundError error) {
-            XposedBridge.log(error.getMessage());
-        }
-        return null;
-    }
 
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
@@ -158,6 +80,21 @@ public class Hooks implements IModule {
                     }
                 }
             });
+
+
+            // 隐藏图标标签
+            if (prefs.getBoolean("HideName", false)) {
+                hookAllMethods(findclass("com.meizu.flyme.launcher.ShortcutIcon", lpparam.classLoader), "a", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        TextView textView = (TextView) XposedHelpers.getObjectField(param.thisObject, "c");
+                        if (textView != null) {
+                            textView.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                });
+            }
         }
 
         // 禁止安装app时候的安全检验
@@ -261,8 +198,6 @@ public class Hooks implements IModule {
     @Override
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) {
     }
-
-
 }
 
 
