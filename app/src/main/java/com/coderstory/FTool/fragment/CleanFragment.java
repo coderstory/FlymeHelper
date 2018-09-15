@@ -73,36 +73,33 @@ public class CleanFragment extends BaseFragment {
         ((Button) $(R.id.button)).setText("正在清理中...");
         tvClean.append(getString(R.string.view_start_clean));
         $(R.id.button).setEnabled(false);
-        th = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                long totalSize = 0L; // K
-                MyConfig.isProcessing = true;
-                // clean app cache
-                CommandResult ret = RootUtils.runCommand("find /data/data/ -type dir -name \"cache\"", true);
-                String[] items = ret.result.split("\n");
-                CacheSize cs;
-                for (String s : items) {
-                    cs = getSize(s);
-                    if (cs != null && cs.size > 16) { // clean only above 16K
-                        if (deleteCache(s)) {
-                            sendMessageStr(getString(R.string.view_clean_cache, s, cs.sizeReadable));
-                            totalSize += cs.size;
-                        }
+        th = new Thread(() -> {
+            long totalSize = 0L; // K
+            MyConfig.isProcessing = true;
+            // clean app cache
+            CommandResult ret = RootUtils.runCommand("find /data/data/ -type dir -name \"cache\"", true);
+            String[] items = ret.result.split("\n");
+            CacheSize cs;
+            for (String s : items) {
+                cs = getSize(s);
+                if (cs != null && cs.size > 16) { // clean only above 16K
+                    if (deleteCache(s)) {
+                        sendMessageStr(getString(R.string.view_clean_cache, s, cs.sizeReadable));
+                        totalSize += cs.size;
                     }
                 }
-                // clean anr log
-                CacheSize anrSize = getSize("/data/anr/");
-                if (deleteAnrLog()) {
-                    sendMessageStr(getString(R.string.view_clean_anr, anrSize.sizeReadable));
-                    totalSize += anrSize.size;
-                }
-                // clean art
-                totalSize += deleteRemainArtCache();
-                sendMessageStr(getString(R.string.view_clean_complete, FileHelper.getReadableFileSize(totalSize)));
-                hComplete.sendEmptyMessage(0);
-                MyConfig.isProcessing = false;
             }
+            // clean anr log
+            CacheSize anrSize = getSize("/data/anr/");
+            if (deleteAnrLog()) {
+                sendMessageStr(getString(R.string.view_clean_anr, anrSize.sizeReadable));
+                totalSize += anrSize.size;
+            }
+            // clean art
+            totalSize += deleteRemainArtCache();
+            sendMessageStr(getString(R.string.view_clean_complete, FileHelper.getReadableFileSize(totalSize)));
+            hComplete.sendEmptyMessage(0);
+            MyConfig.isProcessing = false;
         });
         th.start();
     }
