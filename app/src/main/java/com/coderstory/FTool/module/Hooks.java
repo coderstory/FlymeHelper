@@ -12,6 +12,8 @@ import com.coderstory.FTool.plugins.IModule;
 import com.coderstory.FTool.utils.XposedHelper;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
@@ -97,9 +99,25 @@ public class Hooks extends XposedHelper implements IModule {
                 });
             }
 
+            final String value = prefs.getString("Hide_App_List", "");
+            if (!value.equals("")) {
+                final List<String> hideAppList = Arrays.asList(value.split(":"));
+                    XposedBridge.log("load config" + value);
+                    findAndHookMethod("com.meizu.flyme.launcher.ca", lpparam.classLoader, "b", ComponentName.class, new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            ComponentName componentName = (ComponentName) param.args[0];
+                            if (hideAppList.contains(componentName.getPackageName())) {
+                                XposedBridge.log("hide app " + componentName.getPackageName());
+                                param.setResult(true);
+                            }
+                        }
+                    });
+            }
+
             // 隐藏图标 参数ComponentName  返回bool
             // findAndHookMethod("com.meizu.flyme.launcher.ai", lpparam.classLoader, "a",ComponentName.class, XC_MethodReplacement.returnConstant(true));
-            findAndHookMethod("com.meizu.flyme.launcher.ca", lpparam.classLoader, "b", ComponentName.class, XC_MethodReplacement.returnConstant(true));
+            //findAndHookMethod("com.meizu.flyme.launcher.ca", lpparam.classLoader, "b", ComponentName.class, XC_MethodReplacement.returnConstant(true));
         }
 
         // 禁止安装app时候的安全检验

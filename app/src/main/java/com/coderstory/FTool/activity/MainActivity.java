@@ -24,6 +24,7 @@ import com.coderstory.FTool.fragment.BlogFragment;
 import com.coderstory.FTool.fragment.CleanFragment;
 import com.coderstory.FTool.fragment.DisbaleAppFragment;
 import com.coderstory.FTool.fragment.DonationFragment;
+import com.coderstory.FTool.fragment.HideAppFragment;
 import com.coderstory.FTool.fragment.HostsFragment;
 import com.coderstory.FTool.fragment.ManagerAppFragment;
 import com.coderstory.FTool.fragment.SettingsFragment;
@@ -203,6 +204,11 @@ public class MainActivity extends BaseActivity {
                         mToolbar.setTitle("应用管理");
                         switchFragment(ManagerAppFragment.class);
                         break;
+                    case R.id.navigation_item_hide_app:
+                        mToolbar.setTitle("隐藏桌面图标");
+                        switchFragment(HideAppFragment.class);
+                        break;
+
                     default:
                         break;
                 }

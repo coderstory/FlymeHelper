@@ -40,6 +40,11 @@ public class XposedSettingActivity extends PreferenceActivity {
             sudoFixPermissions();
             return true;
         });
+
+        findPreference("HideName").setOnPreferenceClickListener(preference -> {
+            sudoFixPermissions();
+            return true;
+        });
     }
 
 
