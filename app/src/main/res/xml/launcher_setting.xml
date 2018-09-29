@@ -14,6 +14,10 @@
             android:key="enableCTS"
             android:summary="使用原生的安装界面替换Flyme的安装界面"
             android:title="原生安装界面" />
+        <CheckBoxPreference
+            android:key="enableAd"
+            android:summary="屏蔽部分自带的广告"
+            android:title="去除广告" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Flyme桌面布局(切换可能导致图标异常,需要清除桌面数据)">

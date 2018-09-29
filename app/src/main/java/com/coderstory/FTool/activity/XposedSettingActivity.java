@@ -45,6 +45,10 @@ public class XposedSettingActivity extends PreferenceActivity {
             sudoFixPermissions();
             return true;
         });
+        findPreference("enableAd").setOnPreferenceClickListener(preference -> {
+            sudoFixPermissions();
+            return true;
+        });
     }
 
 

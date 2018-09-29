@@ -1,11 +1,13 @@
 package com.coderstory.FTool.module;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.coderstory.FTool.plugins.IModule;
@@ -36,12 +38,50 @@ public class Hooks extends XposedHelper implements IModule {
         XSharedPreferences prefs = new XSharedPreferences("com.coderstory.FTool", "com.coderstory.FTool_preferences");
         prefs.makeWorldReadable();
         prefs.reload();
+        Class clazz;
+        if (prefs.getBoolean("enableAd", false)) {
+            //屏蔽魅族广告sdk相关 splashad JsAdBridge
+            clazz = findclass("com.meizu.advertise.api.JsAdBridge", lpparam.classLoader);
+            if (clazz != null) {
+                Class<?> finalClazz = clazz;
+                hookAllConstructors(clazz, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        XposedBridge.log("发现广告sdk" + lpparam.packageName);
+                        XposedHelpers.setStaticObjectField(finalClazz, "OBJECT_NAME", "fuck_ad");
+                    }
+                });
+            }
+            clazz = findclass("com.meizu.advertise.api.AdManager", lpparam.classLoader);
+            if (clazz != null) {
+                XposedBridge.log("发现广告sdk" + lpparam.packageName);
+                Class<?> finalClazz = clazz;
+                hookAllMethods(clazz, "getData", XC_MethodReplacement.returnConstant(null));
+            }
 
+            clazz = findclass("com.meizu.advertise.api.SimpleJsAdBridge", lpparam.classLoader);
+            if (clazz != null) {
+                XposedBridge.log("发现广告sdk" + lpparam.packageName);
+                Class<?> finalClazz = clazz;
+                XposedHelpers.findAndHookConstructor(clazz, Activity.class, WebView.class, new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        //super(activity, new SimpleWebView(webView));
+                        // webView.addJavascriptInterface(this, JsAdBridge.OBJECT_NAME);
+                        // this.mWebView = webView;
+                        WebView webView = (WebView) XposedHelpers.getObjectField(param.thisObject, "mWebView");
+                        webView.removeJavascriptInterface("mzAd");
+                    }
+                });
+            }
+        }
 
         // 自定义桌面布局 com.meizu.flyme.launcher下第一个参数是String 并包含了很多个入参
         if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
 
-            Class<?> clazz = findclass("com.meizu.flyme.launcher.u", lpparam.classLoader);
+            clazz = findclass("com.meizu.flyme.launcher.u", lpparam.classLoader);
             if (clazz == null) {
                 // 7.x
                 clazz = findclass("com.meizu.flyme.launcher.v", lpparam.classLoader);
@@ -125,7 +165,7 @@ public class Hooks extends XposedHelper implements IModule {
 
             if (prefs.getBoolean("enableCheckInstaller", false)) {
                 // 8.x
-                Class<?> clazz = findclass("com.android.packageinstaller.FlymePackageInstallerActivity", lpparam.classLoader);
+                clazz = findclass("com.android.packageinstaller.FlymePackageInstallerActivity", lpparam.classLoader);
                 if (clazz == null) {
                     // 7.x
                     clazz = findclass("com.android.packageinstaller.PackageInstallerActivity", lpparam.classLoader);
