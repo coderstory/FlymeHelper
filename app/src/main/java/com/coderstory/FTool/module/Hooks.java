@@ -40,8 +40,8 @@ public class Hooks extends XposedHelper implements IModule {
         prefs.reload();
         Class clazz;
         if (prefs.getBoolean("enableAd", false)) {
-            //屏蔽魅族广告sdk相关 splashad JsAdBridge
-            clazz = findclass("com.meizu.advertise.api.JsAdBridge", lpparam.classLoader);
+            //屏蔽魅族广告sdk相关 splashad JsAdBridge  主题 安全中心 商店  日历  天气  音乐
+            clazz = findClassWithoutLog("com.meizu.advertise.api.JsAdBridge", lpparam.classLoader);
             if (clazz != null) {
                 Class<?> finalClazz = clazz;
                 hookAllConstructors(clazz, new XC_MethodHook() {
@@ -53,14 +53,14 @@ public class Hooks extends XposedHelper implements IModule {
                     }
                 });
             }
-            clazz = findclass("com.meizu.advertise.api.AdManager", lpparam.classLoader);
+            clazz = findClassWithoutLog("com.meizu.advertise.api.AdManager", lpparam.classLoader);
             if (clazz != null) {
                 XposedBridge.log("发现广告sdk" + lpparam.packageName);
                 Class<?> finalClazz = clazz;
                 hookAllMethods(clazz, "getData", XC_MethodReplacement.returnConstant(null));
             }
 
-            clazz = findclass("com.meizu.advertise.api.SimpleJsAdBridge", lpparam.classLoader);
+            clazz = findClassWithoutLog("com.meizu.advertise.api.SimpleJsAdBridge", lpparam.classLoader);
             if (clazz != null) {
                 XposedBridge.log("发现广告sdk" + lpparam.packageName);
                 Class<?> finalClazz = clazz;

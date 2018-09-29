@@ -89,4 +89,12 @@ public class XposedHelper {
         }
         return null;
     }
+
+    public Class findClassWithoutLog(String classpatch, ClassLoader classLoader) {
+        try {
+            return XposedHelpers.findClass(classpatch, classLoader);
+        } catch (XposedHelpers.ClassNotFoundError error) {
+        }
+        return null;
+    }
 }
