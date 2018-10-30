@@ -34,7 +34,7 @@ public class Hooks extends XposedHelper implements IModule {
     }
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws IllegalAccessException, InstantiationException {
         XSharedPreferences prefs = new XSharedPreferences("com.coderstory.FTool", "com.coderstory.FTool_preferences");
         prefs.makeWorldReadable();
         prefs.reload();
@@ -54,10 +54,33 @@ public class Hooks extends XposedHelper implements IModule {
                 });
             }
             clazz = findClassWithoutLog("com.meizu.advertise.api.AdManager", lpparam.classLoader);
+            Class aa = findClassWithoutLog("com.meizu.advertise.api.AdView", lpparam.classLoader);
+            if (clazz != null && aa != null) {
+                hookAllMethods(aa, "getData", XC_MethodReplacement.returnConstant(aa.newInstance()));
+            }
+            if (aa != null) {
+                findAndHookMethod(aa, "setPadding", int.class, int.class, int.class, int.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        param.args[0] = 0;
+                        param.args[1] = 0;
+                        param.args[2] = 0;
+                        param.args[3] = 0;
+                    }
+                });
+            }
+
+            clazz = findClassWithoutLog("com.meizu.advertise.api.AdLabelLayout", lpparam.classLoader);
             if (clazz != null) {
-                XposedBridge.log("发现广告sdk" + lpparam.packageName);
-                Class<?> finalClazz = clazz;
-                hookAllMethods(clazz, "getData", XC_MethodReplacement.returnConstant(null));
+                findAndHookMethod(clazz, "getLabelView", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        TextView textView = (TextView) param.getResult();
+                        textView.setVisibility(View.GONE);
+                        param.setResult(textView);
+                    }
+                });
             }
 
             clazz = findClassWithoutLog("com.meizu.advertise.api.SimpleJsAdBridge", lpparam.classLoader);
@@ -142,17 +165,17 @@ public class Hooks extends XposedHelper implements IModule {
             final String value = prefs.getString("Hide_App_List", "");
             if (!value.equals("")) {
                 final List<String> hideAppList = Arrays.asList(value.split(":"));
-                    XposedBridge.log("load config" + value);
-                    findAndHookMethod("com.meizu.flyme.launcher.ca", lpparam.classLoader, "b", ComponentName.class, new XC_MethodHook() {
-                        @Override
-                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                            ComponentName componentName = (ComponentName) param.args[0];
-                            if (hideAppList.contains(componentName.getPackageName())) {
-                                XposedBridge.log("hide app " + componentName.getPackageName());
-                                param.setResult(true);
-                            }
+                XposedBridge.log("load config" + value);
+                findAndHookMethod("com.meizu.flyme.launcher.ca", lpparam.classLoader, "b", ComponentName.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        ComponentName componentName = (ComponentName) param.args[0];
+                        if (hideAppList.contains(componentName.getPackageName())) {
+                            XposedBridge.log("hide app " + componentName.getPackageName());
+                            param.setResult(true);
                         }
-                    });
+                    }
+                });
             }
 
             // 隐藏图标 参数ComponentName  返回bool
