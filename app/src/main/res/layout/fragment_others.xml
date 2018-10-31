@@ -29,7 +29,7 @@
             <Switch
                 android:id="@+id/enableBlockAD"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/switchBtn"
                 android:maxLines="10"
@@ -68,6 +68,28 @@
                 android:paddingEnd="30dp"
                 android:paddingStart="30dp"
                 android:text="@string/HideRootWithUpgrade" />
+
+            <Switch
+                android:id="@+id/enableCheckInstaller"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/switchBtn"
+                android:maxLines="10"
+                android:paddingEnd="30dp"
+                android:paddingStart="30dp"
+                android:text="@string/enableCheckInstaller" />
+
+            <Switch
+                android:id="@+id/enableCTS"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/switchBtn"
+                android:maxLines="10"
+                android:paddingEnd="30dp"
+                android:paddingStart="30dp"
+                android:text="@string/enableCTS" />
 
 
             <TextView

@@ -8,7 +8,6 @@ import com.coderstory.purify.module.HideApp;
 import com.coderstory.purify.module.IsEnable;
 import com.coderstory.purify.module.Others;
 import com.coderstory.purify.module.RemoveAds;
-import com.coderstory.purify.module.RemoveSearchBar;
 import com.coderstory.purify.module.ThemePatcher;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
@@ -22,7 +21,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class start implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) throws Throwable {
-        new RemoveSearchBar().handleInitPackageResources(resparam);
         new FlymeRoot().handleInitPackageResources(resparam);
     }
 

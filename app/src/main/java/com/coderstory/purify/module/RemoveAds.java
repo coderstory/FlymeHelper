@@ -77,7 +77,6 @@ public class RemoveAds extends XposedHelper implements IModule {
         clazz = findClassWithoutLog("com.meizu.advertise.api.SimpleJsAdBridge", loadPackageParam.classLoader);
         if (clazz != null) {
             XposedBridge.log("发现广告sdk" + loadPackageParam.packageName);
-            Class<?> finalClazz = clazz;
             XposedHelpers.findAndHookConstructor(clazz, Activity.class, WebView.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -92,10 +91,6 @@ public class RemoveAds extends XposedHelper implements IModule {
         }
     }
 
-    private boolean isAd(String s) {
-        String[] keys = new String[]{"SHOPWINDOW", "SHOPWINDOWNEW", "PURCHASE", "ADBANNER"};
-        return Arrays.asList(keys).contains(s.toUpperCase());
-    }
 }
 
 

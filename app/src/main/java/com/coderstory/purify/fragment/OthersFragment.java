@@ -72,6 +72,18 @@ public class OthersFragment extends BaseFragment {
             sudoFixPermissions();
         });
 
+        $(R.id.enableCTS).setOnClickListener(v -> {
+            getEditor().putBoolean("enableCTS", ((Switch) v).isChecked());
+            getEditor().apply();
+            sudoFixPermissions();
+        });
+
+        $(R.id.enableCheckInstaller).setOnClickListener(v -> {
+            getEditor().putBoolean("enableCheckInstaller", ((Switch) v).isChecked());
+            getEditor().apply();
+            sudoFixPermissions();
+        });
+
         $(R.id.enabletheme).setOnClickListener(v -> {
             getEditor().putBoolean("enabletheme", ((Switch) v).isChecked());
             getEditor().apply();
@@ -112,6 +124,8 @@ public class OthersFragment extends BaseFragment {
         ((Switch) $(R.id.HideRootWithPay)).setChecked(getPrefs().getBoolean("HideRootWithPay", false));
         ((Switch) $(R.id.HideRootWithUpgrade)).setChecked(getPrefs().getBoolean("HideRootWithUpgrade", false));
         ((Switch) $(R.id.hide_icon_5)).setChecked(getPrefs().getBoolean("hide_icon_5", false));
+        ((Switch) $(R.id.enableCheckInstaller)).setChecked(getPrefs().getBoolean("enableCheckInstaller", false));
+        ((Switch) $(R.id.enableCTS)).setChecked(getPrefs().getBoolean("enableCTS", false));
     }
 
 }
