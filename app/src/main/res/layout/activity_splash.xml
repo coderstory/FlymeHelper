@@ -35,7 +35,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="13dp"
         android:fontFamily="sans-serif-condensed"
-        android:text="还你一个干净的世界"
+        android:text="山有木兮木有枝"
         android:textColor="#fff"
         android:textSize="25sp" />
 
@@ -47,7 +47,7 @@
         android:layout_alignStart="@+id/ccd"
         android:layout_marginTop="38dp"
         android:fontFamily="sans-serif-condensed"
-        android:text="小米净化"
+        android:text="@string/app_name"
         android:textColor="#fff"
         android:textSize="30sp" />
 

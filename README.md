@@ -1,12 +1,12 @@
 # 小米净化
 
-> 小米净化是基于Xposed开发的MIUI系统MOD工具
+> Flyme7助手是基于Xposed开发的MIUI系统MOD工具
 
 CoderStory的博客：[blog.coderstory.cn](https://blog.coderstory.cn)   
  
  
  
-小米净化支持去除MIUI系统的大部分广告内容，清理应用缓存，应用冻结备份等功能。
+Flyme7助手支持去除Flyme系统的大部分广告内容，清理应用缓存，应用冻结备份等功能。
 
 
 

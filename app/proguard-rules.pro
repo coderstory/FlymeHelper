@@ -19,13 +19,13 @@
 #保护注解
 -keepattributes Annotation
 #保持哪些类不被混淆
--keep class com.coderstory.Purify.plugins.start {
+-keep class purify.plugins.start {
      void handleInitPackageResources(de.robv.android.xposed.callbacks.XC_InitPackageResources$InitPackageResourcesParam);
      void handleLoadPackage(de.robv.android.xposed.callbacks.XC_LoadPackage$LoadPackageParam);
      void initZygote(de.robv.android.xposed.IXposedHookZygoteInit$StartupParam);
      }
 
- -keep class com.coderstory.Purify.activity.MainActivity {
+ -keep class purify.activity.MainActivity {
           boolean isEnable();
   }
 
