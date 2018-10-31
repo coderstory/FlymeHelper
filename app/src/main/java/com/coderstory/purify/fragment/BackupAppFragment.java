@@ -62,9 +62,9 @@ public class BackupAppFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //创建备份目录
 
-      File  file = new File(BackPath);
+        File file = new File(BackPath);
         if (!file.exists()) {
-            if (!file.mkdirs()){
+            if (!file.mkdirs()) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
                 dialog.setTitle("提示");
                 String tipsText = "备份应用需要读取存储权限,但目前似乎没有给?";

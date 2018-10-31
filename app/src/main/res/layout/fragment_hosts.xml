@@ -26,8 +26,8 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/switchBtn"
                 android:maxLines="10"
-                android:paddingEnd="30dp"
                 android:paddingStart="30dp"
+                android:paddingEnd="30dp"
                 android:text="@string/enableHosts" />
 
             <Switch
@@ -36,8 +36,8 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/switchBtn"
-                android:paddingEnd="30dp"
                 android:paddingStart="30dp"
+                android:paddingEnd="30dp"
                 android:text="@string/miuiads" />
 
             <Switch
@@ -46,8 +46,8 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/switchBtn"
-                android:paddingEnd="30dp"
                 android:paddingStart="30dp"
+                android:paddingEnd="30dp"
                 android:text="@string/blockads" />
 
 
@@ -55,9 +55,9 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingEnd="30dp"
                 android:paddingStart="30dp"
                 android:paddingTop="20dp"
+                android:paddingEnd="30dp"
                 android:text="@string/hostsnote" />
 
         </LinearLayout>

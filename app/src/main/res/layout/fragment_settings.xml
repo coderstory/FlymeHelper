@@ -23,8 +23,8 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/switchBtn"
-                android:paddingEnd="30dp"
                 android:paddingStart="30dp"
+                android:paddingEnd="30dp"
                 android:text="@string/hideicon" />
 
             <Switch
@@ -33,8 +33,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:background="@color/switchBtn"
-                android:paddingEnd="30dp"
                 android:paddingStart="30dp"
+                android:paddingEnd="30dp"
                 android:text="@string/installapk" />
 
             <Switch
@@ -44,8 +44,8 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/switchBtn"
                 android:checked="true"
-                android:paddingEnd="30dp"
                 android:paddingStart="30dp"
+                android:paddingEnd="30dp"
                 android:text="@string/enablexposed" />
 
 

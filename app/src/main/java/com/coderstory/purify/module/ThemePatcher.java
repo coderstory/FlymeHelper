@@ -18,7 +18,6 @@ import static com.coderstory.purify.config.Misc.isEnable;
 public class ThemePatcher extends XposedHelper implements IModule {
 
 
-
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
 
