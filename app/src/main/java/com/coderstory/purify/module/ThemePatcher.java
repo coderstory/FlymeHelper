@@ -52,13 +52,39 @@ public class ThemePatcher extends XposedHelper implements IModule {
 
                 //data/data/com.meizu.customizecenter/font/   system_font
                 //7.1.2
+                /**
+                 *
+                 public void a(boolean arg4, boolean arg5) {
+                 com.meizu.customizecenter.manager.utilstool.c.b.b(this.b, "startFontRestoreService");
+                 Intent v0 = new Intent(this.d, FontRestoreService.class);
+                 v0.putExtra(com.meizu.customizecenter.model.a.a$g.h.a(), this.e().a());
+                 v0.putExtra("is_go_to_pay_font", arg5);
+                 v0.putExtra("is_restore_last_key", arg4);
+                 com.meizu.customizecenter.manager.utilstool.systemutills.a.a.a(this.d, v0);
+                 }
+                 */
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.g", lpparam.classLoader, "a", Boolean.class, Boolean.class, XC_MethodReplacement.returnConstant(null));
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.g", lpparam.classLoader, "k", XC_MethodReplacement.returnConstant(null));
+                /**
+                 *  public void k() {
+                 *         long v0 = SystemClock.elapsedRealtime() - this.n();
+                 *         com.meizu.customizecenter.manager.utilstool.c.b.e(this.b, "checkTrialFontWhenAppStart_interval:" + v0 / 1000 + " second");
+                 *         if(!this.f(v0)) {
+                 *             this.g();
+                 *         }
+                 *     }
+                 */
+                //findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.g", lpparam.classLoader, "k", XC_MethodReplacement.returnConstant(null));
 
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.c", lpparam.classLoader, "g", XC_MethodReplacement.returnConstant(""));
 
+                // 7.5
+                Class<?> themeContentProvider = findClass("com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider", lpparam.classLoader);
+                if (themeContentProvider == null) {
+                    // 7.5-
+                    themeContentProvider = findClass("com.meizu.customizecenter.manager.utilstool.dbutils.dao.ThemeContentProvider", lpparam.classLoader);
+                }
                 //主题混搭 ThemeContentProvider query Unknown URI
-                findAndHookMethod("com.meizu.customizecenter.manager.utilstool.dbutils.dao.ThemeContentProvider", lpparam.classLoader, "query", Uri.class, String[].class, String.class, String[].class, String.class, new XC_MethodHook() {
+                findAndHookMethod(themeContentProvider, "query", Uri.class, String[].class, String.class, String[].class, String.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                         Object[] objs = param.args;

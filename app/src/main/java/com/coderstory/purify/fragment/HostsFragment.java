@@ -35,8 +35,8 @@ public class HostsFragment extends BaseFragment {
             new MyTask().execute();
         });
 
-        $(R.id.enableMIUIHosts).setOnClickListener(v -> {
-            getEditor().putBoolean("enableMIUIHosts", ((Switch) v).isChecked());
+        $(R.id.enableFlymeHosts).setOnClickListener(v -> {
+            getEditor().putBoolean("enableFlymeHosts", ((Switch) v).isChecked());
             getEditor().apply();
             sudoFixPermissions();
             new MyTask().execute();
@@ -53,7 +53,7 @@ public class HostsFragment extends BaseFragment {
     @Override
     protected void setUpData() {
         ((Switch) $(R.id.enableHosts)).setChecked(getPrefs().getBoolean("enableHosts", false));
-        ((Switch) $(R.id.enableMIUIHosts)).setChecked(getPrefs().getBoolean("enableMIUIHosts", false));
+        ((Switch) $(R.id.enableFlymeHosts)).setChecked(getPrefs().getBoolean("enableFlymeHosts", false));
         ((Switch) $(R.id.enableBlockAdsHosts)).setChecked(getPrefs().getBoolean("enableBlockAdsHosts", false));
         setCheck(getPrefs().getBoolean("enableHosts", false));
     }
@@ -62,7 +62,7 @@ public class HostsFragment extends BaseFragment {
     //更新hosts操作
     private void UpdateHosts() throws UnsupportedEncodingException {
         boolean enableHostsSet = getPrefs().getBoolean("enableHosts", false); //1
-        boolean enableMIUIHostsSet = getPrefs().getBoolean("enableMIUIHosts", false); //4
+        boolean enableFlymeHostsSet = getPrefs().getBoolean("enableFlymeHosts", false); //4
         boolean enableBlockAdsHostsSet = getPrefs().getBoolean("enableBlockAdsHosts", false); //4
 
         if (enableHostsSet) {
@@ -76,8 +76,8 @@ public class HostsFragment extends BaseFragment {
                     HostsContext += fh.getFromAssets("hosts_noad", getMContext());
                 }
                 // 屏蔽flyme广告
-                if (enableMIUIHostsSet) {
-                    HostsContext += fh.getFromAssets("hosts_miui", getMContext());
+                if (enableFlymeHostsSet) {
+                    HostsContext += fh.getFromAssets("hosts_Flyme", getMContext());
                 }
             }
 
@@ -103,10 +103,10 @@ public class HostsFragment extends BaseFragment {
     private void setCheck(boolean type) {
 
         if (type) {
-            $(R.id.enableMIUIHosts).setEnabled(true);
+            $(R.id.enableFlymeHosts).setEnabled(true);
             $(R.id.enableBlockAdsHosts).setEnabled(true);
         } else {
-            $(R.id.enableMIUIHosts).setEnabled(false);
+            $(R.id.enableFlymeHosts).setEnabled(false);
             $(R.id.enableBlockAdsHosts).setEnabled(false);
         }
     }

@@ -119,6 +119,7 @@ public class CleanFragment extends BaseFragment {
     private long deleteRemainArtCache() {
 
         List<String> listInstalled = Shell.SU.run("ls /data/app");
+        listInstalled.addAll(Shell.SU.run("ls /vendor/app"));
         List<String> listAllInstalled = Shell.SU.run("pm list packages");
         List<String> listArm = Shell.SU.run("ls /data/dalvik-cache/arm");
         List<String> listArm64 = Shell.SU.run("ls /data/dalvik-cache/arm64");

@@ -185,7 +185,7 @@ public class HideAppFragment extends BaseFragment {
         if (item.getItemId() == R.id.action_restrathome) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
             dialog.setTitle("提示");
-            String tipsText = "是否重启MIUI桌面应用当前设置?";
+            String tipsText = "是否重启Flyme桌面应用当前设置?";
             dialog.setMessage(tipsText);
             dialog.setPositiveButton(getString(R.string.Btn_Sure), (dialog12, which) -> new Thread(() -> {
                 Shell.SU.run("am force-stop com.meizu.flyme.launcher");

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.coderstory.purify.config.Misc;
+
 public abstract class BaseActivity extends AppCompatActivity {
     private static SharedPreferences prefs;
     private static SharedPreferences.Editor editor;
@@ -44,7 +46,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected SharedPreferences getPrefs() {
-        prefs = getBaseContext().getSharedPreferences("UserSettings", Context.MODE_PRIVATE);
+        prefs = getBaseContext().getSharedPreferences(Misc.SharedPreferencesName, Context.MODE_PRIVATE);
         return prefs;
     }
 

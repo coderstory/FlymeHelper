@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.coderstory.purify.config.Misc;
+
 import java.io.File;
 
 import eu.chainfire.libsuperuser.Shell;
@@ -62,7 +64,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected SharedPreferences getPrefs() {
-        prefs = getContext().getSharedPreferences("UserSettings", Context.MODE_PRIVATE);
+        prefs = getContext().getSharedPreferences(Misc.SharedPreferencesName, Context.MODE_PRIVATE);
         return prefs;
     }
 

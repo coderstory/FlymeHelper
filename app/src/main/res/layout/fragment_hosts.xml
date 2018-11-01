@@ -31,14 +31,14 @@
                 android:text="@string/enableHosts" />
 
             <Switch
-                android:id="@+id/enableMIUIHosts"
+                android:id="@+id/enableFlymeHosts"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
-                android:text="@string/miuiads" />
+                android:text="@string/Flymeads" />
 
             <Switch
                 android:id="@+id/enableBlockAdsHosts"

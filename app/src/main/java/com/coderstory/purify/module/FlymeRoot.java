@@ -1,9 +1,6 @@
 package com.coderstory.purify.module;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.coderstory.purify.plugins.IModule;
 import com.coderstory.purify.utils.XposedHelper;
@@ -14,11 +11,6 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class FlymeRoot extends XposedHelper implements IModule {
-    @SuppressLint("StaticFieldLeak")
-    private static TextView WarningText;
-    @SuppressLint("StaticFieldLeak")
-    private static Button accept;
-
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
 
@@ -29,13 +21,10 @@ public class FlymeRoot extends XposedHelper implements IModule {
             // DEVICE_STATE_SERVICE
             findAndHookMethod("com.meizu.cloud.a.a.a", loadPackageParam.classLoader, "b", Context.class, XC_MethodReplacement.returnConstant(false));
         }
-
-
     }
 
     @Override
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) {
-
     }
 
     @Override

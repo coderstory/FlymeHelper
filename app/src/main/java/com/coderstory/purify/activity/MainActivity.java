@@ -3,6 +3,7 @@ package com.coderstory.purify.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -61,6 +62,7 @@ public class MainActivity extends BaseActivity {
                     normalDialog.setMessage("请先授权应用ROOT权限");
                     normalDialog.setPositiveButton("确定",
                             (dialog, which) -> System.exit(0));
+                    normalDialog.setCancelable(true);
                     normalDialog.show();
                     super.handleMessage(msg);
                     break;
@@ -77,7 +79,7 @@ public class MainActivity extends BaseActivity {
                 case 3:
                     android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(MainActivity.this);
                     dialog.setTitle("提示");
-                    dialog.setMessage("本应用尚未再Xposed中启用,请开始后再试...");
+                    dialog.setMessage("本应用尚未再Xposed中启用,请启用后再试...");
                     dialog.setPositiveButton("退出", (dialog12, which) -> {
                         System.exit(0);
                     });
@@ -174,6 +176,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private void checkEnable() {
+        if (MainActivity.this.getSharedPreferences(Misc.SharedPreferencesName, Context.MODE_PRIVATE).getBoolean("enableCheck", true) && !isEnable()) {
+            SnackBarUtils.makeLong(mNavigationView, "插件尚未激活,Xposed功能将不可用,请重启再试！").show();
+        }
     }
 
     //init the default checked fragment

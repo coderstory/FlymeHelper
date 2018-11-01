@@ -2,7 +2,7 @@
 <paths>
     <external-path
         name="files_root"
-        path="MIUI_Purify/Backup/" />
+        path="Flyme_Purify/Backup/" />
     <external-path
         name="external_storage_root"
         path="." />

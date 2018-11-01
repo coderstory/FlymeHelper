@@ -1,6 +1,6 @@
-# 小米净化
+# Flyme7助手
 
-> Flyme7助手是基于Xposed开发的MIUI系统MOD工具
+> Flyme7助手是基于Xposed开发的Flyme系统MOD工具
 
 CoderStory的博客：[blog.coderstory.cn](https://blog.coderstory.cn)   
  

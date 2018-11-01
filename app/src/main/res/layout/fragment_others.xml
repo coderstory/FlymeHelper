@@ -24,7 +24,7 @@
                 android:paddingStart="30dp"
                 android:paddingTop="20dp"
                 android:paddingEnd="30dp"
-                android:text="@string/MIUI_Purify" />
+                android:text="@string/Flyme_Purify" />
 
             <Switch
                 android:id="@+id/enableBlockAD"

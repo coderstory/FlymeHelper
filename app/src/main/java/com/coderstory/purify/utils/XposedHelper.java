@@ -79,20 +79,6 @@ public class XposedHelper {
         }
     }
 
-
-    protected static Object getDrmResultSUCCESS() {
-        try {
-            Class<Enum> drmSuccess = (Class<Enum>) Class.forName("miui.drm.DrmManager$DrmResult");
-            if (drmSuccess != null) {
-                return Enum.valueOf(drmSuccess, "DRM_SUCCESS");
-            }
-        } catch (Throwable localString4) {
-            XposedBridge.log(localString4);
-
-        }
-        return null;
-    }
-
     public static Set<XC_MethodHook.Unhook> hookAllMethods(Class<?> hookClass, String methodName, XC_MethodHook callback) {
         try {
             return XposedBridge.hookAllMethods(hookClass, methodName, callback);
