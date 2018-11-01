@@ -64,6 +64,8 @@ public class ThemePatcher extends XposedHelper implements IModule {
                  }
                  */
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.g", lpparam.classLoader, "a", Boolean.class, Boolean.class, XC_MethodReplacement.returnConstant(null));
+                // 7.5
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "a", Boolean.class, Boolean.class, XC_MethodReplacement.returnConstant(null));
                 /**
                  *  public void k() {
                  *         long v0 = SystemClock.elapsedRealtime() - this.n();
@@ -73,9 +75,13 @@ public class ThemePatcher extends XposedHelper implements IModule {
                  *         }
                  *     }
                  */
-                //findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.g", lpparam.classLoader, "k", XC_MethodReplacement.returnConstant(null));
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.g", lpparam.classLoader, "k", XC_MethodReplacement.returnConstant(null));
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "k", XC_MethodReplacement.returnConstant(null));
 
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.c", lpparam.classLoader, "g", XC_MethodReplacement.returnConstant(""));
+                //"checkTrialFont:!isUsingTrialFont() Context context, String str, long j
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "a", Context.class, String.class, long.class, XC_MethodReplacement.returnConstant(null));
+
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.c", lpparam.classLoader, "g", XC_MethodReplacement.returnConstant(null));
 
                 // 7.5
                 Class<?> themeContentProvider = findClass("com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider", lpparam.classLoader);

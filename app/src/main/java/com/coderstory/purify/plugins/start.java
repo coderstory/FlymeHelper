@@ -13,19 +13,18 @@ import com.coderstory.purify.module.ThemePatcher;
 import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 
 public class start implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
     @Override
-    public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) throws Throwable {
+    public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
         new FlymeRoot().handleInitPackageResources(resparam);
     }
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         new IsEnable().handleLoadPackage(lpparam);
         new RemoveAds().handleLoadPackage(lpparam);
         new HideApp().handleLoadPackage(lpparam);
@@ -37,9 +36,8 @@ public class start implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXp
     }
 
     @Override
-    public void initZygote(StartupParam startupParam) throws Throwable {
-        XposedBridge.log("Flyme7助手 3.x 开始Patch");
+    public void initZygote(StartupParam startupParam) {
+        //XposedBridge.log("Flyme7助手 3.x 开始Patch");
         new CorePatch().initZygote(startupParam);
-        new ThemePatcher().initZygote(startupParam);
     }
 }

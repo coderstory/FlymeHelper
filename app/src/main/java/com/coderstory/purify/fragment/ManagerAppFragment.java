@@ -4,8 +4,6 @@ package com.coderstory.purify.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +15,9 @@ import com.coderstory.purify.fragment.base.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 
 public class ManagerAppFragment extends BaseFragment implements ViewPager.OnPageChangeListener,

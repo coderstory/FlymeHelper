@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.Animatable;
-import android.support.annotation.NonNull;
 import android.view.animation.Animation;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
@@ -15,6 +14,8 @@ import android.view.animation.Transformation;
 import com.coderstory.purify.R;
 import com.coderstory.purify.utils.Utils;
 import com.coderstory.purify.view.PullToRefreshView;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Oleksii Shliama on 22/12/2014.
