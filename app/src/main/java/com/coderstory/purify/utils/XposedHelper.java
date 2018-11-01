@@ -38,16 +38,16 @@ public class XposedHelper {
         try {
             XposedHelpers.findAndHookMethod(p1, lpparam, p2, parameterTypesAndCallback);
 
-        } catch (Throwable localString3) {
-            XposedBridge.log(localString3);
+        } catch (Throwable error) {
+            XposedBridge.log(error);
         }
     }
 
     public static void findAndHookMethod(Class<?> p1, String p2, Object... parameterTypesAndCallback) {
         try {
             XposedHelpers.findAndHookMethod(p1, p2, parameterTypesAndCallback);
-        } catch (Throwable localString3) {
-            XposedBridge.log(localString3);
+        } catch (Throwable error) {
+            XposedBridge.log(error);
         }
     }
 
@@ -56,16 +56,16 @@ public class XposedHelper {
             Class packageParser = XposedHelpers.findClass(p1, null);
             XposedBridge.hookAllConstructors(packageParser, parameterTypesAndCallback);
 
-        } catch (Throwable localString3) {
-            XposedBridge.log(localString3);
+        } catch (Throwable error) {
+            XposedBridge.log(error);
         }
     }
 
     protected static void findAndHookMethod(String p1, String p2, Object[] p3) {
         try {
             XposedHelpers.findAndHookMethod(Class.forName(p1), p2, p3);
-        } catch (Throwable localString3) {
-            XposedBridge.log(localString3);
+        } catch (Throwable error) {
+            XposedBridge.log(error);
         }
     }
 
@@ -74,16 +74,16 @@ public class XposedHelper {
             Class packageParser = XposedHelpers.findClass(p1, lpparam);
             XposedBridge.hookAllMethods(packageParser, methodName, parameterTypesAndCallback);
 
-        } catch (Throwable localString3) {
-            XposedBridge.log(localString3);
+        } catch (Throwable error) {
+            XposedBridge.log(error);
         }
     }
 
     public static Set<XC_MethodHook.Unhook> hookAllMethods(Class<?> hookClass, String methodName, XC_MethodHook callback) {
         try {
             return XposedBridge.hookAllMethods(hookClass, methodName, callback);
-        } catch (Throwable localString3) {
-            XposedBridge.log(localString3.getMessage());
+        } catch (Throwable error) {
+            XposedBridge.log(error.getMessage());
         }
         return null;
     }
@@ -124,8 +124,8 @@ public class XposedHelper {
     public Set<XC_MethodHook.Unhook> hookAllConstructors(Class<?> hookClass, XC_MethodHook callback) {
         try {
             return XposedBridge.hookAllConstructors(hookClass, callback);
-        } catch (Throwable localString3) {
-            XposedBridge.log(localString3.getMessage());
+        } catch (Throwable error) {
+            XposedBridge.log(error.getMessage());
         }
         return null;
     }
