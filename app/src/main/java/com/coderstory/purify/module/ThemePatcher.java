@@ -42,16 +42,12 @@ public class ThemePatcher extends XposedHelper implements IModule {
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.ThemeTrialService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, XC_MethodReplacement.returnConstant(0));
 
                 //device_states | doCheckState
-                //7.1.2
                 findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.a", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
 
                 //resetToSystemTheme
-                //7.1.2
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true));
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "b", XC_MethodReplacement.returnConstant(true));
 
-                //data/data/com.meizu.customizecenter/font/   system_font
-                //7.1.2
                 /**
                  *
                  public void a(boolean arg4, boolean arg5) {
@@ -63,9 +59,9 @@ public class ThemePatcher extends XposedHelper implements IModule {
                  com.meizu.customizecenter.manager.utilstool.systemutills.a.a.a(this.d, v0);
                  }
                  */
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.g", lpparam.classLoader, "a", Boolean.class, Boolean.class, XC_MethodReplacement.returnConstant(null));
                 // 7.5
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "a", Boolean.class, Boolean.class, XC_MethodReplacement.returnConstant(null));
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "a", Context.class, String.class, long.class, XC_MethodReplacement.returnConstant(null));
+
                 /**
                  *  public void k() {
                  *         long v0 = SystemClock.elapsedRealtime() - this.n();
@@ -80,8 +76,6 @@ public class ThemePatcher extends XposedHelper implements IModule {
 
                 //"checkTrialFont:!isUsingTrialFont() Context context, String str, long j
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "a", Context.class, String.class, long.class, XC_MethodReplacement.returnConstant(null));
-
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.c", lpparam.classLoader, "g", XC_MethodReplacement.returnConstant(null));
 
                 // 7.5
                 Class<?> themeContentProvider = findClass("com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider", lpparam.classLoader);
