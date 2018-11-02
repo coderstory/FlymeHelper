@@ -10,6 +10,7 @@ import com.coderstory.purify.utils.XposedHelper;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
@@ -86,6 +87,21 @@ public class RemoveAds extends XposedHelper implements IModule {
                     webView.removeJavascriptInterface("mzAd");
                 }
             });
+        }
+
+        // com.meizu.advertise.plugin.apk
+        clazz = findClassWithoutLog("com.meizu.advertise.update.i$a", loadPackageParam.classLoader);
+        if (clazz != null) {
+            findAndHookMethod(clazz, "run", XC_MethodReplacement.returnConstant(null));
+        }
+        clazz = findClassWithoutLog("com.meizu.advertise.update.i$b", loadPackageParam.classLoader);
+        if (clazz != null) {
+            findAndHookMethod(clazz, "run", XC_MethodReplacement.returnConstant(null));
+        }
+
+        clazz = findClassWithoutLog("com.meizu.customizecenter.manager.utilshelper.a.b", loadPackageParam.classLoader);
+        if (clazz != null) {
+            findAndHookMethod(clazz, "b", XC_MethodReplacement.returnConstant(null));
         }
     }
 
