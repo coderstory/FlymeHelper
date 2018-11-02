@@ -90,6 +90,7 @@ public class RemoveAds extends XposedHelper implements IModule {
         }
 
         // com.meizu.advertise.plugin.apk
+        // 个性主题的
         clazz = findClassWithoutLog("com.meizu.advertise.update.i$a", loadPackageParam.classLoader);
         if (clazz != null) {
             findAndHookMethod(clazz, "run", XC_MethodReplacement.returnConstant(null));
@@ -103,6 +104,18 @@ public class RemoveAds extends XposedHelper implements IModule {
         if (clazz != null) {
             findAndHookMethod(clazz, "b", XC_MethodReplacement.returnConstant(null));
         }
+
+        // 视频的
+        clazz = findClassWithoutLog("com.meizu.advertise.api.AdManager$1", loadPackageParam.classLoader);
+        if (clazz != null) {
+            findAndHookMethod(clazz, "run", XC_MethodReplacement.returnConstant(null));
+        }
+
+        clazz = findClassWithoutLog("com.meizu.advertise.api.AdManager", loadPackageParam.classLoader);
+        if (clazz != null) {
+            findAndHookMethod(clazz, "installPlugin", XC_MethodReplacement.returnConstant(null));
+        }
+
     }
 
 }
