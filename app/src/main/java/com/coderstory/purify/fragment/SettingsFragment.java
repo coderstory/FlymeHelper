@@ -17,21 +17,16 @@ public class SettingsFragment extends BaseFragment {
     protected void setUpView() {
 
         $(R.id.enableCheck).setOnClickListener(v -> {
-            getEditor().putBoolean("enableCheck", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("enableCheck", ((Switch) v).isChecked());
         });
 
         $(R.id.installType).setOnClickListener(v -> {
-            getEditor().putBoolean("installType", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("installType", ((Switch) v).isChecked());
         });
 
         $(R.id.hideicon).setOnClickListener(v -> {
-            getEditor().putBoolean("hideIcon", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("hideIcon", ((Switch) v).isChecked());
+
             ComponentName localComponentName = new ComponentName(getMContext(), "com.coderstory.purify.activity.SplashActivity");
             PackageManager localPackageManager = getMContext().getPackageManager();
             localPackageManager.getComponentEnabledSetting(localComponentName);

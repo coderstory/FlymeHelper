@@ -35,7 +35,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import eu.chainfire.libsuperuser.Shell;
 
 import static com.coderstory.purify.R.id.navigation_view;
 
@@ -142,35 +141,6 @@ public class MainActivity extends BaseActivity {
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mToolbar.setNavigationIcon(R.drawable.ic_drawer_home);
         initDefaultFragment();
-
-        //取消滚动条
-//        NavigationView v = findViewById(R.id.navigation_view);
-//        v.setEnabled(false);
-//        v.setClickable(false);
-//        NavigationMenuView navigationMenuView = (NavigationMenuView) v.getChildAt(0);
-//        if (navigationMenuView != null) {
-//            navigationMenuView.setVerticalScrollBarEnabled(false);
-//        }
-        if (!getPrefs().getBoolean("isRooted", false)) {
-            // 检测弹窗
-            new Thread(() -> {
-                Message msg = new Message();
-                msg.arg1 = 1;
-                myHandler.sendMessage(msg);
-                if (!Shell.SU.available()) {
-                    msg = new Message();
-                    msg.arg1 = 0;
-                    myHandler.sendMessage(msg);
-                } else {
-                    msg = new Message();
-                    msg.arg1 = 2;
-                    myHandler.sendMessage(msg);
-                }
-                checkEnable();
-            }).start();
-        } else {
-            checkEnable();
-        }
     }
 
     private void checkEnable() {

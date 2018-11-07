@@ -8,16 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.coderstory.purify.config.Misc;
-
-import java.io.File;
+import com.coderstory.purify.utils.ConfigPreferences;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import eu.chainfire.libsuperuser.Shell;
 
 import static com.coderstory.purify.config.Misc.ApplicationName;
 import static com.coderstory.purify.config.Misc.SharedPreferencesName;
+import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
 
 
 /**
@@ -55,17 +53,8 @@ public abstract class BaseFragment extends Fragment {
     protected void setUpData() {
     }
 
-    protected SharedPreferences.Editor getEditor() {
-        if (editor == null) {
-            editor = getPrefs().edit();
-        }
-        return editor;
-
-    }
-
-    protected SharedPreferences getPrefs() {
-        prefs = getContext().getSharedPreferences(Misc.SharedPreferencesName, Context.MODE_PRIVATE);
-        return prefs;
+    protected ConfigPreferences getPrefs() {
+        return getInstance();
     }
 
     protected void init() {
@@ -78,7 +67,6 @@ public abstract class BaseFragment extends Fragment {
         return (T) mContentView.findViewById(id);
     }
 
-    // protected abstract View setContentView(LayoutInflater inflater, ViewGroup container);
 
     protected View getContentView() {
         return mContentView;
@@ -88,20 +76,4 @@ public abstract class BaseFragment extends Fragment {
         return mContext;
     }
 
-    protected ProgressDialog getProgressDialog() {
-        return mProgressDialog;
-    }
-
-    protected void sudoFixPermissions() {
-        new Thread(() -> {
-            File pkgFolder = new File("/data/data/" + ApplicationName);
-            if (pkgFolder.exists()) {
-                pkgFolder.setExecutable(true, false);
-                pkgFolder.setReadable(true, false);
-            }
-            Shell.SU.run("chmod  755 " + PREFS_FOLDER);
-            // Set preferences file permissions to be world readable
-            Shell.SU.run("chmod  644 " + PREFS_FILE);
-        }).start();
-    }
 }

@@ -14,6 +14,8 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
+import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
+
 public class HideApp extends XposedHelper implements IModule {
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
@@ -23,7 +25,7 @@ public class HideApp extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         if (loadPackageParam.packageName.equals("com.meizu.flyme.launcher")) {
-            final String value = prefs.getString("Hide_App_List", "");
+            final String value = getInstance().getString("Hide_App_List", "");
             if (!value.equals("")) {
                 final List<String> hideAppList = Arrays.asList(value.split(":"));
                 XposedBridge.log("load config" + value);

@@ -1,14 +1,15 @@
 package com.coderstory.purify.activity.base;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
-import com.coderstory.purify.config.Misc;
+import com.coderstory.purify.utils.ConfigPreferences;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
 
 public abstract class BaseActivity extends AppCompatActivity {
     private static SharedPreferences prefs;
@@ -44,11 +45,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void startActivityWithoutExtras(Class<?> clazz) {
         Intent intent = new Intent(this, clazz);
         startActivity(intent);
-    }
-
-    protected SharedPreferences getPrefs() {
-        prefs = getBaseContext().getSharedPreferences(Misc.SharedPreferencesName, Context.MODE_PRIVATE);
-        return prefs;
     }
 
     protected SharedPreferences.Editor getEditor() {

@@ -14,6 +14,7 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static com.coderstory.purify.config.Misc.isEnable;
+import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
 
 public class ThemePatcher extends XposedHelper implements IModule {
 
@@ -31,7 +32,7 @@ public class ThemePatcher extends XposedHelper implements IModule {
         }
 
         // 主题和谐
-        if (lpparam.packageName.equals("com.meizu.customizecenter") && prefs.getBoolean("enabletheme", false)) {
+        if (lpparam.packageName.equals("com.meizu.customizecenter") && getInstance().getBoolean("enabletheme", false)) {
 
             if (lpparam.packageName.equals("com.meizu.customizecenter")) {
                 // 拦截开机自启广播

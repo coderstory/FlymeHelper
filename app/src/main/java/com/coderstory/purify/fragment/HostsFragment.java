@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.coderstory.purify.R;
 import com.coderstory.purify.fragment.base.BaseFragment;
@@ -26,26 +27,20 @@ public class HostsFragment extends BaseFragment {
 
     @Override
     protected void setUpView() {
-
+        Toast.makeText(getMContext(),"仅ROOT授权下生效",Toast.LENGTH_LONG).show();
         $(R.id.enableHosts).setOnClickListener(v -> {
-            getEditor().putBoolean("enableHosts", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("enableHosts", ((Switch) v).isChecked());
             setCheck(((Switch) v).isChecked());
             new MyTask().execute();
         });
 
         $(R.id.enableFlymeHosts).setOnClickListener(v -> {
-            getEditor().putBoolean("enableFlymeHosts", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("enableFlymeHosts", ((Switch) v).isChecked());
             new MyTask().execute();
         });
 
         $(R.id.enableBlockAdsHosts).setOnClickListener(v -> {
-            getEditor().putBoolean("enableBlockAdsHosts", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("enableBlockAdsHosts", ((Switch) v).isChecked());
             new MyTask().execute();
         });
     }

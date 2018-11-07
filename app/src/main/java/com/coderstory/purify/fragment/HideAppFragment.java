@@ -121,9 +121,7 @@ public class HideAppFragment extends BaseFragment {
                 }
                 value = new StringBuilder(value.substring(0, value.length() - 1));
 
-                getEditor().putString("Hide_App_List", value.toString());
-                getEditor().apply();
-                sudoFixPermissions();
+                getPrefs().saveConfig("Hide_App_List", value.toString());
 
                 if (appInfo.getDisable()) {
                     appInfo.setDisable(false);

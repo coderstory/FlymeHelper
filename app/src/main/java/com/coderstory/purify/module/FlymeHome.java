@@ -20,6 +20,8 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
+import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
+
 
 public class FlymeHome extends XposedHelper implements IModule {
     @Override
@@ -35,8 +37,9 @@ public class FlymeHome extends XposedHelper implements IModule {
                 // 7.x
                 clazz = findClass("com.meizu.flyme.launcher.v", lpparam.classLoader);
             }
+            XposedBridge.log("读取值" + getInstance().getBoolean("hide_icon_5", false));
             // 开启自定义布局
-            if (prefs.getBoolean("hide_icon_5", false)) {
+            if (getInstance().getBoolean("hide_icon_5", false)) {
                 hookAllConstructors(clazz, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -72,7 +75,7 @@ public class FlymeHome extends XposedHelper implements IModule {
             }
 
             // 隐藏图标标签
-            if (prefs.getBoolean("hide_icon_label", false)) {
+            if (getInstance().getBoolean("hide_icon_label", false)) {
                 hookAllMethods(findClass("com.meizu.flyme.launcher.ShortcutIcon", lpparam.classLoader), "a", new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -85,7 +88,7 @@ public class FlymeHome extends XposedHelper implements IModule {
                 });
             }
 
-            final String value = prefs.getString("Hide_App_List", "");
+            final String value = getInstance().getString("Hide_App_List", "");
             if (!value.equals("")) {
                 final List<String> hideAppList = Arrays.asList(value.split(":"));
                 XposedBridge.log("load config" + value);

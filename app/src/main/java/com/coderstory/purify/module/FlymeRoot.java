@@ -10,14 +10,16 @@ import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
+import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
+
 public class FlymeRoot extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
 
-        if (loadPackageParam.packageName.equals("com.meizu.mznfcpay") && prefs.getBoolean("HideRootWithPay", false)) {
+        if (loadPackageParam.packageName.equals("com.meizu.mznfcpay") && getInstance().getBoolean("HideRootWithPay", false)) {
             findAndHookMethod("com.meizu.cloud.a.a.a", loadPackageParam.classLoader, "c", Context.class, XC_MethodReplacement.returnConstant(false));
         }
-        if (loadPackageParam.packageName.equals("com.meizu.flyme.update") && prefs.getBoolean("HideRootWithUpgrade", false)) {
+        if (loadPackageParam.packageName.equals("com.meizu.flyme.update") && getInstance().getBoolean("HideRootWithUpgrade", false)) {
             // DEVICE_STATE_SERVICE
             findAndHookMethod("com.meizu.cloud.a.a.a", loadPackageParam.classLoader, "b", Context.class, XC_MethodReplacement.returnConstant(false));
         }

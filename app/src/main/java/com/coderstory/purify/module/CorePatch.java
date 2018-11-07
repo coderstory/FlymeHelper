@@ -15,6 +15,8 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
+import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
+
 
 public class CorePatch extends XposedHelper implements IModule {
 
@@ -24,8 +26,8 @@ public class CorePatch extends XposedHelper implements IModule {
         findAndHookMethod("java.security.MessageDigest", null, "isEqual", byte[].class, byte[].class, new XC_MethodHook() {
             protected void beforeHookedMethod(MethodHookParam methodHookParam)
                     throws Throwable {
-                prefs.reload();
-                if (prefs.getBoolean("authcreak", true)) {
+                getInstance().reload();
+                if (getInstance().getBoolean("authcreak", true)) {
                     methodHookParam.setResult(true);
                 }
             }
@@ -34,8 +36,8 @@ public class CorePatch extends XposedHelper implements IModule {
         hookAllMethods("com.android.org.conscrypt.OpenSSLSignature", null, "engineVerify", new XC_MethodHook() {
             protected void beforeHookedMethod(MethodHookParam paramAnonymousMethodHookParam)
                     throws Throwable {
-                prefs.reload();
-                if (prefs.getBoolean("authcreak", true)) {
+                getInstance().reload();
+                if (getInstance().getBoolean("authcreak", true)) {
                     paramAnonymousMethodHookParam.setResult(true);
                 }
             }
@@ -50,8 +52,8 @@ public class CorePatch extends XposedHelper implements IModule {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
-                prefs.reload();
-                if (prefs.getBoolean("authcreak", true)) {
+                getInstance().reload();
+                if (getInstance().getBoolean("authcreak", true)) {
                     param.args[3] = false;
                 }
             }
@@ -61,8 +63,8 @@ public class CorePatch extends XposedHelper implements IModule {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 Object packageInfoLite = param.thisObject;
-                prefs.reload();
-                if (prefs.getBoolean("authcreak", true)) {
+                getInstance().reload();
+                if (getInstance().getBoolean("authcreak", true)) {
                     Field field = packageClass.getField(" SF_ATTRIBUTE_ANDROID_APK_SIGNED_ID");
                     field.setAccessible(true);
                     field.set(packageInfoLite, -1);
@@ -88,8 +90,8 @@ public class CorePatch extends XposedHelper implements IModule {
                 protected void beforeHookedMethod(MethodHookParam methodHookParam) throws Throwable {
                     super.beforeHookedMethod(methodHookParam);
                     Object packageInfoLite = methodHookParam.args[0];
-                    prefs.reload();
-                    if (prefs.getBoolean("downgrade", true)) {
+                    getInstance().reload();
+                    if (getInstance().getBoolean("downgrade", true)) {
                         Field field = packageClass.getField("mVersionCode");
                         field.setAccessible(true);
                         field.set(packageInfoLite, -1);
@@ -100,8 +102,8 @@ public class CorePatch extends XposedHelper implements IModule {
             hookAllMethods("com.android.server.pm.PackageManagerService", paramLoadPackageParam.classLoader, "verifySignaturesLP", new XC_MethodHook() {
 
                 protected void beforeHookedMethod(MethodHookParam methodHookParam) throws Throwable {
-                    prefs.reload();
-                    if (prefs.getBoolean("authcreak", true)) {
+                    getInstance().reload();
+                    if (getInstance().getBoolean("authcreak", true)) {
                         methodHookParam.setResult(true);
                     }
                 }
@@ -109,10 +111,10 @@ public class CorePatch extends XposedHelper implements IModule {
 
             hookAllMethods("com.android.server.pm.PackageManagerService", paramLoadPackageParam.classLoader, "compareSignatures", new XC_MethodHook() {
                 protected void beforeHookedMethod(MethodHookParam methodHookParam) throws Throwable {
-                    prefs.reload();
-                    if (prefs.getBoolean("zipauthcreak", false)) {
+                    getInstance().reload();
+                    if (getInstance().getBoolean("zipauthcreak", false)) {
 
-                        String platform = prefs.getString("platform", "DEFAULT");
+                        String platform = getInstance().getString("platform", "DEFAULT");
 
                         Signature[] signatures = (Signature[]) methodHookParam.args[0];
                         if (signatures != null && signatures.length > 0) {
@@ -138,16 +140,16 @@ public class CorePatch extends XposedHelper implements IModule {
 
             hookAllMethods("com.android.server.pm.PackageManagerService", paramLoadPackageParam.classLoader, "compareSignaturesCompat", new XC_MethodHook() {
                 protected void beforeHookedMethod(XC_MethodHook.MethodHookParam paramAnonymousMethodHookParam) {
-                    prefs.reload();
-                    if (prefs.getBoolean("authcreak", true)) {
+                    getInstance().reload();
+                    if (getInstance().getBoolean("authcreak", true)) {
                         paramAnonymousMethodHookParam.setResult(0);
                     }
                 }
             });
             hookAllMethods("com.android.server.pm.PackageManagerService", paramLoadPackageParam.classLoader, "compareSignaturesRecover", new XC_MethodHook() {
                 protected void beforeHookedMethod(XC_MethodHook.MethodHookParam paramAnonymousMethodHookParam) {
-                    prefs.reload();
-                    if (prefs.getBoolean("authcreak", true)) {
+                    getInstance().reload();
+                    if (getInstance().getBoolean("authcreak", true)) {
                         paramAnonymousMethodHookParam.setResult(0);
                     }
                 }

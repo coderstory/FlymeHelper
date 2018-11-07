@@ -18,93 +18,78 @@ public class OthersFragment extends BaseFragment {
     protected void setUpView() {
 
         $(R.id.enableBlockAD).setOnClickListener(v -> {
-            getEditor().putBoolean("EnableBlockAD", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("EnableBlockAD", ((Switch) v).isChecked());
+
         });
 
 
         $(R.id.enabletheme).setOnClickListener(v -> {
-            getEditor().putBoolean("EnableTheme", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("EnableTheme", ((Switch) v).isChecked());
+
         });
 
         $(R.id.authcreak).setOnClickListener(v -> {
-            getEditor().putBoolean("authcreak", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("authcreak", ((Switch) v).isChecked());
+
         });
 
         $(R.id.zipauthcreak).setOnClickListener(v -> {
-            getEditor().putBoolean("zipauthcreak", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("zipauthcreak", ((Switch) v).isChecked());
+
         });
 
         $(R.id.HideRootWithPay).setOnClickListener(v -> {
-            getEditor().putBoolean("HideRootWithPay", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("HideRootWithPay", ((Switch) v).isChecked());
+
         });
 
         $(R.id.HideRootWithUpgrade).setOnClickListener(v -> {
-            getEditor().putBoolean("HideRootWithUpgrade", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("HideRootWithUpgrade", ((Switch) v).isChecked());
+
         });
 
 
         $(R.id.downgrade).setOnClickListener(v -> {
-            getEditor().putBoolean("downgrade", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("downgrade", ((Switch) v).isChecked());
+
         });
 
         $(R.id.hide_icon_label).setOnClickListener(v -> {
-            getEditor().putBoolean("hide_icon_label", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("hide_icon_label", ((Switch) v).isChecked());
+
         });
         $(R.id.hide_icon_5).setOnClickListener(v -> {
-            getEditor().putBoolean("hide_icon_5", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("hide_icon_5", ((Switch) v).isChecked());
+
         });
 
         $(R.id.enableCTS).setOnClickListener(v -> {
-            getEditor().putBoolean("enableCTS", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("enableCTS", ((Switch) v).isChecked());
+
         });
 
         $(R.id.enableCheckInstaller).setOnClickListener(v -> {
-            getEditor().putBoolean("enableCheckInstaller", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("enableCheckInstaller", ((Switch) v).isChecked());
+
         });
 
         $(R.id.enabletheme).setOnClickListener(v -> {
-            getEditor().putBoolean("enabletheme", ((Switch) v).isChecked());
-            getEditor().apply();
-            sudoFixPermissions();
+            getPrefs().saveConfig("enabletheme", ((Switch) v).isChecked());
+
         });
 
         if (getPrefs().getString("platform", "").equals("")) {
             // 读取平台签名并保存
-            new Thread(() -> {
-                try {
-                    PackageInfo packageInfo = getMContext().getPackageManager().getPackageInfo("android", PackageManager.GET_SIGNATURES);
-                    if (packageInfo.signatures[0] != null) {
-                        String platform = new String(Base64.encode(packageInfo.signatures[0].toByteArray(), Base64.DEFAULT)).replaceAll("\n", "");
-                        getEditor().putString("platform", platform);
-                        getEditor().apply();
-                        sudoFixPermissions();
-                    }
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }).start();
+            PackageInfo packageInfo = null;
+            try {
+                packageInfo = getMContext().getPackageManager().getPackageInfo("android", PackageManager.GET_SIGNATURES);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+            if (packageInfo.signatures[0] != null) {
+                String platform = new String(Base64.encode(packageInfo.signatures[0].toByteArray(), Base64.DEFAULT)).replaceAll("\n", "");
+                getPrefs().saveConfig("platform", platform);
+            }
         }
     }
 

@@ -1,28 +1,25 @@
 package com.coderstory.purify.utils;
 
+import android.util.Log;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Set;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
-import static com.coderstory.purify.config.Misc.ApplicationName;
-import static com.coderstory.purify.config.Misc.SharedPreferencesName;
+import static de.robv.android.xposed.XposedHelpers.getParameterTypes;
 
 public class XposedHelper {
-    protected XSharedPreferences prefs = new XSharedPreferences(ApplicationName, SharedPreferencesName);
-
-    {
-        prefs.makeWorldReadable();
-        prefs.reload();
-    }
 
     public static Class findClass(String classpatch, ClassLoader classLoader) {
         try {
@@ -121,19 +118,67 @@ public class XposedHelper {
         }
     }
 
-    public Set<XC_MethodHook.Unhook> hookAllConstructors(Class<?> hookClass, XC_MethodHook callback) {
+    /**
+     * 调用指定的方法并返回结果
+     *
+     * @param targetObject 方法所在对象
+     * @param methodName   方法的名字
+     * @param returnType   返回类型
+     * @param params       参数类型
+     * @return
+     * @throws InvocationTargetException
+     * @throws IllegalAccessException
+     */
+    public static Object findResultByMethodNameAndReturnTypeAndParams(Object targetObject, String methodName, String returnType, Object... params) throws InvocationTargetException, IllegalAccessException {
+        return findMethodByNameAndReturnType(targetObject.getClass(), methodName, returnType, getParameterTypes(params)).invoke(targetObject, params);
+    }
+
+    public static Method findMethodByNameAndReturnType(Class<?> targetObject, String methodName, String returnType, Class<?>... params) {
+        for (Method method : targetObject.getDeclaredMethods()) {
+            if (method.getReturnType().getName().equals(returnType) && method.getName().equals(methodName)) {
+                Class[] parameterTypes = method.getParameterTypes();
+                if (params.length != parameterTypes.length) {
+                    continue;
+                }
+                for (int i = 0; i < params.length; i++) {
+                    if (params[i] != parameterTypes[i]) {
+                        break;
+                    }
+                }
+                method.setAccessible(true);
+                return method;
+            }
+        }
+        throw new NoSuchMethodError();
+    }
+
+    public static Field findFieldByClassAndTypeAndName(Class<?> targetObject, Class<?> fieldType, String fieldName) {
+        Class clazz = targetObject;
+        do {
+            for (Field field : clazz.getDeclaredFields()) {
+                if (field.getType() == fieldType && field.getName().equals(fieldName)) {
+                    field.setAccessible(true);
+                    return field;
+                }
+            }
+            clazz = clazz.getSuperclass();
+        } while (clazz != null);
+        throw new NoSuchFieldError("Field of type " + fieldType.getName() + " in class " + targetObject.getName());
+    }
+
+    protected void hookAllConstructors(Class<?> hookClass, XC_MethodHook callback) {
         try {
-            return XposedBridge.hookAllConstructors(hookClass, callback);
+            XposedBridge.hookAllConstructors(hookClass, callback);
         } catch (Throwable error) {
             XposedBridge.log(error.getMessage());
         }
-        return null;
     }
 
-    public Class findClassWithoutLog(String classpatch, ClassLoader classLoader) {
+    protected Class findClassWithoutLog(String classpatch, ClassLoader classLoader) {
         try {
             return XposedHelpers.findClass(classpatch, classLoader);
         } catch (XposedHelpers.ClassNotFoundError error) {
+            error.printStackTrace();
         }
         return null;
     }

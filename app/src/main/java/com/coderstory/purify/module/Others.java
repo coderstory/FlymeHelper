@@ -10,6 +10,8 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
+import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
+
 
 public class Others extends XposedHelper implements IModule {
 
@@ -24,7 +26,7 @@ public class Others extends XposedHelper implements IModule {
         // 禁止安装app时候的安全检验
         if (loadPackageParam.packageName.equals("com.android.packageinstaller")) {
 
-            if (prefs.getBoolean("enableCheckInstaller", false)) {
+            if (getInstance().getBoolean("enableCheckInstaller", false)) {
                 // 8.x
                 Class clazz = findClass("com.android.packageinstaller.FlymePackageInstallerActivity", loadPackageParam.classLoader);
                 if (clazz == null) {
@@ -42,7 +44,7 @@ public class Others extends XposedHelper implements IModule {
                     });
                 }
             }
-            if (prefs.getBoolean("enableCTS", false)) {
+            if (getInstance().getBoolean("getInstance()", false)) {
                 XposedBridge.log("开启原生安装器");
                 findAndHookMethod("com.meizu.safe.security.utils.Utils", loadPackageParam.classLoader, "isCtsRunning", XC_MethodReplacement.returnConstant(true));
             }
