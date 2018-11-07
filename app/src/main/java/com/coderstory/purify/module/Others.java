@@ -44,7 +44,7 @@ public class Others extends XposedHelper implements IModule {
                     });
                 }
             }
-            if (getInstance().getBoolean("getInstance()", false)) {
+            if (getInstance().getBoolean("enableCTS", false)) {
                 XposedBridge.log("开启原生安装器");
                 findAndHookMethod("com.meizu.safe.security.utils.Utils", loadPackageParam.classLoader, "isCtsRunning", XC_MethodReplacement.returnConstant(true));
             }

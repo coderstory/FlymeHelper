@@ -30,6 +30,10 @@ public class RemoveAds extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
 
+        if (!loadPackageParam.packageName.contains("meizu") && !loadPackageParam.packageName.contains("flyme")) {
+            return;
+        }
+
         //屏蔽魅族广告sdk相关 splashad JsAdBridge  主题 安全中心 商店  日历  天气  音乐
         Class<?> clazz = findClassWithoutLog("com.meizu.advertise.api.JsAdBridge", loadPackageParam.classLoader);
         if (clazz != null) {
