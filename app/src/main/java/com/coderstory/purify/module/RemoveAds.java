@@ -16,6 +16,8 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
+import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
+
 
 public class RemoveAds extends XposedHelper implements IModule {
 
@@ -30,7 +32,9 @@ public class RemoveAds extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
 
-        if (!loadPackageParam.packageName.contains("meizu") && !loadPackageParam.packageName.contains("flyme")) {
+        if (!loadPackageParam.packageName.contains("meizu") &&
+                !loadPackageParam.packageName.contains("flyme") &&
+                !getInstance().getBoolean("EnableBlockAD", false)) {
             return;
         }
 
