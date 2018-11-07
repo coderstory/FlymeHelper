@@ -12,9 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    private static SharedPreferences prefs;
-    private static SharedPreferences.Editor editor;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,13 +42,5 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void startActivityWithoutExtras(Class<?> clazz) {
         Intent intent = new Intent(this, clazz);
         startActivity(intent);
-    }
-
-    protected SharedPreferences.Editor getEditor() {
-        if (editor == null) {
-            editor = prefs.edit();
-        }
-        return editor;
-
     }
 }
