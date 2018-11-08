@@ -26,20 +26,20 @@ public class CorePatch extends XposedHelper implements IModule {
         findAndHookMethod("java.security.MessageDigest", null, "isEqual", byte[].class, byte[].class, new XC_MethodHook() {
             protected void beforeHookedMethod(MethodHookParam methodHookParam)
                     throws Throwable {
-                getInstance().reload();
-                if (getInstance().getBoolean("authcreak", true)) {
-                    methodHookParam.setResult(true);
-                }
+                //getInstance().reload();
+                //if (getInstance().getBoolean("authcreak", true)) {
+                methodHookParam.setResult(true);
+                //}
             }
         });
 
         hookAllMethods("com.android.org.conscrypt.OpenSSLSignature", null, "engineVerify", new XC_MethodHook() {
             protected void beforeHookedMethod(MethodHookParam paramAnonymousMethodHookParam)
                     throws Throwable {
-                getInstance().reload();
-                if (getInstance().getBoolean("authcreak", true)) {
-                    paramAnonymousMethodHookParam.setResult(true);
-                }
+                // getInstance().reload();
+                //if (getInstance().getBoolean("authcreak", true)) {
+                paramAnonymousMethodHookParam.setResult(true);
+                // }
             }
         });
 
@@ -52,10 +52,10 @@ public class CorePatch extends XposedHelper implements IModule {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
 
-                getInstance().reload();
-                if (getInstance().getBoolean("authcreak", true)) {
-                    param.args[3] = false;
-                }
+                // getInstance().reload();
+                // if (getInstance().getBoolean("authcreak", true)) {
+                param.args[3] = false;
+                // }
             }
         });
 
@@ -63,12 +63,12 @@ public class CorePatch extends XposedHelper implements IModule {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 Object packageInfoLite = param.thisObject;
-                getInstance().reload();
-                if (getInstance().getBoolean("authcreak", true)) {
-                    Field field = packageClass.getField(" SF_ATTRIBUTE_ANDROID_APK_SIGNED_ID");
-                    field.setAccessible(true);
-                    field.set(packageInfoLite, -1);
-                }
+                // getInstance().reload();
+                //if (getInstance().getBoolean("authcreak", true)) {
+                Field field = packageClass.getField(" SF_ATTRIBUTE_ANDROID_APK_SIGNED_ID");
+                field.setAccessible(true);
+                field.set(packageInfoLite, -1);
+                //  }
             }
         });
     }
