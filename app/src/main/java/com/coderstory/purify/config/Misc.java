@@ -2,7 +2,7 @@ package com.coderstory.purify.config;
 
 
 public class Misc {
-    public static final String BasePath = "/sdcard/Flyme_Purify";
+    public static final String BasePath = "/storage/emulated/0/Flyme_Purify";
     public static final String BackPath = BasePath + "/Backup/";
     public static final String CrashFilePath = BasePath + "/CrashLog/";
     public static final String MyBlogUrl = "http://blog.coderstory.cn";
