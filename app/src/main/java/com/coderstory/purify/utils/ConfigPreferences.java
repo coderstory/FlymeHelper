@@ -19,18 +19,24 @@ public class ConfigPreferences {
             String jsonString = JSON.toJSONString(config);
             writeFile(DEFAULT_FILENAME, jsonString);
         } else {
-            String jsonString = readFile(DEFAULT_FILENAME);
-            config = JSON.parseObject(jsonString);
+            reload();
         }
     }
 
-    public static ConfigPreferences getInstance() {
+    public synchronized static ConfigPreferences getInstance() {
+        reload();
         return ConfigPreferencesHolder.configPreferences;
     }
 
-    public void reload() {
+    public static synchronized void reload() {
         String jsonString = readFile(DEFAULT_FILENAME);
-        config = JSON.parseObject(jsonString, JSONObject.class);
+        //Log.i("Xposed", "reload: " + jsonString);
+
+        if (jsonString != null && !jsonString.equals("")) {
+            config = JSON.parseObject(jsonString, JSONObject.class);
+        } else {
+            config = new JSONObject();
+        }
     }
 
     /**

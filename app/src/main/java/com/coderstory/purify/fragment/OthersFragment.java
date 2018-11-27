@@ -28,16 +28,6 @@ public class OthersFragment extends BaseFragment {
 
         });
 
-        $(R.id.authcreak).setOnClickListener(v -> {
-            getPrefs().saveConfig("authcreak", ((Switch) v).isChecked());
-
-        });
-
-        $(R.id.zipauthcreak).setOnClickListener(v -> {
-            getPrefs().saveConfig("zipauthcreak", ((Switch) v).isChecked());
-
-        });
-
         $(R.id.HideRootWithPay).setOnClickListener(v -> {
             getPrefs().saveConfig("HideRootWithPay", ((Switch) v).isChecked());
 
@@ -48,11 +38,6 @@ public class OthersFragment extends BaseFragment {
 
         });
 
-
-        $(R.id.downgrade).setOnClickListener(v -> {
-            getPrefs().saveConfig("downgrade", ((Switch) v).isChecked());
-
-        });
 
         $(R.id.hide_icon_label).setOnClickListener(v -> {
             getPrefs().saveConfig("hide_icon_label", ((Switch) v).isChecked());
@@ -101,9 +86,6 @@ public class OthersFragment extends BaseFragment {
     @Override
     protected void setUpData() {
         ((Switch) $(R.id.hide_icon_label)).setChecked(getPrefs().getBoolean("hide_icon_label", false));
-        ((Switch) $(R.id.authcreak)).setChecked(getPrefs().getBoolean("authcreak", false));
-        ((Switch) $(R.id.zipauthcreak)).setChecked(getPrefs().getBoolean("zipauthcreak", false));
-        ((Switch) $(R.id.downgrade)).setChecked(getPrefs().getBoolean("downgrade", false));
         ((Switch) $(R.id.enableBlockAD)).setChecked(getPrefs().getBoolean("EnableBlockAD", false));
         ((Switch) $(R.id.enabletheme)).setChecked(getPrefs().getBoolean("enabletheme", false));
         ((Switch) $(R.id.HideRootWithPay)).setChecked(getPrefs().getBoolean("HideRootWithPay", false));

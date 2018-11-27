@@ -11,7 +11,6 @@ import com.coderstory.purify.utils.XposedHelper;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -46,7 +45,7 @@ public class RemoveAds extends XposedHelper implements IModule {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                    XposedBridge.log("发现广告sdk" + loadPackageParam.packageName);
+                    //XposedBridge.log("发现广告sdk" + loadPackageParam.packageName);
                     XposedHelpers.setStaticObjectField(finalClazz, "OBJECT_NAME", "fuck_ad");
                 }
             });
@@ -83,7 +82,7 @@ public class RemoveAds extends XposedHelper implements IModule {
 
         clazz = findClassWithoutLog("com.meizu.advertise.api.SimpleJsAdBridge", loadPackageParam.classLoader);
         if (clazz != null) {
-            XposedBridge.log("发现广告sdk" + loadPackageParam.packageName);
+            //XposedBridge.log("发现广告sdk" + loadPackageParam.packageName);
             XposedHelpers.findAndHookConstructor(clazz, Activity.class, WebView.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
