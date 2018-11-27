@@ -49,7 +49,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="Flyme7助手 by coderstory" />
+            android:value="勿忘初心，方得始终" />
         <meta-data
             android:name="xposedminversion"
             android:value="54" />

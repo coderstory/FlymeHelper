@@ -25,13 +25,14 @@ public class HideApp extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         if (loadPackageParam.packageName.equals("com.meizu.flyme.launcher")) {
+            // bl.add(new ComponentName("com.android.vending", "com.android.vending.MarketWidgetProvider"));
             final String value = getInstance().getString("Hide_App_List", "");
             if (!value.equals("")) {
                 final List<String> hideAppList = Arrays.asList(value.split(":"));
                 XposedBridge.log("load config" + value);
-                findAndHookMethod("com.meizu.flyme.launcher.ca", loadPackageParam.classLoader, "b", ComponentName.class, new XC_MethodHook() {
+                findAndHookMethod("com.meizu.flyme.launcher.cb", loadPackageParam.classLoader, "a", ComponentName.class, new XC_MethodHook() {
                     @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    protected void beforeHookedMethod(MethodHookParam param) {
                         ComponentName componentName = (ComponentName) param.args[0];
                         if (hideAppList.contains(componentName.getPackageName())) {
                             XposedBridge.log("hide app " + componentName.getPackageName());
