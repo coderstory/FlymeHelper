@@ -91,16 +91,6 @@
                 android:paddingEnd="30dp"
                 android:text="@string/enableCTS" />
 
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-
-                android:paddingStart="30dp"
-                android:paddingTop="30dp"
-                android:paddingEnd="30dp"
-                android:text="@string/corepatch" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"

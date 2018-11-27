@@ -30,7 +30,6 @@
     <string name="installapk"><b>APK安装模式</b>\n默认为显示安装模式（普通模式），开启选项后改为后台安装模式(静默安装)。在Flyme系统中，由于系统底层机制被修改，无法开启静默安装，否则会安装失败，切记！</string>
     <string name="hide_icon_label"><b>隐藏桌面图标标签</b>\n隐藏桌面图标下的文字,不能隐藏文件夹的名字，但可以通过修改文件夹的名字为【一个空格】的方式解决</string>
     <string name="hide_icon_5x5"><b>自定义桌面布局</b>\n使用5x5的桌面图标布局</string>
-    <string name="corepatch">核心破解(仅支持 Android 7.0+)</string>
     <string name="enableCheckInstaller"><b>禁用安全检查</b>\n跳过安装应用时候的安全检查</string>
     <string name="enableCTS"><b>启用原生应用安装界面</b>\n使用Android默认的安装界面</string>
     <string name="downgr"><b>允许降级安装应用 - 实时生效</b>\n允许应用在安装新版本的情况下直接覆盖安装旧版本</string>
