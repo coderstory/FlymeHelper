@@ -30,7 +30,7 @@ public class HideApp extends XposedHelper implements IModule {
             if (!value.equals("")) {
                 final List<String> hideAppList = Arrays.asList(value.split(":"));
                 XposedBridge.log("load config" + value);
-                findAndHookMethod("com.meizu.flyme.launcher.cb", loadPackageParam.classLoader, "a", ComponentName.class, new XC_MethodHook() {
+                findAndHookMethod("com.meizu.flyme.launcher.cb", loadPackageParam.classLoader, "b", ComponentName.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) {
                         ComponentName componentName = (ComponentName) param.args[0];
