@@ -4,7 +4,6 @@ package com.coderstory.purify.fragment;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -85,8 +84,6 @@ public class CleanFragment extends BaseFragment {
             sendMessageStr(getString(R.string.view_clean_anr, anrSize.sizeReadable));
             totalSize += anrSize.size;
 
-            // clean art
-            totalSize += deleteRemainArtCache();
             sendMessageStr(getString(R.string.view_clean_complete, FileHelper.getReadableFileSize(totalSize)));
             hComplete.sendEmptyMessage(0);
             Misc.isProcessing = false;
@@ -114,89 +111,6 @@ public class CleanFragment extends BaseFragment {
 
     private void deleteAnrLog() {
         Shell.SU.run("rm -r /data/anr/*");
-    }
-
-    private long deleteRemainArtCache() {
-
-        List<String> listInstalled = Shell.SU.run("ls /data/app");
-        listInstalled.addAll(Shell.SU.run("ls /vendor/app"));
-        List<String> listAllInstalled = Shell.SU.run("pm list packages");
-        List<String> listArm = Shell.SU.run("ls /data/dalvik-cache/arm");
-        List<String> listArm64 = Shell.SU.run("ls /data/dalvik-cache/arm64");
-        List<String> listProfile = Shell.SU.run("ls /data/dalvik-cache/profiles");
-        long totalSize = 0L;
-        String tmpPath;
-        CacheSize size;
-        for (String s : listArm) {
-            if (!s.trim().equals("")) {
-                if (!isCachedAppInstalled(listInstalled, s)) {
-                    tmpPath = "/data/dalvik-cache/arm/" + s;
-                    size = getSize(tmpPath);
-                    deleteCache(tmpPath);
-                    sendMessageStr(getString(R.string.view_clean_art_remain, s, size.sizeReadable));
-                    totalSize += size.size;
-
-                }
-            }
-        }
-
-        for (String s : listArm64) {
-            if (!s.trim().equals("")) {
-                if (!isCachedAppInstalled(listInstalled, s)) {
-                    tmpPath = "/data/dalvik-cache/arm64/" + s;
-                    size = getSize(tmpPath);
-                    deleteCache(tmpPath);
-                    sendMessageStr(getString(R.string.view_clean_art_remain, s, size.sizeReadable));
-                    totalSize += size.size;
-
-                }
-            }
-        }
-
-        for (String s : listProfile) {
-            if (!s.trim().equals("")) {
-                if (!isProfileInstalled(listAllInstalled, s)) {
-                    tmpPath = "/data/dalvik-cache/profiles/" + s;
-                    size = getSize(tmpPath);
-                    deleteCache(tmpPath);
-                    sendMessageStr(getString(R.string.view_clean_art_remain, s, size.sizeReadable));
-                    totalSize += size.size;
-                }
-            }
-        }
-        return totalSize;
-    }
-
-    private boolean isCachedAppInstalled(List<String> oriList, String app) {
-        if (app.startsWith("system") || app.startsWith("data@dalvik-cache")) {
-            return true;
-        }
-        String newAppPath = app.replace("data@app@", "");
-        try {
-            newAppPath = newAppPath.substring(0, newAppPath.indexOf("@"));
-        } catch (Exception e) {
-            Log.e("FLyme", "isCachedAppInstalled: " + e.getMessage());
-        }
-
-        boolean ret = false;
-        for (String s : oriList) {
-            if (s.equals(newAppPath)) {
-                ret = true;
-                break;
-            }
-        }
-        return ret;
-    }
-
-    private boolean isProfileInstalled(List<String> oriList, String app) {
-        boolean ret = false;
-        for (String s : oriList) {
-            if (s.contains(app)) {
-                ret = true;
-                break;
-            }
-        }
-        return ret;
     }
 
     private class CacheSize {
