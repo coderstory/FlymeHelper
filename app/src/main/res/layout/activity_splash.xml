@@ -35,7 +35,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="13dp"
         android:fontFamily="sans-serif-condensed"
-        android:text="山有木兮木有枝"
+        android:text="不忘初心,方得始终"
         android:textColor="#fff"
         android:textSize="25sp" />
 
