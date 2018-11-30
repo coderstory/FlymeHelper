@@ -1,5 +1,6 @@
 package com.coderstory.purify.plugins;
 
+import com.coderstory.purify.BuildConfig;
 import com.coderstory.purify.module.FlymeHome;
 import com.coderstory.purify.module.FlymeRoot;
 import com.coderstory.purify.module.HideApp;
@@ -35,6 +36,6 @@ public class start implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXp
 
     @Override
     public void initZygote(StartupParam startupParam) {
-        XposedBridge.log("Flyme7助手 3.x 开始Patch");
+        XposedBridge.log("Flyme7助手 " + BuildConfig.VERSION_NAME + " 开始Patch");
     }
 }

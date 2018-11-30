@@ -1,6 +1,5 @@
 package com.coderstory.purify.module;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.view.View;
@@ -10,8 +9,6 @@ import com.coderstory.purify.plugins.IModule;
 import com.coderstory.purify.utils.XposedHelper;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
@@ -37,7 +34,6 @@ public class FlymeHome extends XposedHelper implements IModule {
                 // 7.x
                 clazz = findClass("com.meizu.flyme.launcher.v", lpparam.classLoader);
             }
-            XposedBridge.log("读取值" + getInstance().getBoolean("hide_icon_5", false));
             // 开启自定义布局
             if (getInstance().getBoolean("hide_icon_5", false)) {
                 hookAllConstructors(clazz, new XC_MethodHook() {
