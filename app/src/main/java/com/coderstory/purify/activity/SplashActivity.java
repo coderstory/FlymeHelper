@@ -20,7 +20,7 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        ((TextView) findViewById(R.id.ccd)).setText(BuildConfig.VERSION_NAME);
+        ((TextView) findViewById(R.id.ccd)).setText(BuildConfig.VERSION_NAME.split(" ")[0]);
         //倒计时返回主界面
 
         new AsyncTask<Void, Void, Integer>() {
