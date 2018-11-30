@@ -35,7 +35,6 @@ public class HideApp extends XposedHelper implements IModule {
                     protected void beforeHookedMethod(MethodHookParam param) {
                         ComponentName componentName = (ComponentName) param.args[0];
                         if (hideAppList.contains(componentName.getPackageName())) {
-                            //XposedBridge.log("hide app " + componentName.getPackageName());
                             param.setResult(true);
                         }
                     }

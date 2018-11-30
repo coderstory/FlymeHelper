@@ -92,15 +92,12 @@ public class ThemePatcher extends XposedHelper implements IModule {
                         String Tag = "(ITEMS LIKE";
                         String Tag2 = "%zklockscreen;%";
                         String Tag3 = "%com.meizu.flyme.weather;%";
-                        //XposedBridge.log("开始");
                         boolean result = false;
                         for (Object obj : objs) {
-                            //XposedBridge.log(obj == null ? "" : obj.toString());
                             if (obj instanceof String && (((String) obj).contains(Tag) || obj.equals(Tag2) || obj.equals(Tag3))) {
                                 result = true;
                             }
                         }
-                        //XposedBridge.log("结束");
                         if (result) {
                             for (Object obj : objs) {
                                 if (obj instanceof String[]) {

@@ -12,7 +12,6 @@ import java.io.File;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -40,7 +39,6 @@ public class FlymeHome extends XposedHelper implements IModule {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         super.beforeHookedMethod(param);
-                        XposedBridge.log("开启自定义布局");
                         if (param.args[0].getClass().equals(String.class)) {
                             param.args[3] = 5.0f;
                             param.args[4] = 5.0f;
