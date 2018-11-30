@@ -7,7 +7,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.view.Menu;
@@ -126,11 +125,11 @@ public class HideAppFragment extends BaseFragment {
                 if (appInfo.getDisable()) {
                     appInfo.setDisable(false);
                     appInfoList.set(mPosition, appInfo);
-                    mView.setBackgroundColor(getResources().getColor(R.color.colorPrimary)); //正常的颜色
+                    mView.setBackgroundColor(getResources().getColor(R.color.colorPrimary, null)); //正常的颜色
                 } else {
                     appInfo.setDisable(true);
                     appInfoList.set(mPosition, appInfo);
-                    mView.setBackgroundColor(Color.parseColor("#d0d7d7d7")); //冻结的颜色
+                    mView.setBackgroundColor(getResources().getColor(R.color.disableeApp, null)); //冻结的颜色
                 }
 
             });
