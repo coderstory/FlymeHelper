@@ -34,16 +34,21 @@ public class FlymeHome extends XposedHelper implements IModule {
                 clazz = findClass("com.meizu.flyme.launcher.v", lpparam.classLoader);
             }
             // 开启自定义布局
+            // (String str, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
             if (getInstance().getBoolean("hide_icon_5", false)) {
                 hookAllConstructors(clazz, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         super.beforeHookedMethod(param);
                         if (param.args[0].getClass().equals(String.class)) {
-                            param.args[3] = 5.0f;
-                            param.args[4] = 5.0f;
+                            // flyme5 359 518 5.0 4.0 55 13 4 55
+                            param.args[3] = 5.0f; // y
+                            param.args[4] = 5.0f; // x.
+                            param.args[7] = 4.0f; // hotseat
+
                         }
                     }
+
                 });
                 // 不同布局使用不同的db
                 hookAllConstructors(SQLiteOpenHelper.class, new XC_MethodHook() {

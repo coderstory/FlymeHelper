@@ -4,6 +4,7 @@ import com.coderstory.purify.plugins.IModule;
 import com.coderstory.purify.utils.XposedHelper;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
+import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
@@ -48,6 +49,46 @@ public class Others extends XposedHelper implements IModule {
                 XposedBridge.log("开启原生安装器");
                 findAndHookMethod("com.meizu.safe.security.utils.Utils", loadPackageParam.classLoader, "isCtsRunning", XC_MethodReplacement.returnConstant(true));
             }
+        }
+
+        if (loadPackageParam.packageName.equals("com.meizu.flyme.update")) {
+            // 检测类型改成每夜版
+//            findAndHookMethod("com.meizu.flyme.update.network.RequestManager", loadPackageParam.classLoader, "getSystemUpgradeSwitchParams", String.class, new XC_MethodHook() {
+//                @Override
+//                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+//                    super.beforeHookedMethod(param);
+//                    param.args[0] = "daily";
+//                }
+//            });
+
+            // 替换检测更新接口参数 当前系统类型 daily beta stable
+//            findAndHookMethod("com.meizu.flyme.update.network.RequestManager", loadPackageParam.classLoader, "generateSysParam", String.class, new XC_MethodHook() {
+//                @Override
+//                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+//                    super.beforeHookedMethod(param);
+//                    param.args[0] = "daily";
+//                }
+//            });
+            // 替换检测更新接口参数  屏蔽检测 root
+            //findAndHookMethod("com.meizu.flyme.update.common.d.b", loadPackageParam.classLoader, "i", Context.class, XC_MethodReplacement.returnConstant("0"));
+            // 替换检测更新接口参数  当前系统版本
+//            findAndHookMethod("com.meizu.flyme.update.common.d.b", loadPackageParam.classLoader, "c", Context.class, XC_MethodReplacement.returnConstant("8.1.0-1541448550_stable"));
+//
+//            findAndHookMethod("com.meizu.flyme.update.model.i$a", loadPackageParam.classLoader, "getTargetFirmwareType", XC_MethodReplacement.returnConstant("daily"));
+//
+//
+
+            hookAllMethods("com.meizu.flyme.update.i.e", loadPackageParam.classLoader, "a", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+
+                    for (String s : param.args[0].toString().split("\"")) {
+                        XposedBridge.log(s);
+                    }
+
+                }
+            });
         }
 
     }
