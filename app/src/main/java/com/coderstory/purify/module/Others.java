@@ -1,5 +1,8 @@
 package com.coderstory.purify.module;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import com.coderstory.purify.plugins.IModule;
 import com.coderstory.purify.utils.XposedHelper;
 
@@ -16,6 +19,7 @@ import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
 
 public class Others extends XposedHelper implements IModule {
 
+    private static Context mContext = null;
 
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
@@ -52,39 +56,47 @@ public class Others extends XposedHelper implements IModule {
         }
 
         if (loadPackageParam.packageName.equals("com.meizu.flyme.update")) {
-            // 检测类型改成每夜版
-//            findAndHookMethod("com.meizu.flyme.update.network.RequestManager", loadPackageParam.classLoader, "getSystemUpgradeSwitchParams", String.class, new XC_MethodHook() {
-//                @Override
-//                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-//                    super.beforeHookedMethod(param);
-//                    param.args[0] = "daily";
-//                }
-//            });
-
-            // 替换检测更新接口参数 当前系统类型 daily beta stable
-//            findAndHookMethod("com.meizu.flyme.update.network.RequestManager", loadPackageParam.classLoader, "generateSysParam", String.class, new XC_MethodHook() {
-//                @Override
-//                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-//                    super.beforeHookedMethod(param);
-//                    param.args[0] = "daily";
-//                }
-//            });
-            // 替换检测更新接口参数  屏蔽检测 root
-            //findAndHookMethod("com.meizu.flyme.update.common.d.b", loadPackageParam.classLoader, "i", Context.class, XC_MethodReplacement.returnConstant("0"));
-            // 替换检测更新接口参数  当前系统版本
-//            findAndHookMethod("com.meizu.flyme.update.common.d.b", loadPackageParam.classLoader, "c", Context.class, XC_MethodReplacement.returnConstant("8.1.0-1541448550_stable"));
-//
-//            findAndHookMethod("com.meizu.flyme.update.model.i$a", loadPackageParam.classLoader, "getTargetFirmwareType", XC_MethodReplacement.returnConstant("daily"));
-//
-//
 
             hookAllMethods("com.meizu.flyme.update.i.e", loadPackageParam.classLoader, "a", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
 
-                    for (String s : param.args[0].toString().split("\"")) {
-                        XposedBridge.log(s);
+                    // for (String s : param.args[0].toString().split("\"")) {
+                    //     XposedBridge.log(s);
+                    // }
+
+                }
+            });
+
+            XposedBridge.hookAllConstructors(findClass("com.meizu.flyme.update.d.a", loadPackageParam.classLoader), new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    mContext = (Context) param.args[0];
+                }
+            });
+
+
+            XposedBridge.hookAllConstructors(findClass("com.meizu.flyme.update.model.k", loadPackageParam.classLoader), new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    Object obj = param.thisObject;
+                    Object currentFimware = XposedHelpers.getObjectField(obj, "currentFimware");
+                    if (currentFimware != null) {
+                        String update = getInstance().getString("updateList", "");
+                        String systemVersion = (String) XposedHelpers.getObjectField(currentFimware, "systemVersion");
+                        String updateUrl = (String) XposedHelpers.getObjectField(currentFimware, "updateUrl");
+                        if (!update.contains(updateUrl)) {
+                            update += systemVersion + "@" + updateUrl + ";";
+                            getInstance().saveConfig("updateList", update);
+                        }
+
+                    }
+
+                    if (mContext != null) {
+                        Toast.makeText(mContext, "flyme助手:已检测到更新包地址", Toast.LENGTH_LONG).show();
                     }
 
                 }

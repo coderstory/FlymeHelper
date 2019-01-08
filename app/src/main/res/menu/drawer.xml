@@ -13,6 +13,12 @@
             android:id="@+id/navigation_item_disableapps"
             android:icon="@drawable/disable"
             android:title="@string/disableapp" />
+
+        <item
+            android:id="@+id/navigation_item_hosts"
+            android:icon="@drawable/hosts"
+            android:title="@string/hosts" />
+
         <item
             android:id="@+id/navigation_item_ManagerApp"
             android:icon="@drawable/iconfont_blog"
@@ -27,13 +33,13 @@
             android:icon="@drawable/iconfont_source"
             android:title="@string/hide_app_icon" />
 
-        <item
-            android:id="@+id/navigation_item_hosts"
-            android:icon="@drawable/hosts"
-            android:title="@string/hosts" />
-
         <item android:title="@string/other">
             <menu>
+                <item
+                    android:id="@+id/navigation_item_updateList"
+                    android:icon="@drawable/hosts"
+                    android:title="@string/updateList" />
+
                 <item
                     android:id="@+id/navigation_item_settings"
                     android:icon="@drawable/iconfont_custom_view"

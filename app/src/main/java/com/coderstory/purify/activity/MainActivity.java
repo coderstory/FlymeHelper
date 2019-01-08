@@ -1,15 +1,11 @@
 package com.coderstory.purify.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -23,6 +19,7 @@ import com.coderstory.purify.fragment.HostsFragment;
 import com.coderstory.purify.fragment.ManagerAppFragment;
 import com.coderstory.purify.fragment.OthersFragment;
 import com.coderstory.purify.fragment.SettingsFragment;
+import com.coderstory.purify.fragment.UpdateListFragment;
 import com.coderstory.purify.fragment.WebViewFragment;
 import com.coderstory.purify.utils.SnackBarUtils;
 import com.coderstory.purify.utils.ViewUtils;
@@ -37,7 +34,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import static com.coderstory.purify.R.id.navigation_view;
-import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
 
 public class MainActivity extends BaseActivity {
     public static final long MAX_DOUBLE_BACK_DURATION = 1500;
@@ -107,22 +103,22 @@ public class MainActivity extends BaseActivity {
 
         checkEnable();
 
-        if(getInstance().getBoolean("firstOpen",true)){
-            getInstance().saveConfig("firstOpen",false);
-            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
-            normalDialog.setTitle("提示");
-            normalDialog.setMessage("本次更新后Xposed功能不再依赖ROOT权限,所有设置恢复默认，请重新设置。");
-            normalDialog.setPositiveButton("确定",
-                    (dialog, which) -> {});
-            normalDialog.setCancelable(true);
-            normalDialog.show();
-        }
+//        if(getInstance().getBoolean("firstOpen",true)){
+//            getInstance().saveConfig("firstOpen",false);
+//            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
+//            normalDialog.setTitle("提示");
+//            normalDialog.setMessage("本次更新后Xposed功能不再依赖ROOT权限,所有设置恢复默认，请重新设置。");
+//            normalDialog.setPositiveButton("确定",
+//                    (dialog, which) -> {});
+//            normalDialog.setCancelable(true);
+//            normalDialog.show();
+//        }
     }
 
     private void checkEnable() {
         Log.e("xposed", "isEnable:" + (isEnable() ? "true" : "false"));
         if (MainActivity.this.getSharedPreferences(Misc.SharedPreferencesName, Context.MODE_PRIVATE).getBoolean("enableCheck", true) && !isEnable()) {
-            SnackBarUtils.makeLong(mNavigationView, "插件尚未激活,Xposed功能将不可用,请重启再试！").show();
+            SnackBarUtils.makeLong(mNavigationView, "插件尚未激活,Xposed功能将不可用,请重启再试！\r\n注意禁用资源钩子会导致本插件失效").show();
         }
     }
 
@@ -185,7 +181,10 @@ public class MainActivity extends BaseActivity {
                     mToolbar.setTitle(R.string.othersettings);
                     switchFragment(OthersFragment.class);
                     break;
-
+                case R.id.navigation_item_updateList:
+                    mToolbar.setTitle(R.string.updateList);
+                    switchFragment(UpdateListFragment.class);
+                    break;
                 default:
                     break;
             }

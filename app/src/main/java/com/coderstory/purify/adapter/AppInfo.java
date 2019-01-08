@@ -6,7 +6,7 @@ public class AppInfo {
 
     private String name;
     private Drawable imageId;
-    private boolean isDisable = true;
+    private boolean isDisable = false;
     private String packageName = "";
     private String Version = "";
     private String AppDir;
@@ -15,7 +15,10 @@ public class AppInfo {
     public AppInfo() {
 
     }
-
+    public AppInfo(String name, String version) {
+        this.name = name;
+        this.Version = version;
+    }
     public AppInfo(String name, Drawable imageId, String packageName, boolean Disable, String version) {
         this.name = name;
         this.imageId = imageId;

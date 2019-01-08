@@ -43,8 +43,14 @@ public class AppInfoAdapter extends ArrayAdapter {
         }
 
         vh.myText.setTag(appInfo.getPackageName());
-        vh.myImage.setImageDrawable(appInfo.getImageId());
-        vh.myText.setText(String.format(getContext().getString(R.string.appname), appInfo.getName(), appInfo.getVersion()));
+        if (appInfo.getImageId() != null) {
+            vh.myImage.setImageDrawable(appInfo.getImageId());
+            vh.myText.setText(String.format(getContext().getString(R.string.appname), appInfo.getName(), appInfo.getVersion()));
+        }else{
+            vh.myText.setText(String.format(getContext().getString(R.string.appname2), appInfo.getName(), appInfo.getVersion()));
+            vh.myImage.setVisibility(View.GONE);
+        }
+
         if (appInfo.getDisable()) {
             view.setBackgroundColor(Color.parseColor("#d0d7d7d7")); //冻结的颜色
         } else {
