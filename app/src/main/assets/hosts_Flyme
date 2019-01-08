@@ -1,3 +1,7 @@
 127.0.0.1 es-res.flyme.cn
 127.0.0.1 ssp-res.flyme.cn
 127.0.0.1 adapi.dingyueads.com
+# 手机管家中的图文广告和资讯
+127.0.0.1 api-flow.flyme.cn
+127.0.0.1 open-iflow.meizu.com
+127.0.0.1 safe.res.meizu.com
