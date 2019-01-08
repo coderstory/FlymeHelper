@@ -19,7 +19,7 @@
     <string name="downloadexplorer"><b>下载管理</b>\n去下载管理界面的广告</string>
     <string name="mms"><b>短信</b>\n去除具体短信信息界面上的充值话费充值流量贷款申请信用卡等垃圾信息，开启后无法直接复制短信验证码</string>
     <string name="enableHosts"><b>启用模块</b>\n开启Hosts支持模块</string>
-    <string name="Flymeads"><b>屏蔽Flyme广告</b>\n通过hosts屏蔽部分Flyme的广告(目前没啥用)</string>
+    <string name="Flymeads"><b>屏蔽Flyme广告</b>\n通过hosts屏蔽部分Flyme的广告</string>
     <string name="blockads"><b>开启常规去广告</b>\nGithub上的hosts合集,用于屏蔽国内广告.</string>
     <string name="googlehosts"><b>开启常见国外网站访问支持</b>\nGithub上随意找的Hosts,包含了一些常见的国外网站,不含google,有时效性</string>
     <string name="hostsnote"><b>注意事项:</b>\n本功能需要ROOT权限,所有修改重启后才能生效.hosts的更新需要重新启用一次开关才能生效.国外网站请使用https访问.</string>
@@ -37,7 +37,7 @@
     <string name="zipauthcreak"><b>禁用APK签名验证 - 实时生效</b>\n允许直接覆盖安装同包名不同签名的应用</string>
     <string name="HideRootWithUpgrade"><b>系统更新</b>\n在系统更新中隐藏Root</string>
     <string name="HideRootWithPay"><b>魅族Pay</b>\n在魅族Pay中隐藏Root</string>
-    <string name="fucktheme"><b>主题和谐</b>\n屌丝没钱买猪蹄</string>
+    <string name="fucktheme"><b>主题和谐</b>\n屌丝没钱买猪蹄,支持支持主题美化7.5.0/7.5.1</string>
     <string name="Tips_Title">温馨提示</string>
     <string name="Btn_Sure">确定</string>
     <string name="Btn_Cancel">取消</string>

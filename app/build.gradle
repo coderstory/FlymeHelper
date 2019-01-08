@@ -6,8 +6,8 @@ android {
         applicationId "com.coderstory.purify"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 100
-        versionName "3.1.5 内测版专用"
+        versionCode 101
+        versionName "3.1.6"
         resConfigs "cn"
     }
     repositories {
