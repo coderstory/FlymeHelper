@@ -34,9 +34,7 @@ import androidx.annotation.Nullable;
 
 import static com.coderstory.purify.config.Misc.BackPath;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class BackupAppFragment extends BaseFragment {
 
 

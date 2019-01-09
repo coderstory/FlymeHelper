@@ -92,7 +92,7 @@ public class Others extends XposedHelper implements IModule {
             String updateUrl = (String) XposedHelpers.getObjectField(info, "updateUrl");
             String releaseDate = (String) XposedHelpers.getObjectField(info, "releaseDate");
             String fileSize = (String) XposedHelpers.getObjectField(info, "fileSize");
-            if (!update.contains(updateUrl)) {
+            if (!update.contains(releaseDate)) {
                 needToast = true;
                 update += systemVersion + "@" + updateUrl + "@" + fileSize + "@" + releaseDate + ";";
                 getInstance().saveConfig("updateList", update);
