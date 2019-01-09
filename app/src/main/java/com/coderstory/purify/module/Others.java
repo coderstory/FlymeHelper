@@ -77,9 +77,7 @@ public class Others extends XposedHelper implements IModule {
                     handleInfo(currentFimware);
 
                     Object upgradeFirmware = XposedHelpers.getObjectField(obj, "upgradeFirmware");
-                    if (mContext != null && handleInfo(upgradeFirmware)) {
-                        Toast.makeText(mContext, "flyme助手:已检测到新的更新包地址", Toast.LENGTH_LONG).show();
-                    }
+                    handleInfo(upgradeFirmware);
                 }
             });
         }
@@ -98,6 +96,9 @@ public class Others extends XposedHelper implements IModule {
                 needToast = true;
                 update += systemVersion + "@" + updateUrl + "@" + fileSize + "@" + releaseDate + ";";
                 getInstance().saveConfig("updateList", update);
+                if (mContext != null) {
+                    Toast.makeText(mContext, "flyme助手:已检测到新的更新包地址", Toast.LENGTH_LONG).show();
+                }
             }
         }
         return needToast;

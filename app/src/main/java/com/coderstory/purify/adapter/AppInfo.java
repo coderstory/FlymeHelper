@@ -11,13 +11,17 @@ public class AppInfo {
     private String Version = "";
     private String AppDir;
     private int VersionCode = 0;
+    private String fileSize = "";
+    private String releaseDate;
 
     public AppInfo() {
 
     }
-    public AppInfo(String name, String version) {
+    public AppInfo(String name, String version,String fileSize,String releaseDate) {
         this.name = name;
         this.Version = version;
+        this.fileSize =fileSize;
+        this.releaseDate = releaseDate;
     }
     public AppInfo(String name, Drawable imageId, String packageName, boolean Disable, String version) {
         this.name = name;
@@ -75,5 +79,21 @@ public class AppInfo {
 
     private void setVersionCode(int versionCode) {
         VersionCode = versionCode;
+    }
+
+    public String getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(String fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 }

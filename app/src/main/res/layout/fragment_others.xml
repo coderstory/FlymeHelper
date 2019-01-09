@@ -51,7 +51,7 @@
             <Switch
                 android:id="@+id/enabletheme"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="70dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
@@ -96,8 +96,8 @@
                 android:layout_height="40dp"
 
                 android:paddingStart="30dp"
-                android:paddingTop="0dp"
-                android:paddingEnd="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp"
                 android:text="桌面" />
 
             <Switch
