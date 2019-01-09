@@ -27,7 +27,7 @@ public class HostsFragment extends BaseFragment {
 
     @Override
     protected void setUpView() {
-        Toast.makeText(getMContext(),"仅ROOT授权下生效",Toast.LENGTH_LONG).show();
+        Toast.makeText(getMContext(), "仅ROOT授权下生效", Toast.LENGTH_LONG).show();
         $(R.id.enableHosts).setOnClickListener(v -> {
             getPrefs().saveConfig("enableHosts", ((Switch) v).isChecked());
             setCheck(((Switch) v).isChecked());

@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
-import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.widget.ListView;
@@ -26,7 +25,6 @@ import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
 
 
 public class UpdateListFragment extends BaseFragment {
-    private List<PackageInfo> packages = new ArrayList<>();
     private AppInfoAdapter adapter = null;
     private PullToRefreshView mPullToRefreshView;
     private List<AppInfo> appInfos = new ArrayList<>();
@@ -34,14 +32,6 @@ public class UpdateListFragment extends BaseFragment {
 
 
     private void initData() {
-        packages = new ArrayList<>();
-        if (getContext() != null) {
-            packages = getContext().getPackageManager().getInstalledPackages(0);
-            initFruit();
-        }
-    }
-
-    private void initFruit() {
         appInfos.clear();
         String str = getInstance().getString("updateList", "");
         if ("".equals(str)) {
@@ -50,7 +40,7 @@ public class UpdateListFragment extends BaseFragment {
             try {
                 for (String log : str.split(";")) {
                     String[] info = log.split("@");
-                    appInfos.add(new AppInfo("     " + info[0], info[1], "  " + info[2], "  " +info[3]));
+                    appInfos.add(new AppInfo("     " + info[0], info[1], "  " + info[2], "  " + info[3]));
                 }
             } catch (Exception e) {
                 getInstance().saveConfig("updateList", "");
@@ -104,7 +94,6 @@ public class UpdateListFragment extends BaseFragment {
         }
     }
 
-    //
     protected void closeProgress() {
 
         if (dialog != null) {
