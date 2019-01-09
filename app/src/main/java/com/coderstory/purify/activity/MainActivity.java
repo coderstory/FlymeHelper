@@ -116,9 +116,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private void checkEnable() {
-        Log.e("xposed", "isEnable:" + (isEnable() ? "true" : "false"));
+        Log.e("xposed", "flyme助手->isEnable:" + (isEnable() ? "true" : "false"));
         if (MainActivity.this.getSharedPreferences(Misc.SharedPreferencesName, Context.MODE_PRIVATE).getBoolean("enableCheck", true) && !isEnable()) {
-            SnackBarUtils.makeLong(mNavigationView, "插件尚未激活,Xposed功能将不可用,请重启再试！\r\n注意禁用资源钩子会导致本插件失效").show();
+            SnackBarUtils.makeLong(mNavigationView, "这是xposed插件,但未激活,大部分功能不可用！\r\n注意禁用资源钩子会导致本插件失效").show();
         }
     }
 

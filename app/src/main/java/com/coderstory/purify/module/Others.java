@@ -57,18 +57,7 @@ public class Others extends XposedHelper implements IModule {
 
         if (loadPackageParam.packageName.equals("com.meizu.flyme.update")) {
 
-            hookAllMethods("com.meizu.flyme.update.i.e", loadPackageParam.classLoader, "a", new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    super.beforeHookedMethod(param);
-
-                    // for (String s : param.args[0].toString().split("\"")) {
-                    //     XposedBridge.log(s);
-                    // }
-
-                }
-            });
-
+            // 获取Context
             XposedBridge.hookAllConstructors(findClass("com.meizu.flyme.update.d.a", loadPackageParam.classLoader), new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -77,32 +66,41 @@ public class Others extends XposedHelper implements IModule {
                 }
             });
 
-
+            // 解析当前系统版本 待更新版本的zip包地址
             XposedBridge.hookAllConstructors(findClass("com.meizu.flyme.update.model.k", loadPackageParam.classLoader), new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
                     Object obj = param.thisObject;
+
                     Object currentFimware = XposedHelpers.getObjectField(obj, "currentFimware");
-                    if (currentFimware != null) {
-                        String update = getInstance().getString("updateList", "");
-                        String systemVersion = (String) XposedHelpers.getObjectField(currentFimware, "systemVersion");
-                        String updateUrl = (String) XposedHelpers.getObjectField(currentFimware, "updateUrl");
-                        if (!update.contains(updateUrl)) {
-                            update += systemVersion + "@" + updateUrl + ";";
-                            getInstance().saveConfig("updateList", update);
-                        }
+                    handleInfo(currentFimware);
 
+                    Object upgradeFirmware = XposedHelpers.getObjectField(obj, "upgradeFirmware");
+                    if (mContext != null && handleInfo(upgradeFirmware)) {
+                        Toast.makeText(mContext, "flyme助手:已检测到新的更新包地址", Toast.LENGTH_LONG).show();
                     }
-
-                    if (mContext != null) {
-                        Toast.makeText(mContext, "flyme助手:已检测到更新包地址", Toast.LENGTH_LONG).show();
-                    }
-
                 }
             });
         }
 
+    }
+
+    boolean handleInfo(Object info) {
+        boolean needToast = false;
+        if (info != null) {
+            String update = getInstance().getString("updateList", "");
+            String systemVersion = (String) XposedHelpers.getObjectField(info, "systemVersion");
+            String updateUrl = (String) XposedHelpers.getObjectField(info, "updateUrl");
+            String releaseDate = (String) XposedHelpers.getObjectField(info, "releaseDate");
+            String fileSize = (String) XposedHelpers.getObjectField(info, "fileSize");
+            if (!update.contains(updateUrl)) {
+                needToast = true;
+                update += systemVersion + "@" + updateUrl + "@" + fileSize + "@" + releaseDate + ";";
+                getInstance().saveConfig("updateList", update);
+            }
+        }
+        return needToast;
     }
 
     @Override
