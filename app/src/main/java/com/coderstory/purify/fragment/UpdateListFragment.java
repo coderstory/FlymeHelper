@@ -3,10 +3,13 @@ package com.coderstory.purify.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.pm.PackageInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.widget.ListView;
@@ -31,6 +34,7 @@ public class UpdateListFragment extends BaseFragment {
     private PullToRefreshView mPullToRefreshView;
     private List<AppInfo> appInfos = new ArrayList<>();
     private Dialog dialog;
+
 
 
     private void initData() {
@@ -72,6 +76,20 @@ public class UpdateListFragment extends BaseFragment {
             String text = appInfo.getVersion();
             myClip = ClipData.newPlainText("text", text);
             myClipboard.setPrimaryClip(myClip);
+
+            DownloadManager dManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+            Uri uri = Uri.parse(text);
+            DownloadManager.Request request = new DownloadManager.Request(uri);
+            // 设置下载路径和文件名
+            request.setDestinationInExternalPublicDir("/SystemPackage/", appInfo.getName() + "-" + appInfo.getFileSize() + ".zip".replace(" ", ""));
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setMimeType("application/vnd.android.package-archive");
+            // 设置为可被媒体扫描器找到
+            request.allowScanningByMediaScanner();
+            // 设置为可见和可管理
+            request.setVisibleInDownloadsUi(true);
+            long refernece = dManager.enqueue(request);
+
         });
     }
 
