@@ -32,6 +32,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import per.goweii.anylayer.AnyLayer;
 
 import static com.coderstory.purify.R.id.navigation_view;
 
@@ -118,8 +119,15 @@ public class MainActivity extends BaseActivity {
     private void checkEnable() {
         Log.e("xposed", "flyme助手->isEnable:" + (isEnable() ? "true" : "false"));
         if (MainActivity.this.getSharedPreferences(Misc.SharedPreferencesName, Context.MODE_PRIVATE).getBoolean("enableCheck", true) && !isEnable()) {
-            SnackBarUtils.makeLong(mNavigationView, "这是xposed插件,但未激活,大部分功能不可用！\r\n注意禁用资源钩子会导致本插件失效").show();
-        }
+
+            AnyLayer.with(MainActivity.this)
+                    .contentView(R.layout.dialog_xposed_disabled)
+                    .backgroundColorRes(R.color.dialog_bg)
+                    .cancelableOnTouchOutside(true)
+                    .cancelableOnClickKeyBack(true)
+                    .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> AnyLayer.dismiss())
+                    .show();
+       }
     }
 
     //init the default checked fragment

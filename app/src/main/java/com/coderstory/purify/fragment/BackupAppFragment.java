@@ -34,19 +34,15 @@ import androidx.annotation.Nullable;
 
 import static com.coderstory.purify.config.Misc.BackPath;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class BackupAppFragment extends BaseFragment {
 
 
-    List<PackageInfo> packages = new ArrayList<>();
-    AppInfoAdapter adapter = null;
-    ListView listView = null;
-    AppInfo appInfo = null;
-    int mPosition = 0;
-    View mView = null;
-    PullToRefreshView mPullToRefreshView;
+    private List<PackageInfo> packages = new ArrayList<>();
+    private AppInfoAdapter adapter = null;
+    private AppInfo appInfo = null;
+    private int mPosition = 0;
+    private PullToRefreshView mPullToRefreshView;
     private View view;
     private List<AppInfo> appInfoList = new ArrayList<>();
     private List<AppInfo> appInfoList2 = new ArrayList<>();
@@ -166,13 +162,12 @@ public class BackupAppFragment extends BaseFragment {
 
     private void showData() {
         adapter = new AppInfoAdapter(getActivity(), R.layout.app_info_item, appInfoList);
-        listView = view.findViewById(R.id.listView);
+        ListView listView = view.findViewById(R.id.listView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 mPosition = position;
-                mView = view;
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                 dialog.setTitle(R.string.Tips_Title);
                 String tipsText;
@@ -214,12 +209,7 @@ public class BackupAppFragment extends BaseFragment {
                     }
                 });
                 dialog.setCancelable(true);
-                dialog.setNegativeButton(R.string.Btn_Cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
+                dialog.setNegativeButton(R.string.Btn_Cancel, (dialog1, which) -> dialog1.cancel());
                 dialog.show();
             }
         });
