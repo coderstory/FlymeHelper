@@ -1,14 +1,19 @@
 package com.coderstory.purify.module;
 
 import android.app.Activity;
+import android.content.Context;
 import android.webkit.WebView;
 
 import com.coderstory.purify.plugins.IModule;
 import com.coderstory.purify.utils.XposedHelper;
 
+import java.io.File;
+
+import dalvik.system.BaseDexClassLoader;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -63,19 +68,11 @@ public class RemoveAds extends XposedHelper implements IModule {
         }
 
         // 禁止app加载魅族的广告插件 com.meizu.advertise.plugin.apk
-        clazz = findClassWithoutLog("com.meizu.advertise.update.i$a", loadPackageParam.classLoader);
+        clazz = findClassWithoutLog("com.meizu.advertise.api.AdManager", loadPackageParam.classLoader);
         if (clazz != null) {
-            findAndHookMethod(clazz, "run", XC_MethodReplacement.returnConstant(null));
-        }
-        clazz = findClassWithoutLog("com.meizu.advertise.update.i$b", loadPackageParam.classLoader);
-        if (clazz != null) {
-            findAndHookMethod(clazz, "run", XC_MethodReplacement.returnConstant(null));
+            findAndHookMethod(clazz, "installPlugin", XC_MethodReplacement.returnConstant(null));
         }
 
-        clazz = findClassWithoutLog("com.meizu.customizecenter.manager.utilshelper.a.b", loadPackageParam.classLoader);
-        if (clazz != null) {
-            findAndHookMethod(clazz, "b", XC_MethodReplacement.returnConstant(null));
-        }
     }
 
 }

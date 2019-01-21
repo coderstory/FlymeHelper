@@ -113,9 +113,9 @@ public class DisbaleAppFragment extends BaseFragment {
 
             AnyLayer anyLayer = AnyLayer.with(getContext())
                     .contentView(R.layout.dialog_test_2)
-                    .backgroundBlurRadius(8)
-                    .backgroundBlurScale(8)
-                    .backgroundColorInt(Color.WHITE)
+                    .backgroundBlurRadius(4)
+                    .backgroundBlurScale(2)
+                    .backgroundColorInt(Color.BLACK)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
@@ -160,7 +160,7 @@ public class DisbaleAppFragment extends BaseFragment {
             CardView cardView = (CardView) anyLayer.getContentView();
             LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
             AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
-            ;
+
 
             anyLayer.show();
             appInfo = appInfoList.get(mposition);
