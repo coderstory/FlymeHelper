@@ -20,8 +20,10 @@
             <Switch
                 android:id="@+id/hideicon"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="70dp"
                 android:layout_marginTop="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
@@ -30,17 +32,21 @@
             <Switch
                 android:id="@+id/installType"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="70dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:paddingEnd="30dp"
                 android:text="@string/installapk" />
 
             <Switch
                 android:id="@+id/enableCheck"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="80dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/switchBtn"
                 android:checked="true"

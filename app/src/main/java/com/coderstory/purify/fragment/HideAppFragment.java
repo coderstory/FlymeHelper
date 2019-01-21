@@ -7,12 +7,14 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,7 +27,10 @@ import com.coderstory.purify.view.PullToRefreshView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.cardview.widget.CardView;
 import eu.chainfire.libsuperuser.Shell;
+import per.goweii.anylayer.AnyLayer;
 
 
 public class HideAppFragment extends BaseFragment {
@@ -88,54 +93,62 @@ public class HideAppFragment extends BaseFragment {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             mPosition = position;
             mView = view;
-            AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-            dialog.setTitle(R.string.Tips_Title);
-            String tipsText;
-            String BtnText = getString(R.string.Btn_Sure);
             appInfo = appInfoList.get(mPosition);
-            if (appInfo.getDisable()) {
-                tipsText = getString(R.string.sureAntiDisable) + appInfo.getName() + "的隐藏状态吗";
-            } else {
-                tipsText = "你确定要隐藏" + appInfo.getName() + getString(R.string.sureDisableAfter);
-            }
-            dialog.setMessage(tipsText);
-            dialog.setPositiveButton(BtnText, (dialog12, which) -> {
-
-                if (appInfo.getDisable()) {
-                    // 解除隐藏
-                    String tmp = "";
-                    for (String s : hideAppList) {
-                        if (s.equals(appInfo.getPackageName())) {
-                            tmp = s;
+            AnyLayer anyLayer = AnyLayer.with(getActivity())
+                    .contentView(R.layout.dialog_test_2)
+                    .backgroundBlurRadius(4)
+                    .backgroundBlurScale(2)
+                    .backgroundColorInt(Color.BLACK)
+                    .cancelableOnTouchOutside(true)
+                    .cancelableOnClickKeyBack(true)
+                    .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
+                        AnyLayer.dismiss();
+                    })
+                    .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
+                        if (appInfo.getDisable()) {
+                            // 解除隐藏
+                            String tmp = "";
+                            for (String s : hideAppList) {
+                                if (s.equals(appInfo.getPackageName())) {
+                                    tmp = s;
+                                }
+                            }
+                            hideAppList.remove(tmp);
+                        } else {
+                            // 隐藏
+                            hideAppList.add(appInfo.getPackageName());
                         }
-                    }
-                    hideAppList.remove(tmp);
-                } else {
-                    // 隐藏
-                    hideAppList.add(appInfo.getPackageName());
-                }
-                StringBuilder value = new StringBuilder();
-                for (String s : hideAppList) {
-                    value.append(s).append(":");
-                }
-                value = new StringBuilder(value.substring(0, value.length() - 1));
+                        StringBuilder value = new StringBuilder();
+                        for (String s : hideAppList) {
+                            value.append(s).append(":");
+                        }
+                        value = new StringBuilder(value.substring(0, value.length() - 1));
 
-                getPrefs().saveConfig("Hide_App_List", value.toString());
+                        getPrefs().saveConfig("Hide_App_List", value.toString());
 
-                if (appInfo.getDisable()) {
-                    appInfo.setDisable(false);
-                    appInfoList.set(mPosition, appInfo);
-                    mView.setBackgroundColor(getResources().getColor(R.color.colorPrimary, null)); //正常的颜色
-                } else {
-                    appInfo.setDisable(true);
-                    appInfoList.set(mPosition, appInfo);
-                    mView.setBackgroundColor(getResources().getColor(R.color.disableeApp, null)); //冻结的颜色
-                }
+                        if (appInfo.getDisable()) {
+                            appInfo.setDisable(false);
+                            appInfoList.set(mPosition, appInfo);
+                            mView.setBackgroundColor(getResources().getColor(R.color.colorPrimary, null)); //正常的颜色
+                        } else {
+                            appInfo.setDisable(true);
+                            appInfoList.set(mPosition, appInfo);
+                            mView.setBackgroundColor(getResources().getColor(R.color.disableeApp, null)); //冻结的颜色
+                        }
+                        AnyLayer.dismiss();
+                    });
 
-            });
-            dialog.setCancelable(true);
-            dialog.setNegativeButton(R.string.Btn_Cancel, (dialog1, which) -> dialog1.cancel());
-            dialog.show();
+            CardView cardView = (CardView) anyLayer.getContentView();
+            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+            AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
+            if (appInfo.getDisable()) {
+                textView.setText( getString(R.string.sureAntiDisable) + appInfo.getName() + "的隐藏状态吗");
+
+            } else {
+                textView.setText( "你确定要隐藏" + appInfo.getName() + getString(R.string.sureDisableAfter));
+            }
+            anyLayer.show();
+
         });
     }
 

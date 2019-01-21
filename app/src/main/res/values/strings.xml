@@ -48,8 +48,8 @@
     <string name="Flyme_Purify">基础功能</string>
     <string name="hosts">Hosts去广告</string>
     <string name="disableapp">冻结应用</string>
-    <string name="appclean">清理应用缓存</string>
-    <string name="othersettings">Xposed设置</string>
+    <string name="appclean">清理缓存</string>
+    <string name="othersettings">常用功能</string>
     <string name="other">其他</string>
     <string name="copy_url">复制链接</string>
 
@@ -112,8 +112,7 @@
     <string name="restoreing">OK,正在恢复配置！</string>
     <string name="not_fond_backup_list">未找到备份列表！</string>
     <string name="not_fond_backup_list_file">未找到备份列表！</string>
-    <string name="hide_app_icon">隐藏桌面图标</string>
-    <string name="navigation_item_ManagerApp">备份/还原应用</string>
+    <string name="hide_app_icon">隐藏图标</string>
     <string name="navigation_item_donation">捐赠</string>
     <string name="historyFunctions">历史功能</string>
     <string name="appname">应用名: %1$s \n版本号 :%2$s</string>

@@ -29,9 +29,11 @@
             <Switch
                 android:id="@+id/enableBlockAD"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:maxLines="10"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
@@ -40,9 +42,11 @@
             <Switch
                 android:id="@+id/HideRootWithPay"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:maxLines="10"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
@@ -51,8 +55,8 @@
             <Switch
                 android:id="@+id/enabletheme"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
@@ -61,9 +65,11 @@
             <Switch
                 android:id="@+id/HideRootWithUpgrade"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:maxLines="10"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
@@ -72,21 +78,25 @@
             <Switch
                 android:id="@+id/enableCheckInstaller"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:maxLines="10"
                 android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:paddingEnd="30dp"
                 android:text="@string/enableCheckInstaller" />
 
             <Switch
                 android:id="@+id/enableCTS"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:maxLines="10"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
                 android:text="@string/enableCTS" />
@@ -96,16 +106,18 @@
                 android:layout_height="40dp"
 
                 android:paddingStart="30dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="10dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="4dp"
                 android:text="桌面" />
 
             <Switch
                 android:id="@+id/hide_icon_label"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
                 android:text="@string/hide_icon_label" />
@@ -114,10 +126,12 @@
                 android:id="@+id/hide_icon_5"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:text="@string/hide_icon_5x5" />
 
 

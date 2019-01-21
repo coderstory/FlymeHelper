@@ -5,8 +5,8 @@ public class Application extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(getApplicationContext());
+        //CrashHandler crashHandler = CrashHandler.getInstance();
+        //crashHandler.init(getApplicationContext());
 //        try {
 //            Field v0_1 = ClassLoader.getSystemClassLoader()
 //                    .loadClass("de.robv.android.xposed.XposedBridge")

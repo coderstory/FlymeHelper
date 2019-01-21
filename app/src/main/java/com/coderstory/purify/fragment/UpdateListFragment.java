@@ -6,6 +6,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.pm.PackageInfo;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.widget.ListView;
@@ -20,18 +22,30 @@ import com.coderstory.purify.view.PullToRefreshView;
 import java.util.ArrayList;
 import java.util.List;
 
+import per.goweii.anylayer.AnyLayer;
+
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
 
 
 public class UpdateListFragment extends BaseFragment {
+    private List<PackageInfo> packages = new ArrayList<>();
     private AppInfoAdapter adapter = null;
     private PullToRefreshView mPullToRefreshView;
     private List<AppInfo> appInfos = new ArrayList<>();
     private Dialog dialog;
 
 
+
     private void initData() {
+        packages = new ArrayList<>();
+        if (getContext() != null) {
+            packages = getContext().getPackageManager().getInstalledPackages(0);
+            initFruit();
+        }
+    }
+
+    private void initFruit() {
         appInfos.clear();
         String str = getInstance().getString("updateList", "");
         if ("".equals(str)) {
@@ -40,7 +54,7 @@ public class UpdateListFragment extends BaseFragment {
             try {
                 for (String log : str.split(";")) {
                     String[] info = log.split("@");
-                    appInfos.add(new AppInfo("     " + info[0], info[1], "  " + info[2], "  " + info[3]));
+                    appInfos.add(new AppInfo("     " + info[0], info[1], "  " + info[2], "  " +info[3]));
                 }
             } catch (Exception e) {
                 getInstance().saveConfig("updateList", "");
@@ -55,13 +69,26 @@ public class UpdateListFragment extends BaseFragment {
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
             AppInfo appInfo = appInfos.get(position);
-            Toast.makeText(getContext(), "已复制下载地址到剪贴板", Toast.LENGTH_LONG).show();
-            ClipboardManager myClipboard;
-            myClipboard = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
-            ClipData myClip;
-            String text = appInfo.getVersion();
-            myClip = ClipData.newPlainText("text", text);
-            myClipboard.setPrimaryClip(myClip);
+
+            AnyLayer anyLayer = AnyLayer.with(getContext())
+                    .contentView(R.layout.dialog_xposed_copyurl)
+                    .backgroundBlurRadius(4)
+                    .backgroundBlurScale(2)
+                    .backgroundColorInt(Color.BLACK)
+                    .cancelableOnTouchOutside(true)
+                    .cancelableOnClickKeyBack(true)
+                    .onClick(R.id.tv_dialog_yes2, (AnyLayer, v) -> {
+                        ClipboardManager myClipboard;
+                        myClipboard = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
+                        ClipData myClip;
+                        String text = appInfo.getVersion();
+                        myClip = ClipData.newPlainText("text", text);
+                        myClipboard.setPrimaryClip(myClip);
+                        AnyLayer.dismiss();
+                    });
+
+            anyLayer.show();
+
         });
     }
 
@@ -94,6 +121,7 @@ public class UpdateListFragment extends BaseFragment {
         }
     }
 
+    //
     protected void closeProgress() {
 
         if (dialog != null) {

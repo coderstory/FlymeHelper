@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -34,7 +35,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.cardview.widget.CardView;
 import eu.chainfire.libsuperuser.Shell;
+import per.goweii.anylayer.AnyLayer;
 
 import static com.coderstory.purify.config.Misc.BackPath;
 import static com.coderstory.purify.utils.FileUtils.readFile;
@@ -106,55 +110,70 @@ public class DisbaleAppFragment extends BaseFragment {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             mposition = position;
             mview = view;
-            AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-            dialog.setTitle(R.string.Tips_Title);
-            String tipsText;
-            String BtnText = getString(R.string.Btn_Sure);
-            appInfo = appInfoList.get(mposition);
-            if (appInfo.getDisable()) {
-                tipsText = getString(R.string.sureAntiDisable) + appInfo.getName() + getString(R.string.sureAntiDisableAfter);
-            } else {
-                tipsText = getString(R.string.sureDisable) + appInfo.getName() + getString(R.string.sureDisableAfter);
-            }
-            dialog.setMessage(tipsText);
-            dialog.setPositiveButton(BtnText, (dialog12, which) -> {
 
-                String commandText = (!appInfo.getDisable() ? "pm disable " : "pm enable ") + appInfo.getPackageName();
-                Log.e("cc", commandText);
-                Process process = null;
-                DataOutputStream os = null;
-                try {
-                    process = Runtime.getRuntime().exec("su"); //切换到root帐号
-                    os = new DataOutputStream(process.getOutputStream());
-                    os.writeBytes(commandText + "\n");
-                    os.writeBytes("exit\n");
-                    os.flush();
-                    process.waitFor();
-                    if (appInfo.getDisable()) {
-                        appInfo.setDisable(false);
-                        appInfoList.set(mposition, appInfo);
-                        mview.setBackgroundColor(getResources().getColor(R.color.colorPrimary)); //正常的颜色
-                    } else {
-                        appInfo.setDisable(true);
-                        appInfoList.set(mposition, appInfo);
-                        mview.setBackgroundColor(Color.parseColor("#d0d7d7d7")); //冻结的颜色
-                    }
-                } catch (Exception ignored) {
+            AnyLayer anyLayer = AnyLayer.with(getContext())
+                    .contentView(R.layout.dialog_test_2)
+                    .backgroundBlurRadius(4)
+                    .backgroundBlurScale(2)
+                    .backgroundColorInt(Color.BLACK)
+                    .cancelableOnTouchOutside(true)
+                    .cancelableOnClickKeyBack(true)
+                    .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
+                        AnyLayer.dismiss();
+                    })
+                    .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
+                        String commandText = (!appInfo.getDisable() ? "pm disable " : "pm enable ") + appInfo.getPackageName();
+                        Log.e("cc", commandText);
+                        Process process = null;
+                        DataOutputStream os = null;
+                        try {
+                            process = Runtime.getRuntime().exec("su"); //切换到root帐号
+                            os = new DataOutputStream(process.getOutputStream());
+                            os.writeBytes(commandText + "\n");
+                            os.writeBytes("exit\n");
+                            os.flush();
+                            process.waitFor();
+                            if (appInfo.getDisable()) {
+                                appInfo.setDisable(false);
+                                appInfoList.set(mposition, appInfo);
+                                mview.setBackgroundColor(getResources().getColor(R.color.colorPrimary)); //正常的颜色
+                            } else {
+                                appInfo.setDisable(true);
+                                appInfoList.set(mposition, appInfo);
+                                mview.setBackgroundColor(Color.parseColor("#d0d7d7d7")); //冻结的颜色
+                            }
+                        } catch (Exception ignored) {
 
-                } finally {
-                    try {
-                        if (os != null) {
-                            os.close();
+                        } finally {
+                            try {
+                                if (os != null) {
+                                    os.close();
+                                }
+                                assert process != null;
+                                process.destroy();
+                            } catch (Exception ignored) {
+                            }
                         }
-                        assert process != null;
-                        process.destroy();
-                    } catch (Exception ignored) {
-                    }
-                }
-            });
-            dialog.setCancelable(true);
-            dialog.setNegativeButton(R.string.Btn_Cancel, (dialog1, which) -> dialog1.cancel());
-            dialog.show();
+                        AnyLayer.dismiss();
+                    });
+
+            CardView cardView = (CardView) anyLayer.getContentView();
+            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+            AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
+
+
+            anyLayer.show();
+            appInfo = appInfoList.get(mposition);
+
+
+            if (appInfo.getDisable()) {
+                textView.setText(getString(R.string.sureAntiDisable) + appInfo.getName() + getString(R.string.sureAntiDisableAfter));
+
+            } else {
+                textView.setText(getString(R.string.sureDisable) + appInfo.getName() + getString(R.string.sureDisableAfter));
+
+            }
+
         });
     }
 

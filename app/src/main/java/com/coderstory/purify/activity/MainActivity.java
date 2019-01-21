@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,8 +16,6 @@ import com.coderstory.purify.config.Misc;
 import com.coderstory.purify.fragment.CleanFragment;
 import com.coderstory.purify.fragment.DisbaleAppFragment;
 import com.coderstory.purify.fragment.HideAppFragment;
-import com.coderstory.purify.fragment.HostsFragment;
-import com.coderstory.purify.fragment.ManagerAppFragment;
 import com.coderstory.purify.fragment.OthersFragment;
 import com.coderstory.purify.fragment.SettingsFragment;
 import com.coderstory.purify.fragment.UpdateListFragment;
@@ -32,6 +31,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import per.goweii.anylayer.AnyLayer;
 
 import static com.coderstory.purify.R.id.navigation_view;
 
@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity {
 
     private void requestCameraPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            MainActivity.this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_CODE);
+            MainActivity.this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_CODE);
         }
     }
 
@@ -118,7 +118,16 @@ public class MainActivity extends BaseActivity {
     private void checkEnable() {
         Log.e("xposed", "flyme助手->isEnable:" + (isEnable() ? "true" : "false"));
         if (MainActivity.this.getSharedPreferences(Misc.SharedPreferencesName, Context.MODE_PRIVATE).getBoolean("enableCheck", true) && !isEnable()) {
-            SnackBarUtils.makeLong(mNavigationView, "这是xposed插件,但未激活,大部分功能不可用！\r\n注意禁用资源钩子会导致本插件失效").show();
+
+            AnyLayer.with(MainActivity.this)
+                    .contentView(R.layout.dialog_xposed_disabled)
+                    .backgroundBlurRadius(8)
+                    .backgroundBlurScale(8)
+                    .backgroundColorInt(Color.WHITE)
+                    .cancelableOnTouchOutside(true)
+                    .cancelableOnClickKeyBack(true)
+                    .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> AnyLayer.dismiss())
+                    .show();
         }
     }
 
@@ -146,11 +155,6 @@ public class MainActivity extends BaseActivity {
 
             switch (item.getItemId()) {
 
-                case R.id.navigation_item_hosts:
-                    mToolbar.setTitle(R.string.hosts);
-                    switchFragment(HostsFragment.class);
-                    break;
-
                 case R.id.navigation_item_settings:
                     mToolbar.setTitle(R.string.others_appsettings);
                     switchFragment(SettingsFragment.class);
@@ -167,10 +171,6 @@ public class MainActivity extends BaseActivity {
                     break;
                 case R.id.navigation_item_about:
                     startActivityWithoutExtras(AboutActivity.class);
-                    break;
-                case R.id.navigation_item_ManagerApp:
-                    mToolbar.setTitle(R.string.navigation_item_ManagerApp);
-                    switchFragment(ManagerAppFragment.class);
                     break;
                 case R.id.navigation_item_hide_app:
                     mToolbar.setTitle(R.string.hide_app_icon);

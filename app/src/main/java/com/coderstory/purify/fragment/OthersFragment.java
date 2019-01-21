@@ -8,6 +8,10 @@ import android.widget.Switch;
 
 import com.coderstory.purify.R;
 import com.coderstory.purify.fragment.base.BaseFragment;
+import com.coderstory.purify.utils.hostshelper.FileHelper;
+import com.coderstory.purify.utils.hostshelper.HostsHelper;
+
+import java.io.UnsupportedEncodingException;
 
 
 public class OthersFragment extends BaseFragment {
@@ -19,6 +23,20 @@ public class OthersFragment extends BaseFragment {
 
         $(R.id.enableBlockAD).setOnClickListener(v -> {
             getPrefs().saveConfig("EnableBlockAD", ((Switch) v).isChecked());
+            FileHelper fh = new FileHelper();
+            String HostsContext = fh.getFromAssets("hosts_default", getMContext());
+
+            if (((Switch) v).isChecked()) { //如果未启用hosts
+                HostsContext += fh.getFromAssets("hosts_noad", getMContext());
+                HostsContext += fh.getFromAssets("hosts_Flyme", getMContext());
+
+            }
+            HostsHelper h = new HostsHelper(HostsContext, getMContext());
+            try {
+                h.execute();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
 
         });
 
