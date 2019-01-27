@@ -73,8 +73,9 @@ public class FlymeHome extends XposedHelper implements IModule {
                 });
             }
 
-            // 隐藏图标标签
+
             if (getInstance().getBoolean("hide_icon_label", false)) {
+                // 隐藏图标标签
                 hookAllMethods(findClass("com.meizu.flyme.launcher.ShortcutIcon", lpparam.classLoader), "a", new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -85,7 +86,17 @@ public class FlymeHome extends XposedHelper implements IModule {
                         }
                     }
                 });
+                // 隐藏文件夹标签
+                findAndHookMethod("com.meizu.flyme.launcher.FolderIcon", lpparam.classLoader, "setTextVisible", boolean.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        param.args[0] = false;
+                    }
+                });
             }
+
+
         }
     }
 
