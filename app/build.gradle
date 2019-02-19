@@ -8,7 +8,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 102
-        versionName "3.1.7"
+        versionName "3.1.8"
         resConfigs "cn"
     }
     repositories {
@@ -50,6 +50,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.github.didikee:AndroidDonate:0.1.0'
     implementation 'com.github.goweii:AnyLayer:1.0.5'
+    implementation 'com.github.kingsollyu:NotProguard:1.0.0'
     implementation 'com.alibaba:fastjson:1.2.51'
     compileOnly 'de.robv.android.xposed:api:82'
     compileOnly 'de.robv.android.xposed:api:82:sources'
