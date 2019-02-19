@@ -17,12 +17,14 @@ public class AppInfo {
     public AppInfo() {
 
     }
-    public AppInfo(String name, String version,String fileSize,String releaseDate) {
+
+    public AppInfo(String name, String version, String fileSize, String releaseDate) {
         this.name = name;
         this.Version = version;
-        this.fileSize =fileSize;
+        this.fileSize = fileSize;
         this.releaseDate = releaseDate;
     }
+
     public AppInfo(String name, Drawable imageId, String packageName, boolean Disable, String version) {
         this.name = name;
         this.imageId = imageId;

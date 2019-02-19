@@ -145,10 +145,10 @@
     <orderEntry type="library" name="Gradle: com.github.didikee:AndroidDonate-0.1.0" level="project" />
     <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-livedata-core-2.0.0" level="project" />
     <orderEntry type="library" name="Gradle: eu.chainfire:libsuperuser-1.0.0.201704021214" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.core:core-1.0.0" level="project" />
     <orderEntry type="library" name="Gradle: de.hdodenhof:circleimageview-2.2.0" level="project" />
     <orderEntry type="library" name="Gradle: androidx.cardview:cardview-1.0.0" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.appcompat:appcompat-1.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.core:core-1.0.1" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.appcompat:appcompat-1.0.2" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.material:material-1.0.0" level="project" />
     <orderEntry type="library" name="Gradle: androidx.transition:transition-1.0.0" level="project" />
     <orderEntry type="library" name="Gradle: androidx.versionedparcelable:versionedparcelable-1.0.0" level="project" />
@@ -178,7 +178,6 @@
     <orderEntry type="library" name="Gradle: androidx.asynclayoutinflater:asynclayoutinflater-1.0.0" level="project" />
     <orderEntry type="library" name="Gradle: androidx.cursoradapter:cursoradapter-1.0.0" level="project" />
     <orderEntry type="library" name="Gradle: androidx.print:print-1.0.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpcore:4.4.5@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.collection:collection:1.0.0@jar" level="project" />
   </component>
 </module>

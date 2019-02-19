@@ -46,8 +46,8 @@ public class AppInfoAdapter extends ArrayAdapter {
         if (appInfo.getImageId() != null) {
             vh.myImage.setImageDrawable(appInfo.getImageId());
             vh.myText.setText(String.format(getContext().getString(R.string.appname), appInfo.getName(), appInfo.getVersion()));
-        }else{
-            vh.myText.setText(String.format(getContext().getString(R.string.appname2), appInfo.getName(), appInfo.getFileSize(),appInfo.getReleaseDate()));
+        } else {
+            vh.myText.setText(String.format(getContext().getString(R.string.appname2), appInfo.getName(), appInfo.getFileSize(), appInfo.getReleaseDate()));
             vh.myImage.setVisibility(View.GONE);
         }
 

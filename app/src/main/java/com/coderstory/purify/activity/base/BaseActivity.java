@@ -1,15 +1,10 @@
 package com.coderstory.purify.activity.base;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
-import com.coderstory.purify.utils.ConfigPreferences;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
 
 public abstract class BaseActivity extends AppCompatActivity {
     @Override
