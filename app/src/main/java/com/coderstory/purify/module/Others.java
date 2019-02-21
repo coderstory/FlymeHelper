@@ -58,7 +58,12 @@ public class Others extends XposedHelper implements IModule {
         if (loadPackageParam.packageName.equals("com.meizu.flyme.update")) {
 
             // 获取Context
-            XposedBridge.hookAllConstructors(findClass("com.meizu.flyme.update.d.a", loadPackageParam.classLoader), new XC_MethodHook() {
+            // public abstract class a<T> implements ErrorListener, Listener {
+            //     public a(Context context) {
+            //        this.b = context.getApplicationContext();
+            //        this.c = RequestManager.getInstance(this.b);
+            //    }
+            XposedBridge.hookAllConstructors(findClass("com.meizu.flyme.update.c.a", loadPackageParam.classLoader), new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
@@ -67,7 +72,21 @@ public class Others extends XposedHelper implements IModule {
             });
 
             // 解析当前系统版本 待更新版本的zip包地址
-            XposedBridge.hookAllConstructors(findClass("com.meizu.flyme.update.model.k", loadPackageParam.classLoader), new XC_MethodHook() {
+            //       public class k {
+            //                public b cdnCheckResult;
+            //                public e currentFimware;
+            //                public g firmwarePlan;
+            //                public UpgradeFirmware upgradeFirmware;
+            //
+            //                public k(UpgradeFirmware upgradeFirmware, e eVar, g gVar, b bVar) {
+            //                    this.upgradeFirmware = upgradeFirmware;
+            //                    this.currentFimware = eVar;
+            //                    this.firmwarePlan = gVar;
+            //                    this.cdnCheckResult = bVar;
+            //                }
+            //            }
+
+            XposedBridge.hookAllConstructors(findClass("com.meizu.flyme.update.model.n", loadPackageParam.classLoader), new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
