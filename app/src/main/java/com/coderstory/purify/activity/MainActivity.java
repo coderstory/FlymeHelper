@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -182,6 +181,10 @@ public class MainActivity extends BaseActivity {
                 case R.id.navigation_item_Blog:
                     mToolbar.setTitle(R.string.blog);
                     switchFragment(BlogFragment.class);
+                    break;
+                case R.id.navigation_item_updateList:
+                    mToolbar.setTitle(R.string.updateList);
+                    switchFragment(UpdateListFragment.class);
                     break;
                 default:
                     break;

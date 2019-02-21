@@ -19,7 +19,7 @@ public class AppInfo {
     }
 
     public AppInfo(String name, String version, String fileSize, String releaseDate) {
-        this.name = name.substring(0, 25);
+        this.name = name.length() > 25 ? name.substring(0, 25) + "..." : name;
         this.Version = version;
         this.fileSize = fileSize;
         this.releaseDate = releaseDate;
