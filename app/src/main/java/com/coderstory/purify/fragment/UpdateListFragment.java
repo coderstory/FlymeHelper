@@ -7,9 +7,12 @@ import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.pm.PackageInfo;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Looper;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,6 +25,8 @@ import com.coderstory.purify.view.PullToRefreshView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.cardview.widget.CardView;
 import per.goweii.anylayer.AnyLayer;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
@@ -36,6 +41,34 @@ public class UpdateListFragment extends BaseFragment {
     private Dialog dialog;
 
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_upgrade_toolbar, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        AnyLayer anyLayer = AnyLayer.with(getContext())
+                .contentView(R.layout.dialog_test_2)
+                .cancelableOnTouchOutside(true)
+                .cancelableOnClickKeyBack(true)
+                .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
+                    AnyLayer.dismiss();
+                })
+                .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
+                    getPrefs().saveConfig("updateList","");
+                    AnyLayer.dismiss();
+                });
+
+        CardView cardView = (CardView) anyLayer.getContentView();
+        LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+        AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
+        textView.setText("你确定要清空历史记录吗？");
+        anyLayer.show();
+
+        return false;
+    }
 
     private void initData() {
         packages = new ArrayList<>();
@@ -54,7 +87,7 @@ public class UpdateListFragment extends BaseFragment {
             try {
                 for (String log : str.split(";")) {
                     String[] info = log.split("@");
-                    appInfos.add(new AppInfo("     " + info[0], info[1], "  " + info[2], "  " +info[3]));
+                    appInfos.add(0,new AppInfo("     " + info[0], info[1], "  " + info[2], "  " +info[3]));
                 }
             } catch (Exception e) {
                 getInstance().saveConfig("updateList", "");
@@ -64,7 +97,7 @@ public class UpdateListFragment extends BaseFragment {
     }
 
     private void showData() {
-        adapter = new AppInfoAdapter(getContext(), R.layout.app_info_item, appInfos);
+        adapter = new AppInfoAdapter(getContext(), R.layout.app_upgrade_item, appInfos);
         ListView listView = getContentView().findViewById(R.id.listView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -72,9 +105,6 @@ public class UpdateListFragment extends BaseFragment {
 
             AnyLayer anyLayer = AnyLayer.with(getContext())
                     .contentView(R.layout.dialog_xposed_copyurl)
-                    .backgroundBlurRadius(4)
-                    .backgroundBlurScale(2)
-                    .backgroundColorInt(Color.BLACK)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick(R.id.tv_dialog_yes2, (AnyLayer, v) -> {
@@ -94,7 +124,7 @@ public class UpdateListFragment extends BaseFragment {
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.fragment_app_list;
+        return R.layout.fragment_app_upgrade;
     }
 
     @Override

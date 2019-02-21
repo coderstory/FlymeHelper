@@ -121,9 +121,6 @@ public class MainActivity extends BaseActivity {
 
             AnyLayer.with(MainActivity.this)
                     .contentView(R.layout.dialog_xposed_disabled)
-                    .backgroundBlurRadius(8)
-                    .backgroundBlurScale(8)
-                    .backgroundColorInt(Color.WHITE)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> AnyLayer.dismiss())

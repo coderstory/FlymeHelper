@@ -19,28 +19,18 @@ public class AppInfo {
     }
 
     public AppInfo(String name, String version, String fileSize, String releaseDate) {
-        this.name = name;
+        this.name = name.substring(0, 25);
         this.Version = version;
         this.fileSize = fileSize;
         this.releaseDate = releaseDate;
     }
 
     public AppInfo(String name, Drawable imageId, String packageName, boolean Disable, String version) {
-        this.name = name;
+        this.name = name.length() > 25 ? name.substring(0, 25) + "..." : name;
         this.imageId = imageId;
         this.packageName = packageName;
         this.isDisable = Disable;
         this.Version = version;
-    }
-
-    public AppInfo(String name, Drawable imageId, String packageName, boolean Disable, String appDir, String version, int VersionCode) {
-        this.name = name;
-        this.imageId = imageId;
-        this.packageName = packageName;
-        this.isDisable = Disable;
-        this.setAppDir(appDir);
-        this.Version = version;
-        this.setVersionCode(VersionCode);
     }
 
     Drawable getImageId() {

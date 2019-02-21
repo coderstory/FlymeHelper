@@ -2,12 +2,10 @@ package com.coderstory.purify.fragment;
 
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Looper;
 import android.view.Menu;
@@ -95,10 +93,6 @@ public class HideAppFragment extends BaseFragment {
             mView = view;
             appInfo = appInfoList.get(mPosition);
             AnyLayer anyLayer = AnyLayer.with(getActivity())
-                    .contentView(R.layout.dialog_test_2)
-                    .backgroundBlurRadius(4)
-                    .backgroundBlurScale(2)
-                    .backgroundColorInt(Color.BLACK)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
@@ -193,17 +187,25 @@ public class HideAppFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_restrathome) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-            dialog.setTitle("提示");
-            String tipsText = "是否重启Flyme桌面应用当前设置?";
-            dialog.setMessage(tipsText);
-            dialog.setPositiveButton(getString(R.string.Btn_Sure), (dialog12, which) -> new Thread(() -> {
-                Shell.SU.run("am force-stop com.meizu.flyme.launcher");
-            }).start());
-            dialog.setCancelable(true);
-            dialog.setNegativeButton(R.string.Btn_Cancel, (dialog1, which) -> dialog1.cancel());
-            AlertDialog mydialog = dialog.create();
-            mydialog.show();
+            AnyLayer anyLayer = AnyLayer.with(getContext())
+                    .contentView(R.layout.dialog_test_2)
+                    .cancelableOnTouchOutside(true)
+                    .cancelableOnClickKeyBack(true)
+                    .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
+                        AnyLayer.dismiss();
+                    })
+                    .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
+                        new Thread(() -> {
+                            Shell.SU.run("am force-stop com.meizu.flyme.launcher");
+                        }).start();
+                        AnyLayer.dismiss();
+                    });
+
+            CardView cardView = (CardView) anyLayer.getContentView();
+            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+            AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
+            textView.setText("是否重启Flyme桌面应用当前设置?");
+            anyLayer.show();
         }
 
         return false;

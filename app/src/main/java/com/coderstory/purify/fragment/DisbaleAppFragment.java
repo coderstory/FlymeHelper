@@ -2,7 +2,6 @@ package com.coderstory.purify.fragment;
 
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.pm.ApplicationInfo;
@@ -52,7 +51,6 @@ public class DisbaleAppFragment extends BaseFragment {
     int mposition = 0;
     View mview = null;
     PullToRefreshView mPullToRefreshView;
-    AlertDialog mydialog;
     private List<AppInfo> appInfoList = new ArrayList<>();
     private List<AppInfo> appInfoList2 = new ArrayList<>();
     private Dialog dialog;
@@ -113,9 +111,6 @@ public class DisbaleAppFragment extends BaseFragment {
 
             AnyLayer anyLayer = AnyLayer.with(getContext())
                     .contentView(R.layout.dialog_test_2)
-                    .backgroundBlurRadius(4)
-                    .backgroundBlurScale(2)
-                    .backgroundColorInt(Color.BLACK)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
@@ -206,7 +201,14 @@ public class DisbaleAppFragment extends BaseFragment {
         }
     }
 
-    //
+    @Override
+    public void onDestroyView() {
+        if(dialog != null) {
+            dialog.dismiss();
+        }
+        super.onDestroyView();
+    }
+
     protected void closeProgress() {
 
         if (dialog != null) {
@@ -218,27 +220,42 @@ public class DisbaleAppFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_backupList) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-            dialog.setTitle(R.string.backup_list);
-            String tipsText = getString(R.string.tips_sure_backuplist);
-            dialog.setMessage(tipsText);
-            dialog.setPositiveButton(getString(R.string.Btn_Sure), (dialog14, which) -> satrtBackuop());
-            dialog.setCancelable(true);
-            dialog.setNegativeButton(R.string.Btn_Cancel, (dialog13, which) -> dialog13.cancel());
+            AnyLayer anyLayer = AnyLayer.with(getContext())
+                    .contentView(R.layout.dialog_test_2)
+                    .cancelableOnTouchOutside(true)
+                    .cancelableOnClickKeyBack(true)
+                    .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
+                        AnyLayer.dismiss();
+                    })
+                    .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
+                        satrtBackuop();
+                        AnyLayer.dismiss();
+                    });
 
-            mydialog = dialog.create();
-            mydialog.show();
+            CardView cardView = (CardView) anyLayer.getContentView();
+            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+            AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
+            textView.setText(getString(R.string.tips_sure_backuplist));
+            anyLayer.show();
 
         } else if (item.getItemId() == R.id.action_restoreList) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-            dialog.setTitle(R.string.tips_sure_restore_settings);
-            String tipsText = getString(R.string.restore_set);
-            dialog.setMessage(tipsText);
-            dialog.setPositiveButton(getString(R.string.Btn_Sure), (dialog1, which) -> restoreList());
-            dialog.setCancelable(true);
-            dialog.setNegativeButton(R.string.Btn_Cancel, (dialog12, which) -> dialog12.cancel());
-            mydialog = dialog.create();
-            mydialog.show();
+            AnyLayer anyLayer = AnyLayer.with(getContext())
+                    .contentView(R.layout.dialog_test_2)
+                    .cancelableOnTouchOutside(true)
+                    .cancelableOnClickKeyBack(true)
+                    .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
+                        AnyLayer.dismiss();
+                    })
+                    .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
+                        restoreList();
+                        AnyLayer.dismiss();
+                    });
+
+            CardView cardView = (CardView) anyLayer.getContentView();
+            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+            AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
+            textView.setText(getString(R.string.restore_set));
+            anyLayer.show();
         }
 
         return false;
