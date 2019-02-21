@@ -3,6 +3,8 @@ package com.coderstory.purify.module;
 import android.content.Context;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.coderstory.purify.plugins.IModule;
@@ -22,6 +24,11 @@ import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
 public class FlymeHome extends XposedHelper implements IModule {
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
+        if (resparam.packageName.equals("com.meizu.flyme.launcher")) {
+            resparam.res.setReplacement(resparam.packageName, "dimen", "iconsize", "20.0dip");
+            resparam.res.setReplacement(resparam.packageName, "dimen", "app_icon_size", "20.0dip");
+            resparam.res.setReplacement(resparam.packageName, "dimen", "iconsize_big", "20.0dip");
+        }
     }
 
     @Override
@@ -84,6 +91,14 @@ public class FlymeHome extends XposedHelper implements IModule {
                         if (textView != null) {
                             textView.setVisibility(View.INVISIBLE);
                         }
+                        ImageView imageView = (ImageView) XposedHelpers.getObjectField(param.thisObject, "a");
+                        // 16th 默认宽高162 3.375比例
+
+//                        int px = imageView.getLayoutParams().height;
+//                        float set = Float.valueOf(getInstance().getString("Zoom", "1.0"));
+//                        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams((int)(px * set),
+//                                (int)(px * set));//两个400分别为添加图片的大小
+//                        imageView.setLayoutParams(params);
                     }
                 });
                 // 隐藏文件夹标签
@@ -96,6 +111,22 @@ public class FlymeHome extends XposedHelper implements IModule {
                 });
             }
 
+
+            hookAllConstructors("com.meizu.flyme.launcher.u",lpparam.classLoader, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam hookParam) {
+                     if (hookParam.args[0] instanceof String){
+                         hookParam.args[5] = 80 ;
+                     }
+                }
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    XposedHelpers.getFloatField(param.thisObject,"f");
+                    XposedHelpers.setFloatField(param.thisObject,"f",100f);
+                }
+            });
 
         }
     }

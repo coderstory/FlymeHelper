@@ -26,6 +26,12 @@
 
         <item android:title="@string/other">
             <menu>
+
+                <item
+                    android:id="@+id/navigation_item_Blog"
+                    android:icon="@drawable/clean"
+                    android:title="@string/blog" />
+
                 <item
                     android:id="@+id/navigation_item_updateList"
                     android:icon="@drawable/hosts"

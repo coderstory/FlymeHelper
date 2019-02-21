@@ -21,6 +21,7 @@ public class start implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXp
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
         new FlymeRoot().handleInitPackageResources(resparam);
+        new FlymeHome().handleInitPackageResources(resparam);
     }
 
     @Override

@@ -119,6 +119,7 @@
     <string name="appname2">版本号: %1$s \n文件大小:%2$s\n发布日期:%3$s</string>
     <string name="others_appsettings">应用设置</string>
     <string name="updateList">检测更新</string>
+    <string name="blog">作者博客</string>
 
 
 </resources>

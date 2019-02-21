@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import com.coderstory.purify.R;
 import com.coderstory.purify.activity.base.BaseActivity;
 import com.coderstory.purify.config.Misc;
+import com.coderstory.purify.fragment.BlogFragment;
 import com.coderstory.purify.fragment.CleanFragment;
 import com.coderstory.purify.fragment.DisbaleAppFragment;
 import com.coderstory.purify.fragment.HideAppFragment;
@@ -178,9 +179,9 @@ public class MainActivity extends BaseActivity {
                     mToolbar.setTitle(R.string.othersettings);
                     switchFragment(OthersFragment.class);
                     break;
-                case R.id.navigation_item_updateList:
-                    mToolbar.setTitle(R.string.updateList);
-                    switchFragment(UpdateListFragment.class);
+                case R.id.navigation_item_Blog:
+                    mToolbar.setTitle(R.string.blog);
+                    switchFragment(BlogFragment.class);
                     break;
                 default:
                     break;

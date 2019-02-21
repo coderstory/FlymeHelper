@@ -104,9 +104,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-
                 android:paddingStart="30dp"
-                android:paddingTop="4dp"
+                android:paddingTop="15dp"
                 android:paddingEnd="4dp"
                 android:text="桌面" />
 
@@ -116,7 +115,6 @@
                 android:layout_height="80dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
-                android:paddingTop="4dp"
                 android:paddingBottom="4dp"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
