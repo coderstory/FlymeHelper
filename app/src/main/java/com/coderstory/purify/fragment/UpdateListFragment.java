@@ -57,7 +57,9 @@ public class UpdateListFragment extends BaseFragment {
                     AnyLayer.dismiss();
                 })
                 .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
-                    getPrefs().saveConfig("updateList","");
+                    getPrefs().saveConfig("updateList", "");
+                    initData();
+                    adapter.notifyDataSetChanged();
                     AnyLayer.dismiss();
                 });
 
@@ -87,7 +89,7 @@ public class UpdateListFragment extends BaseFragment {
             try {
                 for (String log : str.split(";")) {
                     String[] info = log.split("@");
-                    appInfos.add(0,new AppInfo("     " + info[0], info[1], "  " + info[2], "  " +info[3]));
+                    appInfos.add(0, new AppInfo("     " + info[0], info[1], "  " + info[2], "  " + info[3]));
                 }
             } catch (Exception e) {
                 getInstance().saveConfig("updateList", "");
@@ -197,6 +199,15 @@ public class UpdateListFragment extends BaseFragment {
             }
             initData();
             return null;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter != null) {
+            initData();
+            adapter.notifyDataSetChanged();
         }
     }
 }

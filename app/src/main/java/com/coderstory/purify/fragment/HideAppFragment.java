@@ -92,7 +92,8 @@ public class HideAppFragment extends BaseFragment {
             mPosition = position;
             mView = view;
             appInfo = appInfoList.get(mPosition);
-            AnyLayer anyLayer = AnyLayer.with(getActivity())
+            AnyLayer anyLayer = AnyLayer.with(getContext())
+                    .contentView(R.layout.dialog_test_2)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
