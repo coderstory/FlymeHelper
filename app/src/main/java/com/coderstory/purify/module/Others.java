@@ -111,10 +111,10 @@ public class Others extends XposedHelper implements IModule {
             String updateUrl = (String) XposedHelpers.getObjectField(info, "updateUrl");
             String releaseDate = (String) XposedHelpers.getObjectField(info, "releaseDate");
             String fileSize = (String) XposedHelpers.getObjectField(info, "fileSize");
-            // 同一个包的发布日期都是当前时间 所以使用了版本名称和包大小判断是否重复
-            if (!update.contains(systemVersion) && !update.contains(fileSize)) {
+            String msg = systemVersion + "@" + updateUrl + "@" + fileSize + "@" + releaseDate;
+            if (!update.contains(msg)) {
                 needToast = true;
-                update += systemVersion + "@" + updateUrl + "@" + fileSize + "@" + releaseDate + ";";
+                update += msg + ";";
                 getInstance().saveConfig("updateList", update);
                 if (mContext != null) {
                     Toast.makeText(mContext, "flyme助手:已检测到新的更新包地址", Toast.LENGTH_LONG).show();
