@@ -22,6 +22,10 @@ public class HideApp extends XposedHelper implements IModule {
 
     }
 
+    /**
+     * bl.add(new ComponentName("com.android.vending", "com.android.vending.MarketWidgetProvider"));
+     * @param loadPackageParam
+     */
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         if (loadPackageParam.packageName.equals("com.meizu.flyme.launcher")) {
@@ -30,7 +34,7 @@ public class HideApp extends XposedHelper implements IModule {
             if (!value.equals("")) {
                 final List<String> hideAppList = Arrays.asList(value.split(":"));
                 XposedBridge.log("load config" + value);
-                findAndHookMethod("com.meizu.flyme.launcher.cb", loadPackageParam.classLoader, "b", ComponentName.class, new XC_MethodHook() {
+                findAndHookMethod("com.meizu.flyme.launcher.cb", loadPackageParam.classLoader, "a", ComponentName.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) {
                         ComponentName componentName = (ComponentName) param.args[0];
