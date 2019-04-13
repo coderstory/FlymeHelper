@@ -3,6 +3,7 @@ package com.coderstory.purify.module;
 import android.content.Context;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,47 +35,8 @@ public class FlymeHome extends XposedHelper implements IModule {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
 
-            Class clazz = findClass("com.meizu.flyme.launcher.v", lpparam.classLoader);
-            // 开启自定义布局
-            // (String str, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
-            if (getInstance().getBoolean("hide_icon_5", false)) {
-                hookAllConstructors(clazz, new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        super.beforeHookedMethod(param);
-                        if (param.args[0].getClass().equals(String.class)) {
-                            // flyme5 359 518 5.0 4.0 55 13 4 55
-                            param.args[3] = 5.0f; // y
-                            param.args[4] = 5.0f; // x.
-                            param.args[7] = 4.0f; // hotseat
-
-                        }
-                    }
-
-                });
-                // 不同布局使用不同的db
-                hookAllConstructors(SQLiteOpenHelper.class, new XC_MethodHook() {
-                    protected void afterHookedMethod(MethodHookParam hookParam) {
-                        if ("launcher.db".equals(hookParam.args[1])) {
-                            Object arg = hookParam.args[0];
-                            if (arg != null) {
-                                String dbName = "launcher_coderStory.db";
-                                XposedHelpers.setObjectField(hookParam.thisObject, "mName", dbName);
-
-                                File file = ((Context) arg).getDatabasePath("launcher.db");
-                                if (file != null && (file.exists())) {
-                                    File databasePath = ((Context) arg).getDatabasePath(dbName);
-                                    if (databasePath != null && (databasePath.exists())) {
-                                        return;
-                                    }
-                                    writeFile(file, databasePath);
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
+            hook55(findClass("com.meizu.flyme.launcher.u", lpparam.classLoader));
+            hook55(findClass("com.meizu.flyme.launcher.v", lpparam.classLoader));
 
             if (getInstance().getBoolean("hide_icon_label", false)) {
                 // 隐藏图标标签
@@ -107,22 +69,64 @@ public class FlymeHome extends XposedHelper implements IModule {
             }
 
 
-            hookAllConstructors("com.meizu.flyme.launcher.u", lpparam.classLoader, new XC_MethodHook() {
+            hookAllConstructors("com.meizu.flyme.launcher.u",lpparam.classLoader, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam hookParam) {
-                    if (hookParam.args[0] instanceof String) {
-                        hookParam.args[5] = 80;
-                    }
+                     if (hookParam.args[0] instanceof String){
+                         hookParam.args[5] = 80 ;
+                     }
                 }
 
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    XposedHelpers.getFloatField(param.thisObject, "f");
-                    XposedHelpers.setFloatField(param.thisObject, "f", 100f);
+                    XposedHelpers.getFloatField(param.thisObject,"f");
+                    XposedHelpers.setFloatField(param.thisObject,"f",100f);
                 }
             });
 
+        }
+    }
+
+    private void hook55(Class clazz) {
+        // 开启自定义布局
+        // (String str, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
+        if (getInstance().getBoolean("hide_icon_5", false)) {
+            hookAllConstructors(clazz, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (param.args[0].getClass().equals(String.class)) {
+                        // flyme5 359 518 5.0 4.0 55 13 4 55
+                        param.args[3] = 5.0f; // y
+                        param.args[4] = 5.0f; // x.
+                        param.args[7] = 4.0f; // hotseat
+
+                    }
+                }
+
+            });
+            // 不同布局使用不同的db
+            hookAllConstructors(SQLiteOpenHelper.class, new XC_MethodHook() {
+                protected void afterHookedMethod(MethodHookParam hookParam) {
+                    if ("launcher.db".equals(hookParam.args[1])) {
+                        Object arg = hookParam.args[0];
+                        if (arg != null) {
+                            String dbName = "launcher_coderStory.db";
+                            XposedHelpers.setObjectField(hookParam.thisObject, "mName", dbName);
+
+                            File file = ((Context) arg).getDatabasePath("launcher.db");
+                            if (file != null && (file.exists())) {
+                                File databasePath = ((Context) arg).getDatabasePath(dbName);
+                                if (databasePath != null && (databasePath.exists())) {
+                                    return;
+                                }
+                                writeFile(file, databasePath);
+                            }
+                        }
+                    }
+                }
+            });
         }
     }
 
