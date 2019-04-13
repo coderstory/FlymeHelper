@@ -48,6 +48,9 @@ public class ThemePatcher extends XposedHelper implements IModule {
                 findAndHookMethod("com.meizu.creator.commons.utils.DeviceUtils", lpparam.classLoader, "isPhoneRooted", Context.class, XC_MethodReplacement.returnConstant(false));
                 findAndHookMethod("com.meizu.creator.commons.utils.reflect.ReflectUtils", lpparam.classLoader, "doCheckRootState", Context.class, XC_MethodReplacement.returnConstant(false));
 
+                findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.b", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
+                findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.g.b", lpparam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(false));
+
                 //resetToSystemTheme
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true));
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "b", XC_MethodReplacement.returnConstant(true));
