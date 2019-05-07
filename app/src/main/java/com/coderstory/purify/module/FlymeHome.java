@@ -14,6 +14,7 @@ import java.io.File;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -34,11 +35,12 @@ public class FlymeHome extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
-
+            XposedBridge.log("开始hook桌面");
             hook55(findClass("com.meizu.flyme.launcher.u", lpparam.classLoader));
             hook55(findClass("com.meizu.flyme.launcher.v", lpparam.classLoader));
 
             if (getInstance().getBoolean("hide_icon_label", false)) {
+                XposedBridge.log("开启隐藏标签");
                 // 隐藏图标标签
                 hookAllMethods(findClass("com.meizu.flyme.launcher.ShortcutIcon", lpparam.classLoader), "a", new XC_MethodHook() {
                     @Override
@@ -48,7 +50,7 @@ public class FlymeHome extends XposedHelper implements IModule {
                         if (textView != null) {
                             textView.setVisibility(View.INVISIBLE);
                         }
-                        ImageView imageView = (ImageView) XposedHelpers.getObjectField(param.thisObject, "a");
+                     //   ImageView imageView = (ImageView) XposedHelpers.getObjectField(param.thisObject, "a");
                         // 16th 默认宽高162 3.375比例
 
 //                        int px = imageView.getLayoutParams().height;
@@ -89,6 +91,7 @@ public class FlymeHome extends XposedHelper implements IModule {
     }
 
     private void hook55(Class clazz) {
+        XposedBridge.log("开始hook 55桌面");
         // 开启自定义布局
         // (String str, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
         if (getInstance().getBoolean("hide_icon_5", false)) {
