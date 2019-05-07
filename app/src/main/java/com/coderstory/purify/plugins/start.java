@@ -28,11 +28,11 @@ public class start implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXp
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         new FlymeHome().handleLoadPackage(lpparam);
         new IsEnable().handleLoadPackage(lpparam);
-        new RemoveAds().handleLoadPackage(lpparam);
         new HideApp().handleLoadPackage(lpparam);
         new Others().handleLoadPackage(lpparam);
         new ThemePatcher().handleLoadPackage(lpparam);
         new FlymeRoot().handleLoadPackage(lpparam);
+        new RemoveAds().handleLoadPackage(lpparam);
     }
 
     @Override

@@ -69,24 +69,6 @@ public class FlymeHome extends XposedHelper implements IModule {
                     }
                 });
             }
-
-
-            hookAllConstructors("com.meizu.flyme.launcher.u",lpparam.classLoader, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam hookParam) {
-                     if (hookParam.args[0] instanceof String){
-                         hookParam.args[5] = 80 ;
-                     }
-                }
-
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    XposedHelpers.getFloatField(param.thisObject,"f");
-                    XposedHelpers.setFloatField(param.thisObject,"f",100f);
-                }
-            });
-
         }
     }
 
