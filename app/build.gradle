@@ -8,7 +8,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 102
-        versionName "3.2.5 测试"
+        versionName "3.2.5 正式版"
         resConfigs "cn"
     }
     repositories {
