@@ -28,6 +28,28 @@ public class Others extends XposedHelper implements IModule {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+    //    findAndHookMethod("com.android.systemui.power.PowerUI", loadPackageParam.classLoader, "playLowBatterySound", XC_MethodReplacement.returnConstant(null));
+   //     findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarPolicy", loadPackageParam.classLoader, "updateAlarm", Boolean.TYPE, XC_MethodReplacement.returnConstant(false));
+     //   findAndHookMethod("com.android.systemui.power.PowerUI", loadPackageParam.classLoader, "start", XC_MethodReplacement.returnConstant(false));
+
+
+        findAndHookMethod("com.android.systemui.statusbar.phone.StatusBarIconController", loadPackageParam.classLoader, "setIconVisibility", String.class, boolean.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                super.beforeHookedMethod(param);
+                XposedBridge.log("setIconVisibility:" + param.args[0] + param.args[1]);
+                if ("alarm_clock".equals(param.args[0] )) {
+                    param.args[1] = false;
+                }
+                if ("hotspot".equals(param.args[0] )) {
+                    param.args[1] = false;
+                }
+                if ("bluetooth".equals(param.args[0] )) {
+                    param.args[1] = false;
+                }
+            }
+        });
+
         // 禁止安装app时候的安全检验
         if (loadPackageParam.packageName.equals("com.android.packageinstaller")) {
 
