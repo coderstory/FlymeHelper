@@ -28,27 +28,34 @@ public class Others extends XposedHelper implements IModule {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
-    //    findAndHookMethod("com.android.systemui.power.PowerUI", loadPackageParam.classLoader, "playLowBatterySound", XC_MethodReplacement.returnConstant(null));
-   //     findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarPolicy", loadPackageParam.classLoader, "updateAlarm", Boolean.TYPE, XC_MethodReplacement.returnConstant(false));
-     //   findAndHookMethod("com.android.systemui.power.PowerUI", loadPackageParam.classLoader, "start", XC_MethodReplacement.returnConstant(false));
+        if (loadPackageParam.packageName.equals("com.android.systemui")) {
+            findAndHookMethod("com.android.systemui.statusbar.phone.StatusBarIconController", loadPackageParam.classLoader, "setIconVisibility", String.class, boolean.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
 
-
-        findAndHookMethod("com.android.systemui.statusbar.phone.StatusBarIconController", loadPackageParam.classLoader, "setIconVisibility", String.class, boolean.class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                super.beforeHookedMethod(param);
-                XposedBridge.log("setIconVisibility:" + param.args[0] + param.args[1]);
-                if ("alarm_clock".equals(param.args[0] )) {
-                    param.args[1] = false;
+                    if ("alarm_clock".equals(param.args[0]) && getInstance().getBoolean("hide_icon_alarm_clock", false)) {
+                        param.args[1] = false;
+                    }
+                    if ("hotspot".equals(param.args[0]) && getInstance().getBoolean("hide_icon_hotspot", false)) {
+                        param.args[1] = false;
+                    }
+                    if ("bluetooth".equals(param.args[0]) && getInstance().getBoolean("hide_icon_bluetooth", false)) {
+                        param.args[1] = false;
+                    }
                 }
-                if ("hotspot".equals(param.args[0] )) {
-                    param.args[1] = false;
-                }
-                if ("bluetooth".equals(param.args[0] )) {
-                    param.args[1] = false;
-                }
+            });
+            if (getInstance().getBoolean("hide_icon_volte", false)) {
+                hookAllMethods("com.android.systemui.statusbar.SignalClusterView", loadPackageParam.classLoader, "setMobileDataIndicators", new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        param.args[4] = 0;
+                    }
+                });
             }
-        });
+          // com.android.systemui.power.PowerUI playBatterySound start 低电量 电量空
+        }
 
         // 禁止安装app时候的安全检验
         if (loadPackageParam.packageName.equals("com.android.packageinstaller")) {

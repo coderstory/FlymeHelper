@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Flyme助手</string>
+    <string name="app_name">Flyme8助手</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="about_msg">\nFlyme助手适配于Flyme8系统，主要用于去除系统自带的一些广告和其他一些修改.功能需要Xposed模块和ROOT支持
@@ -40,6 +40,10 @@
     <string name="HideRootWithUpgrade"><b>系统更新</b>\n在系统更新中隐藏Root</string>
     <string name="HideRootWithPay"><b>魅族Pay</b>\n在魅族Pay中隐藏Root</string>
     <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题 支持主题美化7.5.x-8.0.8</string>
+    <string name="alarem"><b>闹钟</b>\n隐藏状态栏上的闹钟图标</string>
+    <string name="hide_icon_bluetooth"><b>蓝牙</b>\n隐藏状态栏上的蓝牙图标</string>
+    <string name="hide_icon_hotspot"><b>手机热点</b>\n隐藏状态栏上的手机热点图标</string>
+    <string name="hide_icon_volte"><b>VoLte</b>\n隐藏状态栏上的VoLte(HD)图标</string>
     <string name="Tips_Title">温馨提示</string>
     <string name="Btn_Sure">确定</string>
     <string name="Btn_Cancel">取消</string>
@@ -122,6 +126,4 @@
     <string name="others_appsettings">应用设置</string>
     <string name="updateList">检测更新</string>
     <string name="blog">作者博客</string>
-
-
 </resources>

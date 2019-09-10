@@ -35,7 +35,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="13dp"
         android:fontFamily="sans-serif-condensed"
-        android:text="不忘初心,方得始终"
+        android:text="Flyme8 重新启航"
         android:textColor="#fff"
         android:textSize="25sp" />
 

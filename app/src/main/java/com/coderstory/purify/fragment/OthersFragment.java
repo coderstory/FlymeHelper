@@ -48,7 +48,11 @@ public class OthersFragment extends BaseFragment {
         $(R.id.hide_icon_7).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_7", ((Switch) v).isChecked()));
         $(R.id.enableCTS).setOnClickListener(v -> getPrefs().saveConfig("enableCTS", ((Switch) v).isChecked()));
         $(R.id.enableCheckInstaller).setOnClickListener(v -> getPrefs().saveConfig("enableCheckInstaller", ((Switch) v).isChecked()));
-        $(R.id.enabletheme).setOnClickListener(v -> getPrefs().saveConfig("enabletheme", ((Switch) v).isChecked()));
+        $(R.id.hide_icon_alarm_clock).setOnClickListener(v -> getPrefs().saveConfig("enabletheme", ((Switch) v).isChecked()));
+        $(R.id.hide_icon_bluetooth).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_bluetooth", ((Switch) v).isChecked()));
+        $(R.id.hide_icon_hotspot).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_hotspot", ((Switch) v).isChecked()));
+        $(R.id.hide_icon_alarm_clock).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_alarm_clock", ((Switch) v).isChecked()));
+        $(R.id.hide_icon_volte).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_volte", ((Switch) v).isChecked()));
     }
 
     @Override
@@ -68,6 +72,10 @@ public class OthersFragment extends BaseFragment {
         ((Switch) $(R.id.hide_icon_7)).setChecked(getPrefs().getBoolean("hide_icon_7", false));
         ((Switch) $(R.id.enableCheckInstaller)).setChecked(getPrefs().getBoolean("enableCheckInstaller", false));
         ((Switch) $(R.id.enableCTS)).setChecked(getPrefs().getBoolean("enableCTS", false));
+        ((Switch) $(R.id.hide_icon_bluetooth)).setChecked(getPrefs().getBoolean("hide_icon_bluetooth", false));
+        ((Switch) $(R.id.hide_icon_hotspot)).setChecked(getPrefs().getBoolean("hide_icon_hotspot", false));
+        ((Switch) $(R.id.hide_icon_alarm_clock)).setChecked(getPrefs().getBoolean("hide_icon_alarm_clock", false));
+        ((Switch) $(R.id.hide_icon_volte)).setChecked(getPrefs().getBoolean("hide_icon_volte", false));
     }
 
 }
