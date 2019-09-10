@@ -68,15 +68,36 @@ public class FlymeHome extends XposedHelper implements IModule {
         XposedBridge.log("开始hook 55桌面");
         // 开启自定义布局
         // (String str, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
+        String type = "";
         if (getInstance().getBoolean("hide_icon_5", false)) {
+            type = "hide_icon_5";
+        } else if (getInstance().getBoolean("hide_icon_6", false)) {
+            type = "hide_icon_6";
+        } else if (getInstance().getBoolean("hide_icon_7", false)) {
+            type = "hide_icon_7";
+        }
+        if (!"".equals(type)) {
+            String finalType = type;
             hookAllConstructors(clazz, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
                     if (param.args[0].getClass().equals(String.class)) {
                         // flyme5 359 518 5.0 4.0 55 13 4 55
-                        param.args[3] = 6.0f; // y
-                        param.args[4] = 5.0f; // x.
+                        switch (finalType) {
+                            case "hide_icon_5":
+                                param.args[3] = 5.0f; // y
+                                param.args[4] = 5.0f; // x.
+                                break;
+                            case "hide_icon_6":
+                                param.args[3] = 6.0f; // y
+                                param.args[4] = 5.0f; // x.
+                                break;
+                            case "hide_icon_7":
+                                param.args[3] = 6.0f; // y
+                                param.args[4] = 6.0f; // x.
+                                break;
+                        }
                         param.args[7] = 4.0f; // hotseat
                     }
                 }
@@ -88,7 +109,7 @@ public class FlymeHome extends XposedHelper implements IModule {
                     if ("launcher.db".equals(hookParam.args[1])) {
                         Object arg = hookParam.args[0];
                         if (arg != null) {
-                            String dbName = "launcher_coderStory.db";
+                            String dbName = finalType + "launcher_coderStory.db";
                             XposedHelpers.setObjectField(hookParam.thisObject, "mName", dbName);
 
                             File file = ((Context) arg).getDatabasePath("launcher.db");
