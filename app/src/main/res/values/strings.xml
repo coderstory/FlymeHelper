@@ -37,7 +37,7 @@
     <string name="zipauthcreak"><b>禁用APK签名验证 - 实时生效</b>\n允许直接覆盖安装同包名不同签名的应用</string>
     <string name="HideRootWithUpgrade"><b>系统更新</b>\n在系统更新中隐藏Root</string>
     <string name="HideRootWithPay"><b>魅族Pay</b>\n在魅族Pay中隐藏Root</string>
-    <string name="fucktheme"><b>主题和谐</b>\n屌丝没钱买猪蹄,支持支持主题美化7.5.x</string>
+    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题 支持主题美化7.5.x-8.0.8</string>
     <string name="Tips_Title">温馨提示</string>
     <string name="Btn_Sure">确定</string>
     <string name="Btn_Cancel">取消</string>

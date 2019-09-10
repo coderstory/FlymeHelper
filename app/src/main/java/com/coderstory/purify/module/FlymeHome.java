@@ -50,14 +50,6 @@ public class FlymeHome extends XposedHelper implements IModule {
                         if (textView != null) {
                             textView.setVisibility(View.INVISIBLE);
                         }
-                     //   ImageView imageView = (ImageView) XposedHelpers.getObjectField(param.thisObject, "a");
-                        // 16th 默认宽高162 3.375比例
-
-//                        int px = imageView.getLayoutParams().height;
-//                        float set = Float.valueOf(getInstance().getString("Zoom", "1.0"));
-//                        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams((int)(px * set),
-//                                (int)(px * set));//两个400分别为添加图片的大小
-//                        imageView.setLayoutParams(params);
                     }
                 });
                 // 隐藏文件夹标签
@@ -83,10 +75,9 @@ public class FlymeHome extends XposedHelper implements IModule {
                     super.beforeHookedMethod(param);
                     if (param.args[0].getClass().equals(String.class)) {
                         // flyme5 359 518 5.0 4.0 55 13 4 55
-                        param.args[3] = 5.0f; // y
+                        param.args[3] = 6.0f; // y
                         param.args[4] = 5.0f; // x.
                         param.args[7] = 4.0f; // hotseat
-
                     }
                 }
 

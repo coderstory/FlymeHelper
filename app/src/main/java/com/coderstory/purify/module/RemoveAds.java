@@ -1,19 +1,14 @@
 package com.coderstory.purify.module;
 
-import android.app.Activity;
 import android.content.Context;
 import android.webkit.WebView;
 
 import com.coderstory.purify.plugins.IModule;
 import com.coderstory.purify.utils.XposedHelper;
 
-import java.io.File;
-
-import dalvik.system.BaseDexClassLoader;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -54,7 +49,7 @@ public class RemoveAds extends XposedHelper implements IModule {
         }
         clazz = findClassWithoutLog("com.meizu.advertise.api.SimpleJsAdBridge", loadPackageParam.classLoader);
         if (clazz != null) {
-            XposedHelpers.findAndHookConstructor(clazz, Activity.class, WebView.class, new XC_MethodHook() {
+            XposedHelpers.findAndHookConstructor(clazz, Context.class, WebView.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);

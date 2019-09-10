@@ -43,7 +43,7 @@ public class ThemePatcher extends XposedHelper implements IModule {
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.ThemeTrialService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, XC_MethodReplacement.returnConstant(0));
 
                 //device_states | doCheckState
-                findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.a", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
+               // findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.a", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
 
                 findAndHookMethod("com.meizu.creator.commons.utils.DeviceUtils", lpparam.classLoader, "isPhoneRooted", Context.class, XC_MethodReplacement.returnConstant(false));
                 findAndHookMethod("com.meizu.creator.commons.utils.reflect.ReflectUtils", lpparam.classLoader, "doCheckRootState", Context.class, XC_MethodReplacement.returnConstant(false));
@@ -58,7 +58,7 @@ public class ThemePatcher extends XposedHelper implements IModule {
                         }
                     }
                 });
-                findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.g.b", lpparam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(false));
+               // findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.g.b", lpparam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(false));
 
                 //resetToSystemTheme
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true));
