@@ -2,7 +2,7 @@
     <string name="app_name">Flyme助手</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="about_msg">\nFlyme助手适配于Flyme系统，主要用于去除系统自带的一些广告和其他一些修改.功能需要Xposed模块和ROOT支持
+    <string name="about_msg">\nFlyme助手适配于Flyme8系统，主要用于去除系统自带的一些广告和其他一些修改.功能需要Xposed模块和ROOT支持
         \n\n<b>作者:CoderStory</b>
         \n\n<b>博客主页: blog.coderstory.cn</b>
         \n\n<b>微博主页: weibo.com/codestory</b>
@@ -15,7 +15,7 @@
             <b>LicensesDialog</b>\nhttps://github.com/PSDev/LicensesDialog\n\n
     </string>
     <string name="about_msg3"><b>声明</b>\n软件授权协议</string>
-    <string name="enableBlockADS"><b>基础功能</b>\n去除小部分系统应用内的广告(目前没啥用)</string>
+    <string name="enableBlockADS"><b>基础功能</b>\n去除少量系统App内的广告</string>
     <string name="downloadexplorer"><b>下载管理</b>\n去下载管理界面的广告</string>
     <string name="mms"><b>短信</b>\n去除具体短信信息界面上的充值话费充值流量贷款申请信用卡等垃圾信息，开启后无法直接复制短信验证码</string>
     <string name="enableHosts"><b>启用模块</b>\n开启Hosts支持模块</string>
@@ -29,7 +29,7 @@
     <string name="hideicon"><b>隐藏应用图标</b>\n隐藏Flyme7助手在桌上面的图标，隐藏图标后可在Xposed安装器中打开</string>
     <string name="installapk"><b>APK安装模式</b>\n默认为显示安装模式（普通模式），开启选项后改为后台安装模式(静默安装)。在Flyme系统中，由于系统底层机制被修改，无法开启静默安装，否则会安装失败，切记！</string>
     <string name="hide_icon_label"><b>隐藏桌面图标标签</b>\n隐藏桌面图标和文件夹下的标签文字</string>
-    <string name="hide_icon_5x5"><b>自定义桌面布局</b>\n使用5x5的桌面图标布局</string>
+    <string name="hide_icon_5x5"><b>自定义桌面布局</b>\n使用5x6的桌面图标布局</string>
     <string name="enableCheckInstaller"><b>禁用安全检查</b>\n跳过安装应用时候的安全检查</string>
     <string name="enableCTS"><b>启用原生应用安装界面</b>\n使用Android默认的安装界面</string>
     <string name="downgr"><b>允许降级安装应用 - 实时生效</b>\n允许应用在安装新版本的情况下直接覆盖安装旧版本</string>
