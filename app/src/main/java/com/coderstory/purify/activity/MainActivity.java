@@ -109,7 +109,7 @@ public class MainActivity extends BaseActivity {
             getInstance().saveConfig("firstOpen",false);
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
             normalDialog.setTitle("提示");
-            normalDialog.setMessage("因为我没有魅族手机，本出更新支持flyme8也是刷了移植版本，但我不可能一直用，而且移植版基本不更新。所以，可能本次更新后就没有下文了。");
+            normalDialog.setMessage("因为我没有魅族手机，本次更新支持flyme8也是刷了移植版本，但我不可能一直用，何况移植版基本不更新。所以，可能本次更新后就可能没有下文了。哦，对了，这是xposed插件，请自行安装edxposed或者xposed框架");
             normalDialog.setPositiveButton("确定",
                     (dialog, which) -> {});
             normalDialog.setCancelable(true);
