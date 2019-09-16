@@ -75,6 +75,8 @@ public class FlymeHome extends XposedHelper implements IModule {
             type = "hide_icon_6";
         } else if (getInstance().getBoolean("hide_icon_7", false)) {
             type = "hide_icon_7";
+        } else {
+            type = "hide_icon_4";
         }
         if (!"".equals(type)) {
             String finalType = type;
@@ -97,6 +99,9 @@ public class FlymeHome extends XposedHelper implements IModule {
                                 param.args[3] = 6.0f; // y
                                 param.args[4] = 6.0f; // x.
                                 break;
+                            case "hide_icon_4":
+                                param.args[3] = 5.0f; // y
+                                param.args[4] = 4.0f; // x.
                         }
                         param.args[7] = 4.0f; // hotseat
                     }

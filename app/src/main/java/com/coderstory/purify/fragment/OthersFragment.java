@@ -39,16 +39,17 @@ public class OthersFragment extends BaseFragment {
         });
 
 
-        $(R.id.enabletheme).setOnClickListener(v -> getPrefs().saveConfig("EnableTheme", ((Switch) v).isChecked()));
+        $(R.id.enabletheme).setOnClickListener(v -> getPrefs().saveConfig("enabletheme", ((Switch) v).isChecked()));
         $(R.id.HideRootWithPay).setOnClickListener(v -> getPrefs().saveConfig("HideRootWithPay", ((Switch) v).isChecked()));
         $(R.id.HideRootWithUpgrade).setOnClickListener(v -> getPrefs().saveConfig("HideRootWithUpgrade", ((Switch) v).isChecked()));
         $(R.id.hide_icon_label).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_label", ((Switch) v).isChecked()));
+        $(R.id.hide_icon_45).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_4", ((Switch) v).isChecked()));
         $(R.id.hide_icon_5).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_5", ((Switch) v).isChecked()));
         $(R.id.hide_icon_6).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_6", ((Switch) v).isChecked()));
         $(R.id.hide_icon_7).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_7", ((Switch) v).isChecked()));
         $(R.id.enableCTS).setOnClickListener(v -> getPrefs().saveConfig("enableCTS", ((Switch) v).isChecked()));
         $(R.id.enableCheckInstaller).setOnClickListener(v -> getPrefs().saveConfig("enableCheckInstaller", ((Switch) v).isChecked()));
-        $(R.id.hide_icon_alarm_clock).setOnClickListener(v -> getPrefs().saveConfig("enabletheme", ((Switch) v).isChecked()));
+        $(R.id.hide_icon_alarm_clock).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_alarm_clock", ((Switch) v).isChecked()));
         $(R.id.hide_icon_bluetooth).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_bluetooth", ((Switch) v).isChecked()));
         $(R.id.hide_icon_hotspot).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_hotspot", ((Switch) v).isChecked()));
         $(R.id.hide_icon_alarm_clock).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_alarm_clock", ((Switch) v).isChecked()));
@@ -67,6 +68,7 @@ public class OthersFragment extends BaseFragment {
         ((Switch) $(R.id.enabletheme)).setChecked(getPrefs().getBoolean("enabletheme", false));
         ((Switch) $(R.id.HideRootWithPay)).setChecked(getPrefs().getBoolean("HideRootWithPay", false));
         ((Switch) $(R.id.HideRootWithUpgrade)).setChecked(getPrefs().getBoolean("HideRootWithUpgrade", false));
+        ((Switch) $(R.id.hide_icon_45)).setChecked(getPrefs().getBoolean("hide_icon_4", false));
         ((Switch) $(R.id.hide_icon_5)).setChecked(getPrefs().getBoolean("hide_icon_5", false));
         ((Switch) $(R.id.hide_icon_6)).setChecked(getPrefs().getBoolean("hide_icon_6", false));
         ((Switch) $(R.id.hide_icon_7)).setChecked(getPrefs().getBoolean("hide_icon_7", false));

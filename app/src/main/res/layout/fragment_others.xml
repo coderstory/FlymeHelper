@@ -121,6 +121,19 @@
                 android:text="@string/hide_icon_label" />
 
             <Switch
+                android:id="@+id/hide_icon_45"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:text="@string/hide_icon_4x5" />
+
+
+            <Switch
                 android:id="@+id/hide_icon_5"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"

@@ -1,6 +1,7 @@
 package com.coderstory.purify.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -34,6 +35,7 @@ import androidx.fragment.app.FragmentManager;
 import per.goweii.anylayer.AnyLayer;
 
 import static com.coderstory.purify.R.id.navigation_view;
+import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
 
 public class MainActivity extends BaseActivity {
     public static final long MAX_DOUBLE_BACK_DURATION = 1500;
@@ -103,16 +105,16 @@ public class MainActivity extends BaseActivity {
 
         checkEnable();
 
-//        if(getInstance().getBoolean("firstOpen",true)){
-//            getInstance().saveConfig("firstOpen",false);
-//            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
-//            normalDialog.setTitle("提示");
-//            normalDialog.setMessage("本次更新后Xposed功能不再依赖ROOT权限,所有设置恢复默认，请重新设置。");
-//            normalDialog.setPositiveButton("确定",
-//                    (dialog, which) -> {});
-//            normalDialog.setCancelable(true);
-//            normalDialog.show();
-//        }
+        if(getInstance().getBoolean("firstOpen",true)){
+            getInstance().saveConfig("firstOpen",false);
+            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
+            normalDialog.setTitle("提示");
+            normalDialog.setMessage("因为我没有魅族手机，本出更新支持flyme8也是刷了移植版本，但我不可能一直用，而且移植版基本不更新。所以，可能本次更新后就没有下文了。");
+            normalDialog.setPositiveButton("确定",
+                    (dialog, which) -> {});
+            normalDialog.setCancelable(true);
+            normalDialog.show();
+        }
     }
 
     private void checkEnable() {
