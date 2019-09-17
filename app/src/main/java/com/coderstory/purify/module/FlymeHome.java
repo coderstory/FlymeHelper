@@ -75,7 +75,7 @@ public class FlymeHome extends XposedHelper implements IModule {
             type = "hide_icon_6";
         } else if (getInstance().getBoolean("hide_icon_7", false)) {
             type = "hide_icon_7";
-        } else {
+        } else if (getInstance().getBoolean("hide_icon_4", false)) {
             type = "hide_icon_4";
         }
         if (!"".equals(type)) {
