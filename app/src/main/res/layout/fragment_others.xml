@@ -89,6 +89,19 @@
                 android:text="@string/enableCheckInstaller" />
 
             <Switch
+                android:id="@+id/hideDepWarn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:maxLines="10"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:paddingEnd="30dp"
+                android:text="@string/hideDepWarn" />
+
+            <Switch
                 android:id="@+id/enableCTS"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"

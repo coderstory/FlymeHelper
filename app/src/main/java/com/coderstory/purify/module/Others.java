@@ -54,7 +54,11 @@ public class Others extends XposedHelper implements IModule {
                     }
                 });
             }
-          // com.android.systemui.power.PowerUI playBatterySound start 低电量 电量空
+            // com.android.systemui.power.PowerUI playBatterySound start 低电量 电量空
+            if (getInstance().getBoolean("hideDepWarn", false)) {
+                hookAllMethods("com.flyme.systemui.developer.DeveloperSettingsController", loadPackageParam.classLoader, "updateDeveloperNotification", XC_MethodReplacement.returnConstant(null));
+            }
+
         }
 
         // 禁止安装app时候的安全检验
