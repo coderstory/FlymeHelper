@@ -38,7 +38,7 @@ public class FlymeHome extends XposedHelper implements IModule {
             XposedBridge.log("开始hook桌面");
             hook55(findClass("com.meizu.flyme.launcher.u", lpparam.classLoader));
             hook55(findClass("com.meizu.flyme.launcher.v", lpparam.classLoader));
-
+            hook55(findClass("com.meizu.flyme.launcher.w", lpparam.classLoader));
             if (getInstance().getBoolean("hide_icon_label", false)) {
                 XposedBridge.log("开启隐藏标签");
                 // 隐藏图标标签
