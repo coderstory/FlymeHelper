@@ -55,6 +55,7 @@ public class OthersFragment extends BaseFragment {
         $(R.id.hide_icon_alarm_clock).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_alarm_clock", ((Switch) v).isChecked()));
         $(R.id.hide_icon_volte).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_volte", ((Switch) v).isChecked()));
         $(R.id.hideDepWarn).setOnClickListener(v -> getPrefs().saveConfig("hideDepWarn", ((Switch) v).isChecked()));
+        $(R.id.hide_icon_shake).setOnClickListener(v -> getPrefs().saveConfig("hide_icon_shake", ((Switch) v).isChecked()));
     }
 
     @Override
@@ -80,6 +81,7 @@ public class OthersFragment extends BaseFragment {
         ((Switch) $(R.id.hide_icon_alarm_clock)).setChecked(getPrefs().getBoolean("hide_icon_alarm_clock", false));
         ((Switch) $(R.id.hide_icon_volte)).setChecked(getPrefs().getBoolean("hide_icon_volte", false));
         ((Switch) $(R.id.hideDepWarn)).setChecked(getPrefs().getBoolean("hideDepWarn", false));
+        ((Switch) $(R.id.hide_icon_shake)).setChecked(getPrefs().getBoolean("hideDepWarn", false));
     }
 
 }

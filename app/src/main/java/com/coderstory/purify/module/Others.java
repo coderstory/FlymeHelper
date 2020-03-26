@@ -43,6 +43,12 @@ public class Others extends XposedHelper implements IModule {
                     if ("bluetooth".equals(param.args[0]) && getInstance().getBoolean("hide_icon_bluetooth", false)) {
                         param.args[1] = false;
                     }
+
+                    XposedBridge.log("图标类型" + param.args[0].toString());
+                    // 震动 || 静音+震动
+                    if (("zen".equals(param.args[0]) || "volume".equals(param.args[0])) && getInstance().getBoolean("hide_icon_shake", false)) {
+                        param.args[1] = false;
+                    }
                 }
             });
             if (getInstance().getBoolean("hide_icon_volte", false)) {
