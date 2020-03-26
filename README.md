@@ -1,5 +1,5 @@
-# Flym6助手
-一款基于xposed开发的flyme7主题美化App和谐插件
+# Flyme助手
+一款基于xposed开发的针对flyme6-8 系统定制插件
 
 [![license](https://img.shields.io/badge/license-GPLV2-blue.svg)](#)
 [![platform](https://img.shields.io/badge/platform-Android-yellow.svg)](https://www.android.com)
@@ -22,3 +22,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ```
 ## 版本支持说明
 从3.0.0bata版本开始，删除了所有历史版本兼容代码。主题美化最低地址版本为7.1.2
+
+## 代码分支说明
+master分支为flyme6适配代码适配
+flyme7分支针对flyme7系统适配
+flyme8分支针对flyme8系统适配
