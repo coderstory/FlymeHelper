@@ -64,6 +64,13 @@ public class Others extends XposedHelper implements IModule {
             if (getInstance().getBoolean("hideDepWarn", false)) {
                 hookAllMethods("com.flyme.systemui.developer.DeveloperSettingsController", loadPackageParam.classLoader, "updateDeveloperNotification", XC_MethodReplacement.returnConstant(null));
             }
+            //隐藏 空sim卡图标
+            if (getInstance().getBoolean("hide_status_bar_no_sim_icon", false)) {
+                findAndHookMethod("com.android.systemui.statusbar.policy.NetworkControllerImpl", loadPackageParam.classLoader, "updateNoSims", XC_MethodReplacement.returnConstant(null));
+            }
+
+            //隐藏sim卡图标
+            //findAndHookMethod("com.android.systemui.statusbar.policy.NetworkControllerImpl", loadPackageParam.classLoader, "notifySubscriptionsChangeCallBack", XC_MethodReplacement.returnConstant(null));
 
         }
 

@@ -47,7 +47,8 @@
     <string name="hide_icon_bluetooth"><b>蓝牙</b>\n隐藏状态栏上的蓝牙图标</string>
     <string name="hide_icon_hotspot"><b>手机热点</b>\n隐藏状态栏上的手机热点图标</string>
     <string name="hide_icon_volte"><b>VoLte</b>\n隐藏状态栏上的VoLte(HD)图标</string>
-    <string name="hide_icon_shake"><b>VoLte</b>\n隐藏状态栏上的震动图标</string>
+    <string name="hide_icon_shake"><b>震动</b>\n隐藏状态栏上的震动图标</string>
+    <string name="hide_status_bar_no_sim_icon"><b>SIM</b>\n隐藏空sim卡图标</string>
     <string name="Tips_Title">温馨提示</string>
     <string name="Btn_Sure">确定</string>
     <string name="Btn_Cancel">取消</string>
