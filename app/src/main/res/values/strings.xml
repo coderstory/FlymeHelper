@@ -4,6 +4,7 @@
     <string name="drawer_close">Close</string>
     <string name="about_msg">\nFlyme助手适配于Flyme8系统，主要用于去除系统自带的一些广告和其他一些修改.功能需要Xposed模块和ROOT支持
         \n\n<b>作者:CoderStory</b>
+        \n\n<b>QQ群: 906552736</b>
         \n\n<b>博客主页: blog.coderstory.cn</b>
         \n\n<b>微博主页: weibo.com/codestory</b>
         \n\n<b>开源项目: github.com/coderstory/Flyme6Helper</b>
@@ -42,7 +43,7 @@
     <string name="zipauthcreak"><b>禁用APK签名验证 - 实时生效</b>\n允许直接覆盖安装同包名不同签名的应用</string>
     <string name="HideRootWithUpgrade"><b>系统更新</b>\n在系统更新中隐藏Root</string>
     <string name="HideRootWithPay"><b>魅族Pay</b>\n在魅族Pay中隐藏Root</string>
-    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题 支持主题美化8.1.7 其他版本自测且不维护</string>
+    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题 支持主题美化8.1.7 \n其他版本自测且不维护</string>
     <string name="alarem"><b>闹钟</b>\n隐藏状态栏上的闹钟图标</string>
     <string name="hide_icon_bluetooth"><b>蓝牙</b>\n隐藏状态栏上的蓝牙图标</string>
     <string name="hide_icon_hotspot"><b>手机热点</b>\n隐藏状态栏上的手机热点图标</string>
