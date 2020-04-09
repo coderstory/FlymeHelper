@@ -8,7 +8,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 103
-        versionName "3.3.3"
+        versionName "3.3.4"
         resConfigs "cn"
     }
     repositories {
