@@ -1,13 +1,8 @@
 package com.coderstory.purify.fragment;
 
-import android.didikee.donate.AlipayDonate;
-import android.didikee.donate.WeiXinDonate;
-import android.graphics.BitmapFactory;
-import android.os.Environment;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.coderstory.purify.BuildConfig;
 import com.coderstory.purify.R;
@@ -18,14 +13,7 @@ import com.coderstory.purify.utils.licensesdialog.licenses.GnuGeneralPublicLicen
 import com.coderstory.purify.utils.licensesdialog.model.Notice;
 import com.coderstory.purify.utils.licensesdialog.model.Notices;
 
-import java.io.File;
-import java.io.InputStream;
 
-/**
- * Created by _SOLID
- * Date:2016/3/30
- * Time:20:03
- */
 public class AboutFragment extends BaseFragment {
 
 
@@ -52,37 +40,6 @@ public class AboutFragment extends BaseFragment {
                     .show();
         });
 
-        $(R.id.alipay).setOnClickListener(view ->
-                donateAlipay("FKX03884EYVUJKBZLWQTFA")
-        );
-        $(R.id.wechat).setOnClickListener(view ->
-                // donateWeixin()
-                Toast.makeText(getMContext(), "暂不支持微信捐赠通道(#腊鸡微信)", Toast.LENGTH_LONG).show()
-        );
-
         ((TextView) $(R.id.version)).setText(BuildConfig.VERSION_NAME);
-    }
-
-    /* 支付宝支付
-     * @param payCode 收款码后面的字符串；例如：收款二维码里面的字符串为 https://qr.alipay.com/stx00187oxldjvyo3ofaw60 ，则
-     *payCode = aex087445gnaa6gawjaohe8
-     *注：不区分大小写
-     */
-    private void donateAlipay(String payCode) {
-        boolean hasInstalledAlipayClient = AlipayDonate.hasInstalledAlipayClient(getMContext());
-        if (hasInstalledAlipayClient) {
-            AlipayDonate.startAlipayClient(getActivity(), payCode);
-        }
-    }
-
-    /**
-     * 需要提前准备好 微信收款码 照片，可通过微信客户端生成
-     */
-    private void donateWeixin() {
-        InputStream weixinQrIs = getResources().openRawResource(R.raw.wechat);
-        String qrPath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "AndroidDonateSample" + File.separator +
-                "didikee_weixin.png";
-        WeiXinDonate.saveDonateQrImage2SDCard(qrPath, BitmapFactory.decodeStream(weixinQrIs));
-        WeiXinDonate.donateViaWeiXin(getActivity(), qrPath);
     }
 }

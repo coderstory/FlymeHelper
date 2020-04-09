@@ -11,10 +11,10 @@
     </string>
     <string name="G1">
             <b>致谢如下开源项目</b>\n\n
-            <b>MaterialDesignDemo</b>\nhttps://github.com/burgessjp/MaterialDesignDemo\n\n
-            <b>PullToRefresh</b>\nhttps://github.com/Yalantis\n\n
-            <b>root-tools</b>\nhttps://github.com/rarnu/root-tools\n\n
-            <b>LicensesDialog</b>\nhttps://github.com/PSDev/LicensesDialog\n\n
+            <b>MaterialDesignDemo</b>\n https://github.com/burgessjp/MaterialDesignDemo\n\n
+            <b>PullToRefresh</b>\n https://github.com/Yalantis\n\n
+            <b>root-tools</b>\n https://github.com/rarnu/root-tools\n\n
+            <b>LicensesDialog</b>\n https://github.com/PSDev/LicensesDialog\n\n
     </string>
     <string name="about_msg3"><b>声明</b>\n软件授权协议</string>
     <string name="enableBlockADS"><b>基础功能</b>\n去除少量系统App内的广告</string>
@@ -49,7 +49,7 @@
     <string name="hide_icon_hotspot"><b>手机热点</b>\n隐藏状态栏上的手机热点图标</string>
     <string name="hide_icon_volte"><b>VoLte</b>\n隐藏状态栏上的VoLte(HD)图标</string>
     <string name="hide_icon_shake"><b>震动</b>\n隐藏状态栏上的震动图标</string>
-    <string name="hide_status_bar_no_sim_icon"><b>SIM</b>\n隐藏空sim卡图标</string>
+    <string name="hide_status_bar_no_sim_icon"><b>SIM</b>\n隐藏空sim卡图标 Android 9.0可用</string>
     <string name="Tips_Title">温馨提示</string>
     <string name="Btn_Sure">确定</string>
     <string name="Btn_Cancel">取消</string>
