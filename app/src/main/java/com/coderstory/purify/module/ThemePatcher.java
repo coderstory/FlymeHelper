@@ -48,7 +48,7 @@ public class ThemePatcher extends XposedHelper implements IModule {
                 findAndHookMethod("com.meizu.creator.commons.utils.reflect.ReflectUtils", lpparam.classLoader, "doCheckRootState", Context.class, XC_MethodReplacement.returnConstant(false));
                 findAndHookMethod("com.meizu.creator.commons.utils.reflect.ReflectUtils", lpparam.classLoader, "doCheckRootState", Context.class, XC_MethodReplacement.returnConstant(false));
                 //8.3.6
-                findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.b", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(false));
+                //findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.b", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(false));
                 findAndHookMethod("com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility", lpparam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(false));
                 findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.f.b", lpparam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(false));
 
