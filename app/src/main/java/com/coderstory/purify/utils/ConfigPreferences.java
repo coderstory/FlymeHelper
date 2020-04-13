@@ -10,7 +10,7 @@ import static com.coderstory.purify.utils.FileUtils.writeFile;
 
 public class ConfigPreferences {
     /*文件路径*/
-    private final static String DEFAULT_FILENAME = BasePath + "/config";
+    private final static String DEFAULT_FILENAME = BasePath + "/config.ini";
     private static JSONObject config;
 
     private ConfigPreferences() {
@@ -30,9 +30,8 @@ public class ConfigPreferences {
 
     public static synchronized void reload() {
         String jsonString = readFile(DEFAULT_FILENAME);
-        //Log.i("Xposed", "reload: " + jsonString);
 
-        if (jsonString != null && !jsonString.equals("")) {
+        if (!jsonString.equals("")) {
             config = JSON.parseObject(jsonString, JSONObject.class);
         } else {
             config = new JSONObject();

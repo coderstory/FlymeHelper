@@ -43,7 +43,7 @@
     <string name="zipauthcreak"><b>禁用APK签名验证 - 实时生效</b>\n允许直接覆盖安装同包名不同签名的应用</string>
     <string name="HideRootWithUpgrade"><b>系统更新</b>\n在系统更新中隐藏Root</string>
     <string name="HideRootWithPay"><b>魅族Pay</b>\n在魅族Pay中隐藏Root</string>
-    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题 支持主题美化8.1.7 \n其他版本自测且不维护</string>
+    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题 支持主题美化8.1.7 5.2.4 8.3.6</string>
     <string name="alarem"><b>闹钟</b>\n隐藏状态栏上的闹钟图标</string>
     <string name="hide_icon_bluetooth"><b>蓝牙</b>\n隐藏状态栏上的蓝牙图标</string>
     <string name="hide_icon_hotspot"><b>手机热点</b>\n隐藏状态栏上的手机热点图标</string>

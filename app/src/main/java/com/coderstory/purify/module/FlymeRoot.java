@@ -21,7 +21,9 @@ public class FlymeRoot extends XposedHelper implements IModule {
         }
         if (loadPackageParam.packageName.equals("com.meizu.flyme.update") && getInstance().getBoolean("HideRootWithUpgrade", false)) {
             // DEVICE_STATE_SERVICE
-            findAndHookMethod("com.meizu.cloud.a.a.a", loadPackageParam.classLoader, "b", Context.class, XC_MethodReplacement.returnConstant(false));
+            if (findClassWithoutLog("com.meizu.cloud.a.a.a", loadPackageParam.classLoader) != null) {
+                findAndHookMethod("com.meizu.cloud.a.a.a", loadPackageParam.classLoader, "b", Context.class, XC_MethodReplacement.returnConstant(false));
+            }
             findAndHookMethod("com.meizu.cloud.a.b.a", loadPackageParam.classLoader, "c", Context.class, XC_MethodReplacement.returnConstant(false));
         }
     }

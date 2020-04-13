@@ -1,7 +1,5 @@
 package com.coderstory.purify.utils;
 
-import android.content.Context;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -95,7 +93,7 @@ public class FileUtils {
         }
 
         FileOutputStream os = null;
-        File file = null;
+        File file;
 
         try {
             file = new File(path);
@@ -130,19 +128,17 @@ public class FileUtils {
      * @param fileName SD下的文件路径+文件名，如:a/b.txt
      */
     public static String readFile(String fileName) {
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuffer = new StringBuilder();
         try {
-            String line = "";
+            String line;
             File file = new File(fileName);
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             while ((line = bufferedReader.readLine()) != null) {
                 stringBuffer.append(line);
             }
             bufferedReader.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("Xposed", Log.getStackTraceString(e));
         }
 
         return stringBuffer.toString();
@@ -236,87 +232,13 @@ public class FileUtils {
      *
      * @param _sDir             目录名称
      * @param _bCreateParentDir 如果父目录不存在，是否创建父目录
-     * @return
      */
-    public static boolean makeDir(String _sDir, boolean _bCreateParentDir) {
-        boolean zResult = false;
+    public static void makeDir(String _sDir, boolean _bCreateParentDir) {
         File file = new File(_sDir);
         if (_bCreateParentDir)
-            zResult = file.mkdirs(); // 如果父目录不存在，则创建所有必需的父目录
+            file.mkdirs(); // 如果父目录不存在，则创建所有必需的父目录
         else
-            zResult = file.mkdir(); // 如果父目录不存在，不做处理
-        if (!zResult)
-            zResult = file.exists();
-        return zResult;
-    }
-
-
-    public static void moveRawToDir(Context context, String rawName, String dir) {
-        try {
-            writeFile(context.getAssets().open(rawName), dir, true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            String TAG = "FileUtils";
-            Log.e(TAG, e.getMessage());
-        }
-    }
-
-    /**
-     * 得到手机的缓存目录
-     *
-     * @param context
-     * @return
-     */
-    public static File getCacheDir(Context context) {
-        Log.i("getCacheDir", "cache sdcard state: " + Environment.getExternalStorageState());
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            File cacheDir = context.getExternalCacheDir();
-            if (cacheDir != null && (cacheDir.exists() || cacheDir.mkdirs())) {
-                Log.i("getCacheDir", "cache dir: " + cacheDir.getAbsolutePath());
-                return cacheDir;
-            }
-        }
-
-        File cacheDir = context.getCacheDir();
-        Log.i("getCacheDir", "cache dir: " + cacheDir.getAbsolutePath());
-
-        return cacheDir;
-    }
-
-    /**
-     * 得到皮肤目录
-     *
-     * @param context
-     * @return
-     */
-    public static File getSkinDir(Context context) {
-        File skinDir = new File(getCacheDir(context), "skin");
-        if (skinDir.exists()) {
-            skinDir.mkdirs();
-        }
-        return skinDir;
-    }
-
-    public static String getSkinDirPath(Context context) {
-        return getSkinDir(context).getAbsolutePath();
-    }
-
-    public static String getSaveImagePath(Context context) {
-        String path = getCacheDir(context).getAbsolutePath();
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            path = Environment.getExternalStorageDirectory().getAbsolutePath();
-        }
-
-        path = path + File.separator + "Pictures";
-        File file = new File(path);
-        if (!file.exists()) {
-            file.mkdir();
-        }
-        return path;
-    }
-
-    public static String generateFileNameByTime() {
-        return System.currentTimeMillis() + "";
+            file.mkdir(); // 如果父目录不存在，不做处理
     }
 
     public static String getFileName(String path) {
