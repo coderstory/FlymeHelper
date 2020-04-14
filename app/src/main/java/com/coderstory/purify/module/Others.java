@@ -1,9 +1,11 @@
 package com.coderstory.purify.module;
 
+import android.app.AndroidAppHelper;
 import android.content.Context;
 import android.widget.Toast;
 
 import com.coderstory.purify.plugins.IModule;
+import com.coderstory.purify.utils.SharedHelper;
 import com.coderstory.purify.utils.XposedHelper;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -14,11 +16,11 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
+
 
 
 public class Others extends XposedHelper implements IModule {
-
+    private SharedHelper helper = new SharedHelper(AndroidAppHelper.currentApplication().getApplicationContext());
     private static Context mContext = null;
 
     @Override
@@ -34,24 +36,24 @@ public class Others extends XposedHelper implements IModule {
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
 
-                    if ("alarm_clock".equals(param.args[0]) && getInstance().getBoolean("hide_icon_alarm_clock", false)) {
+                    if ("alarm_clock".equals(param.args[0]) && helper.getBoolean("hide_icon_alarm_clock", false)) {
                         param.args[1] = false;
                     }
-                    if ("hotspot".equals(param.args[0]) && getInstance().getBoolean("hide_icon_hotspot", false)) {
+                    if ("hotspot".equals(param.args[0]) && helper.getBoolean("hide_icon_hotspot", false)) {
                         param.args[1] = false;
                     }
-                    if ("bluetooth".equals(param.args[0]) && getInstance().getBoolean("hide_icon_bluetooth", false)) {
+                    if ("bluetooth".equals(param.args[0]) && helper.getBoolean("hide_icon_bluetooth", false)) {
                         param.args[1] = false;
                     }
 
                     XposedBridge.log("图标类型" + param.args[0].toString());
                     // 震动 || 静音+震动
-                    if (("zen".equals(param.args[0]) || "volume".equals(param.args[0])) && getInstance().getBoolean("hide_icon_shake", false)) {
+                    if (("zen".equals(param.args[0]) || "volume".equals(param.args[0])) && helper.getBoolean("hide_icon_shake", false)) {
                         param.args[1] = false;
                     }
                 }
             });
-            if (getInstance().getBoolean("hide_icon_volte", false)) {
+            if (helper.getBoolean("hide_icon_volte", false)) {
                 hookAllMethods("com.android.systemui.statusbar.SignalClusterView", loadPackageParam.classLoader, "setMobileDataIndicators", new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -61,11 +63,11 @@ public class Others extends XposedHelper implements IModule {
                 });
             }
             // com.android.systemui.power.PowerUI playBatterySound start 低电量 电量空
-            if (getInstance().getBoolean("hideDepWarn", false)) {
+            if (helper.getBoolean("hideDepWarn", false)) {
                 hookAllMethods("com.flyme.systemui.developer.DeveloperSettingsController", loadPackageParam.classLoader, "updateDeveloperNotification", XC_MethodReplacement.returnConstant(null));
             }
             //隐藏 空sim卡图标
-            if (getInstance().getBoolean("hide_status_bar_no_sim_icon", false)) {
+            if (helper.getBoolean("hide_status_bar_no_sim_icon", false)) {
                 findAndHookMethod("com.android.systemui.statusbar.policy.NetworkControllerImpl", loadPackageParam.classLoader, "updateNoSims", XC_MethodReplacement.returnConstant(null));
             }
 
@@ -77,7 +79,7 @@ public class Others extends XposedHelper implements IModule {
         // 禁止安装app时候的安全检验
         if (loadPackageParam.packageName.equals("com.android.packageinstaller")) {
 
-            if (getInstance().getBoolean("enableCheckInstaller", false)) {
+            if (helper.getBoolean("enableCheckInstaller", false)) {
                 // 8.x
                 Class clazz = findClass("com.android.packageinstaller.FlymePackageInstallerActivity", loadPackageParam.classLoader);
                 if (clazz == null) {
@@ -95,7 +97,7 @@ public class Others extends XposedHelper implements IModule {
                     });
                 }
             }
-            if (getInstance().getBoolean("enableCTS", false)) {
+            if (helper.getBoolean("enableCTS", false)) {
                 XposedBridge.log("开启原生安装器");
                 findAndHookMethod("com.meizu.safe.security.utils.Utils", loadPackageParam.classLoader, "isCtsRunning", XC_MethodReplacement.returnConstant(true));
             }
@@ -152,7 +154,7 @@ public class Others extends XposedHelper implements IModule {
     boolean handleInfo(Object info) {
         boolean needToast = false;
         if (info != null) {
-            String update = getInstance().getString("updateList", "");
+            String update = helper.getString("updateList", "");
             String systemVersion = (String) XposedHelpers.getObjectField(info, "systemVersion");
             String updateUrl = (String) XposedHelpers.getObjectField(info, "updateUrl");
             String releaseDate = (String) XposedHelpers.getObjectField(info, "releaseDate");
@@ -161,7 +163,7 @@ public class Others extends XposedHelper implements IModule {
             if (!update.contains(msg)) {
                 needToast = true;
                 update += msg + ";";
-                getInstance().saveConfig("updateList", update);
+                helper.put("updateList", update);
                 if (mContext != null) {
                     Toast.makeText(mContext, "flyme助手:已检测到新的更新包地址", Toast.LENGTH_LONG).show();
                 }

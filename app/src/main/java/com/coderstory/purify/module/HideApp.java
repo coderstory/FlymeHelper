@@ -1,8 +1,10 @@
 package com.coderstory.purify.module;
 
+import android.app.AndroidAppHelper;
 import android.content.ComponentName;
 
 import com.coderstory.purify.plugins.IModule;
+import com.coderstory.purify.utils.SharedHelper;
 import com.coderstory.purify.utils.XposedHelper;
 
 import java.util.Arrays;
@@ -14,9 +16,10 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
+
 
 public class HideApp extends XposedHelper implements IModule {
+    private SharedHelper helper = new SharedHelper(AndroidAppHelper.currentApplication().getApplicationContext());
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
 
@@ -26,7 +29,7 @@ public class HideApp extends XposedHelper implements IModule {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         if (loadPackageParam.packageName.equals("com.meizu.flyme.launcher")) {
             // bl.add(new ComponentName("com.android.vending", "com.android.vending.MarketWidgetProvider"));
-            final String value = getInstance().getString("Hide_App_List", "");
+            final String value = helper.getString("Hide_App_List", "");
             XposedBridge.log("load config" + value);
             if (!value.equals("")) {
                 final List<String> hideAppList = Arrays.asList(value.split(":"));

@@ -1,13 +1,13 @@
 package com.coderstory.purify.module;
 
+import android.app.AndroidAppHelper;
 import android.content.Context;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.coderstory.purify.plugins.IModule;
+import com.coderstory.purify.utils.SharedHelper;
 import com.coderstory.purify.utils.XposedHelper;
 
 import java.io.File;
@@ -19,10 +19,9 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
-
 
 public class FlymeHome extends XposedHelper implements IModule {
+    private SharedHelper helper = new SharedHelper(AndroidAppHelper.currentApplication().getApplicationContext());
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
         if (resparam.packageName.equals("com.meizu.flyme.launcher")) {
@@ -39,7 +38,7 @@ public class FlymeHome extends XposedHelper implements IModule {
             hook55(findClass("com.meizu.flyme.launcher.u", lpparam.classLoader));
             hook55(findClass("com.meizu.flyme.launcher.v", lpparam.classLoader));
             hook55(findClass("com.meizu.flyme.launcher.w", lpparam.classLoader));
-            if (getInstance().getBoolean("hide_icon_label", false)) {
+            if (helper.getBoolean("hide_icon_label", false)) {
                 XposedBridge.log("开启隐藏标签");
                 // 隐藏图标标签
                 hookAllMethods(findClass("com.meizu.flyme.launcher.ShortcutIcon", lpparam.classLoader), "a", new XC_MethodHook() {
@@ -69,13 +68,13 @@ public class FlymeHome extends XposedHelper implements IModule {
         // 开启自定义布局
         // (String str, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
         String type = "";
-        if (getInstance().getBoolean("hide_icon_5", false)) {
+        if (helper.getBoolean("hide_icon_5", false)) {
             type = "hide_icon_5";
-        } else if (getInstance().getBoolean("hide_icon_6", false)) {
+        } else if (helper.getBoolean("hide_icon_6", false)) {
             type = "hide_icon_6";
-        } else if (getInstance().getBoolean("hide_icon_7", false)) {
+        } else if (helper.getBoolean("hide_icon_7", false)) {
             type = "hide_icon_7";
-        } else if (getInstance().getBoolean("hide_icon_4", false)) {
+        } else if (helper.getBoolean("hide_icon_4", false)) {
             type = "hide_icon_4";
         }
         if (!"".equals(type)) {

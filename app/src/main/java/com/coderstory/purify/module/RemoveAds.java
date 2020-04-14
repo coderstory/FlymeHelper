@@ -1,9 +1,11 @@
 package com.coderstory.purify.module;
 
+import android.app.AndroidAppHelper;
 import android.content.Context;
 import android.webkit.WebView;
 
 import com.coderstory.purify.plugins.IModule;
+import com.coderstory.purify.utils.SharedHelper;
 import com.coderstory.purify.utils.XposedHelper;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -13,11 +15,10 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
 
 
 public class RemoveAds extends XposedHelper implements IModule {
-
+    private SharedHelper helper = new SharedHelper(AndroidAppHelper.currentApplication().getApplicationContext());
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
     }
@@ -31,7 +32,7 @@ public class RemoveAds extends XposedHelper implements IModule {
 
         if (!loadPackageParam.packageName.contains("meizu") &&
                 !loadPackageParam.packageName.contains("flyme") &&
-                !getInstance().getBoolean("EnableBlockAD", false)) {
+                !helper.getBoolean("EnableBlockAD", false)) {
             return;
         }
 

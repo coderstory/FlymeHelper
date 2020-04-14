@@ -16,6 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.cardview.widget.CardView;
+
 import com.coderstory.purify.R;
 import com.coderstory.purify.adapter.AppInfo;
 import com.coderstory.purify.adapter.AppInfoAdapter;
@@ -25,21 +28,18 @@ import com.coderstory.purify.view.PullToRefreshView;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.cardview.widget.CardView;
 import eu.chainfire.libsuperuser.Shell;
 import per.goweii.anylayer.AnyLayer;
 
 
 public class HideAppFragment extends BaseFragment {
-    List<PackageInfo> packages = new ArrayList<>();
-    AppInfoAdapter adapter = null;
-    ListView listView = null;
-    AppInfo appInfo = null;
-    int mPosition = 0;
-    View mView = null;
-    PullToRefreshView mPullToRefreshView;
-    List<String> hideAppList;
+    private List<PackageInfo> packages = new ArrayList<>();
+    private AppInfoAdapter adapter = null;
+    private AppInfo appInfo = null;
+    private int mPosition = 0;
+    private View mView = null;
+    private PullToRefreshView mPullToRefreshView;
+    private List<String> hideAppList;
     private List<AppInfo> appInfoList = new ArrayList<>();
     private List<AppInfo> appInfoList2 = new ArrayList<>();
     private Dialog dialog;
@@ -69,7 +69,7 @@ public class HideAppFragment extends BaseFragment {
             if (getContext() != null) {
                 Intent intent = getContext().getPackageManager().getLaunchIntentForPackage(packageInfo.packageName);
                 // 过来掉没启动器图标的app
-                if (intent != null) {
+                if (intent != null && !"com.coderstory.purify".equals(packageInfo.packageName)) {
                     if (!hideAppList.contains(packageInfo.applicationInfo.packageName)) {
                         AppInfo appInfo = new AppInfo(packageInfo.applicationInfo.loadLabel(getContext().getPackageManager()).toString(), packageInfo.applicationInfo.loadIcon(getContext().getPackageManager()), packageInfo.packageName, false, String.valueOf(packageInfo.versionName));
                         appInfoList.add(appInfo);
@@ -85,7 +85,7 @@ public class HideAppFragment extends BaseFragment {
 
     private void showData() {
         adapter = new AppInfoAdapter(getContext(), R.layout.app_info_item, appInfoList);
-        listView = getContentView().findViewById(R.id.listView);
+        ListView listView = getContentView().findViewById(R.id.listView);
         assert listView != null;
         listView.setAdapter(adapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
@@ -119,7 +119,7 @@ public class HideAppFragment extends BaseFragment {
                         }
                         value = new StringBuilder(value.substring(0, value.length() - 1));
 
-                        getPrefs().saveConfig("Hide_App_List", value.toString());
+                        getPrefs().put("Hide_App_List", value.toString());
 
                         if (appInfo.getDisable()) {
                             appInfo.setDisable(false);
@@ -137,10 +137,10 @@ public class HideAppFragment extends BaseFragment {
             LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
             AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
             if (appInfo.getDisable()) {
-                textView.setText( getString(R.string.sureAntiDisable) + appInfo.getName() + "的隐藏状态吗");
+                textView.setText(getString(R.string.sureAntiDisable) + appInfo.getName() + "的隐藏状态吗");
 
             } else {
-                textView.setText( "你确定要隐藏" + appInfo.getName() + getString(R.string.sureDisableAfter));
+                textView.setText("你确定要隐藏" + appInfo.getName() + getString(R.string.sureDisableAfter));
             }
             anyLayer.show();
 

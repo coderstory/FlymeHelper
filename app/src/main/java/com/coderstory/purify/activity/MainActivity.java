@@ -2,13 +2,20 @@ package com.coderstory.purify.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.coderstory.purify.R;
 import com.coderstory.purify.activity.base.BaseActivity;
@@ -21,21 +28,14 @@ import com.coderstory.purify.fragment.OthersFragment;
 import com.coderstory.purify.fragment.SettingsFragment;
 import com.coderstory.purify.fragment.UpdateListFragment;
 import com.coderstory.purify.fragment.WebViewFragment;
+import com.coderstory.purify.utils.SharedHelper;
 import com.coderstory.purify.utils.SnackBarUtils;
 import com.coderstory.purify.utils.ViewUtils;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import per.goweii.anylayer.AnyLayer;
 
 import static com.coderstory.purify.R.id.navigation_view;
-import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
 
 public class MainActivity extends BaseActivity {
     public static final long MAX_DOUBLE_BACK_DURATION = 1500;
@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity {
     private Fragment mCurrentFragment;
     private MenuItem mPreMenuItem;
     private long lastBackKeyDownTick = 0;
-    private ProgressDialog dialog;
+    private SharedHelper helper = new SharedHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,13 +105,14 @@ public class MainActivity extends BaseActivity {
 
         checkEnable();
 
-        if(getInstance().getBoolean("firstOpen",true)){
-            getInstance().saveConfig("firstOpen",false);
+        if (helper.getBoolean("firstOpen", true)) {
+            helper.put("firstOpen", false);
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
             normalDialog.setTitle("提示");
             normalDialog.setMessage("因为我没有魅族手机，本次更新支持flyme8也是刷了移植版本，但我不可能一直用，何况移植版基本不更新。所以，可能本次更新后就可能没有下文了。哦，对了，这是xposed插件，请自行安装edxposed或者xposed框架");
             normalDialog.setPositiveButton("确定",
-                    (dialog, which) -> {});
+                    (dialog, which) -> {
+                    });
             normalDialog.setCancelable(true);
             normalDialog.show();
         }

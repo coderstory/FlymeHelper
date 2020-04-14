@@ -1,10 +1,12 @@
 package com.coderstory.purify.module;
 
+import android.app.AndroidAppHelper;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
 import com.coderstory.purify.plugins.IModule;
+import com.coderstory.purify.utils.SharedHelper;
 import com.coderstory.purify.utils.XposedHelper;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -14,11 +16,11 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static com.coderstory.purify.config.Misc.isEnable;
-import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
+
 
 public class ThemePatcher extends XposedHelper implements IModule {
 
-
+    private SharedHelper helper = new SharedHelper(AndroidAppHelper.currentApplication().getApplicationContext());
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
 
@@ -32,7 +34,7 @@ public class ThemePatcher extends XposedHelper implements IModule {
         }
 
         // 主题和谐
-        if (lpparam.packageName.equals("com.meizu.customizecenter") && getInstance().getBoolean("enabletheme", false)) {
+        if (lpparam.packageName.equals("com.meizu.customizecenter") && helper.getBoolean("enabletheme", false)) {
 
             if (lpparam.packageName.equals("com.meizu.customizecenter")) {
                 // 拦截开机自启广播

@@ -25,16 +25,13 @@
 
         <activity
             android:name="com.coderstory.purify.activity.MainActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.coderstory.purify.activity.AboutActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name="com.coderstory.purify.activity.AboutActivity" />
         <activity
             android:name="com.coderstory.purify.activity.SplashActivity"
             android:theme="@style/fulscreen_theme">
@@ -53,5 +50,10 @@
         <meta-data
             android:name="xposedminversion"
             android:value="54" />
+
+        <provider
+            android:name="com.coderstory.purify.preferencesProvider"
+            android:authorities="com.coderstory.purify.preferencesProvider"
+            android:exported="false" />
     </application>
 </manifest>

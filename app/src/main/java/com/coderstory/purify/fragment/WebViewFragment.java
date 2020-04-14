@@ -85,7 +85,7 @@ public abstract class WebViewFragment extends BaseFragment {
     }
 
     //WebViewClient就是帮助WebView处理各种通知、请求事件的。
-    class MyWebViewClient extends WebViewClient {
+    static class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);

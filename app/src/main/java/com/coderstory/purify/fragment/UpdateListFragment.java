@@ -16,6 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.cardview.widget.CardView;
+
 import com.coderstory.purify.R;
 import com.coderstory.purify.adapter.AppInfo;
 import com.coderstory.purify.adapter.AppInfoAdapter;
@@ -25,12 +28,9 @@ import com.coderstory.purify.view.PullToRefreshView;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.cardview.widget.CardView;
 import per.goweii.anylayer.AnyLayer;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
-import static com.coderstory.purify.utils.ConfigPreferences.getInstance;
 
 
 public class UpdateListFragment extends BaseFragment {
@@ -57,7 +57,7 @@ public class UpdateListFragment extends BaseFragment {
                     AnyLayer.dismiss();
                 })
                 .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
-                    getPrefs().saveConfig("updateList", "");
+                    getPrefs().put("updateList", "");
                     initData();
                     adapter.notifyDataSetChanged();
                     AnyLayer.dismiss();
@@ -82,7 +82,7 @@ public class UpdateListFragment extends BaseFragment {
 
     private void initFruit() {
         appInfos.clear();
-        String str = getInstance().getString("updateList", "");
+        String str = getPrefs().getString("updateList", "");
         if ("".equals(str)) {
             Toast.makeText(getContext(), "未找到任何更新包记录，请打开系统更新检测到更新后再试", Toast.LENGTH_LONG).show();
         } else {
@@ -92,7 +92,7 @@ public class UpdateListFragment extends BaseFragment {
                     appInfos.add(0, new AppInfo("     " + info[0], info[1], "  " + info[2], "  " + info[3]));
                 }
             } catch (Exception e) {
-                getInstance().saveConfig("updateList", "");
+                getPrefs().put("updateList", "");
                 Toast.makeText(getContext(), "检测到数据异常，已重置", Toast.LENGTH_LONG).show();
             }
         }
