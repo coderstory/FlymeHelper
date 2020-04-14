@@ -7,8 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.coderstory.purify.BuildConfig;
-import com.coderstory.purify.R;
+import com.coderstory.flyme.BuildConfig;
+import com.coderstory.flyme.R;
 
 
 public class SplashActivity extends Activity {

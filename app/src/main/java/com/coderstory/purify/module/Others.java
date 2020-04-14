@@ -1,6 +1,5 @@
 package com.coderstory.purify.module;
 
-import android.app.AndroidAppHelper;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -20,7 +19,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 
 public class Others extends XposedHelper implements IModule {
-    private SharedHelper helper = new SharedHelper(AndroidAppHelper.currentApplication().getApplicationContext());
+    private SharedHelper helper;
     private static Context mContext = null;
 
     @Override
@@ -30,6 +29,18 @@ public class Others extends XposedHelper implements IModule {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        Class<?> ContextClass = findClass("android.content.ContextWrapper", loadPackageParam.classLoader);
+        findAndHookMethod(ContextClass, "getApplicationContext", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                super.afterHookedMethod(param);
+                if (helper != null)
+                    return;
+                helper = new SharedHelper((Context) param.getResult());
+                XposedBridge.log("得到上下文");
+            }
+        });
+
         if (loadPackageParam.packageName.equals("com.android.systemui")) {
             findAndHookMethod("com.android.systemui.statusbar.phone.StatusBarIconController", loadPackageParam.classLoader, "setIconVisibility", String.class, boolean.class, new XC_MethodHook() {
                 @Override

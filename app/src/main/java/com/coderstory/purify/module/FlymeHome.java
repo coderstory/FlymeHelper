@@ -1,6 +1,5 @@
 package com.coderstory.purify.module;
 
-import android.app.AndroidAppHelper;
 import android.content.Context;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.view.View;
@@ -21,7 +20,9 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 
 public class FlymeHome extends XposedHelper implements IModule {
-    private SharedHelper helper = new SharedHelper(AndroidAppHelper.currentApplication().getApplicationContext());
+    private SharedHelper helper;
+
+
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
         if (resparam.packageName.equals("com.meizu.flyme.launcher")) {
@@ -34,6 +35,19 @@ public class FlymeHome extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
+
+            Class<?> ContextClass = findClass("android.content.ContextWrapper", lpparam.classLoader);
+            findAndHookMethod(ContextClass, "getApplicationContext", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    if (helper != null)
+                        return;
+                    helper = new SharedHelper((Context) param.getResult());
+                    XposedBridge.log("得到上下文");
+                }
+            });
+
             XposedBridge.log("开始hook桌面");
             hook55(findClass("com.meizu.flyme.launcher.u", lpparam.classLoader));
             hook55(findClass("com.meizu.flyme.launcher.v", lpparam.classLoader));

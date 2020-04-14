@@ -11,11 +11,11 @@ import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.Transformation;
 
-import com.coderstory.purify.R;
+import androidx.annotation.NonNull;
+
+import com.coderstory.flyme.R;
 import com.coderstory.purify.utils.Utils;
 import com.coderstory.purify.view.PullToRefreshView;
-
-import androidx.annotation.NonNull;
 
 /**
  * Created by Oleksii Shliama on 22/12/2014.

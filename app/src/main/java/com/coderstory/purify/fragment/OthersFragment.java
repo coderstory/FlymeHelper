@@ -3,7 +3,7 @@ package com.coderstory.purify.fragment;
 
 import android.widget.Switch;
 
-import com.coderstory.purify.R;
+import com.coderstory.flyme.R;
 import com.coderstory.purify.fragment.base.BaseFragment;
 import com.coderstory.purify.utils.hostshelper.FileHelper;
 import com.coderstory.purify.utils.hostshelper.HostsHelper;

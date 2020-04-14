@@ -19,7 +19,7 @@ package com.coderstory.purify.utils.licensesdialog;
 
 import android.content.Context;
 
-import com.coderstory.purify.R;
+import com.coderstory.flyme.R;
 import com.coderstory.purify.utils.licensesdialog.licenses.License;
 import com.coderstory.purify.utils.licensesdialog.model.Notice;
 import com.coderstory.purify.utils.licensesdialog.model.Notices;

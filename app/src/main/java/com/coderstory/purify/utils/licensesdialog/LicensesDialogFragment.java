@@ -23,16 +23,16 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.coderstory.purify.R;
-import com.coderstory.purify.utils.licensesdialog.model.Notice;
-import com.coderstory.purify.utils.licensesdialog.model.Notices;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.RawRes;
 import androidx.annotation.StyleRes;
 import androidx.fragment.app.DialogFragment;
+
+import com.coderstory.flyme.R;
+import com.coderstory.purify.utils.licensesdialog.model.Notice;
+import com.coderstory.purify.utils.licensesdialog.model.Notices;
 
 public class LicensesDialogFragment extends DialogFragment {
 

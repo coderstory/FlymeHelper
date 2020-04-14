@@ -4,8 +4,8 @@ import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.widget.TextView;
 
-import com.coderstory.purify.BuildConfig;
-import com.coderstory.purify.R;
+import com.coderstory.flyme.BuildConfig;
+import com.coderstory.flyme.R;
 import com.coderstory.purify.fragment.base.BaseFragment;
 import com.coderstory.purify.utils.licensesdialog.LicensesDialog;
 import com.coderstory.purify.utils.licensesdialog.licenses.ApacheSoftwareLicense20;

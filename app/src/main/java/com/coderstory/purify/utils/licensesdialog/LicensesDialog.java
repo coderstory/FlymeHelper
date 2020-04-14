@@ -30,14 +30,14 @@ import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import com.coderstory.purify.R;
+import androidx.annotation.Nullable;
+
+import com.coderstory.flyme.R;
 import com.coderstory.purify.utils.licensesdialog.licenses.ApacheSoftwareLicense20;
 import com.coderstory.purify.utils.licensesdialog.model.Notice;
 import com.coderstory.purify.utils.licensesdialog.model.Notices;
 
 import java.util.List;
-
-import androidx.annotation.Nullable;
 
 
 public class LicensesDialog {

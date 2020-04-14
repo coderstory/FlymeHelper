@@ -7,7 +7,7 @@ import android.os.Message;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.coderstory.purify.R;
+import com.coderstory.flyme.R;
 import com.coderstory.purify.config.Misc;
 import com.coderstory.purify.fragment.base.BaseFragment;
 import com.coderstory.purify.utils.SnackBarUtils;

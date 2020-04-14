@@ -20,7 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.coderstory.purify.R;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.cardview.widget.CardView;
+
+import com.coderstory.flyme.R;
 import com.coderstory.purify.adapter.AppInfo;
 import com.coderstory.purify.adapter.AppInfoAdapter;
 import com.coderstory.purify.fragment.base.BaseFragment;
@@ -34,8 +37,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.cardview.widget.CardView;
 import eu.chainfire.libsuperuser.Shell;
 import per.goweii.anylayer.AnyLayer;
 

@@ -5,7 +5,7 @@ import android.content.ComponentName;
 import android.content.pm.PackageManager;
 import android.widget.Switch;
 
-import com.coderstory.purify.R;
+import com.coderstory.flyme.R;
 import com.coderstory.purify.fragment.base.BaseFragment;
 
 

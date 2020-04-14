@@ -9,12 +9,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.coderstory.purify.R;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+
+import com.coderstory.flyme.R;
+
+import java.util.List;
 
 public class AppInfoAdapter extends ArrayAdapter {
     private int resourceId;

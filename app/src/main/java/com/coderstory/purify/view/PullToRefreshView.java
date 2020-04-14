@@ -13,16 +13,16 @@ import android.view.animation.Interpolator;
 import android.view.animation.Transformation;
 import android.widget.ImageView;
 
-import com.coderstory.purify.R;
+import androidx.annotation.NonNull;
+import androidx.core.view.MotionEventCompat;
+import androidx.core.view.ViewCompat;
+
+import com.coderstory.flyme.R;
 import com.coderstory.purify.refresh_view.BaseRefreshView;
 import com.coderstory.purify.refresh_view.SunRefreshView;
 import com.coderstory.purify.utils.Utils;
 
 import java.security.InvalidParameterException;
-
-import androidx.annotation.NonNull;
-import androidx.core.view.MotionEventCompat;
-import androidx.core.view.ViewCompat;
 
 public class PullToRefreshView extends ViewGroup {
 

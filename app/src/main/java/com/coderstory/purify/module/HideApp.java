@@ -1,7 +1,7 @@
 package com.coderstory.purify.module;
 
-import android.app.AndroidAppHelper;
 import android.content.ComponentName;
+import android.content.Context;
 
 import com.coderstory.purify.plugins.IModule;
 import com.coderstory.purify.utils.SharedHelper;
@@ -19,7 +19,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 
 public class HideApp extends XposedHelper implements IModule {
-    private SharedHelper helper = new SharedHelper(AndroidAppHelper.currentApplication().getApplicationContext());
+    private SharedHelper helper;
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
 
@@ -27,6 +27,19 @@ public class HideApp extends XposedHelper implements IModule {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+
+        Class<?> ContextClass = findClass("android.content.ContextWrapper", loadPackageParam.classLoader);
+        findAndHookMethod(ContextClass, "getApplicationContext", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                super.afterHookedMethod(param);
+                if (helper != null)
+                    return;
+                helper = new SharedHelper((Context) param.getResult());
+                XposedBridge.log("得到上下文");
+            }
+        });
+
         if (loadPackageParam.packageName.equals("com.meizu.flyme.launcher")) {
             // bl.add(new ComponentName("com.android.vending", "com.android.vending.MarketWidgetProvider"));
             final String value = helper.getString("Hide_App_List", "");

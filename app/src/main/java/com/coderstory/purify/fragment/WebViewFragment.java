@@ -7,7 +7,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import com.coderstory.purify.R;
+import com.coderstory.flyme.R;
 import com.coderstory.purify.fragment.base.BaseFragment;
 
 public abstract class WebViewFragment extends BaseFragment {

@@ -1,6 +1,6 @@
 package com.coderstory.purify.plugins;
 
-import com.coderstory.purify.BuildConfig;
+import com.coderstory.flyme.BuildConfig;
 import com.coderstory.purify.module.FlymeHome;
 import com.coderstory.purify.module.FlymeRoot;
 import com.coderstory.purify.module.HideApp;

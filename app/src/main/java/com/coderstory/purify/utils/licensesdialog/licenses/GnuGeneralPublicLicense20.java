@@ -18,7 +18,7 @@ package com.coderstory.purify.utils.licensesdialog.licenses;
 
 import android.content.Context;
 
-import com.coderstory.purify.R;
+import com.coderstory.flyme.R;
 
 public class GnuGeneralPublicLicense20 extends License {
 

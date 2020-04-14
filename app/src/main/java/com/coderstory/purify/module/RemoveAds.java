@@ -1,6 +1,5 @@
 package com.coderstory.purify.module;
 
-import android.app.AndroidAppHelper;
 import android.content.Context;
 import android.webkit.WebView;
 
@@ -18,7 +17,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 
 public class RemoveAds extends XposedHelper implements IModule {
-    private SharedHelper helper = new SharedHelper(AndroidAppHelper.currentApplication().getApplicationContext());
+    private SharedHelper helper;
+
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
     }

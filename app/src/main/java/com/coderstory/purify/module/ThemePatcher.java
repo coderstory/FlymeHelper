@@ -1,6 +1,5 @@
 package com.coderstory.purify.module;
 
-import android.app.AndroidAppHelper;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,6 +11,7 @@ import com.coderstory.purify.utils.XposedHelper;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -20,7 +20,7 @@ import static com.coderstory.purify.config.Misc.isEnable;
 
 public class ThemePatcher extends XposedHelper implements IModule {
 
-    private SharedHelper helper = new SharedHelper(AndroidAppHelper.currentApplication().getApplicationContext());
+    private SharedHelper helper;
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
 
@@ -28,6 +28,18 @@ public class ThemePatcher extends XposedHelper implements IModule {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
+
+        Class<?> ContextClass = findClass("android.content.ContextWrapper", lpparam.classLoader);
+        findAndHookMethod(ContextClass, "getApplicationContext", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                super.afterHookedMethod(param);
+                if (helper != null)
+                    return;
+                helper = new SharedHelper((Context) param.getResult());
+                XposedBridge.log("得到上下文");
+            }
+        });
 
         if (!isEnable()) {
             return;

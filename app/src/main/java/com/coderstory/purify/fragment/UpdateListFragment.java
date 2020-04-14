@@ -19,7 +19,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
 
-import com.coderstory.purify.R;
+import com.coderstory.flyme.R;
 import com.coderstory.purify.adapter.AppInfo;
 import com.coderstory.purify.adapter.AppInfoAdapter;
 import com.coderstory.purify.fragment.base.BaseFragment;

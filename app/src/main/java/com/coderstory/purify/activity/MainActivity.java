@@ -17,7 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.coderstory.purify.R;
+import com.coderstory.flyme.R;
 import com.coderstory.purify.activity.base.BaseActivity;
 import com.coderstory.purify.config.Misc;
 import com.coderstory.purify.fragment.BlogFragment;
@@ -35,7 +35,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import per.goweii.anylayer.AnyLayer;
 
-import static com.coderstory.purify.R.id.navigation_view;
+import static com.coderstory.flyme.R.id.navigation_view;
 
 public class MainActivity extends BaseActivity {
     public static final long MAX_DOUBLE_BACK_DURATION = 1500;
