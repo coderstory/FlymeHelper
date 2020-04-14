@@ -4,7 +4,6 @@ import android.content.Context;
 import android.webkit.WebView;
 
 import com.coderstory.purify.plugins.IModule;
-import com.coderstory.purify.utils.SharedHelper;
 import com.coderstory.purify.utils.XposedHelper;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -15,9 +14,8 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 
-
 public class RemoveAds extends XposedHelper implements IModule {
-    private SharedHelper helper;
+
 
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
@@ -32,7 +30,7 @@ public class RemoveAds extends XposedHelper implements IModule {
 
         if (!loadPackageParam.packageName.contains("meizu") &&
                 !loadPackageParam.packageName.contains("flyme") &&
-                !helper.getBoolean("EnableBlockAD", false)) {
+                !prefs.getBoolean("EnableBlockAD", false)) {
             return;
         }
 

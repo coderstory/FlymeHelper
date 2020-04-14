@@ -7,7 +7,7 @@ public class Misc {
     public static final String BackPath = BasePath + "/Backup/";
     public static final String CrashFilePath = BasePath + "/CrashLog/";
     public static final String MyBlogUrl = "https://blog.coderstory.cn";
-    public static final String ApplicationName = "com.coderstory.purify";
+    public static final String ApplicationName = "com.coderstory.flyme";
     public static final String SharedPreferencesName = "UserSettings";
     public static final String HostFileTmpName = "/hosts";
     public static boolean isProcessing = false;

@@ -19,7 +19,8 @@ public class OthersFragment extends BaseFragment {
     protected void setUpView() {
 
         $(R.id.enableBlockAD).setOnClickListener(v -> {
-            getPrefs().put("EnableBlockAD", ((Switch) v).isChecked());
+            getEditor().putBoolean("EnableBlockAD", ((Switch) v).isChecked());
+            fix();
             FileHelper fh = new FileHelper();
             String HostsContext = fh.getFromAssets("hosts_default", getMContext());
 
@@ -36,25 +37,80 @@ public class OthersFragment extends BaseFragment {
         });
 
 
-        $(R.id.enabletheme).setOnClickListener(v -> getPrefs().put("enabletheme", ((Switch) v).isChecked()));
-        $(R.id.HideRootWithPay).setOnClickListener(v -> getPrefs().put("HideRootWithPay", ((Switch) v).isChecked()));
-        $(R.id.HideRootWithUpgrade).setOnClickListener(v -> getPrefs().put("HideRootWithUpgrade", ((Switch) v).isChecked()));
-        $(R.id.hide_icon_label).setOnClickListener(v -> getPrefs().put("hide_icon_label", ((Switch) v).isChecked()));
-        $(R.id.hide_icon_45).setOnClickListener(v -> getPrefs().put("hide_icon_4", ((Switch) v).isChecked()));
-        $(R.id.hide_icon_5).setOnClickListener(v -> getPrefs().put("hide_icon_5", ((Switch) v).isChecked()));
-        $(R.id.hide_icon_6).setOnClickListener(v -> getPrefs().put("hide_icon_6", ((Switch) v).isChecked()));
-        $(R.id.hide_icon_7).setOnClickListener(v -> getPrefs().put("hide_icon_7", ((Switch) v).isChecked()));
-        $(R.id.enableCTS).setOnClickListener(v -> getPrefs().put("enableCTS", ((Switch) v).isChecked()));
-        $(R.id.enableCheckInstaller).setOnClickListener(v -> getPrefs().put("enableCheckInstaller", ((Switch) v).isChecked()));
-        $(R.id.hide_icon_alarm_clock).setOnClickListener(v -> getPrefs().put("hide_icon_alarm_clock", ((Switch) v).isChecked()));
-        $(R.id.hide_icon_bluetooth).setOnClickListener(v -> getPrefs().put("hide_icon_bluetooth", ((Switch) v).isChecked()));
-        $(R.id.hide_icon_hotspot).setOnClickListener(v -> getPrefs().put("hide_icon_hotspot", ((Switch) v).isChecked()));
-        $(R.id.hide_icon_alarm_clock).setOnClickListener(v -> getPrefs().put("hide_icon_alarm_clock", ((Switch) v).isChecked()));
-        $(R.id.hide_icon_volte).setOnClickListener(v -> getPrefs().put("hide_icon_volte", ((Switch) v).isChecked()));
-        $(R.id.hideDepWarn).setOnClickListener(v -> getPrefs().put("hideDepWarn", ((Switch) v).isChecked()));
-        $(R.id.hide_icon_shake).setOnClickListener(v -> getPrefs().put("hide_icon_shake", ((Switch) v).isChecked()));
-        $(R.id.hide_status_bar_no_sim_icon).setOnClickListener(v -> getPrefs().put("hide_status_bar_no_sim_icon", ((Switch) v).isChecked()));
+        $(R.id.enabletheme).setOnClickListener(v -> {
+            getEditor().putBoolean("enabletheme", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.HideRootWithPay).setOnClickListener(v -> {
+            getEditor().putBoolean("HideRootWithPay", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.HideRootWithUpgrade).setOnClickListener(v -> {
+            getEditor().putBoolean("HideRootWithUpgrade", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.hide_icon_label).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_icon_label", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.hide_icon_45).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_icon_4", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.hide_icon_5).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_icon_5", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.hide_icon_6).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_icon_6", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.hide_icon_7).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_icon_7", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.enableCTS).setOnClickListener(v -> {
+            getEditor().putBoolean("enableCTS", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.enableCheckInstaller).setOnClickListener(v -> {
+            getEditor().putBoolean("enableCheckInstaller", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.hide_icon_alarm_clock).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_icon_alarm_clock", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.hide_icon_bluetooth).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_icon_bluetooth", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.hide_icon_hotspot).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_icon_hotspot", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.hide_icon_alarm_clock).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_icon_alarm_clock", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.hide_icon_volte).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_icon_volte", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.hideDepWarn).setOnClickListener(v -> {
+            getEditor().putBoolean("hideDepWarn", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.hide_icon_shake).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_icon_shake", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.hide_status_bar_no_sim_icon).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_status_bar_no_sim_icon", ((Switch) v).isChecked());
+            fix();
+        });
     }
+
 
     @Override
     protected int setLayoutResourceID() {

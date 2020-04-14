@@ -1,6 +1,6 @@
 package com.coderstory.purify;
 
-import com.zlm.libs.preferences.PreferencesProvider;
+import com.coderstory.purify.preferences.PreferencesProvider;
 
 public class preferencesProvider extends PreferencesProvider {
     @Override

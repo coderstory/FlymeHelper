@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.coderstory.purify.plugins.IModule;
-import com.coderstory.purify.utils.SharedHelper;
 import com.coderstory.purify.utils.XposedHelper;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -20,7 +18,7 @@ import static com.coderstory.purify.config.Misc.isEnable;
 
 public class ThemePatcher extends XposedHelper implements IModule {
 
-    private SharedHelper helper;
+
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
 
@@ -29,24 +27,14 @@ public class ThemePatcher extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
 
-        Class<?> ContextClass = findClass("android.content.ContextWrapper", lpparam.classLoader);
-        findAndHookMethod(ContextClass, "getApplicationContext", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                super.afterHookedMethod(param);
-                if (helper != null)
-                    return;
-                helper = new SharedHelper((Context) param.getResult());
-                XposedBridge.log("得到上下文");
-            }
-        });
+
 
         if (!isEnable()) {
             return;
         }
 
         // 主题和谐
-        if (lpparam.packageName.equals("com.meizu.customizecenter") && helper.getBoolean("enabletheme", false)) {
+        if (lpparam.packageName.equals("com.meizu.customizecenter") && prefs.getBoolean("enabletheme", false)) {
 
             if (lpparam.packageName.equals("com.meizu.customizecenter")) {
                 // 拦截开机自启广播
@@ -65,8 +53,6 @@ public class ThemePatcher extends XposedHelper implements IModule {
                 //findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.b", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(false));
                 findAndHookMethod("com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility", lpparam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(false));
                 findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.f.b", lpparam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(false));
-
-
                 //findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.b", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
                 // com.meizu.advertise.plugin
                 hookAllMethods("com.meizu.advertise.api.AdManager", lpparam.classLoader, "install", XC_MethodReplacement.returnConstant(null));
@@ -105,7 +91,7 @@ public class ThemePatcher extends XposedHelper implements IModule {
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "a", Context.class, String.class, long.class, XC_MethodReplacement.returnConstant(null));
 
                 // 7.5
-                Class<?> themeContentProvider = findClass("com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider", lpparam.classLoader);
+                Class<?> themeContentProvider = findClass("com.meizu.customizecenter.manager.utilsprefs.dbprefs.dao.ThemeContentProvider", lpparam.classLoader);
 
                 //主题混搭 ThemeContentProvider query Unknown URI
                 findAndHookMethod(themeContentProvider, "query", Uri.class, String[].class, String.class, String[].class, String.class, new XC_MethodHook() {

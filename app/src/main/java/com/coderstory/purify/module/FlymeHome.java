@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.coderstory.purify.plugins.IModule;
-import com.coderstory.purify.utils.SharedHelper;
 import com.coderstory.purify.utils.XposedHelper;
 
 import java.io.File;
@@ -20,7 +19,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 
 public class FlymeHome extends XposedHelper implements IModule {
-    private SharedHelper helper;
+
 
 
     @Override
@@ -36,23 +35,13 @@ public class FlymeHome extends XposedHelper implements IModule {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
 
-            Class<?> ContextClass = findClass("android.content.ContextWrapper", lpparam.classLoader);
-            findAndHookMethod(ContextClass, "getApplicationContext", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    if (helper != null)
-                        return;
-                    helper = new SharedHelper((Context) param.getResult());
-                    XposedBridge.log("得到上下文");
-                }
-            });
+
 
             XposedBridge.log("开始hook桌面");
             hook55(findClass("com.meizu.flyme.launcher.u", lpparam.classLoader));
             hook55(findClass("com.meizu.flyme.launcher.v", lpparam.classLoader));
             hook55(findClass("com.meizu.flyme.launcher.w", lpparam.classLoader));
-            if (helper.getBoolean("hide_icon_label", false)) {
+            if (prefs.getBoolean("hide_icon_label", false)) {
                 XposedBridge.log("开启隐藏标签");
                 // 隐藏图标标签
                 hookAllMethods(findClass("com.meizu.flyme.launcher.ShortcutIcon", lpparam.classLoader), "a", new XC_MethodHook() {
@@ -82,13 +71,13 @@ public class FlymeHome extends XposedHelper implements IModule {
         // 开启自定义布局
         // (String str, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
         String type = "";
-        if (helper.getBoolean("hide_icon_5", false)) {
+        if (prefs.getBoolean("hide_icon_5", false)) {
             type = "hide_icon_5";
-        } else if (helper.getBoolean("hide_icon_6", false)) {
+        } else if (prefs.getBoolean("hide_icon_6", false)) {
             type = "hide_icon_6";
-        } else if (helper.getBoolean("hide_icon_7", false)) {
+        } else if (prefs.getBoolean("hide_icon_7", false)) {
             type = "hide_icon_7";
-        } else if (helper.getBoolean("hide_icon_4", false)) {
+        } else if (prefs.getBoolean("hide_icon_4", false)) {
             type = "hide_icon_4";
         }
         if (!"".equals(type)) {
@@ -129,7 +118,6 @@ public class FlymeHome extends XposedHelper implements IModule {
                         if (arg != null) {
                             String dbName = finalType + "launcher_coderStory.db";
                             XposedHelpers.setObjectField(hookParam.thisObject, "mName", dbName);
-
                             File file = ((Context) arg).getDatabasePath("launcher.db");
                             if (file != null && (file.exists())) {
                                 File databasePath = ((Context) arg).getDatabasePath(dbName);

@@ -119,8 +119,8 @@ public class HideAppFragment extends BaseFragment {
                         }
                         value = new StringBuilder(value.substring(0, value.length() - 1));
 
-                        getPrefs().put("Hide_App_List", value.toString());
-
+                        getEditor().putString("Hide_App_List", value.toString());
+                        fix();
                         if (appInfo.getDisable()) {
                             appInfo.setDisable(false);
                             appInfoList.set(mPosition, appInfo);

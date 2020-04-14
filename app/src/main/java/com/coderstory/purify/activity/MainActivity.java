@@ -91,7 +91,6 @@ public class MainActivity extends BaseActivity {
                 requestCameraPermission();
             }
         }
-
         mToolbar.setTitle(getString(R.string.othersettings));
 
         //这句一定要在下面几句之前调用，不然就会出现点击无反应

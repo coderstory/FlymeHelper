@@ -17,15 +17,18 @@ public class SettingsFragment extends BaseFragment {
     protected void setUpView() {
 
         $(R.id.enableCheck).setOnClickListener(v -> {
-            getPrefs().put("enableCheck", ((Switch) v).isChecked());
+            getEditor().putBoolean("enableCheck", ((Switch) v).isChecked());
+            fix();
         });
 
         $(R.id.installType).setOnClickListener(v -> {
-            getPrefs().put("installType", ((Switch) v).isChecked());
+            getEditor().putBoolean("installType", ((Switch) v).isChecked());
+            fix();
         });
 
         $(R.id.hideicon).setOnClickListener(v -> {
-            getPrefs().put("hideIcon", ((Switch) v).isChecked());
+            getEditor().putBoolean("hideIcon", ((Switch) v).isChecked());
+            fix();
 
             ComponentName localComponentName = new ComponentName(getMContext(), "com.coderstory.purify.activity.SplashActivity");
             PackageManager localPackageManager = getMContext().getPackageManager();

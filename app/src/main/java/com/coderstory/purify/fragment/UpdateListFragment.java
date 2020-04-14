@@ -57,7 +57,8 @@ public class UpdateListFragment extends BaseFragment {
                     AnyLayer.dismiss();
                 })
                 .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
-                    getPrefs().put("updateList", "");
+                    getEditor().putString("updateList", "");
+                    fix();
                     initData();
                     adapter.notifyDataSetChanged();
                     AnyLayer.dismiss();
@@ -92,8 +93,9 @@ public class UpdateListFragment extends BaseFragment {
                     appInfos.add(0, new AppInfo("     " + info[0], info[1], "  " + info[2], "  " + info[3]));
                 }
             } catch (Exception e) {
-                getPrefs().put("updateList", "");
+                getEditor().putString("updateList", "");
                 Toast.makeText(getContext(), "检测到数据异常，已重置", Toast.LENGTH_LONG).show();
+                fix();
             }
         }
     }

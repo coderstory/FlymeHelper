@@ -6,18 +6,24 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Set;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
-import static de.robv.android.xposed.XposedHelpers.getParameterTypes;
+import static com.coderstory.purify.config.Misc.ApplicationName;
+import static com.coderstory.purify.config.Misc.SharedPreferencesName;
 
 public class XposedHelper {
+
+    protected XSharedPreferences prefs = new XSharedPreferences(ApplicationName, SharedPreferencesName);
+
+    {
+        prefs.makeWorldReadable();
+        prefs.reload();
+    }
 
     public static Class findClass(String classpatch, ClassLoader classLoader) {
         try {

@@ -2,6 +2,7 @@ package com.coderstory.purify.fragment.base;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,13 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.coderstory.purify.utils.SharedHelper;
+import com.coderstory.purify.config.Misc;
+
+import java.io.File;
+
+import eu.chainfire.libsuperuser.Shell;
+
+import static com.coderstory.purify.config.Misc.ApplicationName;
 
 
 /**
@@ -21,6 +28,10 @@ import com.coderstory.purify.utils.SharedHelper;
 public abstract class BaseFragment extends Fragment {
     private View mContentView;
     private Context mContext;
+    public static final String PREFS_FOLDER = " /data/data/" + ApplicationName + "/shared_prefs\n";
+    public static final String PREFS_FILE = " /data/data/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml\n";
+    private static SharedPreferences prefs;
+    private static SharedPreferences.Editor editor;
 
     @Nullable
     @Override
@@ -42,8 +53,35 @@ public abstract class BaseFragment extends Fragment {
     protected void setUpData() {
     }
 
-    protected SharedHelper getPrefs() {
-        return new SharedHelper(getMContext());
+    protected SharedPreferences.Editor getEditor() {
+        if (editor == null) {
+            editor = prefs.edit();
+        }
+        return editor;
+
+    }
+
+    protected SharedPreferences getPrefs() {
+        prefs = getContext().getSharedPreferences("UserSettings", Context.MODE_PRIVATE);
+        return prefs;
+    }
+
+    public void fix() {
+        getEditor().apply();
+        sudoFixPermissions();
+    }
+
+    protected void sudoFixPermissions() {
+        new Thread(() -> {
+            File pkgFolder = new File("/data/data/" + ApplicationName);
+            if (pkgFolder.exists()) {
+                pkgFolder.setExecutable(true, false);
+                pkgFolder.setReadable(true, false);
+            }
+            Shell.SU.run("chmod  755 " + PREFS_FOLDER);
+            // Set preferences file permissions to be world readable
+            Shell.SU.run("chmod  644 " + PREFS_FILE);
+        }).start();
     }
 
     protected void init() {
