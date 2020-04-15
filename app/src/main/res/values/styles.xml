@@ -31,7 +31,6 @@
     </style>
 
     <style name="fulscreen_theme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
