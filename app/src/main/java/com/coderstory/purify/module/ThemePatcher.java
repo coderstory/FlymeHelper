@@ -10,6 +10,7 @@ import com.coderstory.purify.utils.XposedHelper;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -27,15 +28,27 @@ public class ThemePatcher extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
 
-
-
         if (!isEnable()) {
             return;
+        }
+        // hook 框架层的root检测
+        if (("android".equals(lpparam.packageName))) {
+            XposedBridge.log("阶段1");
+            XposedBridge.log("hook次数" + hookAllMethods("com.android.server.DeviceStateService", lpparam.classLoader, "doCheckState", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+
+                    int code = (int) param.args[0];
+                    if (code == 1) {
+                        param.setResult(0);
+                    }
+                }
+            }));
         }
 
         // 主题和谐
         if (lpparam.packageName.equals("com.meizu.customizecenter") && prefs.getBoolean("enabletheme", false)) {
-
             if (lpparam.packageName.equals("com.meizu.customizecenter")) {
                 // 拦截开机自启广播
                 findAndHookMethod("com.meizu.customizecenter.admin.receiver.BootBroadcastReceiver", lpparam.classLoader, "onReceive", Context.class, Intent.class, XC_MethodReplacement.returnConstant(null));
@@ -92,7 +105,10 @@ public class ThemePatcher extends XposedHelper implements IModule {
 
                 // 7.5
                 Class<?> themeContentProvider = findClass("com.meizu.customizecenter.manager.utilsprefs.dbprefs.dao.ThemeContentProvider", lpparam.classLoader);
-
+                if (themeContentProvider == null) {
+                    //8.3.6
+                    themeContentProvider = findClass("com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider", lpparam.classLoader);
+                }
                 //主题混搭 ThemeContentProvider query Unknown URI
                 findAndHookMethod(themeContentProvider, "query", Uri.class, String[].class, String.class, String[].class, String.class, new XC_MethodHook() {
                     @Override

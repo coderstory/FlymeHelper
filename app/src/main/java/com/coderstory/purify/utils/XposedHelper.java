@@ -70,13 +70,13 @@ public class XposedHelper {
         }
     }
 
-    public static void hookAllMethods(String p1, ClassLoader lpparam, String methodName, XC_MethodHook parameterTypesAndCallback) {
+    public static int hookAllMethods(String p1, ClassLoader lpparam, String methodName, XC_MethodHook parameterTypesAndCallback) {
         try {
             Class packageParser = XposedHelpers.findClass(p1, lpparam);
-            XposedBridge.hookAllMethods(packageParser, methodName, parameterTypesAndCallback);
-
+            return XposedBridge.hookAllMethods(packageParser, methodName, parameterTypesAndCallback).size();
         } catch (Throwable error) {
             XposedBridge.log(error);
+            return 0;
         }
     }
 
