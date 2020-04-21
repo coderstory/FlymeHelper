@@ -49,13 +49,11 @@ public class UpdateListFragment extends BaseFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        AnyLayer anyLayer = AnyLayer.with(getContext())
+        AnyLayer anyLayer = AnyLayer.with(getMContext())
                 .contentView(R.layout.dialog_test_2)
                 .cancelableOnTouchOutside(true)
                 .cancelableOnClickKeyBack(true)
-                .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
-                    AnyLayer.dismiss();
-                })
+                .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> AnyLayer.dismiss())
                 .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
                     getEditor().putString("updateList", "");
                     fix();
@@ -134,7 +132,7 @@ public class UpdateListFragment extends BaseFragment {
     @Override
     protected void init() {
         super.init();
-        Toast.makeText(getActivity(), "系统更新检测到的更新包地址", Toast.LENGTH_LONG).show();
+        // Toast.makeText(getActivity(), "系统更新检测到的更新包地址", Toast.LENGTH_LONG).show();
 
         new MyTask().execute();
 

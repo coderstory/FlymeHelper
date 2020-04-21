@@ -12,20 +12,20 @@ public class SharedHelper {
         this.context = context;
     }
 
-    public void put(String key, Object object) {
+    public boolean put(String key, Object object) {
 
         if (object instanceof String) {
-            PreferencesProviderUtils.putString(context, spName, key, (String) object);
+            return PreferencesProviderUtils.putString(context, spName, key, (String) object);
         } else if (object instanceof Integer) {
-            PreferencesProviderUtils.putInt(context, spName, key, (Integer) object);
+            return PreferencesProviderUtils.putInt(context, spName, key, (Integer) object);
         } else if (object instanceof Boolean) {
-            PreferencesProviderUtils.putBoolean(context, spName, key, (Boolean) object);
+            return PreferencesProviderUtils.putBoolean(context, spName, key, (Boolean) object);
         } else if (object instanceof Float) {
-            PreferencesProviderUtils.putFloat(context, spName, key, (Float) object);
+            return PreferencesProviderUtils.putFloat(context, spName, key, (Float) object);
         } else if (object instanceof Long) {
-            PreferencesProviderUtils.putLong(context, spName, key, (Long) object);
+            return PreferencesProviderUtils.putLong(context, spName, key, (Long) object);
         } else {
-            PreferencesProviderUtils.putString(context, spName, key, object.toString());
+            return PreferencesProviderUtils.putString(context, spName, key, object.toString());
         }
     }
 

@@ -9,7 +9,10 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 
 import java.util.Set;
 
@@ -176,6 +179,8 @@ public abstract class PreferencesProvider extends ContentProvider {
      * @param model
      */
     private void insert(Context context, ContentValues values, Model model) {
+        Log.e("Xposed", "Model " + JSON.toJSONString(model));
+        Log.e("Xposed", "ContentValues " + JSON.toJSONString(values));
         SharedPreferences.Editor editor = PreferencesUtils.getEditor(context, model.getSpName());
         Set<String> keys = values.keySet();
         for (String key : keys) {
@@ -189,7 +194,7 @@ public abstract class PreferencesProvider extends ContentProvider {
             } else if (value instanceof Boolean) {
                 editor.putBoolean(key, Boolean.valueOf(value + ""));
             } else {
-                editor.putString(key, (value == null ? "" : value) + "");
+                editor.putString(key, (value == null ? "" : new String(android.util.Base64.decode(((String) value), Base64.DEFAULT))));
             }
         }
         editor.apply();
@@ -260,6 +265,10 @@ public abstract class PreferencesProvider extends ContentProvider {
         }
         if (value == null) return null;
         //
+        if (value instanceof String) {
+
+            value = android.util.Base64.encodeToString(((String) value).getBytes(), android.util.Base64.DEFAULT);
+        }
         String[] columnNames = {COLUMNNAME};
         MatrixCursor cursor = new MatrixCursor(columnNames);
         Object[] values = {value};

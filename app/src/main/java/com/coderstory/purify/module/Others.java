@@ -1,6 +1,7 @@
 package com.coderstory.purify.module;
 
 import android.content.Context;
+import android.util.Base64;
 import android.widget.Toast;
 
 import com.coderstory.purify.plugins.IModule;
@@ -114,7 +115,18 @@ public class Others extends XposedHelper implements IModule {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    mContext = (Context) param.args[0];
+                    if (param.args[0] instanceof Context) {
+                        mContext = (Context) param.args[0];
+                    }
+                }
+            });
+            XposedBridge.hookAllConstructors(findClass("com.meizu.flyme.update.d.a", loadPackageParam.classLoader), new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    if (param.args[0] instanceof Context) {
+                        mContext = (Context) param.args[0];
+                    }
                 }
             });
 
@@ -150,10 +162,11 @@ public class Others extends XposedHelper implements IModule {
 
     }
 
-    boolean handleInfo(Object info) {
+    private boolean handleInfo(Object info) {
         boolean needToast = false;
         if (info != null) {
-            String update = prefs.getString("updateList", "");
+            String update = new SharedHelper(mContext).getString("updateList", "");
+            update = new String(android.util.Base64.decode(update, Base64.DEFAULT));
             String systemVersion = (String) XposedHelpers.getObjectField(info, "systemVersion");
             String updateUrl = (String) XposedHelpers.getObjectField(info, "updateUrl");
             String releaseDate = (String) XposedHelpers.getObjectField(info, "releaseDate");
@@ -162,10 +175,16 @@ public class Others extends XposedHelper implements IModule {
             if (!update.contains(msg)) {
                 needToast = true;
                 update += msg + ";";
-                new SharedHelper(mContext).put("updateList", update);
                 if (mContext != null) {
+                    XposedBridge.log("参数保存结果" + new SharedHelper(mContext).put("updateList", android.util.Base64.encodeToString(update.getBytes(), Base64.DEFAULT)));
                     Toast.makeText(mContext, "flyme助手:已检测到新的更新包地址", Toast.LENGTH_LONG).show();
+                    XposedBridge.log("flyme助手: 检测完到更新包");
+                    XposedBridge.log(update);
+                } else {
+                    XposedBridge.log("获取Context失败0x0");
                 }
+            } else {
+                XposedBridge.log("flyme助手: 检测完到更新包已被记录");
             }
         }
         return needToast;
