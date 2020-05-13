@@ -1,19 +1,22 @@
 package com.coderstory.purify.module;
 
+import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
 
 import com.coderstory.purify.plugins.IModule;
 import com.coderstory.purify.utils.XposedHelper;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-
 
 
 public class HideApp extends XposedHelper implements IModule {
@@ -34,23 +37,17 @@ public class HideApp extends XposedHelper implements IModule {
             if (!value.equals("")) {
                 final List<String> hideAppList = Arrays.asList(value.split(":"));
                 XposedBridge.log("load config" + value);
-                // 下面2个hook是一个东西
-                findAndHookMethod("com.meizu.flyme.launcher.ck", loadPackageParam.classLoader, "a", ComponentName.class, new XC_MethodHook() {
+                Class clazz = findClass("com.meizu.flyme.launcher.co", loadPackageParam.classLoader);
+                findAndHookMethod("com.meizu.flyme.launcher.MzWidgetGroupView", loadPackageParam.classLoader, "a", clazz, new XC_MethodHook() {
                     @Override
-                    protected void beforeHookedMethod(MethodHookParam param) {
-                        ComponentName componentName = (ComponentName) param.args[0];
-                        if (hideAppList.contains(componentName.getPackageName())) {
-                            param.setResult(true);
-                        }
-                    }
-                });
-                findAndHookMethod("com.meizu.flyme.launcher.ck", loadPackageParam.classLoader, "b", ComponentName.class, new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) {
-                        ComponentName componentName = (ComponentName) param.args[0];
-                        if (hideAppList.contains(componentName.getPackageName())) {
-                            param.setResult(true);
-                        }
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        Object obj = param.args[0];
+                        List<?> list = (List) XposedHelpers.getObjectField(obj, "a");
+                        XposedBridge.log("个数1"+list.size());
+                        list = list.stream().filter(item -> value.contains(((AppWidgetProviderInfo) item).provider.getPackageName())).collect(Collectors.toList());
+                        XposedHelpers.setObjectField(obj, "a", list);
+                        XposedBridge.log("个数2"+list.size());
                     }
                 });
             }
