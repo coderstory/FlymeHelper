@@ -50,6 +50,16 @@ public class HideApp extends XposedHelper implements IModule {
                         XposedBridge.log("个数2"+list.size());
                     }
                 });
+
+                findAndHookMethod("com.meizu.flyme.launcher.cm", loadPackageParam.classLoader, "b", ComponentName.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) {
+                        ComponentName componentName = (ComponentName) param.args[0];
+                        if (hideAppList.contains(componentName.getPackageName())) {
+                            param.setResult(true);
+                        }
+                    }
+                });
             }
         }
     }
