@@ -9,7 +9,6 @@ CoderStory的博客：[blog.coderstory.cn](https://blog.coderstory.cn)
 Flyme7助手支持去除Flyme系统的大部分广告内容，清理应用缓存，应用冻结备份等功能。
 
 
-
 ## License
 ```text
 This program is free software; you can redistribute it and/or
