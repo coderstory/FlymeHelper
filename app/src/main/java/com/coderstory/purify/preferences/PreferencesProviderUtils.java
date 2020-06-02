@@ -89,7 +89,7 @@ public class PreferencesProviderUtils {
         Cursor cursor = cr.query(uri, null, null, null, null);
         if (cursor == null) return result;
         if (cursor.moveToNext()) {
-            result = cursor.getString(cursor.getColumnIndex(PreferencesProvider.COLUMNNAME));
+            result = new String(android.util.Base64.decode(cursor.getString(cursor.getColumnIndex(PreferencesProvider.COLUMNNAME)).getBytes(), android.util.Base64.DEFAULT));
         }
 
         return result;
@@ -325,7 +325,7 @@ public class PreferencesProviderUtils {
         if (cursor == null) return result;
 
         if (cursor.moveToNext()) {
-            result = Boolean.valueOf(cursor.getString(cursor.getColumnIndex(PreferencesProvider.COLUMNNAME)));
+            result = new String(android.util.Base64.decode(cursor.getString(cursor.getColumnIndex(PreferencesProvider.COLUMNNAME)).getBytes(), android.util.Base64.DEFAULT)).equals("true");
         }
 
         return result;

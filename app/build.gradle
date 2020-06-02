@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.0"
+    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.coderstory.flyme"
         minSdkVersion 24
@@ -12,6 +12,7 @@ android {
         resConfigs "cn"
     }
     repositories {
+        jcenter()
         google()
         maven { url 'https://www.jitpack.io' }
     }

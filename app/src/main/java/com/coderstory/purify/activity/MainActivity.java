@@ -104,11 +104,11 @@ public class MainActivity extends BaseActivity {
 
         checkEnable();
 
-        if (helper.getBoolean("firstOpen", true)) {
-            helper.put("firstOpen", false);
+        if (helper.getBoolean("firstOpenA", true)) {
+            helper.put("firstOpenA", false);
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
             normalDialog.setTitle("提示");
-            normalDialog.setMessage("因为我没有魅族手机，本次更新支持flyme8也是刷了移植版本，但我不可能一直用，何况移植版基本不更新。所以，可能本次更新后就可能没有下文了。哦，对了，这是xposed插件，请自行安装edxposed或者xposed框架");
+            normalDialog.setMessage("因为我没有魅族手机，目前适配也是刷了移植的Flyme，但我不可能一直用，何况移植版更新慢功能残缺。所以，插件现在基本随缘更新。\r\n哦，对了，这是xposed插件，请自行安装edxposed或者xposed框架。笔芯~");
             normalDialog.setPositiveButton("确定",
                     (dialog, which) -> {
                     });

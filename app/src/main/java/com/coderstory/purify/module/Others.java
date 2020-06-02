@@ -166,7 +166,7 @@ public class Others extends XposedHelper implements IModule {
         boolean needToast = false;
         if (info != null) {
             String update = new SharedHelper(mContext).getString("updateList", "");
-            update = new String(android.util.Base64.decode(update, Base64.DEFAULT));
+            // update = new String(android.util.Base64.decode(update, Base64.DEFAULT));
             String systemVersion = (String) XposedHelpers.getObjectField(info, "systemVersion");
             String updateUrl = (String) XposedHelpers.getObjectField(info, "updateUrl");
             String releaseDate = (String) XposedHelpers.getObjectField(info, "releaseDate");
