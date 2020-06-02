@@ -12,8 +12,6 @@ android {
         resConfigs "cn"
     }
     repositories {
-        google()
-        maven { url 'https://www.jitpack.io' }
     }
 
     signingConfigs {
