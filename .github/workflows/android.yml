@@ -3,8 +3,6 @@ name: Android CI
 on:
   push:
     branches: [ flyme8 ]
-  pull_request:
-    branches: [ flyme8 ]
 
 jobs:
   build:
