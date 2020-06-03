@@ -31,6 +31,4 @@ proguard/
 
 .idea/
 
-gradlew
-gradlew.bat
 class_files.txt
