@@ -132,4 +132,6 @@
     <string name="others_appsettings">应用设置</string>
     <string name="updateList">检测更新</string>
     <string name="blog">作者博客</string>
+    <string name="removeStore"><b>移除推广按钮</b>\n移除应用安装界面的从官方商店下载按钮</string>
+    <string name="autoInstall"><b>自动安装应用</b>\n打开应用安装界面后，无需点击按钮自动执行安装任务</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.coderstory.purify.module;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Base64;
 import android.widget.Toast;
 
@@ -82,10 +83,6 @@ public class Others extends XposedHelper implements IModule {
             if (prefs.getBoolean("enableCheckInstaller", false)) {
                 // 8.x
                 Class clazz = findClass("com.android.packageinstaller.FlymePackageInstallerActivity", loadPackageParam.classLoader);
-                if (clazz == null) {
-                    // 7.x
-                    clazz = findClass("com.android.packageinstaller.PackageInstallerActivity", loadPackageParam.classLoader);
-                }
                 if (clazz != null) {
                     findAndHookMethod(clazz, "setVirusCheckTime", new XC_MethodReplacement() {
                         @Override
@@ -93,6 +90,13 @@ public class Others extends XposedHelper implements IModule {
                             Object mHandler = XposedHelpers.getObjectField(param.thisObject, "mHandler");
                             XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 5);
                             return null;
+                        }
+                    });
+                    findAndHookMethod("com.android.packageinstaller.FlymePackageInstallerActivity", loadPackageParam.classLoader, "replaceOrInstall", String.class, new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            super.beforeHookedMethod(param);
+                            XposedHelpers.setObjectField(param.thisObject, "mAppInfo", null);
                         }
                     });
                 }

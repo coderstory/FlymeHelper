@@ -1,6 +1,7 @@
 package com.coderstory.purify.module;
 
 import android.content.Context;
+import android.content.Intent;
 import android.webkit.WebView;
 
 import com.coderstory.purify.plugins.IModule;
@@ -67,6 +68,24 @@ public class RemoveAds extends XposedHelper implements IModule {
             findAndHookMethod(clazz, "installPlugin", XC_MethodReplacement.returnConstant(null));
         }
 
+
+        if(loadPackageParam.packageName.equals("com.android.packageinstaller")){
+          if(prefs.getBoolean("removeStore", false)) {
+              hookAllMethods("com.meizu.safe.security.net.HttpMethods", loadPackageParam.classLoader, "queryPackageInfoFromMzStoreV2", new XC_MethodHook() {
+                  @Override
+                  protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                      super.beforeHookedMethod(param);
+                      param.args[1] = "xxxx";
+                      param.args[3] = "xxxx";
+                      param.args[6] = "xxxx";
+                  }
+              });
+          }
+            if(prefs.getBoolean("autoInstall", false)) {
+                // 开启会自动安装apk
+                hookAllMethods("com.meizu.permissioncommon.AppInfoUtil",loadPackageParam.classLoader, "isSystemApp",  XC_MethodReplacement.returnConstant(true));
+            }
+        }
     }
 
 }

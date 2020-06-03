@@ -59,9 +59,9 @@ public class ThemePatcher extends XposedHelper implements IModule {
 
                 //device_states | doCheckState
                 // 8.2.4
-                findAndHookMethod("com.meizu.creator.commons.utils.DeviceUtils", lpparam.classLoader, "isPhoneRooted", Context.class, XC_MethodReplacement.returnConstant(false));
-                findAndHookMethod("com.meizu.creator.commons.utils.reflect.ReflectUtils", lpparam.classLoader, "doCheckRootState", Context.class, XC_MethodReplacement.returnConstant(false));
-                findAndHookMethod("com.meizu.creator.commons.utils.reflect.ReflectUtils", lpparam.classLoader, "doCheckRootState", Context.class, XC_MethodReplacement.returnConstant(false));
+                //findAndHookMethod("com.meizu.creator.commons.utils.DeviceUtils", lpparam.classLoader, "isPhoneRooted", Context.class, XC_MethodReplacement.returnConstant(false));
+                //findAndHookMethod("com.meizu.creator.commons.utils.reflect.ReflectUtils", lpparam.classLoader, "doCheckRootState", Context.class, XC_MethodReplacement.returnConstant(false));
+                //findAndHookMethod("com.meizu.creator.commons.utils.reflect.ReflectUtils", lpparam.classLoader, "doCheckRootState", Context.class, XC_MethodReplacement.returnConstant(false));
                 //8.3.6
                 //findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.b", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(false));
                 findAndHookMethod("com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility", lpparam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(false));
