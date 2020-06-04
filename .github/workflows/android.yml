@@ -17,10 +17,3 @@ jobs:
         java-version: 1.8
     - name: Build with Gradle
       run: ./gradlew build
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v2
-      with:
-        # Artifact name
-       name: app
-        # Destination path
-        # path: app/build/outputs/apk/debug/xw-debug.apk
