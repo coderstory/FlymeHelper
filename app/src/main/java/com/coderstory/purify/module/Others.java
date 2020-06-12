@@ -24,7 +24,9 @@ public class Others extends XposedHelper implements IModule {
 
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
-
+        if (prefs.getBoolean("show_icon_battery_percentage", false)) {
+            resparam.res.setReplacement(resparam.packageName, "string", "status_bar_settings_battery_meter_format_simple", "%d%%");
+        }
     }
 
     @Override
@@ -98,6 +100,7 @@ public class Others extends XposedHelper implements IModule {
             if (prefs.getBoolean("hide_status_bar_no_sim_icon", false)) {
                 findAndHookMethod("com.android.systemui.statusbar.policy.NetworkControllerImpl", loadPackageParam.classLoader, "updateNoSims", XC_MethodReplacement.returnConstant(null));
             }
+
 
         }
 

@@ -26,6 +26,7 @@ public class start implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXp
         if (vi()) {
             new FlymeRoot().handleInitPackageResources(resparam);
             new FlymeHome().handleInitPackageResources(resparam);
+            new Others().handleInitPackageResources(resparam);
         }
     }
 
