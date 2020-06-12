@@ -10,6 +10,8 @@ import com.coderstory.purify.utils.hostshelper.HostsHelper;
 
 import java.io.UnsupportedEncodingException;
 
+import eu.chainfire.libsuperuser.Shell;
+
 
 public class OthersFragment extends BaseFragment {
     public OthersFragment() {
@@ -129,8 +131,11 @@ public class OthersFragment extends BaseFragment {
             getEditor().putBoolean("hide_status_bar_vpn_icon", ((Switch) v).isChecked());
             fix();
         });
+        $(R.id.show_status_bar_time_second_icon).setOnClickListener(v -> {
+            getEditor().putBoolean("show_status_bar_time_second_icon", ((Switch) v).isChecked());
+            Shell.SU.run("settings put secure clock_seconds " + (((Switch) v).isChecked() ? "1" : "0"));
+        });
     }
-
 
     @Override
     protected int setLayoutResourceID() {
@@ -161,5 +166,6 @@ public class OthersFragment extends BaseFragment {
         ((Switch) $(R.id.autoInstall)).setChecked(getPrefs().getBoolean("autoInstall", false));
         ((Switch) $(R.id.hide_status_bar_wifi_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_wifi_icon", false));
         ((Switch) $(R.id.hide_status_bar_vpn_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_vpn_icon", false));
+        ((Switch) $(R.id.show_status_bar_time_second_icon)).setChecked(getPrefs().getBoolean("show_status_bar_time_second_icon", false));
     }
 }

@@ -7,7 +7,6 @@
         \n\n<b>QQ群: 906552736</b>
         \n\n<b>博客主页: blog.coderstory.cn</b>
         \n\n<b>微博主页: weibo.com/codestory</b>
-        \n\n<b>开源项目: github.com/coderstory/Flyme6Helper</b>
     </string>
     <string name="G1">
             <b>致谢如下开源项目</b>\n\n
@@ -52,6 +51,7 @@
     <string name="hide_status_bar_no_sim_icon"><b>SIM</b>\n隐藏空sim卡图标 Android 9.0可用</string>
     <string name="hide_status_bar_wifi_icon"><b>隐藏wifi图标</b>\n隐藏状态栏上的wifi图标</string>
     <string name="hide_status_bar_vpn_icon"><b>隐藏vpn图标</b>\n隐藏状态栏上的VPN图标</string>
+    <string name="show_status_bar_time_second_icon"><b>时间显秒</b>\n状态栏上的时间显示秒</string>
     <string name="Tips_Title">温馨提示</string>
     <string name="Btn_Sure">确定</string>
     <string name="Btn_Cancel">取消</string>
@@ -136,5 +136,6 @@
     <string name="blog">作者博客</string>
     <string name="removeStore"><b>移除推广按钮</b>\n移除应用安装界面的从官方商店下载按钮</string>
     <string name="autoInstall"><b>自动安装应用</b>\n打开应用安装界面后，无需点击按钮自动执行安装任务</string>
+
 
 </resources>

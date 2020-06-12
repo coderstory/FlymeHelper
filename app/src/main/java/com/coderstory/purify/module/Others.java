@@ -29,8 +29,6 @@ public class Others extends XposedHelper implements IModule {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
-
-
         if (loadPackageParam.packageName.equals("com.android.systemui")) {
             String className;
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
