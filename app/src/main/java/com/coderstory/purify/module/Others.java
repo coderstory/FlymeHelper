@@ -32,11 +32,17 @@ public class Others extends XposedHelper implements IModule {
 
 
         if (loadPackageParam.packageName.equals("com.android.systemui")) {
-            findAndHookMethod("com.android.systemui.statusbar.phone.StatusBarIconControllerImpl", loadPackageParam.classLoader, "setIconVisibility", String.class, boolean.class, new XC_MethodHook() {
+            String className;
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                className = "com.android.systemui.statusbar.phone.StatusBarIconControllerImpl";
+            } else {
+                className = "com.android.systemui.statusbar.phone.StatusBarIconController";
+            }
+            findAndHookMethod(className, loadPackageParam.classLoader, "setIconVisibility", String.class, boolean.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-
+                    XposedBridge.log("图标类型: " + param.args[0].toString());
                     if ("alarm_clock".equals(param.args[0]) && prefs.getBoolean("hide_icon_alarm_clock", false)) {
                         param.args[1] = false;
                     }
@@ -53,8 +59,6 @@ public class Others extends XposedHelper implements IModule {
                     if ("wifi".equals(param.args[0]) || "dual_wifi".equals(param.args[0]) && prefs.getBoolean("hide_status_bar_wifi_icon", false)) {
                         param.args[1] = false;
                     }
-
-                    XposedBridge.log("图标类型2" + param.args[0].toString());
                     // 震动 || 静音+震动
                     if (("zen".equals(param.args[0]) || "volume".equals(param.args[0])) && prefs.getBoolean("hide_icon_shake", false)) {
                         param.args[1] = false;
