@@ -133,6 +133,7 @@ public class OthersFragment extends BaseFragment {
         });
         $(R.id.show_status_bar_time_second_icon).setOnClickListener(v -> {
             getEditor().putBoolean("show_status_bar_time_second_icon", ((Switch) v).isChecked());
+            fix();
             Shell.SU.run("settings put secure clock_seconds " + (((Switch) v).isChecked() ? "1" : "0"));
         });
     }
