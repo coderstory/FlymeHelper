@@ -48,7 +48,7 @@
             <TextView
                 android:id="@+id/mark"
                 android:layout_width="wrap_content"
-                android:layout_height="10px"
+                android:layout_height="70px"
                 android:layout_weight="1"
                 android:text="有效期:永远有效"
                 android:textColor="#FF9800"
@@ -79,7 +79,6 @@
                     android:textSize="14sp" />
 
             </androidx.cardview.widget.CardView>
-
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/os1"
