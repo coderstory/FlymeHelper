@@ -40,7 +40,7 @@ public class ThemePatcher extends XposedHelper implements IModule {
                     super.afterHookedMethod(param);
 
                     int code = (int) param.args[0];
-                    if (code == 1) {
+                    if (code == 1 || code == 3 || code == 4) {
                         param.setResult(0);
                     }
                 }
@@ -58,10 +58,6 @@ public class ThemePatcher extends XposedHelper implements IModule {
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.ThemeTrialService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, XC_MethodReplacement.returnConstant(0));
 
                 //device_states | doCheckState
-                // 8.2.4
-                //findAndHookMethod("com.meizu.creator.commons.utils.DeviceUtils", lpparam.classLoader, "isPhoneRooted", Context.class, XC_MethodReplacement.returnConstant(false));
-                //findAndHookMethod("com.meizu.creator.commons.utils.reflect.ReflectUtils", lpparam.classLoader, "doCheckRootState", Context.class, XC_MethodReplacement.returnConstant(false));
-                //findAndHookMethod("com.meizu.creator.commons.utils.reflect.ReflectUtils", lpparam.classLoader, "doCheckRootState", Context.class, XC_MethodReplacement.returnConstant(false));
                 //8.3.6
                 //findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.b", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(false));
                 findAndHookMethod("com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility", lpparam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(false));
@@ -103,12 +99,7 @@ public class ThemePatcher extends XposedHelper implements IModule {
                 //"checkTrialFont:!isUsingTrialFont() Context context, String str, long j
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "a", Context.class, String.class, long.class, XC_MethodReplacement.returnConstant(null));
 
-                // 7.5
-                Class<?> themeContentProvider = findClass("com.meizu.customizecenter.manager.utilsprefs.dbprefs.dao.ThemeContentProvider", lpparam.classLoader);
-                if (themeContentProvider == null) {
-                    //8.3.6
-                    themeContentProvider = findClass("com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider", lpparam.classLoader);
-                }
+                Class<?> themeContentProvider = findClass("com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider", lpparam.classLoader);
                 //主题混搭 ThemeContentProvider query Unknown URI
                 findAndHookMethod(themeContentProvider, "query", Uri.class, String[].class, String.class, String[].class, String.class, new XC_MethodHook() {
                     @Override

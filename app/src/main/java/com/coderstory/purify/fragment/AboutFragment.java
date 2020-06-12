@@ -13,6 +13,8 @@ import com.coderstory.purify.utils.licensesdialog.licenses.GnuGeneralPublicLicen
 import com.coderstory.purify.utils.licensesdialog.model.Notice;
 import com.coderstory.purify.utils.licensesdialog.model.Notices;
 
+import static com.coderstory.purify.utils.Utils.vp;
+
 
 public class AboutFragment extends BaseFragment {
 
@@ -41,5 +43,8 @@ public class AboutFragment extends BaseFragment {
         });
 
         ((TextView) $(R.id.version)).setText(BuildConfig.VERSION_NAME);
+
+        ((TextView) $(R.id.mark)).setText("有效期剩余:" + vp() + "天");
+
     }
 }

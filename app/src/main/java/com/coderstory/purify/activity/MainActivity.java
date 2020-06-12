@@ -65,9 +65,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void requestCameraPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            MainActivity.this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_CODE);
-        }
+        MainActivity.this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, READ_EXTERNAL_STORAGE_CODE);
     }
 
     @Override
@@ -104,11 +102,11 @@ public class MainActivity extends BaseActivity {
 
         checkEnable();
 
-        if (helper.getBoolean("firstOpenA", true)) {
-            helper.put("firstOpenA", false);
+        if (helper.getBoolean("firstOpenB", true)) {
+            helper.put("firstOpenB", false);
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
-            normalDialog.setTitle("提示");
-            normalDialog.setMessage("因为我没有魅族手机，目前适配也是刷了移植的Flyme，但我不可能一直用，何况移植版更新慢功能残缺。所以，插件现在基本随缘更新。\r\n哦，对了，这是xposed插件，请自行安装edxposed或者xposed框架。笔芯~");
+            normalDialog.setTitle("初始提示");
+            normalDialog.setMessage("flyme助手是基于xposed框架开发的插件，使用本插件前请确保已经安装并激活了xposed/edxposed框架");
             normalDialog.setPositiveButton("确定",
                     (dialog, which) -> {
                     });

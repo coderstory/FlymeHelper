@@ -1,7 +1,7 @@
 package com.coderstory.purify.module;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Build;
 import android.util.Base64;
 import android.widget.Toast;
 
@@ -32,7 +32,7 @@ public class Others extends XposedHelper implements IModule {
 
 
         if (loadPackageParam.packageName.equals("com.android.systemui")) {
-            findAndHookMethod("com.android.systemui.statusbar.phone.StatusBarIconController", loadPackageParam.classLoader, "setIconVisibility", String.class, boolean.class, new XC_MethodHook() {
+            findAndHookMethod("com.android.systemui.statusbar.phone.StatusBarIconControllerImpl", loadPackageParam.classLoader, "setIconVisibility", String.class, boolean.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
@@ -46,8 +46,15 @@ public class Others extends XposedHelper implements IModule {
                     if ("bluetooth".equals(param.args[0]) && prefs.getBoolean("hide_icon_bluetooth", false)) {
                         param.args[1] = false;
                     }
+                    if ("vpn".equals(param.args[0]) && prefs.getBoolean("hide_status_bar_vpn_icon", false)) {
+                        param.args[1] = false;
+                    }
 
-                    XposedBridge.log("图标类型" + param.args[0].toString());
+                    if ("wifi".equals(param.args[0]) || "dual_wifi".equals(param.args[0]) && prefs.getBoolean("hide_status_bar_wifi_icon", false)) {
+                        param.args[1] = false;
+                    }
+
+                    XposedBridge.log("图标类型2" + param.args[0].toString());
                     // 震动 || 静音+震动
                     if (("zen".equals(param.args[0]) || "volume".equals(param.args[0])) && prefs.getBoolean("hide_icon_shake", false)) {
                         param.args[1] = false;
@@ -55,13 +62,31 @@ public class Others extends XposedHelper implements IModule {
                 }
             });
             if (prefs.getBoolean("hide_icon_volte", false)) {
-                hookAllMethods("com.android.systemui.statusbar.SignalClusterView", loadPackageParam.classLoader, "setMobileDataIndicators", new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        super.beforeHookedMethod(param);
-                        param.args[4] = 0;
-                    }
-                });
+
+                if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                    hookAllMethods("com.android.systemui.statusbar.SignalClusterView", loadPackageParam.classLoader, "setMobileDataIndicators", new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            super.beforeHookedMethod(param);
+                            param.args[4] = 0;
+                        }
+                    });
+                }
+                // android 10
+                if (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
+                    hookAllMethods("com.android.systemui.statusbar.policy.NetworkControllerImpl", loadPackageParam.classLoader, "readConfig", new XC_MethodHook() {
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                            super.afterHookedMethod(param);
+                            Object result = param.getResult();
+                            XposedHelpers.setBooleanField(result, "showVolteIcon", true);
+
+                        }
+                    });
+                    hookAllMethods("com.android.systemui.statusbar.policy.MobileSignalController", loadPackageParam.classLoader, "isVolteSwitchOn", XC_MethodReplacement.returnConstant(true));
+                    // volte
+                    // hookAllMethods("com.android.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "updateVolteMergeId", XC_MethodReplacement.returnConstant(0x7F08075A));
+                }
             }
             // com.android.systemui.power.PowerUI playBatterySound start 低电量 电量空
             if (prefs.getBoolean("hideDepWarn", false)) {
@@ -71,9 +96,6 @@ public class Others extends XposedHelper implements IModule {
             if (prefs.getBoolean("hide_status_bar_no_sim_icon", false)) {
                 findAndHookMethod("com.android.systemui.statusbar.policy.NetworkControllerImpl", loadPackageParam.classLoader, "updateNoSims", XC_MethodReplacement.returnConstant(null));
             }
-
-            //隐藏sim卡图标
-            //findAndHookMethod("com.android.systemui.statusbar.policy.NetworkControllerImpl", loadPackageParam.classLoader, "notifySubscriptionsChangeCallBack", XC_MethodReplacement.returnConstant(null));
 
         }
 

@@ -119,6 +119,16 @@ public class OthersFragment extends BaseFragment {
             getEditor().putBoolean("autoInstall", ((Switch) v).isChecked());
             fix();
         });
+
+        $(R.id.hide_status_bar_wifi_icon).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_status_bar_wifi_icon", ((Switch) v).isChecked());
+            fix();
+        });
+
+        $(R.id.hide_status_bar_vpn_icon).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_status_bar_vpn_icon", ((Switch) v).isChecked());
+            fix();
+        });
     }
 
 
@@ -149,6 +159,7 @@ public class OthersFragment extends BaseFragment {
         ((Switch) $(R.id.hide_status_bar_no_sim_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_no_sim_icon", false));
         ((Switch) $(R.id.removeStore)).setChecked(getPrefs().getBoolean("removeStore", false));
         ((Switch) $(R.id.autoInstall)).setChecked(getPrefs().getBoolean("autoInstall", false));
+        ((Switch) $(R.id.hide_status_bar_wifi_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_wifi_icon", false));
+        ((Switch) $(R.id.hide_status_bar_vpn_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_vpn_icon", false));
     }
-
 }
