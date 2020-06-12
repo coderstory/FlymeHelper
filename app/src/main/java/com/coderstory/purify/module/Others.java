@@ -54,7 +54,7 @@ public class Others extends XposedHelper implements IModule {
                         param.args[1] = false;
                     }
 
-                    if ("wifi".equals(param.args[0]) || "dual_wifi".equals(param.args[0]) && prefs.getBoolean("hide_status_bar_wifi_icon", false)) {
+                    if (("wifi".equals(param.args[0]) || "dual_wifi".equals(param.args[0])) && prefs.getBoolean("hide_status_bar_wifi_icon", false)) {
                         param.args[1] = false;
                     }
                     // 震动 || 静音+震动
