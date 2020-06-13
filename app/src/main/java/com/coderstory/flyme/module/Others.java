@@ -14,6 +14,7 @@ import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.XposedHelper;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -113,23 +114,30 @@ public class Others extends XposedHelper implements IModule {
                 });
             }
 
-            if (prefs.getBoolean("hide_status_bar_time_week_icon", false)) {
-                hookAllMethods("com.android.systemui.statusbar.policy.Clock", loadPackageParam.classLoader, "getSmallTime", new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        TextView view = (TextView) param.thisObject;
-                        boolean is24HourFormat = DateFormat.is24HourFormat(view.getContext());
-                        // HH:mm:ss EE 星期
-                        String formatStr = is24HourFormat ? "HH:mm" : "hh:mm";
-                        if (prefs.getBoolean("show_status_bar_time_second_icon", false)) {
-                            formatStr += ":ss";
-                        }
-                        formatStr += " EE";
-                        String time = new SimpleDateFormat(formatStr, Locale.getDefault(Locale.Category.FORMAT)).format(System.currentTimeMillis());
-                        param.setResult(time);
+            XposedBridge.log("外部读取值" + prefs.getBoolean("show_status_bar_time_second_icon", false));
+            hookAllMethods("com.android.systemui.statusbar.policy.Clock", loadPackageParam.classLoader, "getSmallTime", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    XposedBridge.log("内部读取值" + prefs.getBoolean("show_status_bar_time_second_icon", false));
+                    TextView view = (TextView) param.thisObject;
+                    boolean is24HourFormat = DateFormat.is24HourFormat(view.getContext());
+                    // HH:mm:ss EE 星期
+                    String formatStr = is24HourFormat ? "HH:mm" : "hh:mm";
+                    if (prefs.getBoolean("show_status_bar_time_second_icon", false)) {
+                        formatStr += ":ss";
                     }
-                });
-            }
+                    if (prefs.getBoolean("hide_status_bar_time_week_icon", false)) {
+                        formatStr += " EE";
+                    }
+                    if (prefs.getBoolean("hide_status_bar_time_chinese_icon", false)) {
+                        formatStr = getTimeType() + " " + formatStr;
+                    }
+                    XposedBridge.log("时间格式" + formatStr);
+                    String time = new SimpleDateFormat(formatStr, Locale.getDefault(Locale.Category.FORMAT)).format(System.currentTimeMillis());
+                    param.setResult(time);
+                }
+            });
+
         }
 
         // 禁止安装app时候的安全检验
@@ -220,6 +228,34 @@ public class Others extends XposedHelper implements IModule {
         }
 
     }
+
+    public String getTimeType() {
+        String type = "";
+        Date date = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("HH");
+        String str = df.format(date);
+        int a = Integer.parseInt(str);
+        if (a >= 0 && a < 6) {
+            type = "深夜";
+        }
+        if (a >= 6 && a < 11) {
+            type = "上午";
+        }
+        if (a >= 11 && a < 13) {
+            type = "中午";
+        }
+        if (a >= 13 && a < 17) {
+            type = "下午";
+        }
+        if (a >= 17 && a < 19) {
+            type = "下午";
+        }
+        if (a >= 19 && a <= 24) {
+            type = "晚上";
+        }
+        return type;
+    }
+
 
     private boolean handleInfo(Object info) {
         boolean needToast = false;

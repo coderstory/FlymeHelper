@@ -51,6 +51,7 @@
     <string name="show_icon_battery_percentage"><b>电量百分比</b>\n在状态栏电量百分比后面加个百分号，比如电量97显示成97%</string>
     <string name="hide_status_bar_slow_rate_icon"><b>低速隐藏</b>\n在系统设置里开启显示状态栏网速后，当实时网速低于100K/s则自隐藏状态栏上的网速图标</string>
     <string name="hide_status_bar_time_week_icon"><b>状态栏时间-星期</b>\n在状态栏时间后面追加星期 \n比如 [18:20 周一]</string>
+    <string name="hide_status_bar_time_chinese_icon"><b>状态栏时间-修饰</b>\n在状态栏时间前面追加上午下午凌晨等词缀 \n比如 [傍晚 18:20]</string>
     <string name="Tips_Title">温馨提示</string>
     <string name="Btn_Sure">确定</string>
     <string name="Btn_Cancel">取消</string>
