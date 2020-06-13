@@ -2,14 +2,19 @@ package com.coderstory.flyme.module;
 
 import android.content.Context;
 import android.os.Build;
+import android.text.format.DateFormat;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coderstory.flyme.plugins.IModule;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.XposedHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
@@ -108,6 +113,23 @@ public class Others extends XposedHelper implements IModule {
                 });
             }
 
+            if (prefs.getBoolean("hide_status_bar_time_week_icon", false)) {
+                hookAllMethods("com.android.systemui.statusbar.policy.Clock", loadPackageParam.classLoader, "getSmallTime", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        TextView view = (TextView) param.thisObject;
+                        boolean is24HourFormat = DateFormat.is24HourFormat(view.getContext());
+                        // HH:mm:ss EE 星期
+                        String formatStr = is24HourFormat ? "HH:mm" : "hh:mm";
+                        if (prefs.getBoolean("show_status_bar_time_second_icon", false)) {
+                            formatStr += ":ss";
+                        }
+                        formatStr += " EE";
+                        String time = new SimpleDateFormat(formatStr, Locale.getDefault(Locale.Category.FORMAT)).format(System.currentTimeMillis());
+                        param.setResult(time);
+                    }
+                });
+            }
         }
 
         // 禁止安装app时候的安全检验

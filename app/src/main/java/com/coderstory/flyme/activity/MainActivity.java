@@ -142,6 +142,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setNavigationViewItemClickListener() {
+
         mNavigationView.setNavigationItemSelectedListener(item -> {
             if (null != mPreMenuItem) {
                 mPreMenuItem.setChecked(false);

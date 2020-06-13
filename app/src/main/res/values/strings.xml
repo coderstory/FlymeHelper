@@ -44,12 +44,13 @@
     <string name="hide_icon_hotspot"><b>手机热点</b>\n隐藏状态栏上的手机热点图标</string>
     <string name="hide_icon_volte"><b>VoLte</b>\n手机号开通volte后,隐藏状态栏上的HD高清通话图标</string>
     <string name="hide_icon_shake"><b>震动</b>\n音量为0的情况下,隐藏状态栏上的震动图标</string>
-    <string name="hide_status_bar_no_sim_icon"><b>SIM</b>\n隐藏空sim卡图标 Android 9.0可用</string>
+    <string name="hide_status_bar_no_sim_icon"><b>SIM</b>\n隐藏空sim卡图标 当前适配Android 9.0 - 10.0 ，使用Anroid 8.1的比如16th可能不能用</string>
     <string name="hide_status_bar_wifi_icon"><b>隐藏wifi图标</b>\n隐藏状态栏上的wifi图标</string>
     <string name="hide_status_bar_vpn_icon"><b>隐藏vpn图标</b>\n开启vpn后，自动隐藏状态栏上的VPN图标</string>
     <string name="show_status_bar_time_second_icon"><b>时间显秒</b>\n状态栏上的当前时间格式变成[时:分:秒]</string>
     <string name="show_icon_battery_percentage"><b>电量百分比</b>\n在状态栏电量百分比后面加个百分号，比如电量97显示成97%</string>
     <string name="hide_status_bar_slow_rate_icon"><b>低速隐藏</b>\n在系统设置里开启显示状态栏网速后，当实时网速低于100K/s则自隐藏状态栏上的网速图标</string>
+    <string name="hide_status_bar_time_week_icon"><b>状态栏时间-星期</b>\n在状态栏时间后面追加星期 \n比如 [18:20 周一]</string>
     <string name="Tips_Title">温馨提示</string>
     <string name="Btn_Sure">确定</string>
     <string name="Btn_Cancel">取消</string>

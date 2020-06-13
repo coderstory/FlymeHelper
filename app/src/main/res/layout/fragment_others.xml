@@ -42,7 +42,7 @@
             <Switch
                 android:id="@+id/HideRootWithPay"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="70dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingTop="4dp"
@@ -55,7 +55,7 @@
             <Switch
                 android:id="@+id/enabletheme"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
@@ -65,7 +65,7 @@
             <Switch
                 android:id="@+id/HideRootWithUpgrade"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="70dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingTop="4dp"
@@ -78,7 +78,7 @@
             <Switch
                 android:id="@+id/enableCheckInstaller"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:maxLines="10"
@@ -104,7 +104,7 @@
             <Switch
                 android:id="@+id/enableCTS"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:maxLines="10"
@@ -154,7 +154,7 @@
             <Switch
                 android:id="@+id/hide_icon_label"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingBottom="4dp"
