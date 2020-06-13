@@ -3,6 +3,8 @@ package com.coderstory.flyme.module;
 import android.content.Context;
 import android.os.Build;
 import android.util.Base64;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.coderstory.flyme.plugins.IModule;
@@ -92,6 +94,20 @@ public class Others extends XposedHelper implements IModule {
             if (prefs.getBoolean("hide_status_bar_no_sim_icon", false)) {
                 findAndHookMethod("com.android.systemui.statusbar.policy.NetworkControllerImpl", loadPackageParam.classLoader, "updateNoSims", XC_MethodReplacement.returnConstant(null));
             }
+
+            if (prefs.getBoolean("hide_status_bar_slow_rate_icon", false)) {
+                hookAllMethods("com.flyme.systemui.statusbar.ConnectionRateView", loadPackageParam.classLoader, "updateConnectionRate", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        // 当前网速 单位kb
+                        double rate = (double) param.args[0];
+                        ImageView view = (ImageView) XposedHelpers.getObjectField(param.thisObject, "mUnitView");
+                        view.setVisibility(rate < 100 ? View.GONE : View.VISIBLE);
+                    }
+                });
+            }
+
         }
 
         // 禁止安装app时候的安全检验

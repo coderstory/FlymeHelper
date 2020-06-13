@@ -65,10 +65,7 @@ public class OthersFragment extends BaseFragment {
             getEditor().putBoolean("hide_icon_6", ((Switch) v).isChecked());
             fix();
         });
-        $(R.id.hide_icon_7).setOnClickListener(v -> {
-            getEditor().putBoolean("hide_icon_7", ((Switch) v).isChecked());
-            fix();
-        });
+
         $(R.id.enableCTS).setOnClickListener(v -> {
             getEditor().putBoolean("enableCTS", ((Switch) v).isChecked());
             fix();
@@ -112,7 +109,6 @@ public class OthersFragment extends BaseFragment {
         ((Switch) $(R.id.hide_icon_45)).setChecked(getPrefs().getBoolean("hide_icon_4", false));
         ((Switch) $(R.id.hide_icon_5)).setChecked(getPrefs().getBoolean("hide_icon_5", false));
         ((Switch) $(R.id.hide_icon_6)).setChecked(getPrefs().getBoolean("hide_icon_6", false));
-        ((Switch) $(R.id.hide_icon_7)).setChecked(getPrefs().getBoolean("hide_icon_7", false));
         ((Switch) $(R.id.enableCheckInstaller)).setChecked(getPrefs().getBoolean("enableCheckInstaller", false));
         ((Switch) $(R.id.enableCTS)).setChecked(getPrefs().getBoolean("enableCTS", false));
         ((Switch) $(R.id.hideDepWarn)).setChecked(getPrefs().getBoolean("hideDepWarn", false));

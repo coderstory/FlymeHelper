@@ -54,6 +54,10 @@ public class SystemUIFragment extends BaseFragment {
             fix();
             Shell.SU.run("settings put secure clock_seconds " + (((Switch) v).isChecked() ? "1" : "0"));
         });
+        $(R.id.hide_status_bar_slow_rate_icon).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_status_bar_slow_rate_icon", ((Switch) v).isChecked());
+            fix();
+        });
     }
 
     @Override
@@ -73,5 +77,6 @@ public class SystemUIFragment extends BaseFragment {
         ((Switch) $(R.id.hide_status_bar_vpn_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_vpn_icon", false));
         ((Switch) $(R.id.show_status_bar_time_second_icon)).setChecked(getPrefs().getBoolean("show_status_bar_time_second_icon", false));
         ((Switch) $(R.id.show_icon_battery_percentage)).setChecked(getPrefs().getBoolean("show_icon_battery_percentage", false));
+        ((Switch) $(R.id.hide_status_bar_slow_rate_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_slow_rate_icon", false));
     }
 }

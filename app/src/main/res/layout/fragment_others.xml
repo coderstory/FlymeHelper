@@ -199,19 +199,6 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_icon_65" />
 
-
-            <Switch
-                android:id="@+id/hide_icon_7"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/switchBtn"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:text="@string/hide_icon_66" />
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

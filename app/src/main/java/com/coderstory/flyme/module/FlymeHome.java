@@ -21,7 +21,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class FlymeHome extends XposedHelper implements IModule {
 
 
-
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
         if (resparam.packageName.equals("com.meizu.flyme.launcher")) {
@@ -72,8 +71,6 @@ public class FlymeHome extends XposedHelper implements IModule {
             type = "hide_icon_5";
         } else if (prefs.getBoolean("hide_icon_6", false)) {
             type = "hide_icon_6";
-        } else if (prefs.getBoolean("hide_icon_7", false)) {
-            type = "hide_icon_7";
         } else if (prefs.getBoolean("hide_icon_4", false)) {
             type = "hide_icon_4";
         }
@@ -93,10 +90,6 @@ public class FlymeHome extends XposedHelper implements IModule {
                             case "hide_icon_6":
                                 param.args[3] = 6.0f; // y
                                 param.args[4] = 5.0f; // x.
-                                break;
-                            case "hide_icon_7":
-                                param.args[3] = 6.0f; // y
-                                param.args[4] = 6.0f; // x.
                                 break;
                             case "hide_icon_4":
                                 param.args[3] = 5.0f; // y
