@@ -24,8 +24,10 @@ public class Others extends XposedHelper implements IModule {
 
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
-        if (prefs.getBoolean("show_icon_battery_percentage", false)) {
-            resparam.res.setReplacement(resparam.packageName, "string", "status_bar_settings_battery_meter_format_simple", "%d%%");
+        if (resparam.packageName.equals("com.android.systemui")) {
+            if (prefs.getBoolean("show_icon_battery_percentage", false)) {
+                resparam.res.setReplacement(resparam.packageName, "string", "status_bar_settings_battery_meter_format_simple", "%d%%");
+            }
         }
     }
 
@@ -76,20 +78,10 @@ public class Others extends XposedHelper implements IModule {
                         }
                     });
                 }
+                XposedBridge.log("SDK版本号: " + android.os.Build.VERSION.SDK_INT);
                 // android 10
                 if (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-                    hookAllMethods("com.android.systemui.statusbar.policy.NetworkControllerImpl", loadPackageParam.classLoader, "readConfig", new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            super.afterHookedMethod(param);
-                            Object result = param.getResult();
-                            XposedHelpers.setBooleanField(result, "showVolteIcon", true);
-
-                        }
-                    });
-                    hookAllMethods("com.android.systemui.statusbar.policy.MobileSignalController", loadPackageParam.classLoader, "isVolteSwitchOn", XC_MethodReplacement.returnConstant(true));
-                    // volte
-                    // hookAllMethods("com.android.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "updateVolteMergeId", XC_MethodReplacement.returnConstant(0x7F08075A));
+                    hookAllMethods("com.android.systemui.statusbar.policy.MobileSignalController", loadPackageParam.classLoader, "isVolteSwitchOn", XC_MethodReplacement.returnConstant(false));
                 }
             }
             // com.android.systemui.power.PowerUI playBatterySound start 低电量 电量空
@@ -100,8 +92,6 @@ public class Others extends XposedHelper implements IModule {
             if (prefs.getBoolean("hide_status_bar_no_sim_icon", false)) {
                 findAndHookMethod("com.android.systemui.statusbar.policy.NetworkControllerImpl", loadPackageParam.classLoader, "updateNoSims", XC_MethodReplacement.returnConstant(null));
             }
-
-
         }
 
         // 禁止安装app时候的安全检验
