@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:name="com.coderstory.purify.utils.Application"
+        android:name=".utils.Application"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme">
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.coderstory.purify.fileprovider"
+            android:authorities="com.coderstory.flyme.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -24,16 +24,16 @@
         </provider>
 
         <activity
-            android:name="com.coderstory.purify.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
         </activity>
-        <activity android:name="com.coderstory.purify.activity.AboutActivity" />
+        <activity android:name=".activity.AboutActivity" />
         <activity
-            android:name="com.coderstory.purify.activity.SplashActivity"
+            android:name=".activity.SplashActivity"
             android:theme="@style/fulscreen_theme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,8 +52,8 @@
             android:value="54" />
 
         <provider
-            android:name="com.coderstory.purify.preferencesProvider"
-            android:authorities="com.coderstory.purify.preferencesProvider"
+            android:name=".preferencesProvider"
+            android:authorities="com.coderstory.flyme.preferencesProvider"
             android:exported="true" />
     </application>
 </manifest>

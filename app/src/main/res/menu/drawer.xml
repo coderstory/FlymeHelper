@@ -9,6 +9,17 @@
             android:id="@+id/navigation_item_otherssettings"
             android:icon="@drawable/iconfont_custom_view"
             android:title="@string/othersettings" />
+
+        <item
+            android:id="@+id/navigation_item_system_ui_settings"
+            android:icon="@drawable/iconfont_custom_view"
+            android:title="@string/systemui" />
+
+        <item
+            android:id="@+id/navigation_item_updateList"
+            android:icon="@drawable/hosts"
+            android:title="@string/updateList" />
+
         <item
             android:id="@+id/navigation_item_disableapps"
             android:icon="@drawable/disable"
@@ -26,17 +37,10 @@
 
         <item android:title="@string/other">
             <menu>
-
                 <item
                     android:id="@+id/navigation_item_Blog"
                     android:icon="@drawable/clean"
                     android:title="@string/blog" />
-
-                <item
-                    android:id="@+id/navigation_item_updateList"
-                    android:icon="@drawable/hosts"
-                    android:title="@string/updateList" />
-
                 <item
                     android:id="@+id/navigation_item_settings"
                     android:icon="@drawable/iconfont_custom_view"

@@ -64,7 +64,7 @@
     <string name="hosts">Hosts去广告</string>
     <string name="disableapp">冻结应用</string>
     <string name="appclean">清理缓存</string>
-    <string name="othersettings">常用功能</string>
+    <string name="othersettings">常用的功能</string>
     <string name="other">其他</string>
     <string name="copy_url">复制链接</string>
 
@@ -133,8 +133,9 @@
     <string name="appname">应用名: %1$s \n版本号 :%2$s</string>
     <string name="appname2">版本号: %1$s \n文件大小:%2$s\n发布日期:%3$s</string>
     <string name="others_appsettings">应用设置</string>
-    <string name="updateList">检测更新</string>
+    <string name="updateList">OTA更新包</string>
     <string name="blog">作者博客</string>
     <string name="removeStore"><b>移除推广按钮</b>\n移除应用安装界面的从官方商店下载按钮</string>
     <string name="autoInstall"><b>自动安装应用</b>\n打开应用安装界面后，无需点击按钮自动执行安装任务</string>
+    <string name="systemui">状态栏设置</string>
 </resources>

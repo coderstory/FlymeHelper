@@ -20,197 +20,131 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-
-                android:paddingStart="30dp"
-                android:paddingTop="20dp"
-                android:paddingEnd="30dp"
-                android:text="@string/Flyme_Purify" />
-
-            <Switch
-                android:id="@+id/enableBlockAD"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/switchBtn"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:maxLines="10"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                android:text="@string/enableBlockADS" />
-
-            <Switch
-                android:id="@+id/HideRootWithPay"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/switchBtn"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:maxLines="10"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                android:text="@string/HideRootWithPay" />
-
-            <Switch
-                android:id="@+id/enabletheme"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/switchBtn"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                android:text="@string/fucktheme" />
-
-            <Switch
-                android:id="@+id/HideRootWithUpgrade"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/switchBtn"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:maxLines="10"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                android:text="@string/HideRootWithUpgrade" />
-
-            <Switch
-                android:id="@+id/enableCheckInstaller"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/switchBtn"
-                android:maxLines="10"
-                android:paddingStart="30dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:paddingEnd="30dp"
-                android:text="@string/enableCheckInstaller" />
-
-            <Switch
-                android:id="@+id/hideDepWarn"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/switchBtn"
-                android:maxLines="10"
-                android:paddingStart="30dp"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:paddingEnd="30dp"
-                android:text="@string/hideDepWarn" />
-
-            <Switch
-                android:id="@+id/enableCTS"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/switchBtn"
-                android:maxLines="10"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                android:text="@string/enableCTS" />
-
-
-            <Switch
-                android:id="@+id/removeStore"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/switchBtn"
-                android:maxLines="10"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                android:text="@string/removeStore" />
-
-
-
-            <Switch
-                android:id="@+id/autoInstall"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/switchBtn"
-                android:maxLines="10"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                android:text="@string/autoInstall" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
                 android:paddingStart="30dp"
                 android:paddingTop="15dp"
                 android:paddingEnd="4dp"
-                android:text="桌面" />
+                android:text="状态栏图标" />
 
             <Switch
-                android:id="@+id/hide_icon_label"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/switchBtn"
-                android:paddingBottom="4dp"
-                android:paddingStart="30dp"
-                android:paddingEnd="30dp"
-                android:text="@string/hide_icon_label" />
-
-            <Switch
-                android:id="@+id/hide_icon_45"
+                android:id="@+id/hide_icon_alarm_clock"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
-                android:paddingEnd="30dp"
                 android:paddingTop="4dp"
+                android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
-                android:text="@string/hide_icon_4x5" />
-
+                android:text="@string/alarem" />
 
             <Switch
-                android:id="@+id/hide_icon_5"
+                android:id="@+id/hide_icon_bluetooth"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
-                android:paddingEnd="30dp"
                 android:paddingTop="4dp"
+                android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
-                android:text="@string/hide_icon_5x5" />
+                android:text="@string/hide_icon_bluetooth" />
 
             <Switch
-                android:id="@+id/hide_icon_6"
+                android:id="@+id/hide_icon_hotspot"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
-                android:paddingEnd="30dp"
                 android:paddingTop="4dp"
+                android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
-                android:text="@string/hide_icon_65" />
-
+                android:text="@string/hide_icon_hotspot" />
 
             <Switch
-                android:id="@+id/hide_icon_7"
+                android:id="@+id/hide_icon_volte"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
-                android:paddingEnd="30dp"
                 android:paddingTop="4dp"
+                android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
-                android:text="@string/hide_icon_66" />
+                android:text="@string/hide_icon_volte" />
+
+            <Switch
+                android:id="@+id/hide_icon_shake"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:text="@string/hide_icon_shake" />
+
+            <Switch
+                android:id="@+id/hide_status_bar_no_sim_icon"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:text="@string/hide_status_bar_no_sim_icon" />
+
+            <Switch
+                android:id="@+id/hide_status_bar_wifi_icon"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:text="@string/hide_status_bar_wifi_icon" />
+
+            <Switch
+                android:id="@+id/hide_status_bar_vpn_icon"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:text="@string/hide_status_bar_vpn_icon" />
+
+            <Switch
+                android:id="@+id/show_status_bar_time_second_icon"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:text="@string/show_status_bar_time_second_icon" />
+
+
+            <Switch
+                android:id="@+id/show_icon_battery_percentage"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:text="@string/show_icon_battery_percentage" />
 
         </LinearLayout>
     </ScrollView>
