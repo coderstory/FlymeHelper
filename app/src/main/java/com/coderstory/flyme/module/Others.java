@@ -137,7 +137,6 @@ public class Others extends XposedHelper implements IModule {
                     param.setResult(time);
                 }
             });
-
         }
 
         // 禁止安装app时候的安全检验

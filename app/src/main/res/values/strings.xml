@@ -65,7 +65,7 @@
     <string name="othersettings">常用的功能</string>
     <string name="other">其他</string>
     <string name="copy_url">复制链接</string>
-
+    <string name="miuiads"><b>屏蔽Flyme广告</b>\n通过hosts屏蔽部分flyme的广告,但可能导致小部分flyme服务访问异常</string>
     <string name="Working">正在处理</string>
     <string name="Waiting">请耐心等待。。</string>
     <string name="noupdater"><b>禁止系统检测更新</b>\n禁止系统更新检测新版本</string>

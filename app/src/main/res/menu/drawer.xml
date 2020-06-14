@@ -35,6 +35,11 @@
             android:icon="@drawable/iconfont_source"
             android:title="@string/hide_app_icon" />
 
+        <item
+            android:id="@+id/navigation_item_hosts"
+            android:icon="@drawable/hosts"
+            android:title="@string/hosts" />
+
         <item android:title="@string/other">
             <menu>
                 <item

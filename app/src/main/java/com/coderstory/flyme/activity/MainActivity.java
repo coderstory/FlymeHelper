@@ -24,6 +24,7 @@ import com.coderstory.flyme.fragment.BlogFragment;
 import com.coderstory.flyme.fragment.CleanFragment;
 import com.coderstory.flyme.fragment.DisbaleAppFragment;
 import com.coderstory.flyme.fragment.HideAppFragment;
+import com.coderstory.flyme.fragment.HostsFragment;
 import com.coderstory.flyme.fragment.OthersFragment;
 import com.coderstory.flyme.fragment.SettingsFragment;
 import com.coderstory.flyme.fragment.SystemUIFragment;
@@ -191,6 +192,10 @@ public class MainActivity extends BaseActivity {
                 case R.id.navigation_item_system_ui_settings:
                     mToolbar.setTitle(R.string.systemui);
                     switchFragment(SystemUIFragment.class);
+                    break;
+                case R.id.navigation_item_hosts:
+                    mToolbar.setTitle(R.string.hosts);
+                    switchFragment(HostsFragment.class);
                     break;
                 default:
                     break;
