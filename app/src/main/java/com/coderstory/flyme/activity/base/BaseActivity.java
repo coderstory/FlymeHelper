@@ -6,6 +6,8 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.umeng.analytics.MobclickAgent;
+
 public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,5 +39,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void startActivityWithoutExtras(Class<?> clazz) {
         Intent intent = new Intent(this, clazz);
         startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }

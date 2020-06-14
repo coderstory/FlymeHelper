@@ -3,11 +3,10 @@ package com.coderstory.flyme.activity;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -35,11 +34,15 @@ import com.coderstory.flyme.utils.SnackBarUtils;
 import com.coderstory.flyme.utils.ViewUtils;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.List;
+
 import per.goweii.anylayer.AnyLayer;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.coderstory.flyme.R.id.navigation_view;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
     public static final long MAX_DOUBLE_BACK_DURATION = 1500;
     private static final int READ_EXTERNAL_STORAGE_CODE = 1;
     private DrawerLayout mDrawerLayout;//侧边菜单视图
@@ -71,37 +74,27 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == READ_EXTERNAL_STORAGE_CODE) {
-            int grantResult = grantResults[0];
-            boolean granted = grantResult == PackageManager.PERMISSION_GRANTED;
-            Log.i("MainActivity", "onRequestPermissionsResult granted=" + granted);
+    public void onPermissionsDenied(int requestCode, List perms) {//权限拒绝
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            new AppSettingsDialog.Builder(this).setTitle("提示").setRationale("为了能正常使用应用,请授权读写存储权限！").setPositiveButton("去设置").setNegativeButton("取消").setRequestCode(1).build().show();
+        } else {
+            Toast.makeText(this, "你拒绝了本权限，将无法使用部分功能", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
     protected void setUpView() {
-
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            String[] mPermissionList = new String[]{
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_PHONE_STATE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE};
-            this.requestPermissions(mPermissionList, 123);
-        }
-
-
+        requestCameraPermission();
         mToolbar = $(R.id.toolbar);
         mDrawerLayout = $(R.id.drawer_layout);
         mNavigationView = $(navigation_view);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!(MainActivity.this.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)) {
-                requestCameraPermission();
-            }
-        }
         mToolbar.setTitle(getString(R.string.othersettings));
 
         //这句一定要在下面几句之前调用，不然就会出现点击无反应
@@ -253,5 +246,10 @@ public class MainActivity extends BaseActivity {
             finish();
             System.exit(0);
         }
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+
     }
 }

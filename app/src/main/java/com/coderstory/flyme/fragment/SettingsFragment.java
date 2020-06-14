@@ -25,11 +25,11 @@ public class SettingsFragment extends BaseFragment {
             getEditor().putBoolean("hideIcon", ((Switch) v).isChecked());
             fix();
 
-            ComponentName localComponentName = new ComponentName(getMContext(), "com.coderstory.purify.activity.SplashActivity");
+            ComponentName localComponentName = new ComponentName(getMContext(), "com.coderstory.flyme.activity.SplashActivity");
             PackageManager localPackageManager = getMContext().getPackageManager();
             localPackageManager.getComponentEnabledSetting(localComponentName);
             PackageManager packageManager = getMContext().getPackageManager();
-            ComponentName componentName = new ComponentName(getMContext(), "com.coderstory.purify.activity.SplashActivity");
+            ComponentName componentName = new ComponentName(getMContext(), "com.coderstory.flyme.activity.SplashActivity");
 
             if (((Switch) v).isChecked()) {
                 packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
