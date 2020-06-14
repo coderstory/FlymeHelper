@@ -42,3 +42,15 @@
 -printusage unused.txt
 #混淆前后的映射
 -printmapping mapping.txt
+-keepclassmembers class * {
+   public <init>(org.json.JSONObject);
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+-keep public class com.coderstory.flyme.R$*{
+public static final int *;
+}
+
+-keep class com.umeng.** {*;}

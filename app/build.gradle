@@ -8,7 +8,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 29
         versionCode 110
-        versionName "4.0 build 6"
+        versionName "4.0 build 8"
         resConfigs "cn"
     }
 
@@ -51,6 +51,8 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.2.70'
     compileOnly 'de.robv.android.xposed:api:82'
     compileOnly 'de.robv.android.xposed:api:82:sources'
+    implementation "com.umeng.umsdk:common:2.1.0"
+    implementation "com.umeng.umsdk:analytics:8.1.3"
 }
 
 andResGuard {
@@ -76,7 +78,7 @@ andResGuard {
             "R.string.ga_trackingId",
             "R.string.firebase_database_url",
             "R.string.google_api_key",
-            "R.string.google_crash_reporting_api_key"
+            "com.umeng"
     ]
     compressFilePattern = [
             "*.png",

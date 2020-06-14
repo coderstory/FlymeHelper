@@ -82,6 +82,17 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void setUpView() {
+
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            String[] mPermissionList = new String[]{
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_PHONE_STATE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE};
+            this.requestPermissions(mPermissionList, 123);
+        }
+
+
         mToolbar = $(R.id.toolbar);
         mDrawerLayout = $(R.id.drawer_layout);
         mNavigationView = $(navigation_view);
