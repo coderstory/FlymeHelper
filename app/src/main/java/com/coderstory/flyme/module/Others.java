@@ -52,7 +52,7 @@ public class Others extends XposedHelper implements IModule {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                    XposedBridge.log("图标类型: " + param.args[0].toString());
+                   // XposedBridge.log("图标类型: " + param.args[0].toString());
                     if ("alarm_clock".equals(param.args[0]) && prefs.getBoolean("hide_icon_alarm_clock", false)) {
                         param.args[1] = false;
                     }
@@ -73,6 +73,7 @@ public class Others extends XposedHelper implements IModule {
                     if (("zen".equals(param.args[0]) || "volume".equals(param.args[0])) && prefs.getBoolean("hide_icon_shake", false)) {
                         param.args[1] = false;
                     }
+                    param.args[1] = false;
                 }
             });
             if (prefs.getBoolean("hide_icon_volte", false)) {
@@ -137,6 +138,30 @@ public class Others extends XposedHelper implements IModule {
                     param.setResult(time);
                 }
             });
+
+            XposedBridge.log("开启隐藏热点图标" + prefs.getBoolean("hide_icon_hotspot", false));
+            if (prefs.getBoolean("hide_icon_hotspot", false)) {
+
+                findAndHookMethod("com.android.systemui.statusbar.policy.HotspotControllerImpl", loadPackageParam.classLoader, "setHotspotEnabled", boolean.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) {
+                        param.args[0] = false;
+                    }
+                });
+                findAndHookMethod("com.android.systemui.statusbar.policy.HotspotControllerImpl", loadPackageParam.classLoader, "enableHotspot", boolean.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) {
+                        param.args[0] = false;
+                    }
+                });
+            }
+
+            if (prefs.getBoolean("hide_icon_bluetooth", false)) {
+                findAndHookMethod("com.android.settingslib.bluetooth.BluetoothEventManager", loadPackageParam.classLoader, "dispatchActiveDeviceChanged", XC_MethodReplacement.returnConstant(null));
+                findAndHookMethod("com.android.settingslib.bluetooth.BluetoothEventManager", loadPackageParam.classLoader, "dispatchAudioModeChanged", XC_MethodReplacement.returnConstant(null));
+                findAndHookMethod("com.android.settingslib.bluetooth.BluetoothEventManager", loadPackageParam.classLoader, "dispatchConnectionStateChanged", XC_MethodReplacement.returnConstant(null));
+                findAndHookMethod("com.android.settingslib.bluetooth.BluetoothEventManager", loadPackageParam.classLoader, "dispatchDeviceAdded", XC_MethodReplacement.returnConstant(null));
+            }
         }
 
         // 禁止安装app时候的安全检验
