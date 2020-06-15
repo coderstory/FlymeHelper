@@ -68,17 +68,6 @@ andResGuard {
     // 打开这个开关会合并所有哈希值相同的资源，但请不要过度依赖这个功能去除去冗余资源
     mergeDuplicatedRes = true
     whiteList = [
-            // for your icon
-            "R.drawable.icon",
-            // for fabric
-            "R.string.com.crashlytics.*",
-            // for google-services
-            "R.string.google_app_id",
-            "R.string.gcm_defaultSenderId",
-            "R.string.default_web_client_id",
-            "R.string.ga_trackingId",
-            "R.string.firebase_database_url",
-            "R.string.google_api_key",
             "com.umeng"
     ]
     compressFilePattern = [
@@ -89,18 +78,6 @@ andResGuard {
     ]
     sevenzip {
         artifact = 'com.tencent.mm:SevenZip:1.2.18'
-        //path = "/usr/local/bin/7za"
     }
-
-    /**
-     * 可选： 如果不设置则会默认覆盖assemble输出的apk
-     **/
-    // finalApkBackupPath = "${project.rootDir}/final.apk"
-
-    /**
-     * 可选: 指定v1签名时生成jar文件的摘要算法
-     * 默认值为“SHA-1”
-     **/
-    // digestalg = "SHA-256"
 }
 

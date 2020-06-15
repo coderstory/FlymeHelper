@@ -93,7 +93,7 @@ public class HideAppFragment extends BaseFragment {
             mView = view;
             appInfo = appInfoList.get(mPosition);
             AnyLayer anyLayer = AnyLayer.with(getContext())
-                    .contentView(R.layout.dialog_test_2)
+                    .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
@@ -189,7 +189,7 @@ public class HideAppFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_restrathome) {
             AnyLayer anyLayer = AnyLayer.with(getContext())
-                    .contentView(R.layout.dialog_test_2)
+                    .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {

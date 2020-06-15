@@ -111,7 +111,7 @@ public class DisbaleAppFragment extends BaseFragment {
             mview = view;
 
             AnyLayer anyLayer = AnyLayer.with(getContext())
-                    .contentView(R.layout.dialog_test_2)
+                    .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
@@ -222,7 +222,7 @@ public class DisbaleAppFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_backupList) {
             AnyLayer anyLayer = AnyLayer.with(getContext())
-                    .contentView(R.layout.dialog_test_2)
+                    .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
@@ -241,7 +241,7 @@ public class DisbaleAppFragment extends BaseFragment {
 
         } else if (item.getItemId() == R.id.action_restoreList) {
             AnyLayer anyLayer = AnyLayer.with(getContext())
-                    .contentView(R.layout.dialog_test_2)
+                    .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {

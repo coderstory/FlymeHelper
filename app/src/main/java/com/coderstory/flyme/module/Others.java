@@ -114,11 +114,11 @@ public class Others extends XposedHelper implements IModule {
                 });
             }
 
-            XposedBridge.log("外部读取值" + prefs.getBoolean("show_status_bar_time_second_icon", false));
+            //XposedBridge.log("外部读取值" + prefs.getBoolean("show_status_bar_time_second_icon", false));
             hookAllMethods("com.android.systemui.statusbar.policy.Clock", loadPackageParam.classLoader, "getSmallTime", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    XposedBridge.log("内部读取值" + prefs.getBoolean("show_status_bar_time_second_icon", false));
+                    // XposedBridge.log("内部读取值" + prefs.getBoolean("show_status_bar_time_second_icon", false));
                     TextView view = (TextView) param.thisObject;
                     boolean is24HourFormat = DateFormat.is24HourFormat(view.getContext());
                     // HH:mm:ss EE 星期
@@ -132,7 +132,7 @@ public class Others extends XposedHelper implements IModule {
                     if (prefs.getBoolean("hide_status_bar_time_chinese_icon", false)) {
                         formatStr = getTimeType() + " " + formatStr;
                     }
-                    XposedBridge.log("时间格式" + formatStr);
+                    // XposedBridge.log("时间格式" + formatStr);
                     String time = new SimpleDateFormat(formatStr, Locale.getDefault(Locale.Category.FORMAT)).format(System.currentTimeMillis());
                     param.setResult(time);
                 }

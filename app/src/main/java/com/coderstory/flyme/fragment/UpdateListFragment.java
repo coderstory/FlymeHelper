@@ -50,7 +50,7 @@ public class UpdateListFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         AnyLayer anyLayer = AnyLayer.with(getMContext())
-                .contentView(R.layout.dialog_test_2)
+                .contentView(R.layout.dialog_tdisable_app)
                 .cancelableOnTouchOutside(true)
                 .cancelableOnClickKeyBack(true)
                 .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> AnyLayer.dismiss())

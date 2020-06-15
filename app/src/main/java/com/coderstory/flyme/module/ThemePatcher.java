@@ -10,7 +10,6 @@ import com.coderstory.flyme.utils.XposedHelper;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -33,18 +32,17 @@ public class ThemePatcher extends XposedHelper implements IModule {
         }
         // hook 框架层的root检测
         if (("android".equals(lpparam.packageName))) {
-            XposedBridge.log("阶段1");
-            XposedBridge.log("hook次数" + hookAllMethods("com.android.server.DeviceStateService", lpparam.classLoader, "doCheckState", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
+             hookAllMethods("com.android.server.DeviceStateService", lpparam.classLoader, "doCheckState", new XC_MethodHook() {
+                 @Override
+                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                     super.afterHookedMethod(param);
 
-                    int code = (int) param.args[0];
-                    if (code == 1 || code == 3 || code == 4) {
-                        param.setResult(0);
-                    }
-                }
-            }));
+                     int code = (int) param.args[0];
+                     if (code == 1 || code == 3 || code == 4) {
+                         param.setResult(0);
+                     }
+                 }
+             });
         }
 
         // 主题和谐

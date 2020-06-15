@@ -33,7 +33,6 @@ public class FlymeHome extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
-            XposedBridge.log("开始hook桌面");
             hook55(findClass("com.meizu.flyme.launcher.u", lpparam.classLoader));
             hook55(findClass("com.meizu.flyme.launcher.v", lpparam.classLoader));
             hook55(findClass("com.meizu.flyme.launcher.w", lpparam.classLoader));
@@ -63,7 +62,6 @@ public class FlymeHome extends XposedHelper implements IModule {
     }
 
     private void hook55(Class clazz) {
-        XposedBridge.log("开始hook 55桌面");
         // 开启自定义布局
         // (String str, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
         String type = "";
