@@ -73,7 +73,6 @@ public class Others extends XposedHelper implements IModule {
                     if (("zen".equals(param.args[0]) || "volume".equals(param.args[0])) && prefs.getBoolean("hide_icon_shake", false)) {
                         param.args[1] = false;
                     }
-                    param.args[1] = false;
                 }
             });
             if (prefs.getBoolean("hide_icon_volte", false)) {

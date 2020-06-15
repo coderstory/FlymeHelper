@@ -3,6 +3,7 @@
 *.ap_
 output.json
 *.txt
+*.iml
 
 # Files for the Dalvik VM
 *.dex
