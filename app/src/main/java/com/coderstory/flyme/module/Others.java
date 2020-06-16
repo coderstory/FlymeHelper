@@ -52,7 +52,7 @@ public class Others extends XposedHelper implements IModule {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                   // XposedBridge.log("图标类型: " + param.args[0].toString());
+                    // XposedBridge.log("图标类型: " + param.args[0].toString());
                     if ("alarm_clock".equals(param.args[0]) && prefs.getBoolean("hide_icon_alarm_clock", false)) {
                         param.args[1] = false;
                     }
@@ -160,6 +160,18 @@ public class Others extends XposedHelper implements IModule {
                 findAndHookMethod("com.android.settingslib.bluetooth.BluetoothEventManager", loadPackageParam.classLoader, "dispatchAudioModeChanged", XC_MethodReplacement.returnConstant(null));
                 findAndHookMethod("com.android.settingslib.bluetooth.BluetoothEventManager", loadPackageParam.classLoader, "dispatchConnectionStateChanged", XC_MethodReplacement.returnConstant(null));
                 findAndHookMethod("com.android.settingslib.bluetooth.BluetoothEventManager", loadPackageParam.classLoader, "dispatchDeviceAdded", XC_MethodReplacement.returnConstant(null));
+                findAndHookMethod("com.android.systemui.statusbar.policy.BluetoothControllerImpl", loadPackageParam.classLoader, "setBluetoothEnabled", boolean.class, XC_MethodReplacement.returnConstant(null));
+                findAndHookMethod("com.android.systemui.statusbar.policy.BluetoothControllerImpl", loadPackageParam.classLoader, "onServiceConnected", XC_MethodReplacement.returnConstant(null));
+                hookAllMethods("com.android.systemui.statusbar.policy.BluetoothControllerImpl", loadPackageParam.classLoader, "onBluetoothStateChanged", XC_MethodReplacement.returnConstant(null));
+                findAndHookMethod("com.android.systemui.statusbar.policy.BluetoothControllerImpl", loadPackageParam.classLoader, "isBluetoothEnabled", XC_MethodReplacement.returnConstant(false));
+            }
+
+            //隐藏 vpn图标
+            if (prefs.getBoolean("hide_status_bar_vpn_icon", false)) {
+                findAndHookMethod("com.flyme.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "setVpnEnabled", boolean.class, XC_MethodReplacement.returnConstant(null));
+                findAndHookMethod("com.flyme.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "isVpnConnecting", XC_MethodReplacement.returnConstant(false));
+                findAndHookMethod("com.flyme.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "isVpnEnabled", XC_MethodReplacement.returnConstant(false));
+                hookAllMethods("com.flyme.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "notifyChanged", XC_MethodReplacement.returnConstant(null));
             }
         }
 
