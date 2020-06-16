@@ -66,17 +66,21 @@ public class RemoveAds extends XposedHelper implements IModule {
         if (clazz != null) {
             findAndHookMethod(clazz, "installPlugin", XC_MethodReplacement.returnConstant(null));
         }
+        // com.meizu.advertise.update.install(Context context, InstallConfig installConfig) 8.8.52
+        clazz = findClassWithoutLog("com.meizu.advertise.update.PluginManager", loadPackageParam.classLoader);
+        if (clazz != null) {
+            hookAllMethods(clazz, "install", XC_MethodReplacement.returnConstant(null));
+        }
 
-
-        if(loadPackageParam.packageName.equals("com.android.packageinstaller")){
-          if(prefs.getBoolean("removeStore", false)) {
-              hookAllMethods("com.meizu.safe.security.net.HttpMethods", loadPackageParam.classLoader, "queryPackageInfoFromMzStoreV2", new XC_MethodHook() {
-                  @Override
-                  protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                      super.beforeHookedMethod(param);
-                      param.args[1] = "xxxx";
-                      param.args[3] = "xxxx";
-                      param.args[6] = "xxxx";
+        if (loadPackageParam.packageName.equals("com.android.packageinstaller")) {
+            if (prefs.getBoolean("removeStore", false)) {
+                hookAllMethods("com.meizu.safe.security.net.HttpMethods", loadPackageParam.classLoader, "queryPackageInfoFromMzStoreV2", new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        param.args[1] = "xxxx";
+                        param.args[3] = "xxxx";
+                        param.args[6] = "xxxx";
                   }
               });
           }
