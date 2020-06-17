@@ -79,7 +79,6 @@
 #version=202006072310
 #url=https://github.com/VeleSila/yhosts/blob/master/hosts
 #-----Test
-127.0.0.1 at.umeng.com
 127.0.0.1 optimus-ads.amap.com
 127.0.0.1 t1.cdn.xiangha.com
 127.0.0.1 ec2-52-192-230-206apnortheast-1.compute.amazonaws.com
@@ -357,20 +356,6 @@
 127.0.0.1 srd.simba.taobao.com
 127.0.0.1 stat.simba.taobao.com
 127.0.0.1 textlink.simba.taobao.com
-127.0.0.1 alog.umeng.com
-127.0.0.1 api.wsq.umeng.com
-127.0.0.1 ar.umeng.com
-127.0.0.1 at.umeng.com
-127.0.0.1 dev.umeng.com
-127.0.0.1 oc.umeng.com
-127.0.0.1 umeng.com
-127.0.0.1 www.umeng.com
-127.0.0.1 alog.umengcloud.com
-127.0.0.1 ex.umengcloud.com
-127.0.0.1 msg.umengcloud.com
-127.0.0.1 udash.umengcloud.com
-127.0.0.1 upoll.umengcloud.com
-127.0.0.1 utop.umengcloud.com
 127.0.0.1 cdn0.mobmore.com
 127.0.0.1 ex.mobmore.com
 127.0.0.1 feedback.whalecloud.com
