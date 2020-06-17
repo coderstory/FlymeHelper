@@ -30,20 +30,6 @@ public class ThemePatcher extends XposedHelper implements IModule {
         if (!isEnable()) {
             return;
         }
-        // hook 框架层的root检测
-        if (("android".equals(lpparam.packageName))) {
-             hookAllMethods("com.android.server.DeviceStateService", lpparam.classLoader, "doCheckState", new XC_MethodHook() {
-                 @Override
-                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                     super.afterHookedMethod(param);
-
-                     int code = (int) param.args[0];
-                     if (code == 1 || code == 3 || code == 4) {
-                         param.setResult(0);
-                     }
-                 }
-             });
-        }
 
         // 主题和谐
         if (lpparam.packageName.equals("com.meizu.customizecenter") && prefs.getBoolean("enabletheme", false)) {

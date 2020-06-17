@@ -35,9 +35,9 @@
     <string name="enableCheckInstaller"><b>禁用安全检查</b>\n跳过安装应用时候的安装包安全检查,加快应用安装速度</string>
     <string name="enableCTS"><b>启用原生应用安装界面</b>\n使用Android原生安装界面而不是flyme定制的安装界面,没有广告</string>
     <string name="hideDepWarn"><b>隐藏开发者选项风险警告</b>\n禁止开启开发者选项后通知栏弹出的风险警告</string>
-    <string name="HideRootWithUpgrade"><b>系统更新</b>\n使用自带root情况下,在系统更新中隐藏Root</string>
+    <string name="HideRootWithUpgrade"><b>系统更新</b>\n使用自带root情况下,在系统更新中隐藏Root,注意你root后是无法OTA更新系统的,屏蔽了也不行.本功能是为了能打开系统更新后能检测到OTA包的下载地址</string>
     <string name="HideRootWithPay"><b>魅族Pay</b>\n使用自带root情况下,在魅族Pay中隐藏Root</string>
-    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题 支持主题美化8.3.6 8.4.1 主题明细页面直接点击试用即可,不会有5分钟倒计时也不会还原</string>
+    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题 支持主题美化8.3.6 8.4.1 8.4.2.主题明细页面直接点击试用即可,不会有5分钟倒计时也不会还原.如果失效，请尝试从system分区获取主题对应apk覆盖安装一次。</string>
     <string name="alarem"><b>闹钟</b>\n启用闹钟后,隐藏状态栏上的闹钟图标</string>
     <string name="hide_icon_bluetooth"><b>蓝牙</b>\n连接蓝牙设备后,隐藏状态栏上的蓝牙图标</string>
     <string name="hide_icon_hotspot"><b>手机热点</b>\n隐藏状态栏上的手机热点图标</string>
@@ -51,6 +51,7 @@
     <string name="hide_status_bar_slow_rate_icon"><b>低速隐藏</b>\n在系统设置里开启显示状态栏网速后，当实时网速低于100K/s则自隐藏状态栏上的网速图标</string>
     <string name="hide_status_bar_time_week_icon"><b>状态栏时间-星期</b>\n在状态栏时间后面追加星期 \n比如 [18:20 周一]</string>
     <string name="hide_status_bar_time_chinese_icon"><b>状态栏时间-修饰</b>\n在状态栏时间前面追加上午下午凌晨等词缀 \n比如 [傍晚 18:20]</string>
+    <string name="HideRootGlobal"><b>全局隐藏root</b>\n针对所有的flyme自带软件,隐藏自带的ROOT,开启后自带的root会显示未开启,使用自带root的用户一般不推荐开启,如果魅族Pay</string>
     <string name="Tips_Title">温馨提示</string>
     <string name="Btn_Sure">确定</string>
     <string name="Btn_Cancel">取消</string>

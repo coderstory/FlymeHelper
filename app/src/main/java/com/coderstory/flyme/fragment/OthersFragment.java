@@ -90,7 +90,10 @@ public class OthersFragment extends BaseFragment {
             getEditor().putBoolean("autoInstall", ((Switch) v).isChecked());
             fix();
         });
-
+        $(R.id.HideRootGlobal).setOnClickListener(v -> {
+            getEditor().putBoolean("HideRootGlobal", ((Switch) v).isChecked());
+            fix();
+        });
 
     }
 
@@ -114,5 +117,6 @@ public class OthersFragment extends BaseFragment {
         ((Switch) $(R.id.hideDepWarn)).setChecked(getPrefs().getBoolean("hideDepWarn", false));
         ((Switch) $(R.id.removeStore)).setChecked(getPrefs().getBoolean("removeStore", false));
         ((Switch) $(R.id.autoInstall)).setChecked(getPrefs().getBoolean("autoInstall", false));
+        ((Switch) $(R.id.HideRootGlobal)).setChecked(getPrefs().getBoolean("HideRootGlobal", false));
     }
 }
