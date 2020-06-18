@@ -11,7 +11,7 @@ public class Misc {
     public static final String SharedPreferencesName = "UserSettings";
     public static final String HostFileTmpName = "/hosts";
     public static boolean isProcessing = false;
-    public static final String endTime = "2020-06-18";
+    public static final String endTime = "2020-06-23";
 
     public static boolean isEnable() {
         return true;

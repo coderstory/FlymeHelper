@@ -9,6 +9,7 @@ import com.coderstory.flyme.module.IsEnable;
 import com.coderstory.flyme.module.Others;
 import com.coderstory.flyme.module.RemoveAds;
 import com.coderstory.flyme.module.ThemePatcher;
+import com.coderstory.flyme.utils.XposedHelper;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -20,7 +21,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import static com.coderstory.flyme.utils.Utils.vi;
 
 
-public class start implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
+public class start extends XposedHelper implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
         if (vi()) {
@@ -40,6 +41,8 @@ public class start implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXp
             new ThemePatcher().handleLoadPackage(lpparam);
             new FlymeRoot().handleLoadPackage(lpparam);
             new RemoveAds().handleLoadPackage(lpparam);
+            XposedBridge.log("主题和谐: " + prefs.getBoolean("enabletheme", false));
+            XposedBridge.log("包管理器: " + prefs.getBoolean("enableCheckInstaller", false));
         }
     }
 
