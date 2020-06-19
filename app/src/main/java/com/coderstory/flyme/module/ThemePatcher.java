@@ -13,8 +13,6 @@ import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static com.coderstory.flyme.config.Misc.isEnable;
-
 
 public class ThemePatcher extends XposedHelper implements IModule {
 
@@ -26,10 +24,6 @@ public class ThemePatcher extends XposedHelper implements IModule {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-
-        if (!isEnable()) {
-            return;
-        }
 
         // 主题和谐
         if (lpparam.packageName.equals("com.meizu.customizecenter") && prefs.getBoolean("enabletheme", false)) {

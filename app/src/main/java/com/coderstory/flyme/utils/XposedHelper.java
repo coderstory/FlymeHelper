@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -122,11 +123,12 @@ public class XposedHelper {
         }
     }
 
-    protected void hookAllConstructors(Class<?> hookClass, XC_MethodHook callback) {
+    protected Set<XC_MethodHook.Unhook> hookAllConstructors(Class<?> hookClass, XC_MethodHook callback) {
         try {
-            XposedBridge.hookAllConstructors(hookClass, callback);
+            return XposedBridge.hookAllConstructors(hookClass, callback);
         } catch (Throwable error) {
             XposedBridge.log(error.getMessage());
+            return new HashSet<>();
         }
     }
 

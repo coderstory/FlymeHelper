@@ -1,6 +1,10 @@
 package com.coderstory.flyme.fragment;
 
 
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.widget.NumberPicker;
 import android.widget.Switch;
 
 import com.coderstory.flyme.R;
@@ -9,6 +13,7 @@ import com.coderstory.flyme.utils.hostshelper.FileHelper;
 import com.coderstory.flyme.utils.hostshelper.HostsHelper;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 
 
 public class OthersFragment extends BaseFragment {
@@ -18,13 +23,18 @@ public class OthersFragment extends BaseFragment {
     @Override
     protected void setUpView() {
 
+        setDatePickerDividerColor($(R.id.home_icon_num_column));
+        setDatePickerDividerColor($(R.id.home_icon_num_rows));
+        setDatePickerDividerColor($(R.id.home_icon_num_hot_seat_icons));
+
+
         $(R.id.enableBlockAD).setOnClickListener(v -> {
             getEditor().putBoolean("EnableBlockAD", ((Switch) v).isChecked());
             fix();
             FileHelper fh = new FileHelper();
             String HostsContext = fh.getFromAssets("hosts_default", getMContext());
 
-            if (((Switch) v).isChecked()) { //如果未启用hosts
+            if (((Switch) v).isChecked()) {
                 HostsContext += fh.getFromAssets("hosts_noad", getMContext());
                 HostsContext += fh.getFromAssets("hosts_Flyme", getMContext());
             }
@@ -95,6 +105,20 @@ public class OthersFragment extends BaseFragment {
             fix();
         });
 
+        ((NumberPicker) $(R.id.home_icon_num_column)).setOnValueChangedListener((v, oldValue, newValue) -> {
+            getEditor().putInt("home_icon_num_column", newValue);
+            fix();
+        });
+        ((NumberPicker) $(R.id.home_icon_num_rows)).setOnValueChangedListener((v, oldValue, newValue) -> {
+            getEditor().putInt("home_icon_num_rows", newValue);
+            fix();
+        });
+
+        ((NumberPicker) $(R.id.home_icon_num_hot_seat_icons)).setOnValueChangedListener((v, oldValue, newValue) -> {
+            getEditor().putInt("home_icon_num_hot_seat_icons", newValue);
+            fix();
+        });
+
     }
 
     @Override
@@ -118,5 +142,29 @@ public class OthersFragment extends BaseFragment {
         ((Switch) $(R.id.removeStore)).setChecked(getPrefs().getBoolean("removeStore", false));
         ((Switch) $(R.id.autoInstall)).setChecked(getPrefs().getBoolean("autoInstall", false));
         ((Switch) $(R.id.HideRootGlobal)).setChecked(getPrefs().getBoolean("HideRootGlobal", false));
+        ((NumberPicker) $(R.id.home_icon_num_column)).setValue(getPrefs().getInt("home_icon_num_column", 4));
+        ((NumberPicker) $(R.id.home_icon_num_rows)).setValue(getPrefs().getInt("home_icon_num_rows", 5));
+        ((NumberPicker) $(R.id.home_icon_num_hot_seat_icons)).setValue(getPrefs().getInt("home_icon_num_hot_seat_icons", 4));
+    }
+
+    private void setDatePickerDividerColor(NumberPicker picker) {
+
+        //设置最大值
+        picker.setMaxValue(7);
+        //设置最小值
+        picker.setMinValue(4);
+
+        Field[] pickerFields = NumberPicker.class.getDeclaredFields();
+        for (Field pf : pickerFields) {
+            if (pf.getName().equals("mSelectionDivider")) {
+                pf.setAccessible(true);
+                try {
+                    pf.set(picker, new ColorDrawable(Color.alpha(256)));
+                } catch (IllegalArgumentException | Resources.NotFoundException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
     }
 }

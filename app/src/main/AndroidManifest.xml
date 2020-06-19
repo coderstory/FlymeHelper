@@ -17,13 +17,6 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5ee5d80f978eea081640e210" />
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="release" />
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.coderstory.flyme.fileprovider"

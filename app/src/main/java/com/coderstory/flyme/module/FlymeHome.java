@@ -58,6 +58,35 @@ public class FlymeHome extends XposedHelper implements IModule {
                     }
                 });
             }
+
+            meizu17(lpparam);
+        }
+    }
+
+
+    private void meizu17(XC_LoadPackage.LoadPackageParam lpparam) {
+        int numRows = prefs.getInt("home_icon_num_rows", 0);
+        int numColumns = prefs.getInt("home_icon_num_column", 0);
+        int numHotseatIcons = prefs.getInt("home_icon_num_hot_seat_icons", 0);
+        if (numColumns + numRows + numHotseatIcons != 0) {
+            hookAllConstructors(findClass("com.android.launcher3.InvariantDeviceProfile$GridOption", lpparam.classLoader), new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    XposedHelpers.setIntField(param.thisObject, "numRows", numRows);
+                    XposedHelpers.setIntField(param.thisObject, "numColumns", numColumns);
+                    XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons);
+                }
+            });
+            hookAllConstructors(findClass("com.android.launcher3.InvariantDeviceProfile", lpparam.classLoader), new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    XposedHelpers.setIntField(param.thisObject, "numRows", numRows);
+                    XposedHelpers.setIntField(param.thisObject, "numColumns", numColumns);
+                    XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons);
+                }
+            });
         }
     }
 
