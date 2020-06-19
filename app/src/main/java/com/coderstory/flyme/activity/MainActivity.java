@@ -41,6 +41,7 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.coderstory.flyme.R.id.navigation_view;
+import static com.coderstory.flyme.utils.Utils.vi;
 
 public class MainActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
     public static final long MAX_DOUBLE_BACK_DURATION = 1500;
@@ -113,6 +114,17 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
             normalDialog.setTitle("初始提示");
             normalDialog.setMessage("flyme助手是基于xposed框架开发的插件，使用本插件前请确保已经安装并激活了xposed/edxposed框架");
+            normalDialog.setPositiveButton("确定",
+                    (dialog, which) -> {
+                    });
+            normalDialog.setCancelable(true);
+            normalDialog.show();
+        }
+
+        if (!vi()) {
+            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
+            normalDialog.setTitle("过期提示");
+            normalDialog.setMessage("当前flyme助手版本已过期，请下载最新版本");
             normalDialog.setPositiveButton("确定",
                     (dialog, which) -> {
                     });
