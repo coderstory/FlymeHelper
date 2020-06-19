@@ -3,7 +3,6 @@ package com.coderstory.flyme.config;
 
 public class Misc {
     private static final String BasePath = "/storage/emulated/0/Flyme_Purify";
-    public static final String SystemPckagePath = "/storage/emulated/0/SystemPackage";
     public static final String BackPath = BasePath + "/Backup/";
     public static final String CrashFilePath = BasePath + "/CrashLog/";
     public static final String MyBlogUrl = "https://blog.coderstory.cn";
@@ -12,8 +11,7 @@ public class Misc {
     public static final String HostFileTmpName = "/hosts";
     public static boolean isProcessing = false;
     public static final String endTime = "2021-06-19";
-
-    public static boolean isEnable() {
-        return true;
-    }
+    public static final String token = "5ee5d80f978eea081640e210";
+    public static final String channel = "release";
+    public static final boolean isTestVersion = true;
 }

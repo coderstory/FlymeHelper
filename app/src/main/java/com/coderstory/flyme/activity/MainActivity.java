@@ -132,19 +132,22 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             normalDialog.setCancelable(true);
             normalDialog.show();
         }
+
+        if (Misc.isTestVersion) {
+            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
+            normalDialog.setTitle("FBI Warning");
+            normalDialog.setMessage("当前版本为测试版本,不适合长期使用,且存在3天的有效期,过期后功能会无法使用");
+            normalDialog.setPositiveButton("确定",
+                    (dialog, which) -> {
+                    });
+            normalDialog.setCancelable(true);
+            normalDialog.show();
+        }
     }
 
     private void checkEnable() {
         Log.e("xposed", "flyme助手->isEnable:" + (isEnable() ? "true" : "false"));
-        if (MainActivity.this.getSharedPreferences(Misc.SharedPreferencesName, Context.MODE_PRIVATE).getBoolean("enableCheck", true) && !isEnable()) {
 
-            AnyLayer.with(MainActivity.this)
-                    .contentView(R.layout.dialog_xposed_disabled)
-                    .cancelableOnTouchOutside(true)
-                    .cancelableOnClickKeyBack(true)
-                    .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> System.exit(0))
-                    .show();
-        }
     }
 
     //init the default checked fragment
