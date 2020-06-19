@@ -216,12 +216,12 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="70dp"
                 android:paddingStart="30dp"
                 android:paddingTop="15dp"
 
                 android:paddingEnd="4dp"
-                android:text="桌面(魅族17/魅族17P专属功能)" />
+                android:text="桌面(魅族17/魅族17P专属功能)\n如果桌面挂件尺寸不对,请删除后重新添加即可" />
 
             <LinearLayout
                 android:layout_width="match_parent"
