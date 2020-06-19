@@ -116,6 +116,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             normalDialog.setMessage("flyme助手是基于xposed框架开发的插件，使用本插件前请确保已经安装并激活了xposed/edxposed框架");
             normalDialog.setPositiveButton("确定",
                     (dialog, which) -> {
+
                     });
             normalDialog.setCancelable(true);
             normalDialog.show();
@@ -141,7 +142,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     .contentView(R.layout.dialog_xposed_disabled)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
-                    .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> AnyLayer.dismiss())
+                    .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> System.exit(0))
                     .show();
         }
     }
