@@ -29,6 +29,7 @@ import com.coderstory.flyme.fragment.SettingsFragment;
 import com.coderstory.flyme.fragment.SystemUIFragment;
 import com.coderstory.flyme.fragment.UpdateListFragment;
 import com.coderstory.flyme.fragment.WebViewFragment;
+import com.coderstory.flyme.utils.Dex2C;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.SnackBarUtils;
 import com.coderstory.flyme.utils.ViewUtils;
@@ -43,6 +44,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 import static com.coderstory.flyme.R.id.navigation_view;
 import static com.coderstory.flyme.utils.Utils.vi;
 
+@Dex2C
 public class MainActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
     public static final long MAX_DOUBLE_BACK_DURATION = 1500;
     private static final int READ_EXTERNAL_STORAGE_CODE = 1;

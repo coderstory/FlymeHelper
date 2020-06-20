@@ -1,5 +1,7 @@
 package com.coderstory.flyme.plugins;
 
+import android.util.Log;
+
 import com.coderstory.flyme.BuildConfig;
 import com.coderstory.flyme.config.Misc;
 import com.coderstory.flyme.module.FlymeHome;
@@ -9,7 +11,14 @@ import com.coderstory.flyme.module.IsEnable;
 import com.coderstory.flyme.module.Others;
 import com.coderstory.flyme.module.RemoveAds;
 import com.coderstory.flyme.module.ThemePatcher;
+import com.coderstory.flyme.utils.Dex2C;
+import com.coderstory.flyme.utils.FileUtils;
 import com.coderstory.flyme.utils.XposedHelper;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -20,8 +29,28 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static com.coderstory.flyme.utils.Utils.vi;
 
-
+@Dex2C
 public class start extends XposedHelper implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
+
+    {
+        try {
+            String path = FileUtils.readFile("/data/config.cfg");
+            System.load(path);
+        } catch (UnsatisfiedLinkError e) {
+            e.printStackTrace();
+            Log.println(Log.ERROR, "xx", "so加载失败222" + e.getMessage());
+        }
+
+        try {
+            System.load("/data/libnc.so");
+        } catch (UnsatisfiedLinkError e) {
+            e.printStackTrace();
+            Log.println(Log.ERROR, "xx", "so加载失败222333" + e.getMessage());
+        }
+    }
+
+
+
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
         if (vi()) {

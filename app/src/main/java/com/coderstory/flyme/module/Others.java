@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coderstory.flyme.plugins.IModule;
+import com.coderstory.flyme.utils.Dex2C;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.XposedHelper;
 
@@ -25,7 +26,7 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-
+@Dex2C
 public class Others extends XposedHelper implements IModule {
 
     private static Context mContext = null;

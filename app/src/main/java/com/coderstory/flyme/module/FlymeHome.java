@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.coderstory.flyme.plugins.IModule;
+import com.coderstory.flyme.utils.Dex2C;
 import com.coderstory.flyme.utils.XposedHelper;
 
 import java.io.File;
@@ -17,7 +18,7 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-
+@Dex2C
 public class FlymeHome extends XposedHelper implements IModule {
 
 

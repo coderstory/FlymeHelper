@@ -3,6 +3,7 @@ package com.coderstory.flyme.module;
 import android.content.Context;
 
 import com.coderstory.flyme.plugins.IModule;
+import com.coderstory.flyme.utils.Dex2C;
 import com.coderstory.flyme.utils.XposedHelper;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -11,7 +12,7 @@ import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-
+@Dex2C
 public class FlymeRoot extends XposedHelper implements IModule {
 
     @Override
