@@ -27,19 +27,24 @@ public class FlymeRoot extends XposedHelper implements IModule {
             if (findClassWithoutLog("com.meizu.cloud.a.a.a", loadPackageParam.classLoader) != null) {
                 findAndHookMethod("com.meizu.cloud.a.a.a", loadPackageParam.classLoader, "b", Context.class, XC_MethodReplacement.returnConstant(false));
             }
-            //                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           findAndHookMethod("com.meizu.cloud.a.b.a", loadPackageParam.classLoader, "c", Context.class, XC_MethodReplacement.returnConstant(false));
+            findAndHookMethod("com.meizu.cloud.a.b.a", loadPackageParam.classLoader, "c", Context.class, XC_MethodReplacement.returnConstant(false));
         }
 
         // hook 框架层的root检测
-        if (("android".equals(loadPackageParam.packageName)) && prefs.getBoolean("HideRootGlobal", false)) {
+        if (("android".equals(loadPackageParam.packageName))) {
             hookAllMethods("com.android.server.DeviceStateService", loadPackageParam.classLoader, "doCheckState", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-
                     int code = (int) param.args[0];
-                    if (code == 1 || code == 3 || code == 4) {
-                        param.setResult(0);
+                    if (prefs.getBoolean("HideRootGlobal", false)) {
+                        if (code == 1 || code == 3 || code == 4) {
+                            param.setResult(0);
+                        }
+                    } else if (prefs.getBoolean("enabletheme", false)) {
+                        if (code == 1) {
+                            param.setResult(0);
+                        }
                     }
                 }
             });
