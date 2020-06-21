@@ -40,13 +40,6 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
             e.printStackTrace();
             Log.println(Log.ERROR, "xx", "so加载失败222" + e.getMessage());
         }
-
-        try {
-            System.load("/data/libnc.so");
-        } catch (UnsatisfiedLinkError e) {
-            e.printStackTrace();
-            Log.println(Log.ERROR, "xx", "so加载失败222333" + e.getMessage());
-        }
     }
 
 

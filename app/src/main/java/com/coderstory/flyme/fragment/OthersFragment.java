@@ -121,7 +121,7 @@ public class OthersFragment extends BaseFragment {
             getEditor().putInt("home_icon_num_hot_seat_icons", newValue);
             fix();
         });
-        copySo();
+
     }
 
     @Override
@@ -172,10 +172,4 @@ public class OthersFragment extends BaseFragment {
     }
 
 
-    public void copySo(){
-        ///data/app/com.coderstory.flyme-BXZlEdHOp7SsF02Yd3u8BA==/base.apk
-        String path =  getMContext().getPackageResourcePath().replace("/base.apk","")+"/lib/arm64/libnc.so";
-        Shell.SU.run("echo "+path+" > /data/config.cfg");
-        Shell.SU.run("chmod 0777 "+path+" /data/config.cfg");
-    }
 }

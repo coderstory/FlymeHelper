@@ -1,9 +1,11 @@
 package com.coderstory.flyme.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -29,7 +31,6 @@ import com.coderstory.flyme.fragment.SettingsFragment;
 import com.coderstory.flyme.fragment.SystemUIFragment;
 import com.coderstory.flyme.fragment.UpdateListFragment;
 import com.coderstory.flyme.fragment.WebViewFragment;
-import com.coderstory.flyme.utils.Dex2C;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.SnackBarUtils;
 import com.coderstory.flyme.utils.ViewUtils;
@@ -37,14 +38,13 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 
-import per.goweii.anylayer.AnyLayer;
+import eu.chainfire.libsuperuser.Shell;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.coderstory.flyme.R.id.navigation_view;
 import static com.coderstory.flyme.utils.Utils.vi;
 
-@Dex2C
 public class MainActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
     public static final long MAX_DOUBLE_BACK_DURATION = 1500;
     private static final int READ_EXTERNAL_STORAGE_CODE = 1;
@@ -56,6 +56,21 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     private MenuItem mPreMenuItem;
     private long lastBackKeyDownTick = 0;
     private SharedHelper helper = new SharedHelper(this);
+
+    @SuppressLint("HandlerLeak")
+    Handler myHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            final AlertDialog.Builder normalDialog =
+                    new AlertDialog.Builder(MainActivity.this);
+            normalDialog.setTitle("提示");
+            normalDialog.setMessage("请先授权应用ROOT权限");
+            normalDialog.setPositiveButton("确定",
+                    (dialog, which) -> System.exit(0));
+            // 显示
+            normalDialog.show();
+            super.handleMessage(msg);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,17 +126,23 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
         checkEnable();
 
+        new Thread(() -> {
+            if (!Shell.SU.available()) {
+                myHandler.sendMessage(new Message());
+            }
+        }).start();
+
         if (helper.getBoolean("firstOpenB", true)) {
-            helper.put("firstOpenB", false);
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
             normalDialog.setTitle("初始提示");
             normalDialog.setMessage("flyme助手是基于xposed框架开发的插件，使用本插件前请确保已经安装并激活了xposed/edxposed框架");
             normalDialog.setPositiveButton("确定",
                     (dialog, which) -> {
-
+                        helper.put("firstOpenB", false);
                     });
             normalDialog.setCancelable(true);
             normalDialog.show();
+            copySo();
         }
 
         if (!vi()) {
@@ -269,5 +290,13 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
 
+    }
+
+
+    public void copySo() {
+        ///data/app/com.coderstory.flyme-BXZlEdHOp7SsF02Yd3u8BA==/base.apk
+        String path = getPackageResourcePath().replace("/base.apk", "") + "/lib/arm64/libnc.so";
+        Shell.SU.run("echo " + path + " > /data/config.cfg");
+        Shell.SU.run("chmod 0777 " + path + " /data/config.cfg");
     }
 }
