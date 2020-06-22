@@ -3,6 +3,7 @@ package com.coderstory.flyme.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,6 +32,7 @@ import com.coderstory.flyme.fragment.SettingsFragment;
 import com.coderstory.flyme.fragment.SystemUIFragment;
 import com.coderstory.flyme.fragment.UpdateListFragment;
 import com.coderstory.flyme.fragment.WebViewFragment;
+import com.coderstory.flyme.utils.RuntimeUtil;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.SnackBarUtils;
 import com.coderstory.flyme.utils.ViewUtils;
@@ -56,19 +58,42 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     private MenuItem mPreMenuItem;
     private long lastBackKeyDownTick = 0;
     private SharedHelper helper = new SharedHelper(this);
-
+    private ProgressDialog dialog;
     @SuppressLint("HandlerLeak")
     Handler myHandler = new Handler() {
         public void handleMessage(Message msg) {
-            final AlertDialog.Builder normalDialog =
-                    new AlertDialog.Builder(MainActivity.this);
-            normalDialog.setTitle("提示");
-            normalDialog.setMessage("请先授权应用ROOT权限");
-            normalDialog.setPositiveButton("确定",
-                    (dialog, which) -> System.exit(0));
-            // 显示
-            normalDialog.show();
-            super.handleMessage(msg);
+            switch (msg.arg1) {
+                case 0:
+                    final androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
+                    normalDialog.setTitle("提示");
+                    normalDialog.setMessage("请先授权应用ROOT权限");
+                    normalDialog.setPositiveButton("确定",
+                            (dialog, which) -> System.exit(0));
+                    normalDialog.show();
+                    super.handleMessage(msg);
+                    break;
+                case 1:
+                    dialog = ProgressDialog.show(MainActivity.this, "检测ROOT权限", "请在ROOT授权弹窗中给与ROOT权限,\n如果长时间无反应则请检查ROOT程序是否被\"省电程序\"干掉");
+                    dialog.show();
+                    break;
+                case 2:
+                    if (dialog != null && dialog.isShowing()) {
+                        dialog.cancel();
+                        helper.put("isRooted", true);
+                    }
+                    break;
+                case 3:
+                    android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(MainActivity.this);
+                    dialog.setTitle("提示");
+                    dialog.setMessage("本应用尚未再Xposed中启用,请启用后再试...");
+                    dialog.setPositiveButton("退出", (dialog12, which) -> {
+                        System.exit(0);
+                    });
+                    dialog.setCancelable(false);
+                    dialog.show();
+                    break;
+            }
+
         }
     };
 
@@ -124,13 +149,29 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         mToolbar.setNavigationIcon(R.drawable.ic_drawer_home);
         initDefaultFragment();
 
-        checkEnable();
+        if (!helper.getBoolean("isRooted", false)) {
+            // 检测弹窗
+            new Thread(() -> {
+                Message msg = new Message();
+                msg.arg1 = 1;
+                myHandler.sendMessage(msg);
+                if (!RuntimeUtil.hasRooted()) {
+                    msg = new Message();
+                    msg.arg1 = 0;
+                    myHandler.sendMessage(msg);
+                } else {
+                    msg = new Message();
+                    msg.arg1 = 2;
+                    myHandler.sendMessage(msg);
+                    copySo();
+                }
+                checkEnable();
+            }).start();
+        } else {
+            checkEnable();
+            copySo();
+        }
 
-        new Thread(() -> {
-            if (!Shell.SU.available()) {
-                myHandler.sendMessage(new Message());
-            }
-        }).start();
 
         if (helper.getBoolean("firstOpenB", true)) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
@@ -142,7 +183,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     });
             normalDialog.setCancelable(true);
             normalDialog.show();
-            copySo();
         }
 
         if (!vi()) {

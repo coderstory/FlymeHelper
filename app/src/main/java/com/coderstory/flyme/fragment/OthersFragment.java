@@ -9,14 +9,11 @@ import android.widget.Switch;
 
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
-import com.coderstory.flyme.utils.SuHelper;
 import com.coderstory.flyme.utils.hostshelper.FileHelper;
 import com.coderstory.flyme.utils.hostshelper.HostsHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
-
-import eu.chainfire.libsuperuser.Shell;
 
 
 public class OthersFragment extends BaseFragment {
