@@ -1,12 +1,9 @@
 package com.coderstory.flyme.fragment.base;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +12,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.coderstory.flyme.config.Misc;
+import com.coderstory.flyme.utils.Utils;
 
 import java.io.File;
-import java.lang.reflect.Field;
 
 import eu.chainfire.libsuperuser.Shell;
 
@@ -66,34 +63,10 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
-    private static SharedPreferences getMySharedPreferences(Context context, String dir, String fileName) {
-        try {
-            // 获取 ContextWrapper对象中的mBase变量。该变量保存了 ContextImpl 对象
-            Field field_mBase = ContextWrapper.class.getDeclaredField("mBase");
-            field_mBase.setAccessible(true);
-            // 获取 mBase变量
-            Object obj_mBase = field_mBase.get(context);
-            // 获取 ContextImpl。mPreferencesDir变量，该变量保存了数据文件的保存路径
-            Field field_mPreferencesDir = obj_mBase.getClass().getDeclaredField("mPreferencesDir");
-            field_mPreferencesDir.setAccessible(true);
-            // 创建自定义路径
-//            String FILE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()+"/Android";
-            File file = new File(dir);
-            // 修改mPreferencesDir变量的值
-            field_mPreferencesDir.set(obj_mBase, file);
-            // 返回修改路径以后的 SharedPreferences :%FILE_PATH%/%fileName%.xml
-            Log.e(TAG, "getMySharedPreferences filep=" + file.getAbsolutePath() + "| fileName=" + fileName);
-            return context.getSharedPreferences(fileName, Activity.MODE_PRIVATE);
-        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        Log.e(TAG, "getMySharedPreferences end filename=" + fileName);
-        // 返回默认路径下的 SharedPreferences : /data/data/%package_name%/shared_prefs/%fileName%.xml
-        return context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
-    }
+
 
     protected SharedPreferences getPrefs() {
-        prefs = getMySharedPreferences(getMContext(), "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
+        prefs = Utils.getMySharedPreferences(getMContext(), "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
         return prefs;
     }
 

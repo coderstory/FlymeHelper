@@ -13,8 +13,12 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.coderstory.flyme.config.Misc;
+import com.coderstory.flyme.utils.Utils;
 
 import java.util.Set;
+
+import static com.coderstory.flyme.config.Misc.ApplicationName;
 
 /**
  * @Description: ContentProvider
@@ -181,7 +185,8 @@ public abstract class PreferencesProvider extends ContentProvider {
     private void insert(Context context, ContentValues values, Model model) {
         Log.e("Xposed", "Model " + JSON.toJSONString(model));
         Log.e("Xposed", "ContentValues " + JSON.toJSONString(values));
-        SharedPreferences.Editor editor = PreferencesUtils.getEditor(context, model.getSpName());
+        SharedPreferences.Editor editor = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName).edit();
+
         Set<String> keys = values.keySet();
         for (String key : keys) {
             Object value = values.get(key);
