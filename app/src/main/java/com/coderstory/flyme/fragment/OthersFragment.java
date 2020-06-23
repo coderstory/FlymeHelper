@@ -4,8 +4,15 @@ package com.coderstory.flyme.fragment;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.Switch;
+
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.cardview.widget.CardView;
 
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
@@ -15,9 +22,42 @@ import com.coderstory.flyme.utils.hostshelper.HostsHelper;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 
+import eu.chainfire.libsuperuser.Shell;
+import per.goweii.anylayer.AnyLayer;
+
 
 public class OthersFragment extends BaseFragment {
     public OthersFragment() {
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_upgrade_toolbar, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        AnyLayer anyLayer = AnyLayer.with(getMContext())
+                .contentView(R.layout.dialog_tdisable_app)
+                .cancelableOnTouchOutside(true)
+                .cancelableOnClickKeyBack(true)
+                .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> AnyLayer.dismiss())
+                .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
+                    Shell.SU.run("killall com.android.systemui");
+                    Shell.SU.run("am force-stop com.meizu.flyme.launcher");
+                    System.exit(0);
+
+                });
+
+        CardView cardView = (CardView) anyLayer.getContentView();
+        LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+        AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
+        textView.setText("一键重启桌面状态栏包管理器等app");
+        anyLayer.show();
+
+        return false;
     }
 
     @Override
