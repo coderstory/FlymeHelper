@@ -34,9 +34,9 @@ public class FlymeHome extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
-            hook55(findClass("com.meizu.flyme.launcher.u", lpparam.classLoader));
-            hook55(findClass("com.meizu.flyme.launcher.v", lpparam.classLoader));
-            hook55(findClass("com.meizu.flyme.launcher.w", lpparam.classLoader));
+            hook55(findClass("com.meizu.flyme.launcher.u", lpparam.classLoader), lpparam.classLoader);
+            hook55(findClass("com.meizu.flyme.launcher.v", lpparam.classLoader), lpparam.classLoader);
+            hook55(findClass("com.meizu.flyme.launcher.w", lpparam.classLoader), lpparam.classLoader);
             if (prefs.getBoolean("hide_icon_label", false)) {
                 XposedBridge.log("开启隐藏标签");
                 // 隐藏图标标签
@@ -88,10 +88,32 @@ public class FlymeHome extends XposedHelper implements IModule {
                     XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons);
                 }
             });
+
+            if (findClass("com.android.launcher3.InvariantDeviceProfile$GridOption", lpparam.classLoader) != null) {
+                hookAllConstructors(SQLiteOpenHelper.class, new XC_MethodHook() {
+                    protected void afterHookedMethod(MethodHookParam hookParam) {
+                        if ("launcher.db".equals(hookParam.args[1])) {
+                            Object arg = hookParam.args[0];
+                            if (arg != null) {
+                                String dbName = "launcher_coderStory_" + (numColumns + numRows + numHotseatIcons) + ".db";
+                                XposedHelpers.setObjectField(hookParam.thisObject, "mName", dbName);
+                                File file = ((Context) arg).getDatabasePath("launcher.db");
+                                if (file != null && (file.exists())) {
+                                    File databasePath = ((Context) arg).getDatabasePath(dbName);
+                                    if (databasePath != null && (databasePath.exists())) {
+                                        return;
+                                    }
+                                    writeFile(file, databasePath);
+                                }
+                            }
+                        }
+                    }
+                });
+            }
         }
     }
 
-    private void hook55(Class clazz) {
+    private void hook55(Class clazz, ClassLoader classLoader) {
         // 开启自定义布局
         // deviceProfiles.add(new DeviceProfile("Flyme5", 359f, 518f, ((float)FlymeDeviceConfig.row), ((float)FlymeDeviceConfig.column), 55f, 13f, 4f, 55f));
         // (String str, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
@@ -129,26 +151,28 @@ public class FlymeHome extends XposedHelper implements IModule {
                 }
 
             });
-            // 不同布局使用不同的db
-            hookAllConstructors(SQLiteOpenHelper.class, new XC_MethodHook() {
-                protected void afterHookedMethod(MethodHookParam hookParam) {
-                    if ("launcher.db".equals(hookParam.args[1])) {
-                        Object arg = hookParam.args[0];
-                        if (arg != null) {
-                            String dbName = finalType + "launcher_coderStory.db";
-                            XposedHelpers.setObjectField(hookParam.thisObject, "mName", dbName);
-                            File file = ((Context) arg).getDatabasePath("launcher.db");
-                            if (file != null && (file.exists())) {
-                                File databasePath = ((Context) arg).getDatabasePath(dbName);
-                                if (databasePath != null && (databasePath.exists())) {
-                                    return;
+            if (findClass("com.android.launcher3.InvariantDeviceProfile$GridOption", classLoader) == null) {
+                // 不同布局使用不同的db
+                hookAllConstructors(SQLiteOpenHelper.class, new XC_MethodHook() {
+                    protected void afterHookedMethod(MethodHookParam hookParam) {
+                        if ("launcher.db".equals(hookParam.args[1])) {
+                            Object arg = hookParam.args[0];
+                            if (arg != null) {
+                                String dbName = finalType + "launcher_coderStory.db";
+                                XposedHelpers.setObjectField(hookParam.thisObject, "mName", dbName);
+                                File file = ((Context) arg).getDatabasePath("launcher.db");
+                                if (file != null && (file.exists())) {
+                                    File databasePath = ((Context) arg).getDatabasePath(dbName);
+                                    if (databasePath != null && (databasePath.exists())) {
+                                        return;
+                                    }
+                                    writeFile(file, databasePath);
                                 }
-                                writeFile(file, databasePath);
                             }
                         }
                     }
-                }
-            });
+                });
+            }
         }
     }
 
