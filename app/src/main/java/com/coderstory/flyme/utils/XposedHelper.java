@@ -1,5 +1,7 @@
 package com.coderstory.flyme.utils;
 
+import com.coderstory.flyme.config.Misc;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -15,11 +17,10 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 import static com.coderstory.flyme.config.Misc.ApplicationName;
-import static com.coderstory.flyme.config.Misc.SharedPreferencesName;
 
 public class XposedHelper {
 
-    protected XSharedPreferences prefs = new XSharedPreferences(ApplicationName, SharedPreferencesName);
+    protected XSharedPreferences prefs = new XSharedPreferences(new File("/data/user_de/0/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml"));
 
     {
         prefs.makeWorldReadable();

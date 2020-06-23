@@ -15,10 +15,7 @@ import com.coderstory.flyme.utils.Dex2C;
 import com.coderstory.flyme.utils.FileUtils;
 import com.coderstory.flyme.utils.XposedHelper;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -27,6 +24,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
+import static com.coderstory.flyme.config.Misc.ApplicationName;
 import static com.coderstory.flyme.utils.Utils.vi;
 
 @Dex2C
@@ -41,7 +39,6 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
             Log.println(Log.ERROR, "xx", "so加载失败222" + e.getMessage());
         }
     }
-
 
 
     @Override
@@ -74,5 +71,6 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
         XposedBridge.log(" 产品有效期:" + Misc.endTime);
         XposedBridge.log("激活状态:" + vi());
         XposedBridge.log("SDK版本号: " + android.os.Build.VERSION.SDK_INT);
+        XposedBridge.log("exists" + new File("/data/user_de/0/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml").exists());
     }
 }

@@ -7,8 +7,8 @@ android {
         applicationId "com.coderstory.flyme"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 401
-        versionName "4.0.1"
+        versionCode 402
+        versionName "4.0.2"
         resConfigs "cn"
     }
 
@@ -18,7 +18,12 @@ android {
     }
     buildTypes {
         release {
-
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true
+            zipAlignEnabled true
+            pseudoLocalesEnabled true
+            signingConfig signingConfigs.release
         }
         debug {
         }
