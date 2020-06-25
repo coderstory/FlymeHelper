@@ -117,7 +117,7 @@ public class RuntimeUtil {
     // 关闭流文件
     private static void closeCloseable(Closeable... closeable) {
         for (int i = 0; i < closeable.length; i++) {
-            if (null != closeable) {
+            if (null != closeable[i]) {
                 try {
                     closeable[i].close();
                 } catch (IOException e) {
