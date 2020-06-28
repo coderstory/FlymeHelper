@@ -55,7 +55,7 @@
     <string name="home_icon_num_rows"><b>自定义布局-行</b>\n自定义桌面每一行的app图标数量</string>
     <string name="home_icon_num_column"><b>自定义布局-列</b>\n自定义桌面每一列的app数量</string>
     <string name="home_icon_num_hot_seat_icons"><b>自定义布局-Dock</b>\n自定义桌面Dock栏的app数量</string>
-    <string name="disableSearch">><b>桌面禁用手势-搜索</b>\n在不禁用搜索条件下，禁止桌面上划手势触发打开搜索</string>
+    <string name="disableSearch"><b>桌面禁用手势-搜索</b>\n在不禁用搜索条件下，禁止桌面上划手势触发打开搜索</string>
     <string name="Tips_Title">温馨提示</string>
     <string name="Btn_Sure">确定</string>
     <string name="Btn_Cancel">取消</string>

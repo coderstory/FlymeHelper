@@ -64,7 +64,44 @@ public class FlymeHome extends XposedHelper implements IModule {
             meizu17(lpparam);
 
             if (prefs.getBoolean("disableSearch", false)) {
+                /**
+                 *     private void startSearchActivity() {
+                 *         Intent actUp = new Intent("com.meizu.net.search.main");
+                 *         actUp.setFlags(337707008);
+                 *         actUp.putExtra("from_app", "homeshell");
+                 *         this.mLauncher.startActivity(actUp);
+                 *     }
+                 */
+                findAndHookMethod("com.meizu.flyme.g.a", lpparam.classLoader, "a", XC_MethodReplacement.returnConstant((Object) null));
                 findAndHookMethod("com.meizu.launcher3.controller.CommonTouchController", lpparam.classLoader, "startSearchActivity", XC_MethodReplacement.returnConstant((Object) null));
+                /**
+                 *     public void loadVisibleTaskData() {
+                 *         if (this.mOverviewStateEnabled && this.mTaskListChangeId != -1) {
+                 *             int centerPageIndex = getPageNearestToCenterOfScreen();
+                 *             int numChildren = getTaskViewCount();
+                 *             int lower = Math.max(0, centerPageIndex - 2);
+                 *             int upper = Math.min(centerPageIndex + 2, numChildren - 1);
+                 *             int i = 0;
+                 *             while (i < numChildren) {
+                 *                 TaskView taskView = (TaskView) getChildAt(i);
+                 *                 Task task = taskView.getTask();
+                 *                 boolean visible = lower <= i && i <= upper;
+                 *                 if (!visible) {
+                 *                     if (this.mHasVisibleTaskData.get(task.key.id)) {
+                 *                         taskView.onTaskListVisibilityChanged(false);
+                 *                     }
+                 *                     this.mHasVisibleTaskData.delete(task.key.id);
+                 *                 } else if (task != this.mTmpRunningTask) {
+                 *                     if (!this.mHasVisibleTaskData.get(task.key.id)) {
+                 *                         taskView.onTaskListVisibilityChanged(true);
+                 *                     }
+                 *                     this.mHasVisibleTaskData.put(task.key.id, visible);
+                 *                 }
+                 *                 i++;
+                 *             }
+                 *         }
+                 *     }
+                 */
                 findAndHookMethod("com.android.quickstep.views.RecentsView", lpparam.classLoader, "loadVisibleTaskData", XC_MethodReplacement.returnConstant((Object) null));
             }
 
