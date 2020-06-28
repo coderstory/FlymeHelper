@@ -33,11 +33,11 @@ public class Utils {
         }
     }
 
-    public static boolean vi() {
+    private static boolean vi() {
         return vp() >= 0;
     }
 
-    public static long vp() {
+    private static long vp() {
         return compareDay(new SimpleDateFormat("yyyy-MM-dd").format(new Date()), Misc.endTime);
     }
 

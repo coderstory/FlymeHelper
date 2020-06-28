@@ -247,6 +247,7 @@
                     android:paddingStart="30dp"
                     android:paddingTop="4dp"
                     android:paddingEnd="30dp"
+                    android:id="@+id/test1"
                     android:paddingBottom="4dp"
                     android:text="@string/home_icon_num_rows"
                     android:textColor="#000" />
@@ -270,6 +271,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_weight="8"
                     android:paddingStart="30dp"
+                    android:id="@+id/test2"
                     android:paddingTop="4dp"
                     android:paddingEnd="30dp"
                     android:paddingBottom="10dp"
@@ -299,6 +301,7 @@
                     android:paddingTop="4dp"
                     android:paddingEnd="30dp"
                     android:paddingBottom="10dp"
+                    android:id="@+id/test3"
                     android:text="@string/home_icon_num_hot_seat_icons"
                     android:textColor="#000" />
 

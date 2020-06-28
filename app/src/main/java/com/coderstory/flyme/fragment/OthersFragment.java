@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
@@ -190,6 +191,19 @@ public class OthersFragment extends BaseFragment {
         ((NumberPicker) $(R.id.home_icon_num_rows)).setValue(getPrefs().getInt("home_icon_num_rows", 5));
         ((NumberPicker) $(R.id.home_icon_num_hot_seat_icons)).setValue(getPrefs().getInt("home_icon_num_hot_seat_icons", 4));
         ((Switch) $(R.id.disableSearch)).setChecked(getPrefs().getBoolean("disableSearch", false));
+
+        if (getPrefs().getString("qq", "").equals("") || getPrefs().getString("uuid", "").equals("")) {
+            ((Switch) $(R.id.removeStore)).setEnabled(false);
+            ((Switch) $(R.id.autoInstall)).setEnabled(false);
+            ((NumberPicker) $(R.id.home_icon_num_column)).setEnabled(false);
+            ((NumberPicker) $(R.id.home_icon_num_rows)).setEnabled(false);
+            ((NumberPicker) $(R.id.home_icon_num_hot_seat_icons)).setEnabled(false);
+            ((Switch) $(R.id.disableSearch)).setEnabled(false);
+
+            ((TextView) $(R.id.test1)).setTextColor(Color.parseColor("#A9A9A9"));
+            ((TextView) $(R.id.test2)).setTextColor(Color.parseColor("#A9A9A9"));
+            ((TextView) $(R.id.test3)).setTextColor(Color.parseColor("#A9A9A9"));
+        }
     }
 
     private void setDatePickerDividerColor(NumberPicker picker) {

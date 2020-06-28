@@ -7,6 +7,8 @@ import com.coderstory.flyme.plugins.IModule;
 import com.coderstory.flyme.utils.Dex2C;
 import com.coderstory.flyme.utils.XposedHelper;
 
+import java.util.ArrayList;
+
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -82,16 +84,20 @@ public class RemoveAds extends XposedHelper implements IModule {
                         param.args[1] = "xxxx";
                         param.args[3] = "xxxx";
                         param.args[6] = "xxxx";
-                  }
-              });
-          }
-            if(prefs.getBoolean("autoInstall", false)) {
-                // 开启会自动安装apk
-                hookAllMethods("com.meizu.permissioncommon.AppInfoUtil",loadPackageParam.classLoader, "isSystemApp",  XC_MethodReplacement.returnConstant(true));
+                    }
+                });
             }
+            if (prefs.getBoolean("autoInstall", false)) {
+                // 开启会自动安装apk
+                hookAllMethods("com.meizu.permissioncommon.AppInfoUtil", loadPackageParam.classLoader, "isSystemApp", XC_MethodReplacement.returnConstant(true));
+            }
+        }
+
+        if (loadPackageParam.packageName.equals("com.android.mms")) {
+            findAndHookMethod("com.meizu.interfaces.OnlineResult", loadPackageParam.classLoader, "a", int.class, XC_MethodReplacement.returnConstant("OFFLINE"));
+            findAndHookMethod("cn.com.xy.servicefunction.e.d", loadPackageParam.classLoader, "b", int.class, XC_MethodReplacement.returnConstant(new ArrayList<>()));
         }
     }
 
 }
-
 

@@ -14,4 +14,5 @@ public class Misc {
     public static final String token = "5ee5d80f978eea081640e210";
     public static final String channel = "qq_group";
     public static final boolean isTestVersion = false;
+    public static final String searchApi = "http://admin.coderstory.cn:10086/smart-admin-api/employee/check";
 }

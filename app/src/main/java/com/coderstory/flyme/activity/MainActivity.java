@@ -45,7 +45,6 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.coderstory.flyme.R.id.navigation_view;
-import static com.coderstory.flyme.utils.Utils.vi;
 
 public class MainActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
     public static final long MAX_DOUBLE_BACK_DURATION = 1500;
@@ -60,7 +59,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     private SharedHelper helper = new SharedHelper(this);
     private ProgressDialog dialog;
     @SuppressLint("HandlerLeak")
-    Handler myHandler = new Handler() {
+    public Handler myHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.arg1) {
                 case 0:
@@ -93,7 +92,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     dialog.show();
                     break;
             }
-
         }
     };
 
@@ -163,13 +161,13 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     msg = new Message();
                     msg.arg1 = 2;
                     myHandler.sendMessage(msg);
-                    copySo();
+                    // copySo();
                 }
                 checkEnable();
             }).start();
         } else {
             checkEnable();
-            copySo();
+            //copySo();
         }
 
 
@@ -185,16 +183,16 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             normalDialog.show();
         }
 
-        if (!vi()) {
-            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
-            normalDialog.setTitle("过期提示");
-            normalDialog.setMessage("当前flyme助手版本已过期，请下载最新版本");
-            normalDialog.setPositiveButton("确定",
-                    (dialog, which) -> {
-                    });
-            normalDialog.setCancelable(true);
-            normalDialog.show();
-        }
+//        if (!vi()) {
+//            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
+//            normalDialog.setTitle("过期提示");
+//            normalDialog.setMessage("当前flyme助手版本已过期，请下载最新版本");
+//            normalDialog.setPositiveButton("确定",
+//                    (dialog, which) -> {
+//                    });
+//            normalDialog.setCancelable(true);
+//            normalDialog.show();
+//        }
 
         if (Misc.isTestVersion) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
@@ -339,4 +337,9 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         Shell.SU.run("echo " + path + " > /data/config.cfg");
         Shell.SU.run("chmod 0777 " + path + " /data/config.cfg");
     }
+
+
 }
+
+
+

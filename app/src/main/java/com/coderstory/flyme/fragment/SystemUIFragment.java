@@ -88,5 +88,11 @@ public class SystemUIFragment extends BaseFragment {
         ((Switch) $(R.id.hide_status_bar_slow_rate_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_slow_rate_icon", false));
         ((Switch) $(R.id.hide_status_bar_time_week_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_time_week_icon", false));
         ((Switch) $(R.id.hide_status_bar_time_chinese_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_time_chinese_icon", false));
+
+        if (getPrefs().getString("qq", "").equals("") || getPrefs().getString("uuid", "").equals("")) {
+            ((Switch) $(R.id.hide_status_bar_slow_rate_icon)).setEnabled(false);
+            ((Switch) $(R.id.hide_status_bar_time_week_icon)).setEnabled(false);
+            ((Switch) $(R.id.hide_status_bar_time_chinese_icon)).setEnabled(false);
+        }
     }
 }

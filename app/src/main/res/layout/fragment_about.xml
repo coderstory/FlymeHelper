@@ -45,14 +45,51 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/mark"
-                android:layout_width="wrap_content"
-                android:layout_height="70px"
-                android:layout_weight="1"
-                android:text="有效期:永远有效"
-                android:textColor="#FF9800"
-                android:textSize="14sp" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@color/windowBackground"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="10dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/mark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="8dp"
+                        android:text="当前版本类型:体验版"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/qq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="5dp"
+                        android:text="绑定QQ:无"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="5dp"
+                        android:text="有效期:永久"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
 
             <androidx.cardview.widget.CardView
