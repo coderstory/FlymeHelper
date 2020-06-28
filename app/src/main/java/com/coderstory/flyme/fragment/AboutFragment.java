@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.InputFilter;
-import android.text.method.DigitsKeyListener;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.widget.EditText;
@@ -123,11 +122,11 @@ public class AboutFragment extends BaseFragment {
         refresh();
         if (helper.getString("qq", "").equals("") || helper.getString("uuid", "").equals("")) {
             final EditText inputServer = new EditText(getMContext());
-            inputServer.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
+            //inputServer.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
             inputServer.setFilters(new InputFilter[]{new InputFilter.LengthFilter(17)});
             AlertDialog.Builder builder = new AlertDialog.Builder(getMContext());
-            builder.setTitle("获取完整版\r\n请加群906552736后输入QQ号").setView(inputServer);
-            builder.setPositiveButton("校验QQ号", (dialog, which) -> {
+            builder.setTitle("获取完整版\r\n请加群906552736后获取激活码").setView(inputServer);
+            builder.setPositiveButton("校验激活码", (dialog, which) -> {
                 String _sign = inputServer.getText().toString();
                 if (!_sign.isEmpty()) {
                     String uuid = UUID.randomUUID().toString();
@@ -149,7 +148,7 @@ public class AboutFragment extends BaseFragment {
         ((TextView) $(R.id.version)).setText(BuildConfig.VERSION_NAME);
 
         ((TextView) $(R.id.mark)).setText("当前版本类型:" + (helper.getString("qq", "").equals("") || helper.getString("uuid", "").equals("") ? "体验版" : "完整版"));
-        ((TextView) $(R.id.qq)).setText("绑定QQ:" + helper.getString("qq", "无"));
+        ((TextView) $(R.id.qq)).setText("绑定激活码:" + helper.getString("qq", "无"));
 
     }
 
