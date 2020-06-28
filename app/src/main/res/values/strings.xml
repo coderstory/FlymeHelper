@@ -18,7 +18,7 @@
     <string name="about_msg3"><b>声明</b>\n软件授权协议</string>
     <string name="enableBlockADS"><b>基础功能</b>\n屏蔽一切使用魅族自家广告SDK显示的广告</string>
     <string name="downloadexplorer"><b>下载管理</b>\n去下载管理界面的广告</string>
-    <string name="mms"><b>短信</b>\n去除具体短信信息界面上的充值话费充值流量贷款申请信用卡等垃圾信息，开启后无法直接复制短信验证码</string>
+    <string name="mms"><b>短信</b>\n去除具体短信信息界面上的充值话费充值流量贷款申请信用卡等垃圾信息</string>
     <string name="enableHosts"><b>启用模块</b>\n开启Hosts支持模块</string>
     <string name="Flymeads"><b>屏蔽Flyme广告</b>\n通过hosts屏蔽部分Flyme的广告</string>
     <string name="blockads"><b>开启常规去广告</b>\nGithub上的hosts合集,用于屏蔽国内广告.</string>
