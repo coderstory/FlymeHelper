@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.coderstory.flyme.BuildConfig;
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.config.Misc;
@@ -84,7 +85,7 @@ public class AboutFragment extends BaseFragment {
                         getEditor().putString("qq", msg.getData().get("qq").toString()).apply();
                         getEditor().putString("uuid", msg.getData().get("uuid").toString()).apply();
                     } else {
-                        Toast.makeText(getMContext(), "绑定失败\r\n" + msg.getData().get("value"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getMContext(), "绑定失败:\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
                     }
                     // 校验返回
                     break;
@@ -126,7 +127,7 @@ public class AboutFragment extends BaseFragment {
             inputServer.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
             inputServer.setFilters(new InputFilter[]{new InputFilter.LengthFilter(17)});
             AlertDialog.Builder builder = new AlertDialog.Builder(getMContext());
-            builder.setTitle("请加群906552736后再此输入您加群使用的QQ号").setView(inputServer);
+            builder.setTitle("获取完整版\r\n请加群906552736后输入QQ号").setView(inputServer);
             builder.setPositiveButton("确定", (dialog, which) -> {
                 String _sign = inputServer.getText().toString();
                 if (!_sign.isEmpty()) {
