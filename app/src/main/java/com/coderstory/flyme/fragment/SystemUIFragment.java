@@ -52,7 +52,7 @@ public class SystemUIFragment extends BaseFragment {
         $(R.id.show_status_bar_time_second_icon).setOnClickListener(v -> {
             getEditor().putBoolean("show_status_bar_time_second_icon", ((Switch) v).isChecked());
             fix();
-            // Shell.SU.run("settings put secure clock_seconds " + (((Switch) v).isChecked() ? "1" : "0"));
+            Shell.SU.run("settings put secure clock_seconds " + (((Switch) v).isChecked() ? "1" : "0"));
         });
         $(R.id.hide_status_bar_slow_rate_icon).setOnClickListener(v -> {
             getEditor().putBoolean("hide_status_bar_slow_rate_icon", ((Switch) v).isChecked());
