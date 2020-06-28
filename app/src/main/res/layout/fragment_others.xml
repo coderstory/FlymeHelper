@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:skin="http://schemas.android.com/android/skin"
+        <LinearLayout xmlns:skin="http://schemas.android.com/android/skin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -32,11 +31,11 @@
                 android:layout_height="70dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
                 android:maxLines="10"
                 android:paddingStart="30dp"
+                android:paddingTop="4dp"
                 android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
                 android:text="@string/enableBlockADS" />
 
             <Switch
@@ -45,11 +44,11 @@
                 android:layout_height="70dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
                 android:maxLines="10"
                 android:paddingStart="30dp"
+                android:paddingTop="4dp"
                 android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
                 android:text="@string/HideRootWithPay" />
 
             <Switch
@@ -68,11 +67,11 @@
                 android:layout_height="120dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
                 android:maxLines="10"
                 android:paddingStart="30dp"
+                android:paddingTop="4dp"
                 android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
                 android:text="@string/HideRootWithUpgrade" />
 
 
@@ -82,11 +81,11 @@
                 android:layout_height="120dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
                 android:maxLines="10"
                 android:paddingStart="30dp"
+                android:paddingTop="4dp"
                 android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
                 android:text="@string/HideRootGlobal" />
 
 
@@ -99,8 +98,8 @@
                 android:maxLines="10"
                 android:paddingStart="30dp"
                 android:paddingTop="4dp"
-                android:paddingBottom="4dp"
                 android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
                 android:text="@string/enableCheckInstaller" />
 
             <Switch
@@ -112,8 +111,8 @@
                 android:maxLines="10"
                 android:paddingStart="30dp"
                 android:paddingTop="4dp"
-                android:paddingBottom="4dp"
                 android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
                 android:text="@string/hideDepWarn" />
 
             <Switch
@@ -123,10 +122,10 @@
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:maxLines="10"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
                 android:paddingStart="30dp"
+                android:paddingTop="4dp"
                 android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
                 android:text="@string/enableCTS" />
 
 
@@ -137,12 +136,11 @@
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:maxLines="10"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
                 android:paddingStart="30dp"
+                android:paddingTop="4dp"
                 android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
                 android:text="@string/removeStore" />
-
 
 
             <Switch
@@ -152,11 +150,24 @@
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:maxLines="10"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
                 android:paddingStart="30dp"
+                android:paddingTop="4dp"
                 android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
                 android:text="@string/autoInstall" />
+
+            <Switch
+                android:id="@+id/disableSearch"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:maxLines="10"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:text="@string/disableSearch" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -172,9 +183,9 @@
                 android:layout_height="70dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
-                android:paddingBottom="4dp"
                 android:paddingStart="30dp"
                 android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
                 android:text="@string/hide_icon_label" />
 
             <Switch
@@ -184,8 +195,8 @@
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
-                android:paddingEnd="30dp"
                 android:paddingTop="4dp"
+                android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
                 android:text="@string/hide_icon_4x5" />
 
@@ -197,8 +208,8 @@
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
-                android:paddingEnd="30dp"
                 android:paddingTop="4dp"
+                android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
                 android:text="@string/hide_icon_5x5" />
 
@@ -209,8 +220,8 @@
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
-                android:paddingEnd="30dp"
                 android:paddingTop="4dp"
+                android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
                 android:text="@string/hide_icon_65" />
 
@@ -225,80 +236,84 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:background="@color/switchBtn"
-                android:layout_height="80dp">
+                android:layout_height="80dp"
+                android:background="@color/switchBtn">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="8"
                     android:layout_marginTop="4dp"
+                    android:layout_weight="8"
                     android:paddingStart="30dp"
-                    android:paddingEnd="30dp"
                     android:paddingTop="4dp"
-                    android:textColor="#000"
+                    android:paddingEnd="30dp"
                     android:paddingBottom="4dp"
-                    android:text="@string/home_icon_num_rows" />
+                    android:text="@string/home_icon_num_rows"
+                    android:textColor="#000" />
+
                 <com.coderstory.flyme.view.QNumberPicker
                     android:id="@+id/home_icon_num_rows"
-                    android:descendantFocusability="blocksDescendants"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:descendantFocusability="blocksDescendants" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:background="@color/switchBtn"
-                android:layout_height="80dp">
+                android:layout_height="80dp"
+                android:background="@color/switchBtn">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="8"
                     android:layout_marginTop="4dp"
+                    android:layout_weight="8"
                     android:paddingStart="30dp"
-                    android:paddingEnd="30dp"
                     android:paddingTop="4dp"
-                    android:textColor="#000"
+                    android:paddingEnd="30dp"
                     android:paddingBottom="10dp"
-                    android:text="@string/home_icon_num_column" />
+                    android:text="@string/home_icon_num_column"
+                    android:textColor="#000" />
+
                 <com.coderstory.flyme.view.QNumberPicker
                     android:id="@+id/home_icon_num_column"
-                    android:descendantFocusability="blocksDescendants"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:descendantFocusability="blocksDescendants" />
             </LinearLayout>
-
 
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:background="@color/switchBtn"
-                android:layout_height="80dp">
+                android:layout_height="80dp"
+                android:background="@color/switchBtn">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="8"
                     android:layout_marginTop="4dp"
+                    android:layout_weight="8"
                     android:paddingStart="30dp"
-                    android:paddingEnd="30dp"
                     android:paddingTop="4dp"
-                    android:textColor="#000"
+                    android:paddingEnd="30dp"
                     android:paddingBottom="10dp"
-                    android:text="@string/home_icon_num_hot_seat_icons" />
+                    android:text="@string/home_icon_num_hot_seat_icons"
+                    android:textColor="#000" />
+
                 <com.coderstory.flyme.view.QNumberPicker
                     android:id="@+id/home_icon_num_hot_seat_icons"
-                    android:descendantFocusability="blocksDescendants"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:descendantFocusability="blocksDescendants" />
             </LinearLayout>
 
-
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="#FFF" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

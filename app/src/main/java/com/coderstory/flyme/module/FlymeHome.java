@@ -13,6 +13,7 @@ import java.io.File;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
@@ -61,6 +62,12 @@ public class FlymeHome extends XposedHelper implements IModule {
             }
 
             meizu17(lpparam);
+
+            if (prefs.getBoolean("disableSearch", false)) {
+                findAndHookMethod("com.meizu.launcher3.controller.CommonTouchController", lpparam.classLoader, "startSearchActivity", XC_MethodReplacement.returnConstant((Object) null));
+                findAndHookMethod("com.android.quickstep.views.RecentsView", lpparam.classLoader, "loadVisibleTaskData", XC_MethodReplacement.returnConstant((Object) null));
+            }
+
         }
     }
 

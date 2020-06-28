@@ -158,6 +158,10 @@ public class OthersFragment extends BaseFragment {
             getEditor().putInt("home_icon_num_hot_seat_icons", newValue);
             fix();
         });
+        $(R.id.disableSearch).setOnClickListener(v -> {
+            getEditor().putBoolean("disableSearch", ((Switch) v).isChecked());
+            fix();
+        });
 
     }
 
@@ -185,15 +189,14 @@ public class OthersFragment extends BaseFragment {
         ((NumberPicker) $(R.id.home_icon_num_column)).setValue(getPrefs().getInt("home_icon_num_column", 4));
         ((NumberPicker) $(R.id.home_icon_num_rows)).setValue(getPrefs().getInt("home_icon_num_rows", 5));
         ((NumberPicker) $(R.id.home_icon_num_hot_seat_icons)).setValue(getPrefs().getInt("home_icon_num_hot_seat_icons", 4));
+        ((Switch) $(R.id.disableSearch)).setChecked(getPrefs().getBoolean("disableSearch", false));
     }
 
     private void setDatePickerDividerColor(NumberPicker picker) {
-
         //设置最大值
         picker.setMaxValue(7);
         //设置最小值
         picker.setMinValue(4);
-
         Field[] pickerFields = NumberPicker.class.getDeclaredFields();
         for (Field pf : pickerFields) {
             if (pf.getName().equals("mSelectionDivider")) {
@@ -207,6 +210,4 @@ public class OthersFragment extends BaseFragment {
             }
         }
     }
-
-
 }
