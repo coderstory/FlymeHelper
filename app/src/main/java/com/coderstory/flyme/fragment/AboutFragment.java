@@ -3,6 +3,8 @@ package com.coderstory.flyme.fragment;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -80,10 +82,11 @@ public class AboutFragment extends BaseFragment {
                     break;
 
                 case 4:
-                    Toast.makeText(getMContext(), "绑定成功", Toast.LENGTH_SHORT).show();
                     if (msg.getData().get("value").equals("{\"error\":\"0\"}")) {
                         getEditor().putString("qq", msg.getData().get("qq").toString()).apply();
                         getEditor().putString("uuid", msg.getData().get("uuid").toString()).apply();
+                        Toast.makeText(getMContext(), "绑定成功,重启应用生效", Toast.LENGTH_SHORT).show();
+                        refresh();
                     } else {
                         Toast.makeText(getMContext(), "绑定失败:\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
                     }
@@ -116,19 +119,15 @@ public class AboutFragment extends BaseFragment {
                     .show();
         });
 
-        ((TextView) $(R.id.version)).setText(BuildConfig.VERSION_NAME);
 
-        ((TextView) $(R.id.mark)).setText("当前版本类型:" + (helper.getString("qq", "").equals("") || helper.getString("uuid", "").equals("") ? "体验版" : "完整版"));
-        ((TextView) $(R.id.qq)).setText("绑定QQ:" + helper.getString("qq", "无"));
-
-
+        refresh();
         if (helper.getString("qq", "").equals("") || helper.getString("uuid", "").equals("")) {
             final EditText inputServer = new EditText(getMContext());
             inputServer.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
             inputServer.setFilters(new InputFilter[]{new InputFilter.LengthFilter(17)});
             AlertDialog.Builder builder = new AlertDialog.Builder(getMContext());
             builder.setTitle("获取完整版\r\n请加群906552736后输入QQ号").setView(inputServer);
-            builder.setPositiveButton("确定", (dialog, which) -> {
+            builder.setPositiveButton("校验QQ号", (dialog, which) -> {
                 String _sign = inputServer.getText().toString();
                 if (!_sign.isEmpty()) {
                     String uuid = UUID.randomUUID().toString();
@@ -137,9 +136,44 @@ public class AboutFragment extends BaseFragment {
                     Toast.makeText(getMContext(), "QQ号不能为空", Toast.LENGTH_SHORT).show();
                 }
             });
+            builder.setNegativeButton("加入官方群", (dialog, which) -> {
+                if (!joinQQGroup("s2izD9Z7jjBwQO-c6fzrU8m3_BBS0fIe")) {
+                    Toast.makeText(getMContext(), "拉起手Q失败", Toast.LENGTH_LONG).show();
+                }
+            });
             builder.show();
         }
     }
+
+    public void refresh() {
+        ((TextView) $(R.id.version)).setText(BuildConfig.VERSION_NAME);
+
+        ((TextView) $(R.id.mark)).setText("当前版本类型:" + (helper.getString("qq", "").equals("") || helper.getString("uuid", "").equals("") ? "体验版" : "完整版"));
+        ((TextView) $(R.id.qq)).setText("绑定QQ:" + helper.getString("qq", "无"));
+
+    }
+
+    /****************
+     *
+     * 发起添加群流程。群号：助手群(906552736) 的 key 为： s2izD9Z7jjBwQO-c6fzrU8m3_BBS0fIe
+     * 调用 joinQQGroup(s2izD9Z7jjBwQO-c6fzrU8m3_BBS0fIe) 即可发起手Q客户端申请加群 助手群(906552736)
+     *
+     * @param key 由官网生成的key
+     * @return 返回true表示呼起手Q成功，返回fals表示呼起失败
+     ******************/
+    public boolean joinQQGroup(String key) {
+        Intent intent = new Intent();
+        intent.setData(Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + key));
+        // 此Flag可根据具体产品需要自定义，如设置，则在加群界面按返回，返回手Q主界面，不设置，按返回会返回到呼起产品界面    //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        try {
+            startActivity(intent);
+            return true;
+        } catch (Exception e) {
+            // 未安装手Q或安装的版本不支持
+            return false;
+        }
+    }
+
 
     class Check implements Runnable {
 
@@ -196,6 +230,9 @@ public class AboutFragment extends BaseFragment {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                Message msg = new Message();
+                msg.arg1 = 5;
+                myHandler.sendMessage(msg);
             }
         }
 

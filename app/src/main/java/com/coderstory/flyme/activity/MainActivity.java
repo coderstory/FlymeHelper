@@ -19,6 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.alibaba.fastjson.JSON;
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.activity.base.BaseActivity;
 import com.coderstory.flyme.config.Misc;
@@ -38,6 +39,12 @@ import com.coderstory.flyme.utils.SnackBarUtils;
 import com.coderstory.flyme.utils.ViewUtils;
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
@@ -90,6 +97,18 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     });
                     dialog.setCancelable(false);
                     dialog.show();
+                    break;
+                case 4:
+                    if (!msg.getData().get("value").equals("{\"error\":\"0\"}")) {
+                        Toast.makeText(MainActivity.this, "绑定失败:\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
+                        helper.put("qq", "");
+                        helper.put("uuid", "");
+                    }
+                    // 校验返回
+                    break;
+                case 5:
+                    // 接口调用失败
+                    Toast.makeText(MainActivity.this, "服务器连接失败", Toast.LENGTH_LONG).show();
                     break;
             }
         }
@@ -203,6 +222,10 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     });
             normalDialog.setCancelable(true);
             normalDialog.show();
+        }
+
+        if (!helper.getString("qq", "").equals("") || !helper.getString("uuid", "").equals("")) {
+            new Thread(new Check(helper.getString("qq", ""), helper.getString("uuid", ""))).start();
         }
     }
 
@@ -338,6 +361,83 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         Shell.SU.run("chmod 0777 " + path + " /data/config.cfg");
     }
 
+    class Check implements Runnable {
+
+        String qq;
+        String uuid;
+
+        public Check(String qq, String uuid) {
+            this.qq = qq;
+            this.uuid = uuid;
+        }
+
+        @Override
+        public void run() {
+            String path = Misc.searchApi;
+            try {
+                URL url = new URL(path);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setConnectTimeout(5000);
+                connection.setRequestMethod("POST");
+
+                //数据准备
+                String data = "{\n" +
+                        "    \"QQ\": \"" + qq + "\",\n" +
+                        "    \"uuid\": \"" + uuid + "\",\n" +
+                        "    \"isLogin\": 0\n" +
+                        "}";
+                //至少要设置的两个请求头
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Content-Length", data.length() + "");
+
+                //post的方式提交实际上是留的方式提交给服务器
+                connection.setDoOutput(true);
+                OutputStream outputStream = connection.getOutputStream();
+                outputStream.write(data.getBytes());
+
+                //获得结果码
+                int responseCode = connection.getResponseCode();
+                if (responseCode == 200) {
+                    //请求成功
+                    InputStream is = connection.getInputStream();
+
+                    Message msg = new Message();
+                    msg.arg1 = 4;
+                    Bundle data2 = new Bundle();
+                    data2.putString("value", dealResponseResult(is));
+                    data2.putString("qq", qq);
+                    data2.putString("uuid", uuid);
+                    msg.setData(data2);
+                    myHandler.sendMessage(msg);
+                } else {
+                    Message msg = new Message();
+                    msg.arg1 = 5;
+                    myHandler.sendMessage(msg);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Message msg = new Message();
+                msg.arg1 = 5;
+                myHandler.sendMessage(msg);
+            }
+        }
+
+        public String dealResponseResult(InputStream inputStream) {
+            String resultData;      //存储处理结果
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            byte[] data = new byte[1024];
+            int len = 0;
+            try {
+                while ((len = inputStream.read(data)) != -1) {
+                    byteArrayOutputStream.write(data, 0, len);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            resultData = new String(byteArrayOutputStream.toByteArray());
+            return resultData;
+        }
+    }
 
 }
 
