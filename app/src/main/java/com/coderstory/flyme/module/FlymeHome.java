@@ -59,6 +59,15 @@ public class FlymeHome extends XposedHelper implements IModule {
                         param.args[0] = false;
                     }
                 });
+                // android 10
+                hookAllMethods("com.android.launcher3.BubbleTextView", lpparam.classLoader, "setText", new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        param.args[0] = "";
+                    }
+                });
+
             }
 
             meizu17(lpparam);
@@ -72,7 +81,7 @@ public class FlymeHome extends XposedHelper implements IModule {
                  *         this.mLauncher.startActivity(actUp);
                  *     }
                  */
-                findAndHookMethod("com.meizu.flyme.g.a", lpparam.classLoader, "a", XC_MethodReplacement.returnConstant((Object) null));
+                findAndHookMethod("com.meizu.flyme.g.a", lpparam.classLoader, "a", XC_MethodReplacement.returnConstant(null));
                 findAndHookMethod("com.meizu.launcher3.controller.CommonTouchController", lpparam.classLoader, "startSearchActivity", XC_MethodReplacement.returnConstant((Object) null));
                 /**
                  *     public void loadVisibleTaskData() {
