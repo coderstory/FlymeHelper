@@ -88,16 +88,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                         helper.put("isRooted", true);
                     }
                     break;
-                case 3:
-                    android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(MainActivity.this);
-                    dialog.setTitle("提示");
-                    dialog.setMessage("本应用尚未再Xposed中启用,请启用后再试...");
-                    dialog.setPositiveButton("退出", (dialog12, which) -> {
-                        System.exit(0);
-                    });
-                    dialog.setCancelable(false);
-                    dialog.show();
-                    break;
                 case 4:
                     if (!msg.getData().get("value").equals("{\"error\":\"0\"}")) {
                         Toast.makeText(MainActivity.this, "绑定失败:\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
@@ -231,7 +221,9 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
     private void checkEnable() {
         Log.e("xposed", "flyme助手->isEnable:" + (isEnable() ? "true" : "false"));
-
+        if (helper.getBoolean("enableCheck", true) && !isEnable()) {
+            SnackBarUtils.makeLong(mNavigationView, "插件尚未激活,功能将不可用！").show();
+        }
     }
 
     //init the default checked fragment

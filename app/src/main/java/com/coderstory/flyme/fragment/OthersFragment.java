@@ -163,7 +163,10 @@ public class OthersFragment extends BaseFragment {
             getEditor().putBoolean("disableSearch", ((Switch) v).isChecked());
             fix();
         });
-
+        $(R.id.mms).setOnClickListener(v -> {
+            getEditor().putBoolean("mms", ((Switch) v).isChecked());
+            fix();
+        });
     }
 
     @Override
@@ -191,6 +194,7 @@ public class OthersFragment extends BaseFragment {
         ((NumberPicker) $(R.id.home_icon_num_rows)).setValue(getPrefs().getInt("home_icon_num_rows", 5));
         ((NumberPicker) $(R.id.home_icon_num_hot_seat_icons)).setValue(getPrefs().getInt("home_icon_num_hot_seat_icons", 4));
         ((Switch) $(R.id.disableSearch)).setChecked(getPrefs().getBoolean("disableSearch", false));
+        ((Switch) $(R.id.mms)).setChecked(getPrefs().getBoolean("mms", false));
 
         if (getPrefs().getString("qq", "").equals("") || getPrefs().getString("uuid", "").equals("")) {
             ((Switch) $(R.id.removeStore)).setEnabled(false);
