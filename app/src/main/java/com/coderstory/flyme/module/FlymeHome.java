@@ -64,7 +64,9 @@ public class FlymeHome extends XposedHelper implements IModule {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         super.beforeHookedMethod(param);
-                        param.args[0] = "";
+                        if (XposedHelpers.getIntField(param.thisObject, "mIconSize") > 100) {
+                            param.args[0] = "";
+                        }
                     }
                 });
 
