@@ -8,9 +8,11 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <application
         android:name=".utils.Application"
         android:allowBackup="true"
+        android:requestLegacyExternalStorage="true"
         android:fullBackupContent="true"
         android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_dialog_upgrade_logs"
+        style="@style/TextAppearance.AppCompat.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="8dp"
+        android:lineSpacingMultiplier="1.2"
+        android:scrollbars="vertical"
+        android:text="@string/dialog_upgrade_message"
+        android:textColor="@color/dialog_upgrade_text_dark_color"
+        android:textSize="@dimen/dialog_upgrade_message_font_size"
+        android:textStyle="normal" />
+
+</androidx.core.widget.NestedScrollView>
+
+
+

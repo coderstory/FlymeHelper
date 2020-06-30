@@ -33,6 +33,7 @@ import com.coderstory.flyme.fragment.SettingsFragment;
 import com.coderstory.flyme.fragment.SystemUIFragment;
 import com.coderstory.flyme.fragment.UpdateListFragment;
 import com.coderstory.flyme.fragment.WebViewFragment;
+import com.coderstory.flyme.update.updgradeService;
 import com.coderstory.flyme.utils.RuntimeUtil;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.SnackBarUtils;
@@ -217,6 +218,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         if (!helper.getString("qq", "").equals("") || !helper.getString("uuid", "").equals("")) {
             new Thread(new Check(helper.getString("qq", ""), helper.getString("uuid", ""))).start();
         }
+
+        new updgradeService(this).checkUpgrade();
     }
 
     private void checkEnable() {

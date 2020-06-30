@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/bg_dialog_upgrade"
+    android:orientation="vertical">
+
+    <include layout="@layout/dialog_upgrade_head_bar" />
+
+    <include layout="@layout/dialog_upgrade_body" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/v_dialog_upgrade_done_button"
+            layout="@layout/dialog_upgrade_done_button"
+            android:visibility="visible" />
+
+        <include
+            android:id="@+id/v_dialog_upgrade_progress"
+            layout="@layout/dialog_upgrade_progress"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

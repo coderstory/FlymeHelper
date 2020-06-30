@@ -40,6 +40,8 @@ android {
 }
 
 dependencies {
+    implementation project(path: ':upgradelibrary')
+    implementation project(path: ':upgradelibrary')
     compileOnly fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
