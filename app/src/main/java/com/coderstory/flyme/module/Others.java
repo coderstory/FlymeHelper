@@ -1,11 +1,15 @@
 package com.coderstory.flyme.module;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
 import android.text.format.DateFormat;
 import android.util.Base64;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +34,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class Others extends XposedHelper implements IModule {
 
     private static Context mContext = null;
-
+    private static final TextView[] mClock = new TextView[1];
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
         if (resparam.packageName.equals("com.android.systemui")) {
@@ -174,7 +178,77 @@ public class Others extends XposedHelper implements IModule {
                 findAndHookMethod("com.flyme.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "isVpnEnabled", XC_MethodReplacement.returnConstant(false));
                 hookAllMethods("com.flyme.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "notifyChanged", XC_MethodReplacement.returnConstant(null));
             }
+
+
+            if (prefs.getBoolean("status_text_view_clock_center", false)) {
+                findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarView", loadPackageParam.classLoader, "setBar", "com.android.systemui.statusbar.phone.StatusBar",
+                        new XC_MethodHook() {
+                            @Override
+                            public void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                ViewGroup phoneStatusBarView = (ViewGroup) param.thisObject;
+                                final Context context = phoneStatusBarView.getContext();
+                                Resources res = context.getResources();
+                                TextView clock = phoneStatusBarView.findViewById(
+                                        res.getIdentifier("clock", "id", "com.android.systemui"));
+                                mClock[0] = clock;
+
+                                ((ViewGroup) clock.getParent()).removeView(clock);
+                                LinearLayout mCenterLayout = new LinearLayout(context);
+                                LinearLayout.LayoutParams lp =
+                                        new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                                mCenterLayout.setLayoutParams(lp);
+                                mCenterLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+                                phoneStatusBarView.addView(mCenterLayout);
+                                clock.setGravity(Gravity.BOTTOM);
+                                clock.setPaddingRelative(0, 0, 0, 15);
+                                mCenterLayout.addView(clock);
+                            }
+                        });
+
+                hookAllMethods("com.flyme.systemui.statusbar.phone.FlymeMarqueeTicker", loadPackageParam.classLoader, "tickerDone", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        if (mClock[0] != null) {
+                            mClock[0].setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+
+                hookAllMethods("com.flyme.systemui.statusbar.phone.MarqueeTextView", loadPackageParam.classLoader, "setText", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        if (mClock[0] != null && param.args[0] != null) {
+                            mClock[0].setVisibility(View.INVISIBLE);
+                        }
+                    }
+                });
+
+                hookAllMethods("com.flyme.systemui.statusbar.phone.FlymeMarqueeTicker", loadPackageParam.classLoader, "tickerHalting", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        if (mClock[0] != null) {
+                            mClock[0].setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+
+                hookAllMethods("com.flyme.systemui.statusbar.phone.FlymeMarqueeTicker", loadPackageParam.classLoader, "tickerStarting", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        if (mClock[0] != null) {
+                            mClock[0].setVisibility(View.INVISIBLE);
+                        }
+                    }
+                });
+            }
+
+
         }
+
 
         // 禁止安装app时候的安全检验
         if (loadPackageParam.packageName.equals("com.android.packageinstaller")) {
