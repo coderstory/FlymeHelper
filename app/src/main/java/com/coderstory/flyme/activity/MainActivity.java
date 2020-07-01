@@ -196,7 +196,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         if (helper.getBoolean("firstOpenC", true)) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
             normalDialog.setTitle("初始提示");
-            normalDialog.setMessage("从flyme助手4.0.4版本开始,所有更新紧针对android 10版本flyme,官方马上上android 10了，没必要维护两套,功能不变,耗时翻倍.");
+            normalDialog.setMessage("从flyme助手4.0.4版本开始,所有更新紧针对android 10版本flyme,官方马上上android 10了，没必要维护两套,功能不变,耗时还翻倍.");
             normalDialog.setPositiveButton("确定",
                     (dialog, which) -> {
                         helper.put("firstOpenC", false);
