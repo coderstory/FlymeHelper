@@ -193,6 +193,18 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             normalDialog.show();
         }
 
+        if (helper.getBoolean("firstOpenC", true)) {
+            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
+            normalDialog.setTitle("初始提示");
+            normalDialog.setMessage("从flyme助手4.0.4版本开始,所有更新紧针对android 10版本flyme,官方马上上android 10了，没必要维护两套,功能不变,耗时翻倍.");
+            normalDialog.setPositiveButton("确定",
+                    (dialog, which) -> {
+                        helper.put("firstOpenC", false);
+                    });
+            normalDialog.setCancelable(true);
+            normalDialog.show();
+        }
+
 //        if (!vi()) {
 //            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
 //            normalDialog.setTitle("过期提示");
@@ -207,7 +219,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         if (Misc.isTestVersion) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
             normalDialog.setTitle("FBI Warning");
-            normalDialog.setMessage("当前版本为测试版本,不适合长期使用,且存在3天的有效期,过期后功能会无法使用");
+            normalDialog.setMessage("当前版本为测试版本,不适合长期使用");
             normalDialog.setPositiveButton("确定",
                     (dialog, which) -> {
                     });
