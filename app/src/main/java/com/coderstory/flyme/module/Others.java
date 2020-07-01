@@ -161,9 +161,9 @@ public class Others extends XposedHelper implements IModule {
             }
 
             if (prefs.getBoolean("hide_icon_bluetooth", false)) {
-                findAndHookMethod("com.android.settingslib.bluetooth.BluetoothEventManager", loadPackageParam.classLoader, "dispatchActiveDeviceChanged", XC_MethodReplacement.returnConstant(null));
+                hookAllMethods("com.android.settingslib.bluetooth.BluetoothEventManager", loadPackageParam.classLoader, "dispatchActiveDeviceChanged", XC_MethodReplacement.returnConstant(null));
                 //findAndHookMethod("com.android.settingslib.bluetooth.BluetoothEventManager", loadPackageParam.classLoader, "dispatchAudioModeChanged", XC_MethodReplacement.returnConstant(null));
-                findAndHookMethod("com.android.settingslib.bluetooth.BluetoothEventManager", loadPackageParam.classLoader, "dispatchConnectionStateChanged", XC_MethodReplacement.returnConstant(null));
+                hookAllMethods("com.android.settingslib.bluetooth.BluetoothEventManager", loadPackageParam.classLoader, "dispatchConnectionStateChanged", XC_MethodReplacement.returnConstant(null));
                 //findAndHookMethod("com.android.settingslib.bluetooth.BluetoothEventManager", loadPackageParam.classLoader, "dispatchDeviceAdded", XC_MethodReplacement.returnConstant(null));
                 //1 findAndHookMethod("com.android.systemui.statusbar.policy.BluetoothControllerImpl", loadPackageParam.classLoader, "setBluetoothEnabled", boolean.class, XC_MethodReplacement.returnConstant(null));
                 // 2findAndHookMethod("com.android.systemui.statusbar.policy.BluetoothControllerImpl", loadPackageParam.classLoader, "onServiceConnected", XC_MethodReplacement.returnConstant(null));
