@@ -84,11 +84,9 @@ public class AboutFragment extends BaseFragment {
                     if (msg.getData().get("value").equals("{\"error\":\"0\"}")) {
                         getEditor().putString("qq", msg.getData().get("qq").toString()).apply();
                         getEditor().putString("uuid", msg.getData().get("uuid").toString()).apply();
-                        Toast.makeText(getMContext(), "绑定成功,软件即将重启生效", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getMContext(), "绑定成功", Toast.LENGTH_SHORT).show();
                         refresh();
-                        final Intent intent = getMContext().getPackageManager().getLaunchIntentForPackage(getMContext().getPackageName());
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
+
                     } else {
                         Toast.makeText(getMContext(), "绑定失败:\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
                     }

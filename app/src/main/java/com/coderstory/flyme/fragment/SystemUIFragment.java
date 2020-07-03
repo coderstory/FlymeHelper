@@ -100,4 +100,10 @@ public class SystemUIFragment extends BaseFragment {
             ((Switch) $(R.id.status_text_view_clock_center)).setEnabled(false);
         }
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        setUpData();
+    }
 }
