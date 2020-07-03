@@ -83,7 +83,6 @@ public class FlymeHome extends XposedHelper implements IModule {
                  *         this.mLauncher.startActivity(actUp);
                  *     }
                  */
-                findAndHookMethod("com.meizu.flyme.g.a", lpparam.classLoader, "a", XC_MethodReplacement.returnConstant(null));
                 findAndHookMethod("com.meizu.launcher3.controller.CommonTouchController", lpparam.classLoader, "startSearchActivity", XC_MethodReplacement.returnConstant((Object) null));
                 /**
                  *     public void loadVisibleTaskData() {
@@ -113,7 +112,7 @@ public class FlymeHome extends XposedHelper implements IModule {
                  *         }
                  *     }
                  */
-                findAndHookMethod("com.android.quickstep.views.RecentsView", lpparam.classLoader, "loadVisibleTaskData", XC_MethodReplacement.returnConstant((Object) null));
+               // findAndHookMethod("com.android.quickstep.views.RecentsView", lpparam.classLoader, "loadVisibleTaskData", XC_MethodReplacement.returnConstant((Object) null));
             }
 
         }

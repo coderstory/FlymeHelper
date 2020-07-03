@@ -62,12 +62,21 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="5dp"
+                        android:text="授权有效期:永久"
+                        android:textSize="14sp" />
+
+                    <TextView
                         android:id="@+id/mark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:layout_marginTop="8dp"
-                        android:text="当前版本类型:体验版"
+                        android:text="当前版本类型: 体验版"
                         android:textSize="14sp" />
 
                     <TextView
@@ -77,15 +86,6 @@
                         android:layout_marginLeft="12dp"
                         android:layout_marginTop="5dp"
                         android:text="绑定QQ:无"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginTop="5dp"
-                        android:text="有效期:永久"
                         android:textSize="14sp" />
                 </LinearLayout>
 
