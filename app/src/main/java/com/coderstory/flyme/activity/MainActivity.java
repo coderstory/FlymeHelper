@@ -106,6 +106,12 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     };
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("android:support:fragments", null);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
