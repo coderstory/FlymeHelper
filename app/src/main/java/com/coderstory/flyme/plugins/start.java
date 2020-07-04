@@ -10,6 +10,7 @@ import com.coderstory.flyme.module.HideApp;
 import com.coderstory.flyme.module.IsEnable;
 import com.coderstory.flyme.module.Others;
 import com.coderstory.flyme.module.RemoveAds;
+import com.coderstory.flyme.module.SystemUi;
 import com.coderstory.flyme.module.ThemePatcher;
 import com.coderstory.flyme.utils.Dex2C;
 import com.coderstory.flyme.utils.FileUtils;
@@ -46,6 +47,7 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
             new FlymeRoot().handleInitPackageResources(resparam);
             new FlymeHome().handleInitPackageResources(resparam);
             new Others().handleInitPackageResources(resparam);
+            new SystemUi().handleInitPackageResources(resparam);
         // }
     }
 
@@ -59,8 +61,7 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
         new ThemePatcher().handleLoadPackage(lpparam);
         new FlymeRoot().handleLoadPackage(lpparam);
         new RemoveAds().handleLoadPackage(lpparam);
-        //XposedBridge.log("主题和谐: " + prefs.getBoolean("enabletheme", false));
-        //XposedBridge.log("包管理器: " + prefs.getBoolean("enableCheckInstaller", false));
+        new SystemUi().handleLoadPackage(lpparam);
         // }
     }
 
