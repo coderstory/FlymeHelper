@@ -169,7 +169,7 @@ public class SystemUi extends XposedHelper implements IModule {
                 hookAllMethods("com.flyme.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "notifyChanged", XC_MethodReplacement.returnConstant(null));
             }
 
-
+            //时间居中
             if (prefs.getBoolean("status_text_view_clock_center", false)) {
                 findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarView", loadPackageParam.classLoader, "setBar", "com.android.systemui.statusbar.phone.StatusBar",
                         new XC_MethodHook() {
@@ -235,6 +235,19 @@ public class SystemUi extends XposedHelper implements IModule {
                     }
                 });
             }
+            //coord: (200179,10,46) | addr: Lcom/android/systemui/statusbar/phone/StatusBarSignalPolicy$WifiIconState;->toString()Ljava/lang/String;+28h | loc: ?
+            hookAllMethods("com.android.systemui.statusbar.phone.StatusBarSignalPolicy", loadPackageParam.classLoader, "setMobileDataIndicators", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    if (prefs.getBoolean("hide_status_bar_sim1_icon", false)) {
+                        XposedHelpers.setBooleanField(param.args[0], "visible", false);
+                    }
+                    if (prefs.getBoolean("hide_status_bar_sim2_icon", false)) {
+                        XposedHelpers.setBooleanField(param.args[1], "visible", false);
+                    }
+                }
+            });
         }
 
     }

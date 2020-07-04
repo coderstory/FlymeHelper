@@ -70,6 +70,14 @@ public class SystemUIFragment extends BaseFragment {
             getEditor().putBoolean("status_text_view_clock_center", ((Switch) v).isChecked());
             fix();
         });
+        $(R.id.hide_status_bar_sim1_icon).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_status_bar_sim1_icon", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.hide_status_bar_sim2_icon).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_status_bar_sim2_icon", ((Switch) v).isChecked());
+            fix();
+        });
     }
 
     @Override
@@ -93,6 +101,8 @@ public class SystemUIFragment extends BaseFragment {
         ((Switch) $(R.id.hide_status_bar_time_week_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_time_week_icon", false));
         ((Switch) $(R.id.hide_status_bar_time_chinese_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_time_chinese_icon", false));
         ((Switch) $(R.id.status_text_view_clock_center)).setChecked(getPrefs().getBoolean("status_text_view_clock_center", false));
+        ((Switch) $(R.id.hide_status_bar_sim1_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_sim1_icon", false));
+        ((Switch) $(R.id.hide_status_bar_sim2_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_sim2_icon", false));
         if (getPrefs().getString("qq", "").equals("") || getPrefs().getString("uuid", "").equals("")) {
             ((Switch) $(R.id.hide_status_bar_slow_rate_icon)).setEnabled(false);
             ((Switch) $(R.id.hide_status_bar_time_week_icon)).setEnabled(false);
