@@ -83,6 +83,7 @@ public class FlymeHome extends XposedHelper implements IModule {
                  *         this.mLauncher.startActivity(actUp);
                  *     }
                  */
+                findAndHookMethod("com.meizu.flyme.g.a", lpparam.classLoader, "a", XC_MethodReplacement.returnConstant(null));
                 findAndHookMethod("com.meizu.launcher3.controller.CommonTouchController", lpparam.classLoader, "startSearchActivity", XC_MethodReplacement.returnConstant((Object) null));
                 /**
                  *     public void loadVisibleTaskData() {
@@ -128,18 +129,24 @@ public class FlymeHome extends XposedHelper implements IModule {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    XposedHelpers.setIntField(param.thisObject, "numRows", numRows);
-                    XposedHelpers.setIntField(param.thisObject, "numColumns", numColumns);
-                    XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons);
+                    if (numRows != 0)
+                        XposedHelpers.setIntField(param.thisObject, "numRows", numRows);
+                    if (numColumns != 0)
+                        XposedHelpers.setIntField(param.thisObject, "numColumns", numColumns);
+                    if (numHotseatIcons != 0)
+                        XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons);
                 }
             });
             hookAllConstructors(findClass("com.android.launcher3.InvariantDeviceProfile", lpparam.classLoader), new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    XposedHelpers.setIntField(param.thisObject, "numRows", numRows);
-                    XposedHelpers.setIntField(param.thisObject, "numColumns", numColumns);
-                    XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons);
+                    if (numRows != 0)
+                        XposedHelpers.setIntField(param.thisObject, "numRows", numRows);
+                    if (numColumns != 0)
+                        XposedHelpers.setIntField(param.thisObject, "numColumns", numColumns);
+                    if (numHotseatIcons != 0)
+                        XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons);
                 }
             });
 
