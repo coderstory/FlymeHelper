@@ -61,6 +61,9 @@
     <string name="hide_status_bar_sim2_icon"><b>隐藏图标-SIM2</b>\n隐藏状态栏SIM2的图标</string>
     <string name="launcher10">自定义桌面布局(<font color='#4db6ac'> Android 10可用</font>)\n如果桌面挂件尺寸不对,请删除后重新添加即可></string>
     <string name="launcher8">自定义桌面布局(<font color='#4db6ac'> Andorid 8.0- 9.0可用</font>)</string>
+    <string name="hide_status_bar_location_icon"><b>定位</b>\n使用GPS的时候，隐藏状态栏上的定位图标</string>
+    <string name="hide_status_bar_clock_icon"><b>时钟</b>\n隐藏状态栏中的时间</string>
+    <string name="hide_status_bar_battery_icon"><b>电池</b>\n隐藏状态栏上的电池图标(不含17系列的环形电池) 修改后立即生效,设置重启后失效</string>
     <string name="Tips_Title">温馨提示</string>
     <string name="Btn_Sure">确定</string>
     <string name="Btn_Cancel">取消</string>
@@ -146,7 +149,4 @@
     <string name="removeStore"><b>移除推广按钮</b>  <font color='#FFC0CB'>vip</font>\n移除应用安装界面的从官方商店下载按钮</string>
     <string name="autoInstall"><b>自动安装应用</b>  <font color='#FFC0CB'>vip</font>\n打开应用安装界面后，无需点击按钮自动执行安装任务</string>
     <string name="systemui">状态栏设置</string>
-
-
-
 </resources>

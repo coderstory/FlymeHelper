@@ -5,6 +5,10 @@ import android.widget.Switch;
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import eu.chainfire.libsuperuser.Shell;
 
 public class SystemUIFragment extends BaseFragment {
@@ -13,10 +17,12 @@ public class SystemUIFragment extends BaseFragment {
         $(R.id.hide_icon_alarm_clock).setOnClickListener(v -> {
             getEditor().putBoolean("hide_icon_alarm_clock", ((Switch) v).isChecked());
             fix();
+            updateIcon();
         });
         $(R.id.hide_icon_bluetooth).setOnClickListener(v -> {
             getEditor().putBoolean("hide_icon_bluetooth", ((Switch) v).isChecked());
             fix();
+            updateIcon();
         });
         $(R.id.hide_icon_hotspot).setOnClickListener(v -> {
             getEditor().putBoolean("hide_icon_hotspot", ((Switch) v).isChecked());
@@ -30,6 +36,7 @@ public class SystemUIFragment extends BaseFragment {
         $(R.id.hide_icon_shake).setOnClickListener(v -> {
             getEditor().putBoolean("hide_icon_shake", ((Switch) v).isChecked());
             fix();
+            updateIcon();
         });
         $(R.id.hide_status_bar_no_sim_icon).setOnClickListener(v -> {
             getEditor().putBoolean("hide_status_bar_no_sim_icon", ((Switch) v).isChecked());
@@ -39,6 +46,7 @@ public class SystemUIFragment extends BaseFragment {
         $(R.id.hide_status_bar_wifi_icon).setOnClickListener(v -> {
             getEditor().putBoolean("hide_status_bar_wifi_icon", ((Switch) v).isChecked());
             fix();
+            updateIcon();
         });
 
         $(R.id.hide_status_bar_vpn_icon).setOnClickListener(v -> {
@@ -78,6 +86,24 @@ public class SystemUIFragment extends BaseFragment {
             getEditor().putBoolean("hide_status_bar_sim2_icon", ((Switch) v).isChecked());
             fix();
         });
+
+        $(R.id.hide_status_bar_location_icon).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_status_bar_location_icon", ((Switch) v).isChecked());
+            fix();
+            updateIcon();
+        });
+
+        $(R.id.hide_status_bar_clock_icon).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_status_bar_clock_icon", ((Switch) v).isChecked());
+            fix();
+            updateIcon();
+        });
+
+        $(R.id.hide_status_bar_battery_icon).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_status_bar_battery_icon", ((Switch) v).isChecked());
+            fix();
+            updateIcon();
+        });
     }
 
     @Override
@@ -103,6 +129,9 @@ public class SystemUIFragment extends BaseFragment {
         ((Switch) $(R.id.status_text_view_clock_center)).setChecked(getPrefs().getBoolean("status_text_view_clock_center", false));
         ((Switch) $(R.id.hide_status_bar_sim1_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_sim1_icon", false));
         ((Switch) $(R.id.hide_status_bar_sim2_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_sim2_icon", false));
+        ((Switch) $(R.id.hide_status_bar_location_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_location_icon", false));
+        ((Switch) $(R.id.hide_status_bar_clock_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_clock_icon", false));
+        ((Switch) $(R.id.hide_status_bar_battery_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_battery_icon", false));
         if (getPrefs().getString("qq", "").equals("") || getPrefs().getString("uuid", "").equals("")) {
             ((Switch) $(R.id.hide_status_bar_slow_rate_icon)).setEnabled(false);
             ((Switch) $(R.id.hide_status_bar_time_week_icon)).setEnabled(false);
@@ -115,5 +144,43 @@ public class SystemUIFragment extends BaseFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         setUpData();
+    }
+
+    //location
+    //bluetooth
+    //zen
+    //mute
+    //wifi
+    //battery
+    //alarm_clock
+    //clock
+    public void updateIcon() {
+        List<String> hiddenIcons = new ArrayList<>();
+        if (getPrefs().getBoolean("hide_status_bar_location_icon", false))
+            hiddenIcons.add("location");
+        if (getPrefs().getBoolean("hide_icon_bluetooth", false))
+            hiddenIcons.add("bluetooth");
+        if (getPrefs().getBoolean("hide_icon_shake", false)) {
+            hiddenIcons.add("zen");
+            hiddenIcons.add("volume");
+            hiddenIcons.add("mute");
+        }
+        if (getPrefs().getBoolean("hide_status_bar_wifi_icon", false)) {
+            hiddenIcons.add("wifi");
+            hiddenIcons.add("dual_wifi");
+        }
+        if (getPrefs().getBoolean("hide_status_bar_battery_icon", false))
+            hiddenIcons.add("battery");
+        if (getPrefs().getBoolean("hide_icon_alarm_clock", false))
+            hiddenIcons.add("alarm_clock");
+        if (getPrefs().getBoolean("hide_status_bar_clock_icon", false)) hiddenIcons.add("clock");
+
+        String icons = "";
+        if (hiddenIcons.size() == 0) {
+            icons = "null";
+        } else {
+            icons = hiddenIcons.stream().collect(Collectors.joining(","));
+        }
+        Shell.SU.run("settings put secure icon_blacklist " + icons);
     }
 }

@@ -53,27 +53,14 @@ public class SystemUi extends XposedHelper implements IModule {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                    // XposedBridge.log("图标类型: " + param.args[0].toString());
-                    if ("alarm_clock".equals(param.args[0]) && prefs.getBoolean("hide_icon_alarm_clock", false)) {
-                        param.args[1] = false;
-                    }
+                     XposedBridge.log("图标类型: " + param.args[0].toString());
                     if ("hotspot".equals(param.args[0]) && prefs.getBoolean("hide_icon_hotspot", false)) {
                         param.args[1] = false;
                     }
-                    if ("bluetooth".equals(param.args[0]) && prefs.getBoolean("hide_icon_bluetooth", false)) {
-                        param.args[1] = false;
-                    }
-                    if ("vpn".equals(param.args[0]) && prefs.getBoolean("hide_status_bar_vpn_icon", false)) {
+                    if ("rotate".equals(param.args[0])) {
                         param.args[1] = false;
                     }
 
-                    if (("wifi".equals(param.args[0]) || "dual_wifi".equals(param.args[0])) && prefs.getBoolean("hide_status_bar_wifi_icon", false)) {
-                        param.args[1] = false;
-                    }
-                    // 震动 || 静音+震动
-                    if (("zen".equals(param.args[0]) || "volume".equals(param.args[0])) && prefs.getBoolean("hide_icon_shake", false)) {
-                        param.args[1] = false;
-                    }
                 }
             });
             if (prefs.getBoolean("hide_icon_volte", false)) {
