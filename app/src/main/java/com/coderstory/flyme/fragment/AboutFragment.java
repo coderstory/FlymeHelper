@@ -153,7 +153,7 @@ public class AboutFragment extends BaseFragment {
                     String sn = getSerialNumber();
                     new Thread(new Check(_sign, sn)).start();
                 } else {
-                    Toast.makeText(getMContext(), "激活码不能为空", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getMContext(), "QQ号不能为空", Toast.LENGTH_SHORT).show();
                 }
             });
             builder.setNegativeButton("加入官方群", (dialog, which) -> {
