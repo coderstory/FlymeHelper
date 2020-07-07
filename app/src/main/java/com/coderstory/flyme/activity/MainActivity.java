@@ -196,13 +196,13 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             normalDialog.show();
         }
 
-        if (helper.getBoolean("firstOpenC", true)) {
+        if (helper.getBoolean("firstOpenD", true)) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
-            normalDialog.setTitle("初始提示");
-            normalDialog.setMessage("从flyme助手4.0.4版本开始,所有更新紧针对android 10版本flyme,官方马上上android 10了，没必要维护两套,功能不变,耗时还翻倍.");
+            normalDialog.setTitle("!!重要提示!!");
+            normalDialog.setMessage("从4.0.5版本开始，助手的激活方式改成绑定QQ号而不是激活码，部分只有激活码而没绑定QQ号的用户，请联系群主(26735825)处理");
             normalDialog.setPositiveButton("确定",
                     (dialog, which) -> {
-                        helper.put("firstOpenC", false);
+                        helper.put("firstOpenD", false);
                     });
             normalDialog.setCancelable(true);
             normalDialog.show();

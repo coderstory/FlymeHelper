@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.InputFilter;
+import android.text.method.DigitsKeyListener;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.widget.EditText;
@@ -145,6 +146,7 @@ public class AboutFragment extends BaseFragment {
         if (helper.getString("qq", "").equals("") || helper.getString("sn", "").equals("")) {
             final EditText inputServer = new EditText(getMContext());
             inputServer.setFilters(new InputFilter[]{new InputFilter.LengthFilter(17)});
+            inputServer.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
             AlertDialog.Builder builder = new AlertDialog.Builder(getMContext());
             builder.setTitle("1.加群后联系群主绑定您的QQ号\r\n2.输入框内输入QQ并点击解锁!!").setView(inputServer);
             builder.setPositiveButton("解锁全功能", (dialog, which) -> {
