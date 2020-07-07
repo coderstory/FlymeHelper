@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     if (!msg.getData().get("value").equals("{\"error\":\"0\"}")) {
                         Toast.makeText(MainActivity.this, "绑定失败:\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
                         helper.put("qq", "");
-                        helper.put("uuid", "");
+                        helper.put("sn", "");
                     }
                     // 校验返回
                     break;
@@ -186,15 +186,12 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             //copySo();
         }
 
-
         if (helper.getBoolean("firstOpenB", true)) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
             normalDialog.setTitle("初始提示");
             normalDialog.setMessage("flyme助手是基于xposed框架开发的插件，使用本插件前请确保已经安装并激活了xposed/edxposed框架");
             normalDialog.setPositiveButton("确定",
-                    (dialog, which) -> {
-                        helper.put("firstOpenB", false);
-                    });
+                    (dialog, which) -> helper.put("firstOpenB", false));
             normalDialog.setCancelable(true);
             normalDialog.show();
         }
@@ -233,8 +230,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             normalDialog.show();
         }
 
-        if (!helper.getString("qq", "").equals("") || !helper.getString("uuid", "").equals("")) {
-            new Thread(new Check(helper.getString("qq", ""), helper.getString("uuid", ""))).start();
+        if (!helper.getString("qq", "").equals("") || !helper.getString("sn", "").equals("")) {
+            new Thread(new Check(helper.getString("qq", ""), helper.getString("sn", ""))).start();
         }
 
         new updgradeService(this).checkUpgrade();
@@ -377,11 +374,11 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     class Check implements Runnable {
 
         String qq;
-        String uuid;
+        String sn;
 
-        public Check(String qq, String uuid) {
+        public Check(String qq, String sn) {
             this.qq = qq;
-            this.uuid = uuid;
+            this.sn = sn;
         }
 
         @Override
@@ -396,7 +393,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 //数据准备
                 String data = "{\n" +
                         "    \"QQ\": \"" + qq + "\",\n" +
-                        "    \"uuid\": \"" + uuid + "\",\n" +
+                        "    \"sn\": \"" + sn + "\",\n" +
                         "    \"isLogin\": 0\n" +
                         "}";
                 //至少要设置的两个请求头
@@ -419,7 +416,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     Bundle data2 = new Bundle();
                     data2.putString("value", dealResponseResult(is));
                     data2.putString("qq", qq);
-                    data2.putString("uuid", uuid);
+                    data2.putString("sn", sn);
                     msg.setData(data2);
                     myHandler.sendMessage(msg);
                 } else {

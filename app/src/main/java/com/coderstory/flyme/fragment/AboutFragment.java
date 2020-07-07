@@ -31,9 +31,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.UUID;
 
 
 public class AboutFragment extends BaseFragment {
@@ -83,7 +83,7 @@ public class AboutFragment extends BaseFragment {
                 case 4:
                     if (msg.getData().get("value").equals("{\"error\":\"0\"}")) {
                         getEditor().putString("qq", msg.getData().get("qq").toString()).apply();
-                        getEditor().putString("uuid", msg.getData().get("uuid").toString()).apply();
+                        getEditor().putString("sn", msg.getData().get("sn").toString()).apply();
                         Toast.makeText(getMContext(), "绑定成功,重启应用生效", Toast.LENGTH_SHORT).show();
                         refresh();
                     } else {
@@ -98,6 +98,28 @@ public class AboutFragment extends BaseFragment {
             }
         }
     };
+
+    public static String getSerialNumber() {
+
+        String serial = null;
+
+        try {
+
+            Class<?> c = Class.forName("android.os.SystemProperties");
+
+            Method get = c.getMethod("get", String.class);
+
+            serial = (String) get.invoke(c, "ro.serialno");
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+        return serial;
+
+    }
 
     @Override
     protected void setUpView() {
@@ -120,31 +142,24 @@ public class AboutFragment extends BaseFragment {
 
 
         refresh();
-        if (helper.getString("qq", "").equals("") || helper.getString("uuid", "").equals("")) {
+        if (helper.getString("qq", "").equals("") || helper.getString("sn", "").equals("")) {
             final EditText inputServer = new EditText(getMContext());
             inputServer.setFilters(new InputFilter[]{new InputFilter.LengthFilter(17)});
             AlertDialog.Builder builder = new AlertDialog.Builder(getMContext());
-            builder.setTitle("解锁完整功能\r\n自助购买激活码解锁全功能").setView(inputServer);
-            builder.setPositiveButton("激活设备", (dialog, which) -> {
+            builder.setTitle("1.加群后联系群主绑定您的QQ号\r\n2.输入框内输入QQ并点击解锁!!").setView(inputServer);
+            builder.setPositiveButton("解锁全功能", (dialog, which) -> {
                 String _sign = inputServer.getText().toString();
                 if (!_sign.isEmpty()) {
-                    String uuid = UUID.randomUUID().toString();
-                    new Thread(new Check(_sign, uuid)).start();
+                    String sn = getSerialNumber();
+                    new Thread(new Check(_sign, sn)).start();
                 } else {
                     Toast.makeText(getMContext(), "激活码不能为空", Toast.LENGTH_SHORT).show();
                 }
             });
-            builder.setNegativeButton("官方群", (dialog, which) -> {
+            builder.setNegativeButton("加入官方群", (dialog, which) -> {
                 if (!joinQQGroup("s2izD9Z7jjBwQO-c6fzrU8m3_BBS0fIe")) {
                     Toast.makeText(getMContext(), "拉起手Q失败", Toast.LENGTH_LONG).show();
                 }
-            });
-            builder.setNeutralButton("自助购买", (dialog, which) -> {
-                Intent intent = new Intent();
-                intent.setAction("android.intent.action.VIEW");
-                Uri content_url = Uri.parse("https://dwz.cn/MKbMqYem");
-                intent.setData(content_url);
-                startActivity(intent);
             });
             builder.show();
         }
@@ -153,8 +168,8 @@ public class AboutFragment extends BaseFragment {
     public void refresh() {
         ((TextView) $(R.id.version)).setText(BuildConfig.VERSION_NAME);
 
-        ((TextView) $(R.id.mark)).setText("当前版本类型: " + (helper.getString("qq", "").equals("") || helper.getString("uuid", "").equals("") ? "体验版" : "完整版"));
-        ((TextView) $(R.id.qq)).setText("绑定激活码: " + helper.getString("qq", "无"));
+        ((TextView) $(R.id.mark)).setText("当前版本类型: " + (helper.getString("qq", "").equals("") || helper.getString("sn", "").equals("") ? "体验版" : "完整版"));
+        ((TextView) $(R.id.qq)).setText("绑定QQ: " + helper.getString("qq", "无"));
 
     }
 
@@ -183,11 +198,11 @@ public class AboutFragment extends BaseFragment {
     class Check implements Runnable {
 
         String qq;
-        String uuid;
+        String sn;
 
-        public Check(String qq, String uuid) {
+        public Check(String qq, String sn) {
             this.qq = qq;
-            this.uuid = uuid;
+            this.sn = sn;
         }
 
         @Override
@@ -202,7 +217,7 @@ public class AboutFragment extends BaseFragment {
                 //数据准备
                 String data = "{\n" +
                         "    \"QQ\": \"" + qq + "\",\n" +
-                        "    \"uuid\": \"" + uuid + "\",\n" +
+                        "    \"sn\": \"" + sn + "\",\n" +
                         "    \"isLogin\": 1\n" +
                         "}";
                 //至少要设置的两个请求头
@@ -225,7 +240,7 @@ public class AboutFragment extends BaseFragment {
                     Bundle data2 = new Bundle();
                     data2.putString("value", dealResponseResult(is));
                     data2.putString("qq", qq);
-                    data2.putString("uuid", uuid);
+                    data2.putString("sn", sn);
                     msg.setData(data2);
                     myHandler.sendMessage(msg);
                 } else {
