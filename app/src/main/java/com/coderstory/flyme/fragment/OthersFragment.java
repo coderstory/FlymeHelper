@@ -196,7 +196,7 @@ public class OthersFragment extends BaseFragment {
         ((Switch) $(R.id.disableSearch)).setChecked(getPrefs().getBoolean("disableSearch", false));
         ((Switch) $(R.id.mms)).setChecked(getPrefs().getBoolean("mms", false));
 
-        if (getPrefs().getString("qq", "").equals("") || getPrefs().getString("uuid", "").equals("")) {
+        if (getPrefs().getString("qq", "").equals("") || getPrefs().getString("sn", "").equals("")) {
             ((Switch) $(R.id.removeStore)).setEnabled(false);
             ((Switch) $(R.id.autoInstall)).setEnabled(false);
             ((NumberPicker) $(R.id.home_icon_num_column)).setEnabled(false);

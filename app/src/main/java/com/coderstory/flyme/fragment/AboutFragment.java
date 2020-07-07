@@ -32,9 +32,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+
+import eu.chainfire.libsuperuser.Shell;
 
 
 public class AboutFragment extends BaseFragment {
@@ -86,6 +88,7 @@ public class AboutFragment extends BaseFragment {
                         getEditor().putString("qq", msg.getData().get("qq").toString()).apply();
                         getEditor().putString("sn", msg.getData().get("sn").toString()).apply();
                         Toast.makeText(getMContext(), "绑定成功,重启应用生效", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getMContext(), "qq" + msg.getData().get("qq").toString() + "sn" + msg.getData().get("sn").toString(), Toast.LENGTH_SHORT).show();
                         refresh();
                     } else {
                         Toast.makeText(getMContext(), "绑定失败:\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
@@ -102,23 +105,8 @@ public class AboutFragment extends BaseFragment {
 
     public static String getSerialNumber() {
 
-        String serial = null;
-
-        try {
-
-            Class<?> c = Class.forName("android.os.SystemProperties");
-
-            Method get = c.getMethod("get", String.class);
-
-            serial = (String) get.invoke(c, "ro.serialno");
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
-        }
-
-        return serial;
+        List<String> result = Shell.SU.run("getprop ro.serialno");
+        return result.get(0);
 
     }
 
@@ -140,7 +128,6 @@ public class AboutFragment extends BaseFragment {
                     .build()
                     .show();
         });
-
 
         refresh();
         if (helper.getString("qq", "").equals("") || helper.getString("sn", "").equals("")) {
@@ -165,6 +152,7 @@ public class AboutFragment extends BaseFragment {
             });
             builder.show();
         }
+
     }
 
     public void refresh() {
