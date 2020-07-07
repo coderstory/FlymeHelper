@@ -124,7 +124,7 @@ public class AboutFragment extends BaseFragment {
             final EditText inputServer = new EditText(getMContext());
             inputServer.setFilters(new InputFilter[]{new InputFilter.LengthFilter(17)});
             AlertDialog.Builder builder = new AlertDialog.Builder(getMContext());
-            builder.setTitle("请加群后获取激活码解锁全功能\r\n只需一瓶可乐钱,激活不限次数!!").setView(inputServer);
+            builder.setTitle("解锁完整功能\r\n自助购买激活码解锁全功能").setView(inputServer);
             builder.setPositiveButton("激活设备", (dialog, which) -> {
                 String _sign = inputServer.getText().toString();
                 if (!_sign.isEmpty()) {
