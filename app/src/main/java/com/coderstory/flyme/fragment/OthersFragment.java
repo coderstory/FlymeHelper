@@ -228,4 +228,10 @@ public class OthersFragment extends BaseFragment {
             }
         }
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        setUpData();
+    }
 }

@@ -84,8 +84,9 @@ public class AboutFragment extends BaseFragment {
                     if (msg.getData().get("value").equals("{\"error\":\"0\"}")) {
                         getEditor().putString("qq", msg.getData().get("qq").toString()).apply();
                         getEditor().putString("uuid", msg.getData().get("uuid").toString()).apply();
-                        Toast.makeText(getMContext(), "绑定成功,重启应用生效", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getMContext(), "绑定成功", Toast.LENGTH_SHORT).show();
                         refresh();
+
                     } else {
                         Toast.makeText(getMContext(), "绑定失败:\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
                     }
@@ -122,11 +123,10 @@ public class AboutFragment extends BaseFragment {
         refresh();
         if (helper.getString("qq", "").equals("") || helper.getString("uuid", "").equals("")) {
             final EditText inputServer = new EditText(getMContext());
-            //inputServer.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
             inputServer.setFilters(new InputFilter[]{new InputFilter.LengthFilter(17)});
             AlertDialog.Builder builder = new AlertDialog.Builder(getMContext());
-            builder.setTitle("获取完整版\r\n请加群906552736后获取激活码").setView(inputServer);
-            builder.setPositiveButton("校验激活码", (dialog, which) -> {
+            builder.setTitle("请加群后获取激活码解锁全功能\r\n只需一瓶可乐钱,激活不限次数!!").setView(inputServer);
+            builder.setPositiveButton("激活设备", (dialog, which) -> {
                 String _sign = inputServer.getText().toString();
                 if (!_sign.isEmpty()) {
                     String uuid = UUID.randomUUID().toString();
@@ -147,8 +147,8 @@ public class AboutFragment extends BaseFragment {
     public void refresh() {
         ((TextView) $(R.id.version)).setText(BuildConfig.VERSION_NAME);
 
-        ((TextView) $(R.id.mark)).setText("当前版本类型:" + (helper.getString("qq", "").equals("") || helper.getString("uuid", "").equals("") ? "体验版" : "完整版"));
-        ((TextView) $(R.id.qq)).setText("绑定激活码:" + helper.getString("qq", "无"));
+        ((TextView) $(R.id.mark)).setText("当前版本类型: " + (helper.getString("qq", "").equals("") || helper.getString("uuid", "").equals("") ? "体验版" : "完整版"));
+        ((TextView) $(R.id.qq)).setText("绑定激活码: " + helper.getString("qq", "无"));
 
     }
 

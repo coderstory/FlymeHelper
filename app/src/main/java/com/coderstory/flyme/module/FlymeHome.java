@@ -116,8 +116,7 @@ public class FlymeHome extends XposedHelper implements IModule {
                  *         }
                  *     }
                  */
-
-                findAndHookMethod("com.android.quickstep.views.RecentsView", lpparam.classLoader, "loadVisibleTaskData", XC_MethodReplacement.returnConstant((Object) null));
+               // findAndHookMethod("com.android.quickstep.views.RecentsView", lpparam.classLoader, "loadVisibleTaskData", XC_MethodReplacement.returnConstant((Object) null));
             }
 
         }
@@ -133,18 +132,24 @@ public class FlymeHome extends XposedHelper implements IModule {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    XposedHelpers.setIntField(param.thisObject, "numRows", numRows);
-                    XposedHelpers.setIntField(param.thisObject, "numColumns", numColumns);
-                    XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons);
+                    if (numRows != 0)
+                        XposedHelpers.setIntField(param.thisObject, "numRows", numRows);
+                    if (numColumns != 0)
+                        XposedHelpers.setIntField(param.thisObject, "numColumns", numColumns);
+                    if (numHotseatIcons != 0)
+                        XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons);
                 }
             });
             hookAllConstructors(findClass("com.android.launcher3.InvariantDeviceProfile", lpparam.classLoader), new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    XposedHelpers.setIntField(param.thisObject, "numRows", numRows);
-                    XposedHelpers.setIntField(param.thisObject, "numColumns", numColumns);
-                    XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons);
+                    if (numRows != 0)
+                        XposedHelpers.setIntField(param.thisObject, "numRows", numRows);
+                    if (numColumns != 0)
+                        XposedHelpers.setIntField(param.thisObject, "numColumns", numColumns);
+                    if (numHotseatIcons != 0)
+                        XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons);
                 }
             });
 

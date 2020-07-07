@@ -27,7 +27,7 @@ public class updgradeService {
                 // 通知栏图标（可选）
                 .setIcon(BitmapFactory.decodeResource(mActivity.getResources(), R.mipmap.ic_launcher))
                 // 通知栏标题（可选）
-                .setTitle("腾讯QQ")
+                .setTitle("正在下载更新包")
                 // 通知栏描述（可选）
                 .setDescription("更新通知栏")
                 // 下载链接或更新文档链接

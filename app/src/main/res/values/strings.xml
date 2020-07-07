@@ -29,9 +29,9 @@
     <string name="enablexposed"><b>开启Xposed启用检测</b>\n开启后,如果未在Xposed中激活则弹出相应提示</string>
     <string name="hideicon"><b>隐藏应用图标</b>\n隐藏Flyme8助手在桌上面的图标，隐藏图标后可在Xposed安装器中打开</string>
     <string name="hide_icon_label"><b>隐藏桌面图标标签</b>\n隐藏桌面图标和文件夹下的标签文字</string>
-    <string name="hide_icon_4x5"><b>桌面图标布局</b>\n使用4x5的桌面图标布局,可能会导致部分图标丢失</string>
-    <string name="hide_icon_5x5"><b>桌面图标布局 - 小</b>\n使用5x5的桌面图标布局</string>
-    <string name="hide_icon_65"><b>桌面图标布局 - 中</b>\n使用6x5的桌面图标布局</string>
+    <string name="hide_icon_4x5"><b>桌面图标布局 - 小</b>\n使用4x5的桌面图标布局,可能会导致部分图标丢失</string>
+    <string name="hide_icon_5x5"><b>桌面图标布局 - 中</b>\n使用5x5的桌面图标布局</string>
+    <string name="hide_icon_65"><b>桌面图标布局 - 大</b>\n使用6x5的桌面图标布局</string>
     <string name="enableCheckInstaller"><b>禁用安全检查</b>\n跳过安装应用时候的安装包安全检查,加快应用安装速度</string>
     <string name="enableCTS"><b>启用原生应用安装界面</b>\n使用Android原生安装界面而不是flyme定制的安装界面,没有广告</string>
     <string name="hideDepWarn"><b>隐藏开发者选项风险警告</b>\n禁止开启开发者选项后通知栏弹出的风险警告</string>
@@ -57,6 +57,13 @@
     <string name="home_icon_num_column"><b>自定义布局-列</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面每一列的app数量</string>
     <string name="home_icon_num_hot_seat_icons"><b>自定义布局-Dock</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面Dock栏的app数量</string>
     <string name="disableSearch"><b>桌面禁用手势-搜索</b>  <font color='#FFC0CB'>vip</font>\n在不禁用搜索条件下，禁止桌面上划手势触发打开搜索</string>
+    <string name="hide_status_bar_sim1_icon"><b>隐藏图标-SIM1</b>\n隐藏状态栏SIM1的图标</string>
+    <string name="hide_status_bar_sim2_icon"><b>隐藏图标-SIM2</b>\n隐藏状态栏SIM2的图标</string>
+    <string name="launcher10">自定义桌面布局(<font color='#4db6ac'> Android 10可用</font>)\n如果桌面挂件尺寸不对,请删除后重新添加即可></string>
+    <string name="launcher8">自定义桌面布局(<font color='#4db6ac'> Andorid 8.0- 9.0可用</font>)</string>
+    <string name="hide_status_bar_location_icon"><b>定位</b>\n使用GPS的时候，隐藏状态栏上的定位图标</string>
+    <string name="hide_status_bar_clock_icon"><b>时钟</b>\n隐藏状态栏中的时间</string>
+    <string name="hide_status_bar_battery_icon"><b>电池</b>\n隐藏状态栏上的电池图标(不含17系列的环形电池) 修改后立即生效,设置重启后失效</string>
     <string name="Tips_Title">温馨提示</string>
     <string name="Btn_Sure">确定</string>
     <string name="Btn_Cancel">取消</string>
@@ -142,5 +149,4 @@
     <string name="removeStore"><b>移除推广按钮</b>  <font color='#FFC0CB'>vip</font>\n移除应用安装界面的从官方商店下载按钮</string>
     <string name="autoInstall"><b>自动安装应用</b>  <font color='#FFC0CB'>vip</font>\n打开应用安装界面后，无需点击按钮自动执行安装任务</string>
     <string name="systemui">状态栏设置</string>
-
 </resources>
