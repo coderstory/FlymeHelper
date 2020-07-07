@@ -84,9 +84,8 @@ public class AboutFragment extends BaseFragment {
                     if (msg.getData().get("value").equals("{\"error\":\"0\"}")) {
                         getEditor().putString("qq", msg.getData().get("qq").toString()).apply();
                         getEditor().putString("uuid", msg.getData().get("uuid").toString()).apply();
-                        Toast.makeText(getMContext(), "绑定成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getMContext(), "绑定成功,重启应用生效", Toast.LENGTH_SHORT).show();
                         refresh();
-
                     } else {
                         Toast.makeText(getMContext(), "绑定失败:\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
                     }
@@ -135,10 +134,17 @@ public class AboutFragment extends BaseFragment {
                     Toast.makeText(getMContext(), "激活码不能为空", Toast.LENGTH_SHORT).show();
                 }
             });
-            builder.setNegativeButton("加入官方群", (dialog, which) -> {
+            builder.setNegativeButton("官方群", (dialog, which) -> {
                 if (!joinQQGroup("s2izD9Z7jjBwQO-c6fzrU8m3_BBS0fIe")) {
                     Toast.makeText(getMContext(), "拉起手Q失败", Toast.LENGTH_LONG).show();
                 }
+            });
+            builder.setNeutralButton("自助购买", (dialog, which) -> {
+                Intent intent = new Intent();
+                intent.setAction("android.intent.action.VIEW");
+                Uri content_url = Uri.parse("https://dwz.cn/MKbMqYem");
+                intent.setData(content_url);
+                startActivity(intent);
             });
             builder.show();
         }
