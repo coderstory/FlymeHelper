@@ -54,9 +54,9 @@ public class SystemUi extends XposedHelper implements IModule {
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
                      XposedBridge.log("图标类型: " + param.args[0].toString());
-                    if ("hotspot".equals(param.args[0]) && prefs.getBoolean("hide_icon_hotspot", false)) {
+                    //if ("hotspot".equals(param.args[0]) && prefs.getBoolean("hide_icon_hotspot", false)) {
                         param.args[1] = false;
-                    }
+                    //}
                     if ("rotate".equals(param.args[0])) {
                         param.args[1] = false;
                     }
@@ -154,6 +154,17 @@ public class SystemUi extends XposedHelper implements IModule {
                 findAndHookMethod("com.flyme.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "isVpnConnecting", XC_MethodReplacement.returnConstant(false));
                 findAndHookMethod("com.flyme.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "isVpnEnabled", XC_MethodReplacement.returnConstant(false));
                 hookAllMethods("com.flyme.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "notifyChanged", XC_MethodReplacement.returnConstant(null));
+            }
+
+            //隐藏app图标
+            if (prefs.getBoolean("hide_status_bar_app_icon", false)) {
+                hookAllMethods("com.android.systemui.statusbar.StatusBarIconView", loadPackageParam.classLoader, "setVisibility", new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        param.args[0] = View.GONE;
+                    }
+                });
             }
 
             //时间居中

@@ -104,6 +104,10 @@ public class SystemUIFragment extends BaseFragment {
             fix();
             updateIcon();
         });
+        $(R.id.hide_status_bar_app_icon).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_status_bar_app_icon", ((Switch) v).isChecked());
+            fix();
+        });
     }
 
     @Override
@@ -132,11 +136,13 @@ public class SystemUIFragment extends BaseFragment {
         ((Switch) $(R.id.hide_status_bar_location_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_location_icon", false));
         ((Switch) $(R.id.hide_status_bar_clock_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_clock_icon", false));
         ((Switch) $(R.id.hide_status_bar_battery_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_battery_icon", false));
+        ((Switch) $(R.id.hide_status_bar_app_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_app_icon", false));
         if (getPrefs().getString("qq", "").equals("") || getPrefs().getString("sn", "").equals("")) {
             ((Switch) $(R.id.hide_status_bar_slow_rate_icon)).setEnabled(false);
             ((Switch) $(R.id.hide_status_bar_time_week_icon)).setEnabled(false);
             ((Switch) $(R.id.hide_status_bar_time_chinese_icon)).setEnabled(false);
             ((Switch) $(R.id.status_text_view_clock_center)).setEnabled(false);
+            ((Switch) $(R.id.hide_status_bar_app_icon)).setEnabled(false);
         }
     }
 
