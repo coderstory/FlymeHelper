@@ -200,7 +200,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
             normalDialog.setTitle("!!重要提示!!");
 
-            normalDialog.setMessage("从4.0.5版本开始，助手的激活方式改成绑定QQ号而不是激活码，部分只有激活码而没绑定QQ号的用户，请联系群主(26735825)处理");
+            normalDialog.setMessage("从4.0.5版本开始，助手的激活方式改成绑定QQ号而不是激活码，如果你现在重新输入QQ号激活提示错误，请联系群主(26735825)并说明具体情况以便处理");
             normalDialog.setPositiveButton("确定",
                     (dialog, which) -> {
                         helper.put("firstOpenD", false);
