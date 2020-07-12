@@ -182,15 +182,6 @@
                 android:paddingBottom="4dp"
                 android:text="@string/mms" />
 
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:paddingStart="30dp"
-                android:paddingTop="15dp"
-                android:paddingEnd="4dp"
-                android:text="@string/launcher8" />
-
             <Switch
                 android:id="@+id/hide_icon_label"
                 android:layout_width="match_parent"
@@ -201,6 +192,14 @@
                 android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
                 android:text="@string/hide_icon_label" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:paddingStart="30dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="4dp"
+                android:text="@string/launcher8" />
 
             <Switch
                 android:id="@+id/hide_icon_45"

@@ -135,7 +135,7 @@ public class AboutFragment extends BaseFragment {
             inputServer.setFilters(new InputFilter[]{new InputFilter.LengthFilter(17)});
             inputServer.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
             AlertDialog.Builder builder = new AlertDialog.Builder(getMContext());
-            builder.setTitle("1.加群后联系群主绑定您的QQ号\r\n2.输入框内输入QQ并点击解锁!!").setView(inputServer);
+            builder.setTitle("1.付费4.8元加入官方QQ群\r\n2.输入你的QQ号并点击解锁!!").setView(inputServer);
             builder.setPositiveButton("解锁全功能", (dialog, which) -> {
                 String _sign = inputServer.getText().toString();
                 if (!_sign.isEmpty()) {
