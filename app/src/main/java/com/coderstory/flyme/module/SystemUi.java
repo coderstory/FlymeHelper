@@ -53,7 +53,7 @@ public class SystemUi extends XposedHelper implements IModule {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                     XposedBridge.log("图标类型: " + param.args[0].toString());
+                    XposedBridge.log("图标类型: " + param.args[0].toString());
                     if ("hotspot".equals(param.args[0]) && prefs.getBoolean("hide_icon_hotspot", false)) {
                         param.args[1] = false;
                     }
@@ -150,10 +150,19 @@ public class SystemUi extends XposedHelper implements IModule {
 
             //隐藏 vpn图标
             if (prefs.getBoolean("hide_status_bar_vpn_icon", false)) {
-                findAndHookMethod("com.flyme.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "setVpnEnabled", boolean.class, XC_MethodReplacement.returnConstant(null));
-                findAndHookMethod("com.flyme.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "isVpnConnecting", XC_MethodReplacement.returnConstant(false));
-                findAndHookMethod("com.flyme.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "isVpnEnabled", XC_MethodReplacement.returnConstant(false));
-                hookAllMethods("com.flyme.systemui.statusbar.policy.VpnControllerImpl", loadPackageParam.classLoader, "notifyChanged", XC_MethodReplacement.returnConstant(null));
+                hookAllMethods("com.android.systemui.statusbar.StatusBarIconView", loadPackageParam.classLoader, "setVisibility", new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        Object mIcon = XposedHelpers.getObjectField(param.thisObject, "mIcon");
+                        if (mIcon != null) {
+                            Object contentDescription = XposedHelpers.getObjectField(mIcon, "contentDescription");
+                            if (contentDescription != null && contentDescription.toString().endsWith("已激活VPN")) {
+                                param.args[0] = View.GONE;
+                            }
+                        }
+                    }
+                });
             }
 
             //隐藏app图标
@@ -269,7 +278,7 @@ public class SystemUi extends XposedHelper implements IModule {
             type = "下午";
         }
         if (a >= 17 && a < 19) {
-            type = "下午";
+            type = "傍晚";
         }
         if (a >= 19 && a <= 24) {
             type = "晚上";
