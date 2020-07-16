@@ -165,15 +165,15 @@ public class AboutFragment extends BaseFragment {
 
     /****************
      *
-     * 发起添加群流程。群号：助手群(906552736) 的 key 为： s2izD9Z7jjBwQO-c6fzrU8m3_BBS0fIe
-     * 调用 joinQQGroup(s2izD9Z7jjBwQO-c6fzrU8m3_BBS0fIe) 即可发起手Q客户端申请加群 助手群(906552736)
+     * 发起添加群流程。群号：Flyme助手和Xposed交流(717515891) 的 key 为： Dj5VgtTIdGo8nuk8wyMnYaHydxMxD6Dl
+     * 调用 joinQQGroup(Dj5VgtTIdGo8nuk8wyMnYaHydxMxD6Dl) 即可发起手Q客户端申请加群 Flyme助手和Xposed交流(717515891)
      *
      * @param key 由官网生成的key
-     * @return 返回true表示呼起手Q成功，返回fals表示呼起失败
+     * @return 返回true表示呼起手Q成功，返回false表示呼起失败
      ******************/
     public boolean joinQQGroup(String key) {
         Intent intent = new Intent();
-        intent.setData(Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + key));
+        intent.setData(Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26jump_from%3Dwebapi%26k%3D" + key));
         // 此Flag可根据具体产品需要自定义，如设置，则在加群界面按返回，返回手Q主界面，不设置，按返回会返回到呼起产品界面    //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         try {
             startActivity(intent);
