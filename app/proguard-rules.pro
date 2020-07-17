@@ -1,3 +1,7 @@
+-repackageclasses
+-mergeinterfacesaggressively
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
 #指定代码的压缩级别
 -optimizationpasses 7
 #包明不混合大小写
@@ -13,7 +17,7 @@
 #预校验
 -dontpreverify
 #混淆时是否记录日志
--verbose
+#-verbose
 #混淆时所采用的算法
 -optimizations !code/simplification/arithmetic,!code/simplication/cast,!field/*,!class/mergin/*
 #避免混淆Annotation、内部类、泛型、匿名类
@@ -35,13 +39,13 @@
 #-ignorewarning
 #记录生成的日志数据,gradle build时在本项目根目录输出
 #apk 包内所有 class 的内部结构
--dump class_files.txt
+#-dump class_files.txt
 #未混淆的类和成员
--printseeds seeds.txt
+#-printseeds seeds.txt
 #列出从 apk 中删除的代码
--printusage unused.txt
+#-printusage unused.txt
 #混淆前后的映射
--printmapping mapping.txt
+#-printmapping mapping.txt
 -keepclassmembers class * {
    public <init>(org.json.JSONObject);
 }
