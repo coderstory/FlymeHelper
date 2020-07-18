@@ -9,7 +9,7 @@ import com.coderstory.flyme.adapter.AppInfo;
 import java.io.File;
 import java.util.Vector;
 
-import static com.coderstory.flyme.config.Misc.BackPath;
+import static com.coderstory.flyme.utils.Misc.BackPath;
 
 
 public class LoadApkInfo {

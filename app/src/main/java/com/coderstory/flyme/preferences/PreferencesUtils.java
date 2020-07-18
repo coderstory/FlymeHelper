@@ -3,10 +3,10 @@ package com.coderstory.flyme.preferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.coderstory.flyme.config.Misc;
+import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.Utils;
 
-import static com.coderstory.flyme.config.Misc.ApplicationName;
+import static com.coderstory.flyme.utils.Misc.ApplicationName;
 
 /**
  * PreferencesUtils, easy to get or put data

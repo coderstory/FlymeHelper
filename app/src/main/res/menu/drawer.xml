@@ -50,6 +50,12 @@
                     android:id="@+id/navigation_item_settings"
                     android:icon="@drawable/iconfont_custom_view"
                     android:title="@string/others_appsettings" />
+
+                <item
+                    android:id="@+id/navigation_item_about_me"
+                    android:icon="@drawable/iconfont_about"
+                    android:title="@string/vip_bangding" />
+
                 <item
                     android:id="@+id/navigation_item_about"
                     android:icon="@drawable/iconfont_about"

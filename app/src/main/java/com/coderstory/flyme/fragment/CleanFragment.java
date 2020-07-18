@@ -8,8 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.coderstory.flyme.R;
-import com.coderstory.flyme.config.Misc;
 import com.coderstory.flyme.fragment.base.BaseFragment;
+import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.SnackBarUtils;
 import com.coderstory.flyme.utils.hostshelper.FileHelper;
 

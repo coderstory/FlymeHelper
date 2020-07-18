@@ -22,7 +22,7 @@ import androidx.fragment.app.FragmentManager;
 import com.alibaba.fastjson.JSON;
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.activity.base.BaseActivity;
-import com.coderstory.flyme.config.Misc;
+import com.coderstory.flyme.fragment.AboutMeFragment;
 import com.coderstory.flyme.fragment.BlogFragment;
 import com.coderstory.flyme.fragment.CleanFragment;
 import com.coderstory.flyme.fragment.DisbaleAppFragment;
@@ -34,6 +34,7 @@ import com.coderstory.flyme.fragment.SystemUIFragment;
 import com.coderstory.flyme.fragment.UpdateListFragment;
 import com.coderstory.flyme.fragment.WebViewFragment;
 import com.coderstory.flyme.update.updgradeService;
+import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.RuntimeUtil;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.SnackBarUtils;
@@ -311,6 +312,10 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 case R.id.navigation_item_hosts:
                     mToolbar.setTitle(R.string.hosts);
                     switchFragment(HostsFragment.class);
+                    break;
+                case R.id.navigation_item_about_me:
+                    mToolbar.setTitle("会员激活");
+                    switchFragment(AboutMeFragment.class);
                     break;
                 default:
                     break;

@@ -12,7 +12,7 @@ import com.coderstory.flyme.R;
 import com.coderstory.flyme.utils.SnackBarUtils;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
-import static com.coderstory.flyme.config.Misc.MyBlogUrl;
+import static com.coderstory.flyme.utils.Misc.MyBlogUrl;
 
 public class BlogFragment extends WebViewFragment {
     @Override

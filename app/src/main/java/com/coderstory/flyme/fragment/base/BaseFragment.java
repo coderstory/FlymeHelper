@@ -11,14 +11,14 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.coderstory.flyme.config.Misc;
+import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.Utils;
 
 import java.io.File;
 
 import eu.chainfire.libsuperuser.Shell;
 
-import static com.coderstory.flyme.config.Misc.ApplicationName;
+import static com.coderstory.flyme.utils.Misc.ApplicationName;
 
 
 /**

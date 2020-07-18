@@ -1,7 +1,5 @@
 package com.coderstory.flyme.utils;
 
-import com.coderstory.flyme.config.Misc;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -16,7 +14,7 @@ import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
-import static com.coderstory.flyme.config.Misc.ApplicationName;
+import static com.coderstory.flyme.utils.Misc.ApplicationName;
 
 public class XposedHelper {
 

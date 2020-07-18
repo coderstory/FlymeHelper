@@ -3,7 +3,6 @@ package com.coderstory.flyme.plugins;
 import android.util.Log;
 
 import com.coderstory.flyme.BuildConfig;
-import com.coderstory.flyme.config.Misc;
 import com.coderstory.flyme.module.FlymeHome;
 import com.coderstory.flyme.module.FlymeRoot;
 import com.coderstory.flyme.module.HideApp;
@@ -14,6 +13,7 @@ import com.coderstory.flyme.module.SystemUi;
 import com.coderstory.flyme.module.ThemePatcher;
 import com.coderstory.flyme.utils.Dex2C;
 import com.coderstory.flyme.utils.FileUtils;
+import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.XposedHelper;
 
 import java.io.File;
@@ -25,7 +25,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static com.coderstory.flyme.config.Misc.ApplicationName;
+import static com.coderstory.flyme.utils.Misc.ApplicationName;
 
 @Dex2C
 public class start extends XposedHelper implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {

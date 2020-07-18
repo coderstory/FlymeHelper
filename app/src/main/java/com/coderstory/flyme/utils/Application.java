@@ -1,6 +1,5 @@
 package com.coderstory.flyme.utils;
 
-import com.coderstory.flyme.config.Misc;
 import com.umeng.commonsdk.UMConfigure;
 
 

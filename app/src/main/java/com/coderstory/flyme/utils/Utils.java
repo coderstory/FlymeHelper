@@ -6,8 +6,6 @@ import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.coderstory.flyme.config.Misc;
-
 import java.io.File;
 import java.lang.reflect.Field;
 import java.text.ParseException;

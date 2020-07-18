@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 
-import static com.coderstory.flyme.config.Misc.HostFileTmpName;
+import static com.coderstory.flyme.utils.Misc.HostFileTmpName;
 
 
 public class HostsFragment extends BaseFragment {

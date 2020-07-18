@@ -13,12 +13,12 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.coderstory.flyme.config.Misc;
+import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.Utils;
 
 import java.util.Set;
 
-import static com.coderstory.flyme.config.Misc.ApplicationName;
+import static com.coderstory.flyme.utils.Misc.ApplicationName;
 
 /**
  * @Description: ContentProvider

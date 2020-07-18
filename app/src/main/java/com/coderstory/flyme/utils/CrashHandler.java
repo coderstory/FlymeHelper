@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import static com.coderstory.flyme.config.Misc.CrashFilePath;
+import static com.coderstory.flyme.utils.Misc.CrashFilePath;
 
 
 /**

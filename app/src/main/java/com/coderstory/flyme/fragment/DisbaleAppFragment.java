@@ -40,8 +40,8 @@ import java.util.List;
 import eu.chainfire.libsuperuser.Shell;
 import per.goweii.anylayer.AnyLayer;
 
-import static com.coderstory.flyme.config.Misc.BackPath;
 import static com.coderstory.flyme.utils.FileUtils.readFile;
+import static com.coderstory.flyme.utils.Misc.BackPath;
 
 
 public class DisbaleAppFragment extends BaseFragment {
