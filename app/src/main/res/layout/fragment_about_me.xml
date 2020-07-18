@@ -70,7 +70,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/mark"
+                        android:id="@+id/vip_version"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
@@ -79,7 +79,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/qq"
+                        android:id="@+id/bound_qq"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
@@ -111,7 +111,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/bt4"
+                        android:id="@+id/activation"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
@@ -121,7 +121,7 @@
                         android:textSize="14dp" />
 
                     <Button
-                        android:id="@+id/bt3"
+                        android:id="@+id/chat_for_pay"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
@@ -131,7 +131,7 @@
                         android:textSize="14dp" />
 
                     <Button
-                        android:id="@+id/bt1"
+                        android:id="@+id/join_vip_group"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
@@ -141,7 +141,7 @@
                         android:textSize="14dp" />
 
                     <Button
-                        android:id="@+id/bt2"
+                        android:id="@+id/join_free_group"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -197,7 +197,7 @@
                     android:layout_margin="10dp"
                     android:autoLink="none"
                     android:linksClickable="false"
-                    android:text="@string/about_msg4"
+                    android:text="@string/buy_way"
                     android:textColor="#262626"
                     android:textSize="14sp" />
 
@@ -222,7 +222,7 @@
                     android:layout_margin="10dp"
                     android:autoLink="none"
                     android:linksClickable="false"
-                    android:text="@string/about_msg3"
+                    android:text="@string/pay_explain"
                     android:textColor="#262626"
                     android:textSize="14sp" />
 

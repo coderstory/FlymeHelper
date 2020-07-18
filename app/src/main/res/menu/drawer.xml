@@ -13,7 +13,7 @@
         <item
             android:id="@+id/navigation_item_system_ui_settings"
             android:icon="@drawable/iconfont_custom_view"
-            android:title="@string/systemui" />
+            android:title="@string/systemui_settings" />
 
         <item
             android:id="@+id/navigation_item_updateList"
@@ -54,7 +54,7 @@
                 <item
                     android:id="@+id/navigation_item_about_me"
                     android:icon="@drawable/iconfont_about"
-                    android:title="@string/vip_bangding" />
+                    android:title="@string/member_binding" />
 
                 <item
                     android:id="@+id/navigation_item_about"

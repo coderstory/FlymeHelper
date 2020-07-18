@@ -63,7 +63,7 @@
                     android:layout_margin="12dp"
                     android:autoLink="none"
                     android:linksClickable="false"
-                    android:text="@string/about_msg_1"
+                    android:text="@string/about_app"
                     android:textColor="#262626"
                     android:textColorLink="#40aff4"
                     android:textSize="14sp" />
@@ -100,7 +100,7 @@
                     android:layout_margin="10dp"
                     android:autoLink="none"
                     android:linksClickable="false"
-                    android:text="@string/about_msg31"
+                    android:text="@string/authorization_agreement"
                     android:textColor="#262626"
                     android:textSize="14sp" />
 
@@ -123,7 +123,7 @@
                     android:layout_margin="10dp"
                     android:autoLink="none"
                     android:linksClickable="false"
-                    android:text="@string/G1"
+                    android:text="@string/open_sources"
                     android:textColor="#262626"
                     android:textColorLink="#000"
                     android:textSize="14sp" />

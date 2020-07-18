@@ -4,6 +4,8 @@ import android.widget.Switch;
 
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
+import com.coderstory.flyme.utils.SharedHelper;
+import com.coderstory.flyme.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,12 +139,12 @@ public class SystemUIFragment extends BaseFragment {
         ((Switch) $(R.id.hide_status_bar_clock_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_clock_icon", false));
         ((Switch) $(R.id.hide_status_bar_battery_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_battery_icon", false));
         ((Switch) $(R.id.hide_status_bar_app_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_app_icon", false));
-        if (getPrefs().getString("qq", "").equals("") || getPrefs().getString("sn", "").equals("")) {
-            ((Switch) $(R.id.hide_status_bar_slow_rate_icon)).setEnabled(false);
-            ((Switch) $(R.id.hide_status_bar_time_week_icon)).setEnabled(false);
-            ((Switch) $(R.id.hide_status_bar_time_chinese_icon)).setEnabled(false);
-            ((Switch) $(R.id.status_text_view_clock_center)).setEnabled(false);
-            ((Switch) $(R.id.hide_status_bar_app_icon)).setEnabled(false);
+        if (!Utils.check(new SharedHelper(getMContext()))) {
+            $(R.id.hide_status_bar_slow_rate_icon).setEnabled(false);
+            $(R.id.hide_status_bar_time_week_icon).setEnabled(false);
+            $(R.id.hide_status_bar_time_chinese_icon).setEnabled(false);
+            $(R.id.status_text_view_clock_center).setEnabled(false);
+            $(R.id.hide_status_bar_app_icon).setEnabled(false);
         }
     }
 

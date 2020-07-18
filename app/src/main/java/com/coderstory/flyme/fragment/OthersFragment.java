@@ -17,6 +17,8 @@ import androidx.cardview.widget.CardView;
 
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
+import com.coderstory.flyme.utils.SharedHelper;
+import com.coderstory.flyme.utils.Utils;
 import com.coderstory.flyme.utils.hostshelper.FileHelper;
 import com.coderstory.flyme.utils.hostshelper.HostsHelper;
 
@@ -196,13 +198,13 @@ public class OthersFragment extends BaseFragment {
         ((Switch) $(R.id.disableSearch)).setChecked(getPrefs().getBoolean("disableSearch", false));
         ((Switch) $(R.id.mms)).setChecked(getPrefs().getBoolean("mms", false));
 
-        if (getPrefs().getString("qq", "").equals("") || getPrefs().getString("sn", "").equals("")) {
-            ((Switch) $(R.id.removeStore)).setEnabled(false);
-            ((Switch) $(R.id.autoInstall)).setEnabled(false);
-            ((NumberPicker) $(R.id.home_icon_num_column)).setEnabled(false);
-            ((NumberPicker) $(R.id.home_icon_num_rows)).setEnabled(false);
-            ((NumberPicker) $(R.id.home_icon_num_hot_seat_icons)).setEnabled(false);
-            ((Switch) $(R.id.disableSearch)).setEnabled(false);
+        if (!Utils.check(new SharedHelper(getMContext()))) {
+            $(R.id.removeStore).setEnabled(false);
+            $(R.id.autoInstall).setEnabled(false);
+            $(R.id.home_icon_num_column).setEnabled(false);
+            $(R.id.home_icon_num_rows).setEnabled(false);
+            $(R.id.home_icon_num_hot_seat_icons).setEnabled(false);
+            $(R.id.disableSearch).setEnabled(false);
 
             ((TextView) $(R.id.test1)).setTextColor(Color.parseColor("#A9A9A9"));
             ((TextView) $(R.id.test2)).setTextColor(Color.parseColor("#A9A9A9"));

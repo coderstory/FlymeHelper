@@ -38,15 +38,10 @@ import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.RuntimeUtil;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.SnackBarUtils;
+import com.coderstory.flyme.utils.Utils;
 import com.coderstory.flyme.utils.ViewUtils;
 import com.google.android.material.navigation.NavigationView;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
@@ -232,8 +227,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             normalDialog.show();
         }
 
-        if (!helper.getString("qq", "").equals("") || !helper.getString("sn", "").equals("")) {
-            new Thread(new Check(helper.getString("qq", ""), helper.getString("sn", ""))).start();
+        if (Utils.check(helper)) {
+            new Thread(new Utils().new Check(helper, myHandler)).start();
         }
 
         new updgradeService(this).checkUpgrade();
@@ -306,7 +301,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     switchFragment(UpdateListFragment.class);
                     break;
                 case R.id.navigation_item_system_ui_settings:
-                    mToolbar.setTitle(R.string.systemui);
+                    mToolbar.setTitle(R.string.systemui_settings);
                     switchFragment(SystemUIFragment.class);
                     break;
                 case R.id.navigation_item_hosts:
@@ -377,83 +372,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         Shell.SU.run("chmod 0777 " + path + " /data/config.cfg");
     }
 
-    class Check implements Runnable {
 
-        String qq;
-        String sn;
-
-        public Check(String qq, String sn) {
-            this.qq = qq;
-            this.sn = sn;
-        }
-
-        @Override
-        public void run() {
-            String path = Misc.searchApi;
-            try {
-                URL url = new URL(path);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setConnectTimeout(5000);
-                connection.setRequestMethod("POST");
-
-                //数据准备
-                String data = "{\n" +
-                        "    \"QQ\": \"" + qq + "\",\n" +
-                        "    \"sn\": \"" + sn + "\",\n" +
-                        "    \"isLogin\": 0\n" +
-                        "}";
-                //至少要设置的两个请求头
-                connection.setRequestProperty("Content-Type", "application/json");
-                connection.setRequestProperty("Content-Length", data.length() + "");
-
-                //post的方式提交实际上是留的方式提交给服务器
-                connection.setDoOutput(true);
-                OutputStream outputStream = connection.getOutputStream();
-                outputStream.write(data.getBytes());
-
-                //获得结果码
-                int responseCode = connection.getResponseCode();
-                if (responseCode == 200) {
-                    //请求成功
-                    InputStream is = connection.getInputStream();
-
-                    Message msg = new Message();
-                    msg.arg1 = 4;
-                    Bundle data2 = new Bundle();
-                    data2.putString("value", dealResponseResult(is));
-                    data2.putString("qq", qq);
-                    data2.putString("sn", sn);
-                    msg.setData(data2);
-                    myHandler.sendMessage(msg);
-                } else {
-                    Message msg = new Message();
-                    msg.arg1 = 5;
-                    myHandler.sendMessage(msg);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                Message msg = new Message();
-                msg.arg1 = 5;
-                myHandler.sendMessage(msg);
-            }
-        }
-
-        public String dealResponseResult(InputStream inputStream) {
-            String resultData;      //存储处理结果
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            byte[] data = new byte[1024];
-            int len = 0;
-            try {
-                while ((len = inputStream.read(data)) != -1) {
-                    byteArrayOutputStream.write(data, 0, len);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            resultData = new String(byteArrayOutputStream.toByteArray());
-            return resultData;
-        }
-    }
 
 }
 

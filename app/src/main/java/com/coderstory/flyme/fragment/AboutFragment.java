@@ -17,7 +17,6 @@ public class AboutFragment extends BaseFragment {
         return R.layout.fragment_about;
     }
 
-
     @Override
     protected void setUpView() {
         ((TextView) $(R.id.version)).setText(BuildConfig.VERSION_NAME);

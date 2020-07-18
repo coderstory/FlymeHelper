@@ -4,10 +4,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -63,5 +72,97 @@ public class Utils {
         Log.e(TAG, "getMySharedPreferences end filename=" + fileName);
         // 返回默认路径下的 SharedPreferences : /data/data/%package_name%/shared_prefs/%fileName%.xml
         return context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
+    }
+
+    public static boolean check(SharedHelper helper) {
+        return !helper.getString("qq", "").equals("") && !helper.getString("sn", "").equals("");
+    }
+
+    public class Check implements Runnable {
+        String qq;
+        String sn;
+        Handler myHandler;
+        int isLogin;
+
+        public Check(SharedHelper helper, Handler myHandler) {
+            this.qq = helper.getString("qq", "");
+            this.sn = helper.getString("sn", "");
+            this.myHandler = myHandler;
+            this.isLogin = 0;
+        }
+
+        public Check(String qq, String sn, Handler myHandler) {
+            this.qq = qq;
+            this.sn = sn;
+            this.myHandler = myHandler;
+            this.isLogin = 1;
+        }
+
+        @Override
+        public void run() {
+            String path = Misc.searchApi;
+            try {
+                URL url = new URL(path);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setConnectTimeout(5000);
+                connection.setRequestMethod("POST");
+
+                //数据准备
+                String data = "{\n" +
+                        "    \"QQ\": \"" + qq + "\",\n" +
+                        "    \"sn\": \"" + sn + "\",\n" +
+                        "    \"isLogin\": " + isLogin + "\n" +
+                        "}";
+                //至少要设置的两个请求头
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("Content-Length", data.length() + "");
+
+                //post的方式提交实际上是留的方式提交给服务器
+                connection.setDoOutput(true);
+                OutputStream outputStream = connection.getOutputStream();
+                outputStream.write(data.getBytes());
+
+                //获得结果码
+                int responseCode = connection.getResponseCode();
+                if (responseCode == 200) {
+                    //请求成功
+                    InputStream is = connection.getInputStream();
+
+                    Message msg = new Message();
+                    msg.arg1 = 4;
+                    Bundle data2 = new Bundle();
+                    data2.putString("value", dealResponseResult(is));
+                    data2.putString("qq", qq);
+                    data2.putString("sn", sn);
+                    msg.setData(data2);
+                    myHandler.sendMessage(msg);
+                } else {
+                    Message msg = new Message();
+                    msg.arg1 = 5;
+                    myHandler.sendMessage(msg);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Message msg = new Message();
+                msg.arg1 = 5;
+                myHandler.sendMessage(msg);
+            }
+        }
+
+        public String dealResponseResult(InputStream inputStream) {
+            String resultData;      //存储处理结果
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            byte[] data = new byte[1024];
+            int len;
+            try {
+                while ((len = inputStream.read(data)) != -1) {
+                    byteArrayOutputStream.write(data, 0, len);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            resultData = new String(byteArrayOutputStream.toByteArray());
+            return resultData;
+        }
     }
 }

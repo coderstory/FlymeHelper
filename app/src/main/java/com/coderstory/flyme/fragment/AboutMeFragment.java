@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.InputFilter;
@@ -18,15 +17,9 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
-import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.SharedHelper;
+import com.coderstory.flyme.utils.Utils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
@@ -75,7 +68,6 @@ public class AboutMeFragment extends BaseFragment {
                         getEditor().putString("qq", msg.getData().get("qq").toString()).apply();
                         getEditor().putString("sn", msg.getData().get("sn").toString()).apply();
                         Toast.makeText(getMContext(), "绑定成功,重启应用生效", Toast.LENGTH_SHORT).show();
-                        //Toast.makeText(getMContext(), "qq" + msg.getData().get("qq").toString() + "sn" + msg.getData().get("sn").toString(), Toast.LENGTH_SHORT).show();
                         refresh();
                     } else {
                         Toast.makeText(getMContext(), "绑定失败:\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
@@ -106,7 +98,7 @@ public class AboutMeFragment extends BaseFragment {
     protected void setUpView() {
         helper = new SharedHelper(getMContext());
 
-        $(R.id.bt2).setOnClickListener(v -> {
+        $(R.id.join_free_group).setOnClickListener(v -> {
             if (!joinQQGroup("k8v9MsMgZjsyUBhmL76_tnid2opGauic")) {
                 Toast.makeText(getMContext(), "拉起手Q失败", Toast.LENGTH_LONG).show();
             }
@@ -114,9 +106,9 @@ public class AboutMeFragment extends BaseFragment {
 
         refresh();
 
-        if (helper.getString("qq", "").equals("") || helper.getString("sn", "").equals("")) {
-            $(R.id.bt4).setOnClickListener(v -> openInputDialog());
-            $(R.id.bt3).setOnClickListener(v -> {
+        if (!Utils.check(helper)) {
+            $(R.id.activation).setOnClickListener(v -> openInputDialog());
+            $(R.id.chat_for_pay).setOnClickListener(v -> {
                 try {
                     //第二种方式：可以跳转到添加好友，如果qq号是好友了，直接聊天
                     String url = "mqqwpa://im/chat?chat_type=wpa&uin=" + 26735825;//uin是发送过去的qq号码
@@ -125,11 +117,11 @@ public class AboutMeFragment extends BaseFragment {
                     e.printStackTrace();
                 }
             });
-            $(R.id.bt1).setOnClickListener(v -> Toast.makeText(getMContext(), "尚未激活会员,不可申请", Toast.LENGTH_LONG).show());
+            $(R.id.join_vip_group).setOnClickListener(v -> Toast.makeText(getMContext(), "尚未激活会员,不可申请", Toast.LENGTH_LONG).show());
         } else {
-            $(R.id.bt4).setVisibility(View.GONE);
-            $(R.id.bt3).setVisibility(View.GONE);
-            $(R.id.bt1).setOnClickListener(v -> {
+            $(R.id.activation).setVisibility(View.GONE);
+            $(R.id.chat_for_pay).setVisibility(View.GONE);
+            $(R.id.join_vip_group).setOnClickListener(v -> {
                 if (!joinQQGroup("dNIW3xRJ8YKTdsFcJBak3_cZ0AwTBdEn")) {
                     Toast.makeText(getMContext(), "拉起手Q失败", Toast.LENGTH_LONG).show();
                 }
@@ -138,10 +130,8 @@ public class AboutMeFragment extends BaseFragment {
     }
 
     public void refresh() {
-
-        ((TextView) $(R.id.mark)).setText("当前版本类型: " + (helper.getString("qq", "").equals("") || helper.getString("sn", "").equals("") ? "免费版" : "完整版"));
-        ((TextView) $(R.id.qq)).setText("绑定QQ: " + helper.getString("qq", "无"));
-
+        ((TextView) $(R.id.vip_version)).setText("当前版本类型: " + (!Utils.check(helper) ? "免费版" : "完整版"));
+        ((TextView) $(R.id.bound_qq)).setText("绑定QQ: " + helper.getString("qq", "无"));
     }
 
     /****************
@@ -165,104 +155,21 @@ public class AboutMeFragment extends BaseFragment {
         }
     }
 
-
     private void openInputDialog() {
         final EditText inputServer = new EditText(getMContext());
         inputServer.setFilters(new InputFilter[]{new InputFilter.LengthFilter(17)});
         inputServer.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
         AlertDialog.Builder builder = new AlertDialog.Builder(getMContext());
-        builder.setTitle("1.付费4.8元解锁\r\n2.输入你的绑定QQ号并点击解锁!!").setView(inputServer);
+        builder.setTitle("付费且绑定你的QQ后\r\n在此输入你的QQ并点击解锁!!").setView(inputServer);
         builder.setPositiveButton("解锁全功能", (dialog, which) -> {
             String _sign = inputServer.getText().toString();
             if (!_sign.isEmpty()) {
                 String sn = getSerialNumber();
-                new Thread(new Check(_sign, sn)).start();
+                new Thread(new Utils().new Check(_sign, sn, myHandler)).start();
             } else {
                 Toast.makeText(getMContext(), "QQ号不能为空", Toast.LENGTH_SHORT).show();
             }
         });
-
         builder.show();
-
     }
-
-
-    class Check implements Runnable {
-
-        String qq;
-        String sn;
-
-        public Check(String qq, String sn) {
-            this.qq = qq;
-            this.sn = sn;
-        }
-
-        @Override
-        public void run() {
-            String path = Misc.searchApi;
-            try {
-                URL url = new URL(path);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setConnectTimeout(5000);
-                connection.setRequestMethod("POST");
-
-                //数据准备
-                String data = "{\n" +
-                        "    \"QQ\": \"" + qq + "\",\n" +
-                        "    \"sn\": \"" + sn + "\",\n" +
-                        "    \"isLogin\": 1\n" +
-                        "}";
-                //至少要设置的两个请求头
-                connection.setRequestProperty("Content-Type", "application/json");
-                connection.setRequestProperty("Content-Length", data.length() + "");
-
-                //post的方式提交实际上是留的方式提交给服务器
-                connection.setDoOutput(true);
-                OutputStream outputStream = connection.getOutputStream();
-                outputStream.write(data.getBytes());
-
-                //获得结果码
-                int responseCode = connection.getResponseCode();
-                if (responseCode == 200) {
-                    //请求成功
-                    InputStream is = connection.getInputStream();
-
-                    Message msg = new Message();
-                    msg.arg1 = 4;
-                    Bundle data2 = new Bundle();
-                    data2.putString("value", dealResponseResult(is));
-                    data2.putString("qq", qq);
-                    data2.putString("sn", sn);
-                    msg.setData(data2);
-                    myHandler.sendMessage(msg);
-                } else {
-                    Message msg = new Message();
-                    msg.arg1 = 5;
-                    myHandler.sendMessage(msg);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                Message msg = new Message();
-                msg.arg1 = 5;
-                myHandler.sendMessage(msg);
-            }
-        }
-
-        public String dealResponseResult(InputStream inputStream) {
-            String resultData;      //存储处理结果
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            byte[] data = new byte[1024];
-            int len = 0;
-            try {
-                while ((len = inputStream.read(data)) != -1) {
-                    byteArrayOutputStream.write(data, 0, len);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            resultData = new String(byteArrayOutputStream.toByteArray());
-            return resultData;
-        }
-    }
-
 }
