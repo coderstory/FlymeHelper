@@ -1,4 +1,4 @@
--repackageclasses
+-repackageclasses com.coderstory.flyme.utils
 -mergeinterfacesaggressively
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
@@ -52,9 +52,6 @@
 -keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
-}
--keep public class com.coderstory.flyme.R$*{
-public static final int *;
 }
 
 -keep class com.umeng.** {*;}

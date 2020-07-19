@@ -1,12 +1,12 @@
-# Flyme7助手
+# Flyme8助手
 
-> Flyme7助手是基于Xposed开发的Flyme系统MOD工具
+> Flyme8助手是基于Xposed开发的Flyme系统MOD工具
 
 CoderStory的博客：[blog.coderstory.cn](https://blog.coderstory.cn)   
  
  
  
-Flyme7助手支持去除Flyme系统的大部分广告内容，清理应用缓存，应用冻结备份等功能。
+Flyme8助手支持去除Flyme系统的大部分广告内容，清理应用缓存，应用冻结备份等功能。
 
 
 ## License
