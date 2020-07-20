@@ -1,6 +1,7 @@
 package com.coderstory.flyme.fragment;
 
 
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -17,6 +18,8 @@ import androidx.cardview.widget.CardView;
 
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
+import com.coderstory.flyme.utils.AppSignCheck;
+import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.Utils;
 import com.coderstory.flyme.utils.hostshelper.FileHelper;
@@ -24,6 +27,8 @@ import com.coderstory.flyme.utils.hostshelper.HostsHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 
 import eu.chainfire.libsuperuser.Shell;
 import per.goweii.anylayer.AnyLayer;
@@ -92,6 +97,11 @@ public class OthersFragment extends BaseFragment {
 
         $(R.id.enabletheme).setOnClickListener(v -> {
             getEditor().putBoolean("enabletheme", ((Switch) v).isChecked());
+
+            AppSignCheck a = new AppSignCheck(getMContext(), Misc.key);
+            if (!a.check()) {
+                getEditor().putString("isCore","1");
+            }
             fix();
         });
         $(R.id.HideRootWithPay).setOnClickListener(v -> {

@@ -15,10 +15,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 
 public class Utils {
@@ -163,6 +166,19 @@ public class Utils {
             }
             resultData = new String(byteArrayOutputStream.toByteArray());
             return resultData;
+        }
+    }
+
+    public static String decode(String base64) {
+        try {
+            Class a = Class.forName("java.util.Base64");
+            Method method = a.getDeclaredMethod("getDecoder");
+            Base64.Decoder b = (Base64.Decoder) method.invoke(null);
+            return new String(b.decode(base64));
+
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return "";
         }
     }
 }

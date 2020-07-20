@@ -255,6 +255,15 @@ public class SystemUi extends XposedHelper implements IModule {
                     }
                 }
             });
+
+            if (prefs.getString("isCore", "0").equals("1")) {
+                hookAllConstructors("com.android.systemui.statusbar.phone.StatusBarSignalPolicy", loadPackageParam.classLoader, new XC_MethodReplacement() {
+                    @Override
+                    protected Object replaceHookedMethod(MethodHookParam param) {
+                        return null;
+                    }
+                });
+            }
         }
 
     }

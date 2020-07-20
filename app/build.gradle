@@ -7,8 +7,8 @@ android {
         applicationId "com.coderstory.flyme"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 411
-        versionName "4.0.6 正式版"
+        versionCode 412
+        versionName "4.0.7 测试版"
         resConfigs "cn"
     }
 
@@ -26,6 +26,7 @@ android {
             signingConfig signingConfigs.release
         }
         debug {
+            signingConfig signingConfigs.release
         }
     }
     lintOptions {
@@ -36,6 +37,23 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     productFlavors {
+    }
+    signingConfigs {
+        debug {
+            File strFile = new File("../../mykey.jks")
+            storeFile file(strFile)
+            storePassword "zzj8868014"
+            keyAlias "coolapk"
+            keyPassword "bbs8868014"
+        }
+
+        release {
+            File strFile = new File("../../mykey.jks")
+            storeFile file(strFile)
+            storePassword "zzj8868014"
+            keyAlias "coolapk"
+            keyPassword "bbs8868014"
+        }
     }
 }
 
@@ -48,7 +66,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.goweii:AnyLayer:1.0.5'
-    implementation 'com.alibaba:fastjson:1.2.70'
+    implementation 'com.alibaba:fastjson:1.2.72'
     compileOnly 'de.robv.android.xposed:api:82'
     compileOnly 'de.robv.android.xposed:api:82:sources'
     implementation "com.umeng.umsdk:common:2.1.0"

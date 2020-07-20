@@ -42,6 +42,7 @@ import com.coderstory.flyme.utils.Utils;
 import com.coderstory.flyme.utils.ViewUtils;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.Base64;
 import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
@@ -87,7 +88,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     break;
                 case 4:
                     if (!msg.getData().get("value").equals("{\"error\":\"0\"}")) {
-                        Toast.makeText(MainActivity.this, "绑定失败:\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
                         helper.put("qq", "");
                         helper.put("sn", "");
                     }
@@ -309,7 +310,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     switchFragment(HostsFragment.class);
                     break;
                 case R.id.navigation_item_about_me:
-                    mToolbar.setTitle("会员激活");
+                    mToolbar.setTitle(Utils.decode("5Lya5ZGY5r+A5rS7"));
                     switchFragment(AboutMeFragment.class);
                     break;
                 default:
@@ -371,9 +372,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         Shell.SU.run("echo " + path + " > /data/config.cfg");
         Shell.SU.run("chmod 0777 " + path + " /data/config.cfg");
     }
-
-
-
 }
 
 

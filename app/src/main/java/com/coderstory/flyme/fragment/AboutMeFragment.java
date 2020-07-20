@@ -20,6 +20,7 @@ import com.coderstory.flyme.fragment.base.BaseFragment;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.Utils;
 
+import java.util.Base64;
 import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
@@ -70,7 +71,7 @@ public class AboutMeFragment extends BaseFragment {
                         Toast.makeText(getMContext(), "绑定成功,重启应用生效", Toast.LENGTH_SHORT).show();
                         refresh();
                     } else {
-                        Toast.makeText(getMContext(), "绑定失败:\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getMContext(), Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
                     }
                     // 校验返回
                     break;
@@ -117,7 +118,7 @@ public class AboutMeFragment extends BaseFragment {
                     e.printStackTrace();
                 }
             });
-            $(R.id.join_vip_group).setOnClickListener(v -> Toast.makeText(getMContext(), "尚未激活会员,不可申请", Toast.LENGTH_LONG).show());
+            $(R.id.join_vip_group).setOnClickListener(v -> Toast.makeText(getMContext(), Utils.decode("5bCa5pyq5r+A5rS75Lya5ZGYLOS4jeWPr+eUs+ivtw=="), Toast.LENGTH_LONG).show());
         } else {
             $(R.id.activation).setVisibility(View.GONE);
             $(R.id.chat_for_pay).setVisibility(View.GONE);
@@ -130,8 +131,8 @@ public class AboutMeFragment extends BaseFragment {
     }
 
     public void refresh() {
-        ((TextView) $(R.id.vip_version)).setText("当前版本类型: " + (!Utils.check(helper) ? "免费版" : "完整版"));
-        ((TextView) $(R.id.bound_qq)).setText("绑定QQ: " + helper.getString("qq", "无"));
+        ((TextView) $(R.id.vip_version)).setText(Utils.decode("5b2T5YmN54mI5pys57G75Z6L") + ": " + (!Utils.check(helper) ? Utils.decode("5YWN6LS554mI") : Utils.decode("5LuY6LS554mI")));
+        ((TextView) $(R.id.bound_qq)).setText(Utils.decode("57uR5a6aUVE=") + ": " + helper.getString("qq", "无"));
     }
 
     /****************
@@ -160,14 +161,14 @@ public class AboutMeFragment extends BaseFragment {
         inputServer.setFilters(new InputFilter[]{new InputFilter.LengthFilter(17)});
         inputServer.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
         AlertDialog.Builder builder = new AlertDialog.Builder(getMContext());
-        builder.setTitle("付费且绑定你的QQ后\r\n在此输入你的QQ并点击解锁!!").setView(inputServer);
-        builder.setPositiveButton("解锁全功能", (dialog, which) -> {
+        builder.setTitle(Utils.decode("5LuY6LS55LiU57uR5a6a5L2g55qEUVHlkI4NCuWcqOatpOi+k+WFpeS9oOeahFFR5bm254K55Ye76Kej6ZSBISE=")).setView(inputServer);
+        builder.setPositiveButton(Utils.decode("5r+A5rS7"), (dialog, which) -> {
             String _sign = inputServer.getText().toString();
             if (!_sign.isEmpty()) {
                 String sn = getSerialNumber();
                 new Thread(new Utils().new Check(_sign, sn, myHandler)).start();
             } else {
-                Toast.makeText(getMContext(), "QQ号不能为空", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getMContext(), Utils.decode("UVHlj7fkuI3og73kuLrnqbo="), Toast.LENGTH_SHORT).show();
             }
         });
         builder.show();
