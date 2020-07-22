@@ -6,7 +6,7 @@
     <string name="authorization_agreement"><b>声明</b>\n软件授权协议</string>
     <string name="buy_way"><b>购买方式</b>\n点击<font color='#FFC0CB'>[联系购买]</font>按钮会打开QQ聊天，通过QQ支付或者通过下面的二维码付款后，把付款订单截图发给我,收到后我会开通相关权限</string>
     <string name="pay_explain"><b>付费版说明</b>\n付费版本售价人民币<font color='#FFC0CB'>4.8元</font>，绑定单设备支持重复激活。付费版通过QQ号以及设备识别码双重绑定设备，与其他的因素无关</string>
-    <string name="enableBlockADS"><b>基础功能</b>\n屏蔽一切使用魅族自家广告SDK显示的广告</string>
+    <string name="enableBlockADS"><b>基础功能</b>\n屏蔽一切使用魅族自家广告SDK显示的广告,比如自带视频的开头广告</string>
     <string name="downloadexplorer"><b>下载管理</b>\n去下载管理界面的广告</string>
     <string name="mms"><b>短信</b>\n去除具体短信信息界面上的充值话费充值流量贷款申请信用卡等垃圾信息</string>
     <string name="enableHosts"><b>启用模块</b>\n开启Hosts支持模块</string>
@@ -27,7 +27,7 @@
     <string name="hideDepWarn"><b>隐藏开发者选项风险警告</b>\n禁止开启开发者选项后通知栏弹出的风险警告</string>
     <string name="HideRootWithUpgrade"><b>系统更新</b>\n使用自带root情况下,在系统更新中隐藏Root,注意你root后是无法OTA更新系统的,屏蔽了也不行.本功能是为了能打开系统更新后能检测到OTA包的下载地址</string>
     <string name="HideRootWithPay"><b>魅族Pay</b>\n使用自带root情况下,在魅族Pay中隐藏Root</string>
-    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题 支持主题美化8.3.6 8.4.1 8.4.2.主题明细页面直接点击试用即可,不会有5分钟倒计时也不会还原.如果失效，请尝试从system分区获取主题对应apk覆盖安装一次。</string>
+    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题 支持主题美化8.3.6 - 8.4.2主题明细页面直接点击试用即可,不会有5分钟倒计时也不会还原.如果失效，请尝试从system分区获取主题对应apk覆盖安装一次。</string>
     <string name="alarem"><b>闹钟</b>\n启用闹钟后,隐藏状态栏上的闹钟图标</string>
     <string name="hide_icon_bluetooth"><b>蓝牙</b>\n连接蓝牙设备后,隐藏状态栏上的蓝牙图标</string>
     <string name="hide_icon_hotspot"><b>手机热点</b>\n隐藏状态栏上的手机热点图标</string>
@@ -49,7 +49,7 @@
     <string name="disableSearch"><b>桌面禁用手势-搜索</b>  <font color='#FFC0CB'>vip</font>\n在不禁用搜索条件下，禁止桌面上划手势触发打开搜索</string>
     <string name="hide_status_bar_sim1_icon"><b>隐藏图标-SIM1</b>\n隐藏状态栏SIM1的图标</string>
     <string name="hide_status_bar_sim2_icon"><b>隐藏图标-SIM2</b>\n隐藏状态栏SIM2的图标</string>
-    <string name="launcher10">自定义桌面布局(<font color='#4db6ac'> Android 10可用</font>)\n如果桌面挂件尺寸不对,请删除后重新添加即可></string>
+    <string name="launcher10">自定义桌面布局(<font color='#4db6ac'> Android 10可用</font>)\n如果桌面挂件尺寸不对,请删除后重新添加即可</string>
     <string name="launcher8">自定义桌面布局(<font color='#4db6ac'> Andorid 8.0- 9.0可用</font>)</string>
     <string name="hide_status_bar_location_icon"><b>定位</b>\n使用GPS的时候，隐藏状态栏上的定位图标</string>
     <string name="hide_status_bar_clock_icon"><b>时钟</b>\n隐藏状态栏中的时间</string>
