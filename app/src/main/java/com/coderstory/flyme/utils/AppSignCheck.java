@@ -4,16 +4,12 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.util.Log;
-
-import com.coderstory.flyme.BuildConfig;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -111,10 +107,6 @@ public class AppSignCheck {
         //字节到十六进制的格式转换
         hexString = byte2HexFormatted(publicKey);
 
-
-        if (BuildConfig.DEBUG) {
-            Log.d("实际签名", hexString);
-        }
         return hexString;
     }
 
@@ -148,9 +140,7 @@ public class AppSignCheck {
             cer = cer.trim();
             cer = encrypt(cer);
             realCer = realCer.trim();
-            if (this.cer.equals(this.realCer)) {
-                return true;
-            }
+            return this.cer.equals(this.realCer);
         }
         return false;
     }

@@ -58,7 +58,7 @@
 
                 <item
                     android:id="@+id/navigation_item_about"
-                    android:icon="@drawable/iconfont_about"
+                    android:icon="@drawable/skin"
                     android:title="@string/about" />
             </menu>
         </item>

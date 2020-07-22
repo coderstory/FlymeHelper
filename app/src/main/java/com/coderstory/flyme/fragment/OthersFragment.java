@@ -1,7 +1,6 @@
 package com.coderstory.flyme.fragment;
 
 
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -27,8 +26,6 @@ import com.coderstory.flyme.utils.hostshelper.HostsHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 
 import eu.chainfire.libsuperuser.Shell;
 import per.goweii.anylayer.AnyLayer;
@@ -70,11 +67,9 @@ public class OthersFragment extends BaseFragment {
 
     @Override
     protected void setUpView() {
-
-        setDatePickerDividerColor($(R.id.home_icon_num_column));
-        setDatePickerDividerColor($(R.id.home_icon_num_rows));
-        setDatePickerDividerColor($(R.id.home_icon_num_hot_seat_icons));
-
+        setDatePickerDividerColor($(R.id.home_icon_num_column), 7, 4);
+        setDatePickerDividerColor($(R.id.home_icon_num_rows), 7, 4);
+        setDatePickerDividerColor($(R.id.home_icon_num_hot_seat_icons), 7, 3);
 
         $(R.id.enableBlockAD).setOnClickListener(v -> {
             getEditor().putBoolean("EnableBlockAD", ((Switch) v).isChecked());
@@ -222,11 +217,11 @@ public class OthersFragment extends BaseFragment {
         }
     }
 
-    private void setDatePickerDividerColor(NumberPicker picker) {
+    private void setDatePickerDividerColor(NumberPicker picker, int max, int min) {
         //设置最大值
-        picker.setMaxValue(7);
+        picker.setMaxValue(max);
         //设置最小值
-        picker.setMinValue(4);
+        picker.setMinValue(min);
         Field[] pickerFields = NumberPicker.class.getDeclaredFields();
         for (Field pf : pickerFields) {
             if (pf.getName().equals("mSelectionDivider")) {

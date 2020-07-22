@@ -5,7 +5,7 @@
     <string name="about_msg"><b>免费/付费版区别</b>\n软件分免费版和付费版，区别在于部分功能只有付费版才能使用。免费版不可用的功能会在功能上会有[vip]字样，且功能灰色无法点击。</string>
     <string name="authorization_agreement"><b>声明</b>\n软件授权协议</string>
     <string name="buy_way"><b>购买方式</b>\n点击<font color='#FFC0CB'>[联系购买]</font>按钮会打开QQ聊天，通过QQ支付或者通过下面的二维码付款后，把付款订单截图发给我,收到后我会开通相关权限</string>
-    <string name="pay_explain"><b>付费版说明</b>\n付费版本售价人民币4.8元，绑定单设备支持重复激活。付费版通过QQ号以及设备识别码双重绑定设备，与其他的因素无关</string>
+    <string name="pay_explain"><b>付费版说明</b>\n付费版本售价人民币<font color='#FFC0CB'>4.8元</font>，绑定单设备支持重复激活。付费版通过QQ号以及设备识别码双重绑定设备，与其他的因素无关</string>
     <string name="enableBlockADS"><b>基础功能</b>\n屏蔽一切使用魅族自家广告SDK显示的广告</string>
     <string name="downloadexplorer"><b>下载管理</b>\n去下载管理界面的广告</string>
     <string name="mms"><b>短信</b>\n去除具体短信信息界面上的充值话费充值流量贷款申请信用卡等垃圾信息</string>
@@ -65,8 +65,8 @@
     <string name="Flyme_Purify">基础功能</string>
     <string name="hosts">Hosts去广告</string>
     <string name="disableapp">冻结应用</string>
-    <string name="appclean">清理缓存</string>
-    <string name="othersettings">常用的功能</string>
+    <string name="appclean">清理应用缓存</string>
+    <string name="othersettings">常用设置</string>
     <string name="other">其他</string>
     <string name="copy_url">复制链接</string>
     <string name="miuiads"><b>屏蔽Flyme广告</b>\n通过hosts屏蔽部分flyme的广告,但可能导致小部分flyme服务访问异常</string>
@@ -129,17 +129,17 @@
     <string name="restoreing">OK,正在恢复配置！</string>
     <string name="not_fond_backup_list">未找到备份列表！</string>
     <string name="not_fond_backup_list_file">未找到备份列表！</string>
-    <string name="hide_app_icon">隐藏图标</string>
+    <string name="hide_app_icon">隐藏桌面应用图标</string>
     <string name="navigation_item_donation">捐赠</string>
     <string name="historyFunctions">历史功能</string>
     <string name="appname">应用名: %1$s \n版本号 :%2$s</string>
     <string name="app_info">版本号: %1$s \n文件大小:%2$s\n发布日期:%3$s</string>
     <string name="others_appsettings">应用设置</string>
-    <string name="updateList">OTA更新包</string>
+    <string name="updateList">已检测到的OTA更新包</string>
     <string name="blog">作者博客</string>
     <string name="removeStore"><b>移除推广按钮</b>  <font color='#FFC0CB'>vip</font>\n移除应用安装界面的从官方商店下载按钮</string>
     <string name="autoInstall"><b>自动安装应用</b>  <font color='#FFC0CB'>vip</font>\n打开应用安装界面后，无需点击按钮自动执行安装任务</string>
-    <string name="systemui_settings">状态栏设置</string>
+    <string name="systemui_settings">自定义状态栏</string>
     <string name="member_binding">会员绑定</string>
     <string name="open_sources">
             <b>致谢如下开源项目</b>\n\n

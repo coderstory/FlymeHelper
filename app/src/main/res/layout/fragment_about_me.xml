@@ -39,7 +39,7 @@
                     android:shadowDx="10"
                     android:shadowDy="10"
                     android:shadowRadius="15"
-                    android:text="Flyme助手会员系统"
+                    android:text="Flyme助手会员"
                     android:textColor="#D0F44336"
                     android:textSize="20sp" />
             </LinearLayout>
