@@ -20,7 +20,6 @@ import com.coderstory.flyme.fragment.base.BaseFragment;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.Utils;
 
-import java.util.Base64;
 import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
@@ -118,16 +117,18 @@ public class AboutMeFragment extends BaseFragment {
                     e.printStackTrace();
                 }
             });
-            $(R.id.join_vip_group).setOnClickListener(v -> Toast.makeText(getMContext(), Utils.decode("5bCa5pyq5r+A5rS75Lya5ZGYLOS4jeWPr+eUs+ivtw=="), Toast.LENGTH_LONG).show());
+
+            // $(R.id.join_vip_group).setOnClickListener(v -> Toast.makeText(getMContext(), Utils.decode("5bCa5pyq5r+A5rS75Lya5ZGYLOS4jeWPr+eUs+ivtw=="), Toast.LENGTH_LONG).show());
         } else {
             $(R.id.activation).setVisibility(View.GONE);
-            $(R.id.chat_for_pay).setVisibility(View.GONE);
-            $(R.id.join_vip_group).setOnClickListener(v -> {
-                if (!joinQQGroup("dNIW3xRJ8YKTdsFcJBak3_cZ0AwTBdEn")) {
-                    Toast.makeText(getMContext(), "拉起手Q失败", Toast.LENGTH_LONG).show();
-                }
-            });
+            $(R.id.join_vip_group).setVisibility(View.GONE);
         }
+
+        $(R.id.join_vip_group).setOnClickListener(v -> {
+            if (!joinQQGroup("dNIW3xRJ8YKTdsFcJBak3_cZ0AwTBdEn")) {
+                Toast.makeText(getMContext(), "拉起手Q失败", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void refresh() {

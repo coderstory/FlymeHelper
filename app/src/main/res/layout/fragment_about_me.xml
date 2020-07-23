@@ -117,7 +117,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
-                        android:text="激活绑定"
+                        android:text="激活会员"
                         android:textSize="14dp" />
 
                     <Button
@@ -127,7 +127,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
-                        android:text="联系购买"
+                        android:text="与我联系"
                         android:textSize="14dp" />
 
                     <Button
@@ -137,7 +137,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
-                        android:text="加入会员群"
+                        android:text="付费专用群"
                         android:textSize="14dp" />
 
                     <Button
@@ -146,7 +146,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
-                        android:text="加入免费群"
+                        android:text="交流群"
                         android:textSize="14dp" />
                 </LinearLayout>
 
