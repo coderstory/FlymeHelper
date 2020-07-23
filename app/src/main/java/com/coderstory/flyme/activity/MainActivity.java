@@ -42,7 +42,6 @@ import com.coderstory.flyme.utils.Utils;
 import com.coderstory.flyme.utils.ViewUtils;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.Base64;
 import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
@@ -160,28 +159,28 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         mToolbar.setNavigationIcon(R.drawable.ic_drawer_home);
         initDefaultFragment();
 
-        if (!helper.getBoolean("isRooted", false)) {
-            // 检测弹窗
-            new Thread(() -> {
-                Message msg = new Message();
-                msg.arg1 = 1;
+        //if (!helper.getBoolean("isRooted", false)) {
+        // 检测弹窗
+        new Thread(() -> {
+            Message msg = new Message();
+            msg.arg1 = 1;
+            myHandler.sendMessage(msg);
+            if (!RuntimeUtil.hasRooted()) {
+                msg = new Message();
+                msg.arg1 = 0;
                 myHandler.sendMessage(msg);
-                if (!RuntimeUtil.hasRooted()) {
-                    msg = new Message();
-                    msg.arg1 = 0;
-                    myHandler.sendMessage(msg);
-                } else {
-                    msg = new Message();
-                    msg.arg1 = 2;
-                    myHandler.sendMessage(msg);
-                    // copySo();
-                }
-                checkEnable();
-            }).start();
-        } else {
+            } else {
+                msg = new Message();
+                msg.arg1 = 2;
+                myHandler.sendMessage(msg);
+                // copySo();
+            }
             checkEnable();
-            //copySo();
-        }
+        }).start();
+        // } else {
+        checkEnable();
+        //copySo();
+        // }
 
         if (helper.getBoolean("firstOpenB", true)) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);

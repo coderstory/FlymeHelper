@@ -82,9 +82,12 @@ public class AboutMeFragment extends BaseFragment {
         }
     };
 
-    public static String getSerialNumber() {
+    public String getSerialNumber() {
 
         List<String> result = Shell.SU.run("getprop ro.serialno");
+        if (result.size() == 0) {
+            return null;
+        }
         return result.get(0);
 
     }
@@ -167,7 +170,16 @@ public class AboutMeFragment extends BaseFragment {
             String _sign = inputServer.getText().toString();
             if (!_sign.isEmpty()) {
                 String sn = getSerialNumber();
-                new Thread(new Utils().new Check(_sign, sn, myHandler)).start();
+                if (sn == null) {
+                    androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(getMContext());
+                    normalDialog.setTitle("提示");
+                    normalDialog.setMessage("请先授权应用ROOT权限");
+                    normalDialog.setPositiveButton("确定",
+                            (dialog1, which1) -> System.exit(0));
+                    normalDialog.show();
+                } else {
+                    new Thread(new Utils().new Check(_sign, sn, myHandler)).start();
+                }
             } else {
                 Toast.makeText(getMContext(), Utils.decode("UVHlj7fkuI3og73kuLrnqbo="), Toast.LENGTH_SHORT).show();
             }
