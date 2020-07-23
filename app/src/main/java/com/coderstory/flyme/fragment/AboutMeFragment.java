@@ -84,12 +84,11 @@ public class AboutMeFragment extends BaseFragment {
 
     public String getSerialNumber() {
 
-        List<String> result = Shell.SU.run("getprop ro.serialno");
+        List<String> result = Shell.SU.run(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v"));
         if (result.size() == 0) {
             return null;
         }
         return result.get(0);
-
     }
 
     @Override
@@ -178,7 +177,7 @@ public class AboutMeFragment extends BaseFragment {
                             (dialog1, which1) -> System.exit(0));
                     normalDialog.show();
                 } else {
-                    new Thread(new Utils().new Check(_sign, sn, myHandler)).start();
+                    new Thread(new Utils().new Check(_sign, myHandler)).start();
                 }
             } else {
                 Toast.makeText(getMContext(), Utils.decode("UVHlj7fkuI3og73kuLrnqbo="), Toast.LENGTH_SHORT).show();

@@ -23,6 +23,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
+
+import eu.chainfire.libsuperuser.Shell;
 
 public class Utils {
     private static final String TAG = "Utils";
@@ -81,6 +84,27 @@ public class Utils {
         return !helper.getString("qq", "").equals("") && !helper.getString("sn", "").equals("");
     }
 
+    public String getSerialNumber() {
+        List<String> result = Shell.SU.run(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v"));
+        if (result.size() == 0) {
+            return null;
+        }
+        return result.get(0);
+    }
+
+    public static String decode(String base64) {
+        try {
+            Class a = Class.forName("java.util.Base64");
+            Method method = a.getDeclaredMethod("getDecoder");
+            Base64.Decoder b = (Base64.Decoder) method.invoke(null);
+            return new String(b.decode(base64));
+
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
     public class Check implements Runnable {
         String qq;
         String sn;
@@ -89,14 +113,14 @@ public class Utils {
 
         public Check(SharedHelper helper, Handler myHandler) {
             this.qq = helper.getString("qq", "");
-            this.sn = helper.getString("sn", "");
+            this.sn = getSerialNumber();
             this.myHandler = myHandler;
             this.isLogin = 0;
         }
 
-        public Check(String qq, String sn, Handler myHandler) {
+        public Check(String qq, Handler myHandler) {
             this.qq = qq;
-            this.sn = sn;
+            this.sn = getSerialNumber();
             this.myHandler = myHandler;
             this.isLogin = 1;
         }
@@ -166,19 +190,6 @@ public class Utils {
             }
             resultData = new String(byteArrayOutputStream.toByteArray());
             return resultData;
-        }
-    }
-
-    public static String decode(String base64) {
-        try {
-            Class a = Class.forName("java.util.Base64");
-            Method method = a.getDeclaredMethod("getDecoder");
-            Base64.Decoder b = (Base64.Decoder) method.invoke(null);
-            return new String(b.decode(base64));
-
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-            return "";
         }
     }
 }
