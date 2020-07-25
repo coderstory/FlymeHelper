@@ -121,16 +121,6 @@
                         android:textSize="14dp" />
 
                     <Button
-                        android:id="@+id/chat_for_pay"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/btn_nor_down"
-                        android:text="与我联系"
-                        android:textSize="14dp" />
-
-                    <Button
                         android:id="@+id/join_vip_group"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
@@ -239,9 +229,19 @@
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:text="支付二维码"
+                    android:textColor="#262626"
+                    android:textSize="14sp" />
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
+                    android:paddingTop="30dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/erweima" />
             </androidx.cardview.widget.CardView>

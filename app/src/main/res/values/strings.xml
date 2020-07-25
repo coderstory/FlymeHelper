@@ -4,7 +4,7 @@
     <string name="drawer_close">Close</string>
     <string name="about_msg"><b>免费/付费版区别</b>\n软件分免费版和付费版，区别在于部分功能只有付费版才能使用。免费版不可用的功能会在功能上会有[vip]字样，且功能灰色无法点击。</string>
     <string name="authorization_agreement"><b>声明</b>\n软件授权协议</string>
-    <string name="buy_way"><b>购买方式</b>\n<b>方式1:</b> 通过QQ红包或者下面的二维码付款后，点击<font color='#FFC0CB'>[与我联系]</font>,<font color='red'>把付款详情截图发过来</font>,我会尽可能快的处理订单\n<b>方式2:</b> 点击[付费专用群],付费入群后自动绑定会员,你可以立即激活助手,无需人工处理\n\n如有疑问可加入交流群询问或者点击与我联系直接和我沟通</string>
+    <string name="buy_way"><b>购买方式</b>\n<b>方式1:</b> 点击[付费专用群],入群后自动绑定会员,可以立即激活助手,无需人工处理\n<b>方式2:</b>点击[交流群]按钮加入交流群,然后找群主支付4.8元</string>
     <string name="pay_explain"><b>付费版说明</b>\n付费版本售价人民币<font color='#FFC0CB'>4.8元</font>，绑定单设备支持重复激活。付费版通过QQ号以及设备识别码双重绑定设备，与其他的因素无关</string>
     <string name="enableBlockADS"><b>基础功能</b>\n屏蔽一切使用魅族自家广告SDK显示的广告,比如自带视频的开头广告</string>
     <string name="downloadexplorer"><b>下载管理</b>\n去下载管理界面的广告</string>

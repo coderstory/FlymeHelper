@@ -84,7 +84,7 @@ public class AboutMeFragment extends BaseFragment {
 
     public String getSerialNumber() {
 
-        List<String> result = Shell.SU.run(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v"));
+        List<String> result = Shell.SU.run(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " "));
         if (result.size() == 0) {
             return null;
         }
@@ -110,16 +110,6 @@ public class AboutMeFragment extends BaseFragment {
 
         if (!Utils.check(helper)) {
             $(R.id.activation).setOnClickListener(v -> openInputDialog());
-            $(R.id.chat_for_pay).setOnClickListener(v -> {
-                try {
-                    //第二种方式：可以跳转到添加好友，如果qq号是好友了，直接聊天
-                    String url = "mqqwpa://im/chat?chat_type=wpa&uin=" + 26735825;//uin是发送过去的qq号码
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
             // $(R.id.join_vip_group).setOnClickListener(v -> Toast.makeText(getMContext(), Utils.decode("5bCa5pyq5r+A5rS75Lya5ZGYLOS4jeWPr+eUs+ivtw=="), Toast.LENGTH_LONG).show());
         } else {
             $(R.id.activation).setVisibility(View.GONE);
