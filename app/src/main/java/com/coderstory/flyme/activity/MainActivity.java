@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     private Fragment mCurrentFragment;
     private MenuItem mPreMenuItem;
     private long lastBackKeyDownTick = 0;
-    private SharedHelper helper = new SharedHelper(this);
+    private final SharedHelper helper = new SharedHelper(this);
     private ProgressDialog dialog;
     @SuppressLint("HandlerLeak")
     public Handler myHandler = new Handler() {
@@ -195,8 +195,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         if (helper.getBoolean("firstOpenD", true)) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
             normalDialog.setTitle("!!重要提示!!");
-
-            normalDialog.setMessage("从4.0.5版本开始，助手的激活方式改成绑定QQ号而不是激活码，如果你现在重新输入QQ号激活提示错误，请联系群主(26735825)并说明具体情况以便处理");
+            normalDialog.setMessage("部分功能，比如时间居中只有升级到android 10后才能使用");
             normalDialog.setPositiveButton("确定",
                     (dialog, which) -> {
                         helper.put("firstOpenD", false);
