@@ -35,7 +35,6 @@ import com.coderstory.flyme.fragment.UpdateListFragment;
 import com.coderstory.flyme.fragment.WebViewFragment;
 import com.coderstory.flyme.update.updgradeService;
 import com.coderstory.flyme.utils.Misc;
-import com.coderstory.flyme.utils.RuntimeUtil;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.SnackBarUtils;
 import com.coderstory.flyme.utils.Utils;
@@ -165,7 +164,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             Message msg = new Message();
             msg.arg1 = 1;
             myHandler.sendMessage(msg);
-            if (!RuntimeUtil.hasRooted()) {
+            if (!Shell.rootAccess()) {
                 msg = new Message();
                 msg.arg1 = 0;
                 myHandler.sendMessage(msg);

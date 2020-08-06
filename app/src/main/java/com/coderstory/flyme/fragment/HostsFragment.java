@@ -10,8 +10,8 @@ import android.widget.Switch;
 
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
-import com.coderstory.flyme.utils.RuntimeUtil;
 import com.coderstory.flyme.utils.hostshelper.FileHelper;
+import com.topjohnwu.superuser.Shell;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -119,8 +119,7 @@ public class HostsFragment extends BaseFragment {
                     HostsContext += fh.getFromAssets("hosts_miui", getMContext());
                 }
             }
-
-            RuntimeUtil.execSilent(getCommandsToExecute(HostsContext));
+            Shell.su(getCommandsToExecute(HostsContext)).exec();
 
         }
     }

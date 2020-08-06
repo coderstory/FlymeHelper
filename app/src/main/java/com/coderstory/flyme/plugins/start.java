@@ -11,7 +11,6 @@ import com.coderstory.flyme.module.Others;
 import com.coderstory.flyme.module.RemoveAds;
 import com.coderstory.flyme.module.SystemUi;
 import com.coderstory.flyme.module.ThemePatcher;
-import com.coderstory.flyme.utils.Dex2C;
 import com.coderstory.flyme.utils.FileUtils;
 import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.XposedHelper;
@@ -27,7 +26,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static com.coderstory.flyme.utils.Misc.ApplicationName;
 
-@Dex2C
 public class start extends XposedHelper implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
 
     {

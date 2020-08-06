@@ -4,14 +4,12 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -144,31 +142,6 @@ public class FileUtils {
         return stringBuffer.toString();
     }
 
-    /**
-     * 向指定文件写入字符串
-     *
-     * @param fileName
-     * @param content
-     */
-    public static void writeFile(String fileName, String content) {
-        File file = new File(fileName);
-        try {
-            if (!file.exists()) {
-                File fileDirectory = file.getParentFile();
-                if (!fileDirectory.exists()) {
-                    fileDirectory.mkdirs();
-                }
-                file.createNewFile();
-            }
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
-            bufferedWriter.write(content);
-            bufferedWriter.flush();
-            bufferedWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     /**
      * 移除字符串中的BOM前缀
@@ -245,6 +218,5 @@ public class FileUtils {
         int index = path.lastIndexOf('/');
         return path.substring(index + 1);
     }
-
 
 }

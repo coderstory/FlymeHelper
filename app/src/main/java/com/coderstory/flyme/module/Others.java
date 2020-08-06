@@ -1,26 +1,12 @@
 package com.coderstory.flyme.module;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.os.Build;
-import android.text.format.DateFormat;
 import android.util.Base64;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coderstory.flyme.plugins.IModule;
-import com.coderstory.flyme.utils.Dex2C;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.XposedHelper;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
@@ -30,7 +16,6 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-@Dex2C
 public class Others extends XposedHelper implements IModule {
 
     private static Context mContext = null;

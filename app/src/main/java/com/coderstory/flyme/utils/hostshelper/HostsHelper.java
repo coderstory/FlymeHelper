@@ -3,7 +3,7 @@ package com.coderstory.flyme.utils.hostshelper;
 
 import android.content.Context;
 
-import com.coderstory.flyme.utils.SuHelper;
+import com.topjohnwu.superuser.Shell;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -20,8 +20,8 @@ import static com.coderstory.flyme.utils.Misc.HostFileTmpName;
  * 和hosts相关的操作
  * Created by cc on 2016/6/7.
  */
-public class HostsHelper extends SuHelper {
-    private String mcontent;
+public class HostsHelper {
+    private final String mcontent;
     private Context mcontext = null;
 
     public HostsHelper(String mcontent, Context m) {
@@ -34,7 +34,6 @@ public class HostsHelper extends SuHelper {
      *
      * @return 构造好的命令组
      */
-    @Override
     protected ArrayList<String> getCommandsToExecute() throws UnsupportedEncodingException {
         ArrayList<String> list = new ArrayList<>();
         list.add("mount -o rw,remount /system");
@@ -61,4 +60,18 @@ public class HostsHelper extends SuHelper {
         list.add(String.format("chmod 755 %s", "/etc/hosts"));
         return list;
     }
+
+    /**
+     * 执行所提交的命令组
+     */
+    public final void execute() throws UnsupportedEncodingException {
+        ArrayList<String> commands = getCommandsToExecute();
+        if (null != commands && commands.size() > 0) {
+            for (String command : commands) {
+                Shell.su(command).exec();
+            }
+        }
+
+    }
+
 }

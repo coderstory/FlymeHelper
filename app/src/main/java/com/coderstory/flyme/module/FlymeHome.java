@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.coderstory.flyme.plugins.IModule;
-import com.coderstory.flyme.utils.Dex2C;
 import com.coderstory.flyme.utils.XposedHelper;
 
 import java.io.File;
@@ -19,7 +18,6 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-@Dex2C
 public class FlymeHome extends XposedHelper implements IModule {
 
 
@@ -86,7 +84,7 @@ public class FlymeHome extends XposedHelper implements IModule {
                 if (findClassWithoutLog("com.meizu.flyme.g.a", lpparam.classLoader) != null) {
                     findAndHookMethod("com.meizu.flyme.g.a", lpparam.classLoader, "a", XC_MethodReplacement.returnConstant(null));
                 } else {
-                    findAndHookMethod("com.meizu.launcher3.controller.CommonTouchController", lpparam.classLoader, "startSearchActivity", XC_MethodReplacement.returnConstant((Object) null));
+                    findAndHookMethod("com.meizu.launcher3.controller.CommonTouchController", lpparam.classLoader, "startSearchActivity", XC_MethodReplacement.returnConstant(null));
                 }
                 /**
                  *     public void loadVisibleTaskData() {
