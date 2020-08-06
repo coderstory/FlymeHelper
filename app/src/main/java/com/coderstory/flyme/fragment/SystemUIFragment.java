@@ -110,6 +110,10 @@ public class SystemUIFragment extends BaseFragment {
             getEditor().putBoolean("hide_status_bar_app_icon", ((Switch) v).isChecked());
             fix();
         });
+        $(R.id.show_status_bar_time_am_pm).setOnClickListener(v -> {
+            getEditor().putBoolean("show_status_bar_time_am_pm", ((Switch) v).isChecked());
+            fix();
+        });
     }
 
     @Override
@@ -139,6 +143,8 @@ public class SystemUIFragment extends BaseFragment {
         ((Switch) $(R.id.hide_status_bar_clock_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_clock_icon", false));
         ((Switch) $(R.id.hide_status_bar_battery_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_battery_icon", false));
         ((Switch) $(R.id.hide_status_bar_app_icon)).setChecked(getPrefs().getBoolean("hide_status_bar_app_icon", false));
+        ((Switch) $(R.id.show_status_bar_time_am_pm)).setChecked(getPrefs().getBoolean("show_status_bar_time_am_pm", false));
+
         if (!Utils.check(new SharedHelper(getMContext()))) {
             $(R.id.hide_status_bar_slow_rate_icon).setEnabled(false);
             $(R.id.hide_status_bar_time_week_icon).setEnabled(false);
@@ -183,7 +189,7 @@ public class SystemUIFragment extends BaseFragment {
             hiddenIcons.add("alarm_clock");
         if (getPrefs().getBoolean("hide_status_bar_clock_icon", false)) hiddenIcons.add("clock");
 
-        String icons = "";
+        String icons;
         if (hiddenIcons.size() == 0) {
             icons = "null";
         } else {

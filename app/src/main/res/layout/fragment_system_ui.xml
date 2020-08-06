@@ -257,6 +257,18 @@
                 android:text="@string/hide_status_bar_time_week_icon" />
 
             <Switch
+                android:id="@+id/show_status_bar_time_am_pm"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:text="@string/show_status_bar_time_am_pm" />
+
+            <Switch
                 android:id="@+id/hide_status_bar_time_chinese_icon"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"

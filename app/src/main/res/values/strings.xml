@@ -55,6 +55,7 @@
     <string name="hide_status_bar_clock_icon"><b>时钟</b>\n隐藏状态栏中的时间</string>
     <string name="hide_status_bar_battery_icon"><b>电池</b>\n隐藏状态栏上的电池图标(不含17系列的环形电池) 修改后立即生效,设置重启后失效</string>
     <string name="hide_status_bar_app_icon"><b>隐藏应用图标</b>  <font color='#FFC0CB'>vip</font>\n隐藏状态栏上左侧区域的所有图标,比如开启流量监控的图标,usb调试图标等</string>
+    <string name="show_status_bar_time_am_pm"><b>AM-PM</b>\n状态栏时间添加AM-PM前缀</string>
     <string name="Tips_Title">温馨提示</string>
     <string name="Btn_Sure">确定</string>
     <string name="Btn_Cancel">取消</string>
@@ -153,4 +154,5 @@
         \n\n<b>博客主页: blog.coderstory.cn</b>
         \n\n<b>微博主页: weibo.com/codestory</b>
     </string>
+
 </resources>

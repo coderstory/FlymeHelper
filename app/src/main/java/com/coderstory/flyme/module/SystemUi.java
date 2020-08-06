@@ -111,6 +111,9 @@ public class SystemUi extends XposedHelper implements IModule {
                     boolean is24HourFormat = DateFormat.is24HourFormat(view.getContext());
                     // HH:mm:ss EE 星期
                     String formatStr = is24HourFormat ? "HH:mm" : "hh:mm";
+                    if (prefs.getBoolean("show_status_bar_time_am_pm", false)) {
+                        formatStr = "a " + formatStr;
+                    }
                     if (prefs.getBoolean("show_status_bar_time_second_icon", false)) {
                         formatStr += ":ss";
                     }
@@ -121,7 +124,7 @@ public class SystemUi extends XposedHelper implements IModule {
                         formatStr = getTimeType() + " " + formatStr;
                     }
                     // XposedBridge.log("时间格式" + formatStr);
-                    String time = new SimpleDateFormat(formatStr, Locale.getDefault(Locale.Category.FORMAT)).format(System.currentTimeMillis());
+                    String time = new SimpleDateFormat(formatStr, Locale.ENGLISH).format(System.currentTimeMillis());
                     param.setResult(time);
                 }
             });
@@ -247,11 +250,12 @@ public class SystemUi extends XposedHelper implements IModule {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                    if (prefs.getBoolean("hide_status_bar_sim1_icon", false)) {
+                    int slot = (int) param.args[11];
+                    if (prefs.getBoolean("hide_status_bar_sim1_icon", false) && slot == 1) {
                         XposedHelpers.setBooleanField(param.args[0], "visible", false);
                     }
-                    if (prefs.getBoolean("hide_status_bar_sim2_icon", false)) {
-                        XposedHelpers.setBooleanField(param.args[1], "visible", false);
+                    if (prefs.getBoolean("hide_status_bar_sim2_icon", false) && slot == 2) {
+                        XposedHelpers.setBooleanField(param.args[0], "visible", false);
                     }
                 }
             });
