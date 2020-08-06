@@ -12,7 +12,6 @@ import android.widget.NumberPicker;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
 
 import com.coderstory.flyme.R;
@@ -29,6 +28,8 @@ import java.lang.reflect.Field;
 
 import eu.chainfire.libsuperuser.Shell;
 import per.goweii.anylayer.AnyLayer;
+import per.goweii.anylayer.DialogLayer;
+import per.goweii.anylayer.Layer;
 
 
 public class OthersFragment extends BaseFragment {
@@ -44,23 +45,24 @@ public class OthersFragment extends BaseFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        AnyLayer anyLayer = AnyLayer.with(getMContext())
+        Layer anyLayer = AnyLayer.dialog(getMContext())
                 .contentView(R.layout.dialog_tdisable_app)
                 .cancelableOnTouchOutside(true)
                 .cancelableOnClickKeyBack(true)
-                .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> AnyLayer.dismiss())
-                .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
+                .onClick((AnyLayer, v) -> AnyLayer.dismiss(), R.id.fl_dialog_no)
+                .onClick((AnyLayer, v) -> {
                     Shell.SU.run("killall com.android.systemui");
                     Shell.SU.run("am force-stop com.meizu.flyme.launcher");
                     System.exit(0);
 
-                });
-
-        CardView cardView = (CardView) anyLayer.getContentView();
-        LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-        AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
-        textView.setText("一键重启桌面状态栏包管理器等app");
+                }, R.id.fl_dialog_yes);
         anyLayer.show();
+
+        CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
+        LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+        TextView textView = (TextView) linearLayout.getChildAt(1);
+        textView.setText("一键重启桌面状态栏包管理器等app");
+
 
         return false;
     }

@@ -14,9 +14,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
 
 import com.coderstory.flyme.R;
@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import per.goweii.anylayer.AnyLayer;
+import per.goweii.anylayer.DialogLayer;
+import per.goweii.anylayer.Layer;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
@@ -37,7 +39,7 @@ public class UpdateListFragment extends BaseFragment {
     private List<PackageInfo> packages = new ArrayList<>();
     private AppInfoAdapter adapter = null;
     private PullToRefreshView mPullToRefreshView;
-    private List<AppInfo> appInfos = new ArrayList<>();
+    private final List<AppInfo> appInfos = new ArrayList<>();
     private Dialog dialog;
 
 
@@ -49,24 +51,24 @@ public class UpdateListFragment extends BaseFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        AnyLayer anyLayer = AnyLayer.with(getMContext())
+        Layer anyLayer = AnyLayer.dialog(getMContext())
                 .contentView(R.layout.dialog_tdisable_app)
                 .cancelableOnTouchOutside(true)
                 .cancelableOnClickKeyBack(true)
-                .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> AnyLayer.dismiss())
-                .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
+                .onClick((AnyLayer, v) -> AnyLayer.dismiss(), R.id.fl_dialog_no)
+                .onClick((AnyLayer, v) -> {
                     getEditor().putString("updateList", "");
                     fix();
                     initData();
                     adapter.notifyDataSetChanged();
                     AnyLayer.dismiss();
-                });
-
-        CardView cardView = (CardView) anyLayer.getContentView();
-        LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-        AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
-        textView.setText("你确定要清空历史记录吗？");
+                }, R.id.fl_dialog_yes);
         anyLayer.show();
+        CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
+        LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+        TextView textView = (TextView) linearLayout.getChildAt(1);
+        textView.setText("你确定要清空历史记录吗？");
+
 
         return false;
     }
@@ -105,11 +107,11 @@ public class UpdateListFragment extends BaseFragment {
         listView.setOnItemClickListener((parent, view, position, id) -> {
             AppInfo appInfo = appInfos.get(position);
 
-            AnyLayer anyLayer = AnyLayer.with(getContext())
+            Layer anyLayer = AnyLayer.dialog(getContext())
                     .contentView(R.layout.dialog_xposed_copyurl)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
-                    .onClick(R.id.tv_dialog_yes2, (AnyLayer, v) -> {
+                    .onClick((AnyLayer, v) -> {
                         ClipboardManager myClipboard;
                         myClipboard = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
                         ClipData myClip;
@@ -117,7 +119,7 @@ public class UpdateListFragment extends BaseFragment {
                         myClip = ClipData.newPlainText("text", text);
                         myClipboard.setPrimaryClip(myClip);
                         AnyLayer.dismiss();
-                    });
+                    }, R.id.tv_dialog_yes2);
 
             anyLayer.show();
 

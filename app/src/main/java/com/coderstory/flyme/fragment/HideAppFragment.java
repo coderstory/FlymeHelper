@@ -15,9 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
 
 import com.coderstory.flyme.R;
@@ -31,6 +31,8 @@ import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
 import per.goweii.anylayer.AnyLayer;
+import per.goweii.anylayer.DialogLayer;
+import per.goweii.anylayer.Layer;
 
 
 public class HideAppFragment extends BaseFragment {
@@ -41,8 +43,8 @@ public class HideAppFragment extends BaseFragment {
     private View mView = null;
     private PullToRefreshView mPullToRefreshView;
     private List<String> hideAppList;
-    private List<AppInfo> appInfoList = new ArrayList<>();
-    private List<AppInfo> appInfoList2 = new ArrayList<>();
+    private final List<AppInfo> appInfoList = new ArrayList<>();
+    private final List<AppInfo> appInfoList2 = new ArrayList<>();
     private Dialog dialog;
 
     private void initData() {
@@ -93,14 +95,14 @@ public class HideAppFragment extends BaseFragment {
             mPosition = position;
             mView = view;
             appInfo = appInfoList.get(mPosition);
-            AnyLayer anyLayer = AnyLayer.with(getContext())
+            Layer anyLayer = AnyLayer.dialog(getContext())
                     .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
-                    .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
+                    .onClick((AnyLayer, v) -> {
                         AnyLayer.dismiss();
-                    })
-                    .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
+                    }, R.id.fl_dialog_no)
+                    .onClick((AnyLayer, v) -> {
                         if (appInfo.getDisable()) {
                             // 解除隐藏
                             String tmp = "";
@@ -132,18 +134,19 @@ public class HideAppFragment extends BaseFragment {
                             mView.setBackgroundColor(getResources().getColor(R.color.disableeApp, null)); //冻结的颜色
                         }
                         AnyLayer.dismiss();
-                    });
+                    }, R.id.fl_dialog_yes);
+            anyLayer.show();
+            CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
 
-            CardView cardView = (CardView) anyLayer.getContentView();
             LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-            AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
+            TextView textView = (TextView) linearLayout.getChildAt(1);
             if (appInfo.getDisable()) {
                 textView.setText(getString(R.string.sureAntiDisable) + appInfo.getName() + "的隐藏状态吗");
 
             } else {
                 textView.setText("你确定要隐藏" + appInfo.getName() + getString(R.string.sureDisableAfter));
             }
-            anyLayer.show();
+
 
         });
     }
@@ -195,25 +198,25 @@ public class HideAppFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_restrathome) {
-            AnyLayer anyLayer = AnyLayer.with(getContext())
+            Layer anyLayer = AnyLayer.dialog(getContext())
                     .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
-                    .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
+                    .onClick((AnyLayer, v) -> {
                         AnyLayer.dismiss();
-                    })
-                    .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
+                    }, R.id.fl_dialog_no)
+                    .onClick((AnyLayer, v) -> {
                         new Thread(() -> {
                             Shell.SU.run("am force-stop com.meizu.flyme.launcher");
                         }).start();
                         AnyLayer.dismiss();
-                    });
-
-            CardView cardView = (CardView) anyLayer.getContentView();
-            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-            AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
-            textView.setText("是否重启Flyme桌面应用当前设置?");
+                    }, R.id.fl_dialog_yes);
             anyLayer.show();
+            CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
+            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+            TextView textView = (TextView) linearLayout.getChildAt(1);
+            textView.setText("是否重启Flyme桌面应用当前设置?");
+
         }
 
         return false;

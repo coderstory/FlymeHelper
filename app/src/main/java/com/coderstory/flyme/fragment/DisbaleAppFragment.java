@@ -18,9 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.cardview.widget.CardView;
 
 import com.coderstory.flyme.R;
@@ -39,6 +39,8 @@ import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
 import per.goweii.anylayer.AnyLayer;
+import per.goweii.anylayer.DialogLayer;
+import per.goweii.anylayer.Layer;
 
 import static com.coderstory.flyme.utils.FileUtils.readFile;
 import static com.coderstory.flyme.utils.Misc.BackPath;
@@ -52,8 +54,8 @@ public class DisbaleAppFragment extends BaseFragment {
     int mposition = 0;
     View mview = null;
     PullToRefreshView mPullToRefreshView;
-    private List<AppInfo> appInfoList = new ArrayList<>();
-    private List<AppInfo> appInfoList2 = new ArrayList<>();
+    private final List<AppInfo> appInfoList = new ArrayList<>();
+    private final List<AppInfo> appInfoList2 = new ArrayList<>();
     private Dialog dialog;
     @SuppressLint("HandlerLeak")
     Handler myHandler = new Handler() {
@@ -110,14 +112,14 @@ public class DisbaleAppFragment extends BaseFragment {
             mposition = position;
             mview = view;
 
-            AnyLayer anyLayer = AnyLayer.with(getContext())
+            Layer anyLayer = AnyLayer.dialog(getContext())
                     .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
-                    .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
+                    .onClick((AnyLayer, v) -> {
                         AnyLayer.dismiss();
-                    })
-                    .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
+                    }, R.id.fl_dialog_no)
+                    .onClick((AnyLayer, v) -> {
                         String commandText = (!appInfo.getDisable() ? "pm disable " : "pm enable ") + appInfo.getPackageName();
                         Log.e("cc", commandText);
                         Process process = null;
@@ -151,14 +153,15 @@ public class DisbaleAppFragment extends BaseFragment {
                             }
                         }
                         AnyLayer.dismiss();
-                    });
-
-            CardView cardView = (CardView) anyLayer.getContentView();
-            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-            AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
-
+                    }, R.id.fl_dialog_yes);
 
             anyLayer.show();
+
+            CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
+            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+            TextView textView = (TextView) linearLayout.getChildAt(1);
+
+
             appInfo = appInfoList.get(mposition);
 
 
@@ -221,42 +224,42 @@ public class DisbaleAppFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_backupList) {
-            AnyLayer anyLayer = AnyLayer.with(getContext())
+            Layer anyLayer = AnyLayer.dialog(getContext())
                     .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
-                    .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
+                    .onClick((AnyLayer, v) -> {
                         AnyLayer.dismiss();
-                    })
-                    .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
+                    }, R.id.fl_dialog_no)
+                    .onClick((AnyLayer, v) -> {
                         satrtBackuop();
                         AnyLayer.dismiss();
-                    });
-
-            CardView cardView = (CardView) anyLayer.getContentView();
-            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-            AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
-            textView.setText(getString(R.string.tips_sure_backuplist));
+                    }, R.id.fl_dialog_yes);
             anyLayer.show();
+            CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
+            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+            TextView textView = (TextView) linearLayout.getChildAt(1);
+            textView.setText(getString(R.string.tips_sure_backuplist));
+
 
         } else if (item.getItemId() == R.id.action_restoreList) {
-            AnyLayer anyLayer = AnyLayer.with(getContext())
+            Layer anyLayer = AnyLayer.dialog(getContext())
                     .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
-                    .onClick(R.id.fl_dialog_no, (AnyLayer, v) -> {
+                    .onClick((AnyLayer, v) -> {
                         AnyLayer.dismiss();
-                    })
-                    .onClick(R.id.fl_dialog_yes, (AnyLayer, v) -> {
+                    }, R.id.fl_dialog_no)
+                    .onClick((AnyLayer, v) -> {
                         restoreList();
                         AnyLayer.dismiss();
-                    });
-
-            CardView cardView = (CardView) anyLayer.getContentView();
-            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-            AppCompatTextView textView = (AppCompatTextView) linearLayout.getChildAt(1);
-            textView.setText(getString(R.string.restore_set));
+                    }, R.id.fl_dialog_yes);
             anyLayer.show();
+            CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
+            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+            TextView textView = (TextView) linearLayout.getChildAt(1);
+            textView.setText(getString(R.string.restore_set));
+
         }
 
         return false;

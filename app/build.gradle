@@ -60,12 +60,13 @@ android {
 dependencies {
     compileOnly fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.0'
     implementation 'eu.chainfire:libsuperuser:1.0.0.201704021214'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    implementation 'com.github.goweii:AnyLayer:1.0.5'
+    implementation 'com.github.goweii:AnyLayer:3.4.3-androidx'
+    implementation 'com.github.goweii:AnyLayer:3.4.3-support'
     implementation 'com.alibaba:fastjson:1.2.72'
     compileOnly 'de.robv.android.xposed:api:82'
     compileOnly 'de.robv.android.xposed:api:82:sources'
