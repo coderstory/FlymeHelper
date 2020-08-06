@@ -14,10 +14,6 @@ import androidx.fragment.app.Fragment;
 import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.Utils;
 
-import java.io.File;
-
-import eu.chainfire.libsuperuser.Shell;
-
 import static com.coderstory.flyme.utils.Misc.ApplicationName;
 
 
@@ -27,10 +23,10 @@ import static com.coderstory.flyme.utils.Misc.ApplicationName;
  * Time:11:30
  */
 public abstract class BaseFragment extends Fragment {
-    public static final String PREFS_FOLDER = " /data/user_de/0/" + ApplicationName + "/shared_prefs\n";
+    public static final String PREFS_FOLDER = " /data/user_de/0/" + ApplicationName + "/shared_prefs";
     private View mContentView;
     private Context mContext;
-    public static final String PREFS_FILE = " /data/user_de/0/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml\n";
+    public static final String PREFS_FILE = " /data/user_de/0/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml";
     private static final String TAG = "BaseFragment";
     private static SharedPreferences prefs;
     private static SharedPreferences.Editor editor;
@@ -66,26 +62,12 @@ public abstract class BaseFragment extends Fragment {
 
 
     protected SharedPreferences getPrefs() {
-        prefs = Utils.getMySharedPreferences(getMContext(), "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
+        prefs = Utils.getMySharedPreferences(getMContext().getApplicationContext(), "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
         return prefs;
     }
 
     public void fix() {
         getEditor().apply();
-        sudoFixPermissions();
-    }
-
-    protected void sudoFixPermissions() {
-        new Thread(() -> {
-            File pkgFolder = new File("/data/user_de/0/" + ApplicationName);
-            if (pkgFolder.exists()) {
-                pkgFolder.setExecutable(true, false);
-                pkgFolder.setReadable(true, false);
-            }
-            Shell.SU.run("chmod  755 " + PREFS_FOLDER);
-            // Set preferences file permissions to be world readable
-            Shell.SU.run("chmod  644 " + PREFS_FILE);
-        }).start();
     }
 
     protected void init() {

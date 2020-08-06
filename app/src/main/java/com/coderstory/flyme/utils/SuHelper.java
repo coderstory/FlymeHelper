@@ -1,24 +1,24 @@
 package com.coderstory.flyme.utils;
 
+import com.topjohnwu.superuser.Shell;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
 
-import eu.chainfire.libsuperuser.Shell;
 
 public abstract class SuHelper {
 
     /**
      * 执行所提交的命令组
-     *
-     * @return 执行结果
      */
-    public final List<String> execute() throws UnsupportedEncodingException {
+    public final void execute() throws UnsupportedEncodingException {
         ArrayList<String> commands = getCommandsToExecute();
         if (null != commands && commands.size() > 0) {
-            return Shell.SU.run(commands);
+            for (String command : commands) {
+                Shell.su(command).exec();
+            }
         }
-        return null;
+
     }
 
     protected abstract ArrayList<String> getCommandsToExecute() throws UnsupportedEncodingException;

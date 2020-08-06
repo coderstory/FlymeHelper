@@ -12,16 +12,16 @@ import com.coderstory.flyme.fragment.base.BaseFragment;
 import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.SnackBarUtils;
 import com.coderstory.flyme.utils.hostshelper.FileHelper;
+import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 
-import eu.chainfire.libsuperuser.Shell;
 
 public class CleanFragment extends BaseFragment {
     Thread th;
     private TextView tvClean = null;
     @SuppressLint("HandlerLeak")
-    private Handler hInfo = new Handler() {
+    private final Handler hInfo = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             tvClean.append((String) msg.obj);
@@ -29,7 +29,7 @@ public class CleanFragment extends BaseFragment {
         }
     };
     @SuppressLint("HandlerLeak")
-    private Handler hComplete = new Handler() {
+    private final Handler hComplete = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -67,7 +67,7 @@ public class CleanFragment extends BaseFragment {
         th = new Thread(() -> {
             long totalSize = 0L; // K
             Misc.isProcessing = true;
-            List<String> ret = Shell.SU.run("find /data/data/ -type dir -name \"cache\"");
+            List<String> ret = Shell.su("find /data/data/ -type dir -name \"cache\"").exec().getOut();
             CacheSize cs;
             for (String s : ret) {
                 cs = getSize(s);
@@ -94,7 +94,7 @@ public class CleanFragment extends BaseFragment {
 
     private CacheSize getSize(String path) {
         try {
-            String result = Shell.SU.run(String.format("du -s -k \"%s\"", path)).get(0);
+            String result = Shell.su(String.format("du -s -k \"%s\"", path)).exec().getOut().get(0);
             String sizeStr = result.substring(0, result.indexOf('\t')).trim();
             long size;
             size = Long.parseLong(sizeStr);
@@ -106,11 +106,11 @@ public class CleanFragment extends BaseFragment {
     }
 
     private void deleteCache(String path) {
-        Shell.SU.run(String.format("rm -r \"%s\"", path));
+        Shell.su(String.format("rm -r \"%s\"", path)).exec();
     }
 
     private void deleteAnrLog() {
-        Shell.SU.run("rm -r /data/anr/*");
+        Shell.su("rm -r /data/anr/*").exec();
     }
 
     private class CacheSize {

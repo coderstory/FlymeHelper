@@ -11,18 +11,24 @@ import android.text.InputFilter;
 import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.cardview.widget.CardView;
 
 import com.alibaba.fastjson.JSON;
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.Utils;
+import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 
-import eu.chainfire.libsuperuser.Shell;
+import per.goweii.anylayer.AnyLayer;
+import per.goweii.anylayer.DialogLayer;
+import per.goweii.anylayer.Layer;
 
 
 public class AboutMeFragment extends BaseFragment {
@@ -84,7 +90,7 @@ public class AboutMeFragment extends BaseFragment {
 
     public String getSerialNumber() {
 
-        List<String> result = Shell.SU.run(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " "));
+        List<String> result = Shell.su(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " ")).exec().getOut();
         if (result.size() == 0) {
             return null;
         }
@@ -109,7 +115,7 @@ public class AboutMeFragment extends BaseFragment {
         refresh();
 
         if (!Utils.check(helper)) {
-            $(R.id.activation).setOnClickListener(v -> openInputDialog());
+            $(R.id.activation).setOnClickListener(v -> test());
             // $(R.id.join_vip_group).setOnClickListener(v -> Toast.makeText(getMContext(), Utils.decode("5bCa5pyq5r+A5rS75Lya5ZGYLOS4jeWPr+eUs+ivtw=="), Toast.LENGTH_LONG).show());
         } else {
             $(R.id.activation).setVisibility(View.GONE);
@@ -154,7 +160,7 @@ public class AboutMeFragment extends BaseFragment {
         inputServer.setFilters(new InputFilter[]{new InputFilter.LengthFilter(17)});
         inputServer.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
         AlertDialog.Builder builder = new AlertDialog.Builder(getMContext());
-        builder.setTitle(Utils.decode("5LuY6LS55LiU57uR5a6a5L2g55qEUVHlkI4NCuWcqOatpOi+k+WFpeS9oOeahFFR5bm254K55Ye76Kej6ZSBISE=")).setView(inputServer);
+        builder.setTitle("").setView(inputServer);
         builder.setPositiveButton(Utils.decode("5r+A5rS7"), (dialog, which) -> {
             String _sign = inputServer.getText().toString();
             if (!_sign.isEmpty()) {
@@ -174,5 +180,42 @@ public class AboutMeFragment extends BaseFragment {
             }
         });
         builder.show();
+    }
+
+
+    private void test() {
+        Layer anyLayer = AnyLayer.dialog(getContext())
+                .contentView(R.layout.dialog_input_qq)
+                .cancelableOnTouchOutside(true)
+                .cancelableOnClickKeyBack(true)
+                .onClick((layer, v) -> {
+                    TextView textView = layer.getView(R.id.input_qq);
+                    String _sign = textView.getText().toString();
+                    if (!_sign.isEmpty()) {
+                        String sn = getSerialNumber();
+                        if (sn == null) {
+                            androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(getMContext());
+                            normalDialog.setTitle("提示");
+                            normalDialog.setMessage("请先授权应用ROOT权限");
+                            normalDialog.setPositiveButton("确定",
+                                    (dialog1, which1) -> System.exit(0));
+                            normalDialog.show();
+                        } else {
+                            new Thread(new Utils().new Check(_sign, myHandler)).start();
+                        }
+                    } else {
+                        Toast.makeText(getMContext(), Utils.decode("UVHlj7fkuI3og73kuLrnqbo="), Toast.LENGTH_SHORT).show();
+                    }
+                    layer.dismiss();
+                }, R.id.dialog_ok);
+
+        anyLayer.show();
+
+        CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
+        LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
+        TextView textView = (TextView) linearLayout.getChildAt(1);
+
+
+        textView.setText(Utils.decode("5LuY6LS55LiU57uR5a6a5L2g55qEUVHlkI4NCuWcqOatpOi+k+WFpeS9oOeahFFR5bm254K55Ye76Kej6ZSBISE="));
     }
 }
