@@ -111,9 +111,7 @@ public class SystemUi extends XposedHelper implements IModule {
                     boolean is24HourFormat = DateFormat.is24HourFormat(view.getContext());
                     // HH:mm:ss EE 星期
                     String formatStr = is24HourFormat ? "HH:mm" : "hh:mm";
-                    if (prefs.getBoolean("show_status_bar_time_am_pm", false)) {
-                        formatStr = "a " + formatStr;
-                    }
+
                     if (prefs.getBoolean("show_status_bar_time_second_icon", false)) {
                         formatStr += ":ss";
                     }
@@ -124,7 +122,10 @@ public class SystemUi extends XposedHelper implements IModule {
                         formatStr = getTimeType() + " " + formatStr;
                     }
                     // XposedBridge.log("时间格式" + formatStr);
-                    String time = new SimpleDateFormat(formatStr, Locale.ENGLISH).format(System.currentTimeMillis());
+                    String time = new SimpleDateFormat(formatStr, Locale.SIMPLIFIED_CHINESE).format(System.currentTimeMillis());
+                    if (prefs.getBoolean("show_status_bar_time_am_pm", false)) {
+                        time = new SimpleDateFormat("a", Locale.ENGLISH).format(System.currentTimeMillis()) + " " + time;
+                    }
                     param.setResult(time);
                 }
             });
