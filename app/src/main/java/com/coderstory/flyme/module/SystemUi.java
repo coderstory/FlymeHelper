@@ -53,7 +53,7 @@ public class SystemUi extends XposedHelper implements IModule {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                    XposedBridge.log("图标类型: " + param.args[0].toString());
+                    //XposedBridge.log("图标类型: " + param.args[0].toString());
                     if ("hotspot".equals(param.args[0]) && prefs.getBoolean("hide_icon_hotspot", false)) {
                         param.args[1] = false;
                     }
