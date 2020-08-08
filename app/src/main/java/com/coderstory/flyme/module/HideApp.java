@@ -2,6 +2,7 @@ package com.coderstory.flyme.module;
 
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
+import android.os.Build;
 
 import com.coderstory.flyme.plugins.IModule;
 import com.coderstory.flyme.utils.XposedHelper;
@@ -35,29 +36,32 @@ public class HideApp extends XposedHelper implements IModule {
             if (!value.equals("")) {
                 final List<String> hideAppList = Arrays.asList(value.split(":"));
                 XposedBridge.log("load config" + value);
-                Class clazz = findClass("com.meizu.flyme.launcher.co", loadPackageParam.classLoader);
-                findAndHookMethod("com.meizu.flyme.launcher.MzWidgetGroupView", loadPackageParam.classLoader, "a", clazz, new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        super.beforeHookedMethod(param);
-                        Object obj = param.args[0];
-                        List<?> list = (List) XposedHelpers.getObjectField(obj, "a");
-                        XposedBridge.log("个数1"+list.size());
-                        list = list.stream().filter(item -> value.contains(((AppWidgetProviderInfo) item).provider.getPackageName())).collect(Collectors.toList());
-                        XposedHelpers.setObjectField(obj, "a", list);
-                        XposedBridge.log("个数2"+list.size());
-                    }
-                });
-
-                findAndHookMethod("com.meizu.flyme.launcher.cm", loadPackageParam.classLoader, "b", ComponentName.class, new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) {
-                        ComponentName componentName = (ComponentName) param.args[0];
-                        if (hideAppList.contains(componentName.getPackageName())) {
-                            param.setResult(true);
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                } else {
+                    Class clazz = findClass("com.meizu.flyme.launcher.co", loadPackageParam.classLoader);
+                    findAndHookMethod("com.meizu.flyme.launcher.MzWidgetGroupView", loadPackageParam.classLoader, "a", clazz, new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            super.beforeHookedMethod(param);
+                            Object obj = param.args[0];
+                            List<?> list = (List) XposedHelpers.getObjectField(obj, "a");
+                            XposedBridge.log("个数1" + list.size());
+                            list = list.stream().filter(item -> value.contains(((AppWidgetProviderInfo) item).provider.getPackageName())).collect(Collectors.toList());
+                            XposedHelpers.setObjectField(obj, "a", list);
+                            XposedBridge.log("个数2" + list.size());
                         }
-                    }
-                });
+                    });
+
+                    findAndHookMethod("com.meizu.flyme.launcher.cm", loadPackageParam.classLoader, "b", ComponentName.class, new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) {
+                            ComponentName componentName = (ComponentName) param.args[0];
+                            if (hideAppList.contains(componentName.getPackageName())) {
+                                param.setResult(true);
+                            }
+                        }
+                    });
+                }
             }
         }
     }

@@ -2,6 +2,7 @@ package com.coderstory.flyme.module;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
@@ -33,44 +34,48 @@ public class FlymeHome extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
-            hook55(findClass("com.meizu.flyme.launcher.u", lpparam.classLoader), lpparam.classLoader);
-            hook55(findClass("com.meizu.flyme.launcher.v", lpparam.classLoader), lpparam.classLoader);
-            hook55(findClass("com.meizu.flyme.launcher.w", lpparam.classLoader), lpparam.classLoader);
-            if (prefs.getBoolean("hide_icon_label", false)) {
-                XposedBridge.log("开启隐藏标签");
-                // 隐藏图标标签
-                hookAllMethods(findClass("com.meizu.flyme.launcher.ShortcutIcon", lpparam.classLoader), "a", new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        super.beforeHookedMethod(param);
-                        TextView textView = (TextView) XposedHelpers.getObjectField(param.thisObject, "c");
-                        if (textView != null) {
-                            textView.setVisibility(View.INVISIBLE);
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                if (prefs.getBoolean("hide_icon_label", false)) {
+                    // android 10
+                    hookAllMethods("com.android.launcher3.BubbleTextView", lpparam.classLoader, "setText", new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            super.beforeHookedMethod(param);
+                            if (XposedHelpers.getIntField(param.thisObject, "mIconSize") > 100) {
+                                param.args[0] = "";
+                            }
                         }
-                    }
-                });
-                // 隐藏文件夹标签
-                findAndHookMethod("com.meizu.flyme.launcher.FolderIcon", lpparam.classLoader, "setTextVisible", boolean.class, new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        super.beforeHookedMethod(param);
-                        param.args[0] = false;
-                    }
-                });
-                // android 10
-                hookAllMethods("com.android.launcher3.BubbleTextView", lpparam.classLoader, "setText", new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        super.beforeHookedMethod(param);
-                        if (XposedHelpers.getIntField(param.thisObject, "mIconSize") > 100) {
-                            param.args[0] = "";
+                    });
+                }
+                meizu17(lpparam);
+            } else {
+                hook55(findClass("com.meizu.flyme.launcher.u", lpparam.classLoader), lpparam.classLoader);
+                hook55(findClass("com.meizu.flyme.launcher.v", lpparam.classLoader), lpparam.classLoader);
+                hook55(findClass("com.meizu.flyme.launcher.w", lpparam.classLoader), lpparam.classLoader);
+                if (prefs.getBoolean("hide_icon_label", false)) {
+                    XposedBridge.log("开启隐藏标签");
+                    // 隐藏图标标签
+                    hookAllMethods(findClass("com.meizu.flyme.launcher.ShortcutIcon", lpparam.classLoader), "a", new XC_MethodHook() {
+                        @Override
+                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                            super.beforeHookedMethod(param);
+                            TextView textView = (TextView) XposedHelpers.getObjectField(param.thisObject, "c");
+                            if (textView != null) {
+                                textView.setVisibility(View.INVISIBLE);
+                            }
                         }
-                    }
-                });
-
+                    });
+                    // 隐藏文件夹标签
+                    findAndHookMethod("com.meizu.flyme.launcher.FolderIcon", lpparam.classLoader, "setTextVisible", boolean.class, new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            super.beforeHookedMethod(param);
+                            param.args[0] = false;
+                        }
+                    });
+                }
             }
 
-            meizu17(lpparam);
 
             if (prefs.getBoolean("disableSearch", false)) {
                 /**
@@ -86,35 +91,6 @@ public class FlymeHome extends XposedHelper implements IModule {
                 } else {
                     findAndHookMethod("com.meizu.launcher3.controller.CommonTouchController", lpparam.classLoader, "startSearchActivity", XC_MethodReplacement.returnConstant(null));
                 }
-                /**
-                 *     public void loadVisibleTaskData() {
-                 *         if (this.mOverviewStateEnabled && this.mTaskListChangeId != -1) {
-                 *             int centerPageIndex = getPageNearestToCenterOfScreen();
-                 *             int numChildren = getTaskViewCount();
-                 *             int lower = Math.max(0, centerPageIndex - 2);
-                 *             int upper = Math.min(centerPageIndex + 2, numChildren - 1);
-                 *             int i = 0;
-                 *             while (i < numChildren) {
-                 *                 TaskView taskView = (TaskView) getChildAt(i);
-                 *                 Task task = taskView.getTask();
-                 *                 boolean visible = lower <= i && i <= upper;
-                 *                 if (!visible) {
-                 *                     if (this.mHasVisibleTaskData.get(task.key.id)) {
-                 *                         taskView.onTaskListVisibilityChanged(false);
-                 *                     }
-                 *                     this.mHasVisibleTaskData.delete(task.key.id);
-                 *                 } else if (task != this.mTmpRunningTask) {
-                 *                     if (!this.mHasVisibleTaskData.get(task.key.id)) {
-                 *                         taskView.onTaskListVisibilityChanged(true);
-                 *                     }
-                 *                     this.mHasVisibleTaskData.put(task.key.id, visible);
-                 *                 }
-                 *                 i++;
-                 *             }
-                 *         }
-                 *     }
-                 */
-               // findAndHookMethod("com.android.quickstep.views.RecentsView", lpparam.classLoader, "loadVisibleTaskData", XC_MethodReplacement.returnConstant((Object) null));
             }
 
         }
