@@ -1,7 +1,6 @@
 package com.coderstory.flyme.module;
 
 import android.content.Context;
-import android.util.Base64;
 import android.widget.Toast;
 
 import com.coderstory.flyme.plugins.IModule;
@@ -51,7 +50,7 @@ public class Others extends XposedHelper implements IModule {
                 }
             }
             if (prefs.getBoolean("enableCTS", false)) {
-                XposedBridge.log("开启原生安装器");
+                //XposedBridge.log("开启原生安装器");
                 findAndHookMethod("com.meizu.safe.security.utils.Utils", loadPackageParam.classLoader, "isCtsRunning", XC_MethodReplacement.returnConstant(true));
             }
         }
@@ -132,15 +131,15 @@ public class Others extends XposedHelper implements IModule {
                 needToast = true;
                 update += msg + ";";
                 if (mContext != null) {
-                    XposedBridge.log("参数保存结果" + new SharedHelper(mContext).put("updateList", android.util.Base64.encodeToString(update.getBytes(), Base64.DEFAULT)));
+                    //XposedBridge.log("参数保存结果" + new SharedHelper(mContext).put("updateList", android.util.Base64.encodeToString(update.getBytes(), Base64.DEFAULT)));
                     Toast.makeText(mContext, "flyme助手:已检测到新的更新包地址", Toast.LENGTH_LONG).show();
-                    XposedBridge.log("flyme助手: 检测完到更新包");
+                    //XposedBridge.log("flyme助手: 检测完到更新包");
                     XposedBridge.log(update);
                 } else {
-                    XposedBridge.log("获取Context失败0x0");
+                    //XposedBridge.log("获取Context失败0x0");
                 }
             } else {
-                XposedBridge.log("flyme助手: 检测完到更新包已被记录");
+                //XposedBridge.log("flyme助手: 检测完到更新包已被记录");
             }
         }
         return needToast;

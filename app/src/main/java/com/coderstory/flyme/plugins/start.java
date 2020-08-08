@@ -12,10 +12,7 @@ import com.coderstory.flyme.module.RemoveAds;
 import com.coderstory.flyme.module.SystemUi;
 import com.coderstory.flyme.module.ThemePatcher;
 import com.coderstory.flyme.utils.FileUtils;
-import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.XposedHelper;
-
-import java.io.File;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -23,8 +20,6 @@ import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-
-import static com.coderstory.flyme.utils.Misc.ApplicationName;
 
 public class start extends XposedHelper implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
 
@@ -66,9 +61,9 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
     @Override
     public void initZygote(StartupParam startupParam) {
         XposedBridge.log("Flyme8助手 " + BuildConfig.VERSION_NAME + " 开始Patch");
-        XposedBridge.log(" 产品有效期:" + Misc.endTime);
+        //XposedBridge.log(" 产品有效期:" + Misc.endTime);
         // XposedBridge.log("激活状态:" + vi());
-        XposedBridge.log("SDK版本号: " + android.os.Build.VERSION.SDK_INT);
-        XposedBridge.log("exists" + new File("/data/user_de/0/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml").exists());
+        //XposedBridge.log("SDK版本号: " + android.os.Build.VERSION.SDK_INT);
+        //XposedBridge.log("exists" + new File("/data/user_de/0/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml").exists());
     }
 }

@@ -14,7 +14,6 @@ import java.io.File;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -53,7 +52,7 @@ public class FlymeHome extends XposedHelper implements IModule {
                 hook55(findClass("com.meizu.flyme.launcher.v", lpparam.classLoader), lpparam.classLoader);
                 hook55(findClass("com.meizu.flyme.launcher.w", lpparam.classLoader), lpparam.classLoader);
                 if (prefs.getBoolean("hide_icon_label", false)) {
-                    XposedBridge.log("开启隐藏标签");
+                    //XposedBridge.log("开启隐藏标签");
                     // 隐藏图标标签
                     hookAllMethods(findClass("com.meizu.flyme.launcher.ShortcutIcon", lpparam.classLoader), "a", new XC_MethodHook() {
                         @Override

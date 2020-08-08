@@ -21,7 +21,6 @@ import java.util.Locale;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -74,7 +73,7 @@ public class SystemUi extends XposedHelper implements IModule {
                         }
                     });
                 }
-                XposedBridge.log("SDK版本号: " + android.os.Build.VERSION.SDK_INT);
+                //XposedBridge.log("SDK版本号: " + android.os.Build.VERSION.SDK_INT);
                 // android 10
                 if (android.os.Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
                     hookAllMethods("com.android.systemui.statusbar.policy.MobileSignalController", loadPackageParam.classLoader, "isVolteSwitchOn", XC_MethodReplacement.returnConstant(false));
@@ -130,7 +129,7 @@ public class SystemUi extends XposedHelper implements IModule {
                 }
             });
 
-            XposedBridge.log("开启隐藏热点图标" + prefs.getBoolean("hide_icon_hotspot", false));
+            //XposedBridge.log("开启隐藏热点图标" + prefs.getBoolean("hide_icon_hotspot", false));
             if (prefs.getBoolean("hide_icon_hotspot", false)) {
 
                 findAndHookMethod("com.android.systemui.statusbar.policy.HotspotControllerImpl", loadPackageParam.classLoader, "setHotspotEnabled", boolean.class, new XC_MethodHook() {

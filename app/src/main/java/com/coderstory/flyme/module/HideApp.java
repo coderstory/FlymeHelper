@@ -35,7 +35,6 @@ public class HideApp extends XposedHelper implements IModule {
             XposedBridge.log("load config" + value);
             if (!value.equals("")) {
                 final List<String> hideAppList = Arrays.asList(value.split(":"));
-                XposedBridge.log("load config" + value);
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 } else {
                     Class clazz = findClass("com.meizu.flyme.launcher.co", loadPackageParam.classLoader);
@@ -45,10 +44,10 @@ public class HideApp extends XposedHelper implements IModule {
                             super.beforeHookedMethod(param);
                             Object obj = param.args[0];
                             List<?> list = (List) XposedHelpers.getObjectField(obj, "a");
-                            XposedBridge.log("个数1" + list.size());
+                            //XposedBridge.log("个数1" + list.size());
                             list = list.stream().filter(item -> value.contains(((AppWidgetProviderInfo) item).provider.getPackageName())).collect(Collectors.toList());
                             XposedHelpers.setObjectField(obj, "a", list);
-                            XposedBridge.log("个数2" + list.size());
+                            //XposedBridge.log("个数2" + list.size());
                         }
                     });
 
