@@ -43,14 +43,18 @@ public class HideAppFragment extends BaseFragment {
     private View mView = null;
     private PullToRefreshView mPullToRefreshView;
     private List<String> hideAppList;
+    private List<String> hideAppNameList;
     private final List<AppInfo> appInfoList = new ArrayList<>();
     private final List<AppInfo> appInfoList2 = new ArrayList<>();
     private Dialog dialog;
 
     private void initData() {
         String list = getPrefs().getString("Hide_App_List", "");
+        String list2 = getPrefs().getString("Hide_App_Name_List", "");
         hideAppList = new ArrayList<>();
         hideAppList.addAll(java.util.Arrays.asList(list.split(":")));
+        hideAppNameList = new ArrayList<>();
+        hideAppNameList.addAll(java.util.Arrays.asList(list2.split(":")));
         packages = new ArrayList<>();
         if (getContext() != null) {
             packages = getContext().getPackageManager().getInstalledPackages(0);
@@ -112,9 +116,11 @@ public class HideAppFragment extends BaseFragment {
                                 }
                             }
                             hideAppList.remove(tmp);
+                            hideAppNameList.remove(appInfo.getName());
                         } else {
                             // 隐藏
                             hideAppList.add(appInfo.getPackageName());
+                            hideAppNameList.add(appInfo.getName());
                         }
                         StringBuilder value = new StringBuilder();
                         for (String s : hideAppList) {
@@ -123,6 +129,13 @@ public class HideAppFragment extends BaseFragment {
                         value = new StringBuilder(value.substring(0, value.length() - 1));
 
                         getEditor().putString("Hide_App_List", value.toString());
+
+                        StringBuilder value2 = new StringBuilder();
+                        for (String s : hideAppNameList) {
+                            value2.append(s).append(":");
+                        }
+                        value2 = new StringBuilder(value2.substring(0, value2.length() - 1));
+                        getEditor().putString("Hide_App_Name_List", value2.toString());
                         fix();
                         if (appInfo.getDisable()) {
                             appInfo.setDisable(false);

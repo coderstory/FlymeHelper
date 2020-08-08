@@ -46,7 +46,6 @@ public class ThemePatcher extends XposedHelper implements IModule {
                 //resetToSystemTheme
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true));
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "b", XC_MethodReplacement.returnConstant(true));
-
                 /**
                  *
                  public void a(boolean arg4, boolean arg5) {
