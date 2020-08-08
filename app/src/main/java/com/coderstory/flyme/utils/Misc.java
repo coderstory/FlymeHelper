@@ -13,7 +13,7 @@ public class Misc {
     public static final String endTime = "2021-06-23";
     public static final String token = "5ee5d80f978eea081640e210";
     public static final String channel = "qq_group";
-    public static final boolean isTestVersion = false;
+    public static final boolean isTestVersion = true;
     public static final String searchApi = Utils.decode("aHR0cDovL3JlZy5jb2RlcnN0b3J5LmNuOjEwMDg2L3NtYXJ0LWFkbWluLWFwaS9lbXBsb3llZS9jaGVja1Yy");
     // 家里的电脑1
     //public static String key= "1b0fa963126a28f8bceca65b3085f2e8";
