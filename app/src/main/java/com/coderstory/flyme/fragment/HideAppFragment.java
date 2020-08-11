@@ -215,8 +215,8 @@ public class HideAppFragment extends BaseFragment {
                         AnyLayer.dismiss();
                     }, R.id.fl_dialog_no)
                     .onClick((AnyLayer, v) -> {
-                        Shell.su("killall com.android.systemui").exec();
-                        Shell.su("am force-stop com.meizu.flyme.launcher").exec();
+                        Shell.SU.run("killall com.android.systemui");
+                        Shell.SU.run("am force-stop com.meizu.flyme.launcher");
                         System.exit(0);
                     }, R.id.fl_dialog_yes);
             anyLayer.show();

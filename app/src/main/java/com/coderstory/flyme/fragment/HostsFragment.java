@@ -11,7 +11,6 @@ import android.widget.Switch;
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
 import com.coderstory.flyme.utils.hostshelper.FileHelper;
-import com.topjohnwu.superuser.Shell;
 
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -19,6 +18,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+
+import eu.chainfire.libsuperuser.Shell;
 
 import static com.coderstory.flyme.utils.Misc.HostFileTmpName;
 
@@ -119,7 +120,7 @@ public class HostsFragment extends BaseFragment {
                     HostsContext += fh.getFromAssets("hosts_miui", getMContext());
                 }
             }
-            Shell.su(getCommandsToExecute(HostsContext)).exec();
+            Shell.SU.run(getCommandsToExecute(HostsContext));
 
         }
     }
