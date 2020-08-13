@@ -41,10 +41,10 @@ import com.coderstory.flyme.utils.SnackBarUtils;
 import com.coderstory.flyme.utils.Utils;
 import com.coderstory.flyme.utils.ViewUtils;
 import com.google.android.material.navigation.NavigationView;
-import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 
+import eu.chainfire.libsuperuser.Shell;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -367,8 +367,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     public void copySo() {
         ///data/app/com.coderstory.flyme-BXZlEdHOp7SsF02Yd3u8BA==/base.apk
         String path = getPackageResourcePath().replace("/base.apk", "") + "/lib/arm64/libnc.so";
-        Shell.su("echo " + path + " > /data/config.cfg").exec();
-        Shell.su("chmod 0777 " + path + " /data/config.cfg").exec();
+        Shell.SU.run("echo " + path + " > /data/config.cfg");
+        Shell.SU.run("chmod 0777 " + path + " /data/config.cfg");
     }
 }
 

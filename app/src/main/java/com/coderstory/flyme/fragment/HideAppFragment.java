@@ -24,14 +24,12 @@ import com.coderstory.flyme.R;
 import com.coderstory.flyme.adapter.AppInfo;
 import com.coderstory.flyme.adapter.AppInfoAdapter;
 import com.coderstory.flyme.fragment.base.BaseFragment;
-import com.coderstory.flyme.utils.SharedHelper;
-import com.coderstory.flyme.utils.Utils;
 import com.coderstory.flyme.view.PullToRefreshView;
-import com.topjohnwu.superuser.Shell;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.chainfire.libsuperuser.Shell;
 import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
@@ -164,17 +162,10 @@ public class HideAppFragment extends BaseFragment {
 
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            if (!Utils.check(new SharedHelper(getMContext()))) {
-                Toast.makeText(getActivity(), "本功能只有[捐赠]后才能使用", Toast.LENGTH_LONG).show();
-                return;
-            } else {
-                Toast.makeText(getActivity(), "在android 10上部分App无法被隐藏", Toast.LENGTH_LONG).show();
-            }
-
+            Toast.makeText(getActivity(), "本功能在Android 10上暂时无效", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getActivity(), "点击应用切换 隐藏/显示 状态 【重启桌面生效】", Toast.LENGTH_LONG).show();
         }
-
 
         new MyTask().execute();
 

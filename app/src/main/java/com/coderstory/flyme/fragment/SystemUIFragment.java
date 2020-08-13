@@ -6,12 +6,12 @@ import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.Utils;
-import com.topjohnwu.superuser.Shell;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import eu.chainfire.libsuperuser.Shell;
 
 public class SystemUIFragment extends BaseFragment {
     @Override
@@ -62,7 +62,7 @@ public class SystemUIFragment extends BaseFragment {
         $(R.id.show_status_bar_time_second_icon).setOnClickListener(v -> {
             getEditor().putBoolean("show_status_bar_time_second_icon", ((Switch) v).isChecked());
             fix();
-            Shell.su("settings put secure clock_seconds " + (((Switch) v).isChecked() ? "1" : "0")).exec();
+            Shell.SU.run("settings put secure clock_seconds " + (((Switch) v).isChecked() ? "1" : "0"));
         });
         $(R.id.hide_status_bar_slow_rate_icon).setOnClickListener(v -> {
             getEditor().putBoolean("hide_status_bar_slow_rate_icon", ((Switch) v).isChecked());
@@ -195,6 +195,6 @@ public class SystemUIFragment extends BaseFragment {
         } else {
             icons = hiddenIcons.stream().collect(Collectors.joining(","));
         }
-        Shell.su("settings put secure icon_blacklist " + icons).exec();
+        Shell.SU.run("settings put secure icon_blacklist " + icons);
     }
 }

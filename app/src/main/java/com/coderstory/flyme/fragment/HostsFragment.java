@@ -39,6 +39,7 @@ public class HostsFragment extends BaseFragment {
         $(R.id.enableHosts).setOnClickListener(v -> {
             getEditor().putBoolean("enableHosts", ((Switch) v).isChecked());
             getEditor().apply();
+            sudoFixPermissions();
             setCheck(((Switch) v).isChecked());
             new MyTask().execute();
         });
@@ -46,28 +47,33 @@ public class HostsFragment extends BaseFragment {
         $(R.id.enableMIUIHosts).setOnClickListener(v -> {
             getEditor().putBoolean("enableMIUIHosts", ((Switch) v).isChecked());
             getEditor().apply();
+            sudoFixPermissions();
             new MyTask().execute();
         });
 
         $(R.id.enableBlockAdsHosts).setOnClickListener(v -> {
             getEditor().putBoolean("enableBlockAdsHosts", ((Switch) v).isChecked());
             getEditor().apply();
+            sudoFixPermissions();
             new MyTask().execute();
         });
         $(R.id.enableGoogleHosts).setOnClickListener(v -> {
             getEditor().putBoolean("enableGoogleHosts", ((Switch) v).isChecked());
             getEditor().apply();
+            sudoFixPermissions();
             new MyTask().execute();
         });
 
         $(R.id.enableStore).setOnClickListener(v -> {
             getEditor().putBoolean("enableStore", ((Switch) v).isChecked());
             getEditor().apply();
+            sudoFixPermissions();
             new MyTask().execute();
         });
         $(R.id.enableupdater).setOnClickListener(v -> {
             getEditor().putBoolean("enableUpdater", ((Switch) v).isChecked());
             getEditor().apply();
+            sudoFixPermissions();
             new MyTask().execute();
         });
     }

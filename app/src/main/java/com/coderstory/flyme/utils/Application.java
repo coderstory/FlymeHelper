@@ -1,7 +1,5 @@
 package com.coderstory.flyme.utils;
 
-import com.coderstory.flyme.BuildConfig;
-import com.topjohnwu.superuser.Shell;
 import com.umeng.commonsdk.UMConfigure;
 
 
@@ -10,13 +8,6 @@ public class Application extends android.app.Application {
 
     public static Application getInstance() {
         return mInstance;
-    }
-
-    static {
-        Shell.enableVerboseLogging = BuildConfig.DEBUG;
-        Shell.setDefaultBuilder(Shell.Builder.create()
-                .setFlags(Shell.FLAG_REDIRECT_STDERR)
-                .setTimeout(100));
     }
 
     @Override

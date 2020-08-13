@@ -22,14 +22,13 @@ import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.Utils;
-import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
 
+import eu.chainfire.libsuperuser.Shell;
 import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
-
 
 public class AboutMeFragment extends BaseFragment {
 
@@ -90,7 +89,7 @@ public class AboutMeFragment extends BaseFragment {
 
     public String getSerialNumber() {
 
-        List<String> result = Shell.su(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " ")).exec().getOut();
+        List<String> result = Shell.SU.run(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " "));
         if (result.size() == 0) {
             return null;
         }
@@ -160,7 +159,7 @@ public class AboutMeFragment extends BaseFragment {
         inputServer.setFilters(new InputFilter[]{new InputFilter.LengthFilter(17)});
         inputServer.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
         AlertDialog.Builder builder = new AlertDialog.Builder(getMContext());
-        builder.setTitle("").setView(inputServer);
+        builder.setTitle(Utils.decode("5LuY6LS55LiU57uR5a6a5L2g55qEUVHlkI4NCuWcqOatpOi+k+WFpeS9oOeahFFR5bm254K55Ye76Kej6ZSBISE=")).setView(inputServer);
         builder.setPositiveButton(Utils.decode("5r+A5rS7"), (dialog, which) -> {
             String _sign = inputServer.getText().toString();
             if (!_sign.isEmpty()) {

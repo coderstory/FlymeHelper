@@ -9,8 +9,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.topjohnwu.superuser.Shell;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +24,8 @@ import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+
+import eu.chainfire.libsuperuser.Shell;
 
 public class Utils {
     private static final String TAG = "Utils";
@@ -85,11 +85,10 @@ public class Utils {
     }
 
     public String getSerialNumber() {
-        List<String> result = Shell.su(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " ")).exec().getOut();
+        List<String> result = Shell.SU.run(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " "));
         if (result.size() == 0) {
             return null;
         }
-
         return result.get(0);
     }
 
