@@ -58,7 +58,7 @@ public class RemoveAds extends XposedHelper implements IModule {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         super.afterHookedMethod(param);
-                        //super(activity, new SimpleWebView(webView));
+                        // super(activity, new SimpleWebView(webView));
                         // webView.addJavascriptInterface(this, JsAdBridge.OBJECT_NAME);
                         // this.mWebView = webView;
                         WebView webView = (WebView) XposedHelpers.getObjectField(param.thisObject, "mWebView");

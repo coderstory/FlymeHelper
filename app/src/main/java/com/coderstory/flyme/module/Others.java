@@ -1,6 +1,7 @@
 package com.coderstory.flyme.module;
 
 import android.content.Context;
+import android.util.Base64;
 import android.widget.Toast;
 
 import com.coderstory.flyme.plugins.IModule;
@@ -131,7 +132,7 @@ public class Others extends XposedHelper implements IModule {
                 needToast = true;
                 update += msg + ";";
                 if (mContext != null) {
-                    //XposedBridge.log("参数保存结果" + new SharedHelper(mContext).put("updateList", android.util.Base64.encodeToString(update.getBytes(), Base64.DEFAULT)));
+                    XposedBridge.log("参数保存结果" + new SharedHelper(mContext).put("updateList", android.util.Base64.encodeToString(update.getBytes(), Base64.DEFAULT)));
                     Toast.makeText(mContext, "flyme助手:已检测到新的更新包地址", Toast.LENGTH_LONG).show();
                     //XposedBridge.log("flyme助手: 检测完到更新包");
                     XposedBridge.log(update);
