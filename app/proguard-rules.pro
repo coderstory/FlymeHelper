@@ -55,3 +55,7 @@
 }
 
 -keep class com.umeng.** {*;}
+
+-assumenosideeffects class android.util.Log {
+	public static *** d(...);
+}
