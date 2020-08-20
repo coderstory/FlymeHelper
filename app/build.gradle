@@ -7,8 +7,8 @@ android {
         applicationId "com.coderstory.flyme"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 418
-        versionName "4.0.9 Fix2"
+        versionCode 419
+        versionName "4.0.9 Fix3"
         resConfigs "cn"
     }
 
