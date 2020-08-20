@@ -46,7 +46,7 @@ public class Utils {
         }
     }
 
-    private static boolean vi() {
+    public static boolean vi() {
         return vp() >= 0;
     }
 

@@ -204,16 +204,16 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             normalDialog.show();
         }
 
-//        if (!vi()) {
-//            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
-//            normalDialog.setTitle("过期提示");
-//            normalDialog.setMessage("当前flyme助手版本已过期，请下载最新版本");
-//            normalDialog.setPositiveButton("确定",
-//                    (dialog, which) -> {
-//                    });
-//            normalDialog.setCancelable(true);
-//            normalDialog.show();
-//        }
+        if (!Utils.vi()) {
+            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
+            normalDialog.setTitle("过期提示");
+            normalDialog.setMessage("当前flyme助手版本已过期，请加入交流群下载最新版本");
+            normalDialog.setPositiveButton("确定",
+                    (dialog, which) -> {
+                    });
+            normalDialog.setCancelable(true);
+            normalDialog.show();
+        }
 
         if (Misc.isTestVersion) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);

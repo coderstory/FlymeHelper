@@ -12,6 +12,7 @@ import com.coderstory.flyme.module.RemoveAds;
 import com.coderstory.flyme.module.SystemUi;
 import com.coderstory.flyme.module.ThemePatcher;
 import com.coderstory.flyme.utils.FileUtils;
+import com.coderstory.flyme.utils.Utils;
 import com.coderstory.flyme.utils.XposedHelper;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
@@ -36,26 +37,26 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
 
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
-       // if (vi()) {
+        if (Utils.vi()) {
             new FlymeRoot().handleInitPackageResources(resparam);
             new FlymeHome().handleInitPackageResources(resparam);
             new Others().handleInitPackageResources(resparam);
             new SystemUi().handleInitPackageResources(resparam);
-        // }
+        }
     }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        //if (vi()) {
-        new FlymeHome().handleLoadPackage(lpparam);
-        new IsEnable().handleLoadPackage(lpparam);
-        new HideApp().handleLoadPackage(lpparam);
-        new Others().handleLoadPackage(lpparam);
-        new ThemePatcher().handleLoadPackage(lpparam);
-        new FlymeRoot().handleLoadPackage(lpparam);
-        new RemoveAds().handleLoadPackage(lpparam);
-        new SystemUi().handleLoadPackage(lpparam);
-        // }
+        if (Utils.vi()) {
+            new FlymeHome().handleLoadPackage(lpparam);
+            new IsEnable().handleLoadPackage(lpparam);
+            new HideApp().handleLoadPackage(lpparam);
+            new Others().handleLoadPackage(lpparam);
+            new ThemePatcher().handleLoadPackage(lpparam);
+            new FlymeRoot().handleLoadPackage(lpparam);
+            new RemoveAds().handleLoadPackage(lpparam);
+            new SystemUi().handleLoadPackage(lpparam);
+        }
     }
 
     @Override
