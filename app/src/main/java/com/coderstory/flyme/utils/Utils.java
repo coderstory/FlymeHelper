@@ -1,6 +1,7 @@
 package com.coderstory.flyme.utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
@@ -84,10 +85,19 @@ public class Utils {
         return !helper.getString("qq", "").equals("") && !helper.getString("sn", "").equals("");
     }
 
-    public String getSerialNumber() {
+    public String getSerialNumber(Context mContext) {
         List<String> result = Shell.SU.run(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " "));
-        if (result.size() == 0 || result.size() > 20) {
+        if (result.size() == 0) {
             return null;
+        }
+        if (result.get(0).contains("start command")) {
+            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(mContext);
+            normalDialog.setTitle("!!致命错误!!");
+            normalDialog.setMessage("你手机的ROOT已爆炸,请刷机后重试!");
+            normalDialog.setPositiveButton("确定",
+                    (dialog, which) -> System.exit(0));
+            normalDialog.setCancelable(true);
+            normalDialog.show();
         }
         return result.get(0);
     }
@@ -110,19 +120,22 @@ public class Utils {
         String sn;
         Handler myHandler;
         int isLogin;
+        Context mContext;
 
-        public Check(SharedHelper helper, Handler myHandler) {
+        public Check(SharedHelper helper, Handler myHandler, Context mContext) {
             this.qq = helper.getString("qq", "");
-            this.sn = getSerialNumber();
+            this.sn = getSerialNumber(mContext);
             this.myHandler = myHandler;
             this.isLogin = 0;
+            this.mContext = mContext;
         }
 
-        public Check(String qq, Handler myHandler) {
+        public Check(String qq, Handler myHandler, Context mContext) {
             this.qq = qq;
-            this.sn = getSerialNumber();
+            this.sn = getSerialNumber(mContext);
             this.myHandler = myHandler;
             this.isLogin = 1;
+            this.mContext = mContext;
         }
 
         @Override

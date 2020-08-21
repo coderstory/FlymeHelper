@@ -90,8 +90,17 @@ public class AboutMeFragment extends BaseFragment {
     public String getSerialNumber() {
 
         List<String> result = Shell.SU.run(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " "));
-        if (result.size() == 0 || result.size() > 20) {
+        if (result.size() == 0) {
             return null;
+        }
+        if (result.get(0).contains("start command")) {
+            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(getMContext());
+            normalDialog.setTitle("!!致命错误!!");
+            normalDialog.setMessage("你手机的ROOT已爆炸,请刷机后重试!");
+            normalDialog.setPositiveButton("确定",
+                    (dialog, which) -> System.exit(0));
+            normalDialog.setCancelable(true);
+            normalDialog.show();
         }
         return result.get(0);
     }
@@ -172,7 +181,7 @@ public class AboutMeFragment extends BaseFragment {
                             (dialog1, which1) -> System.exit(0));
                     normalDialog.show();
                 } else {
-                    new Thread(new Utils().new Check(_sign, myHandler)).start();
+                    new Thread(new Utils().new Check(_sign, myHandler, getMContext())).start();
                 }
             } else {
                 Toast.makeText(getMContext(), Utils.decode("UVHlj7fkuI3og73kuLrnqbo="), Toast.LENGTH_SHORT).show();
@@ -200,7 +209,7 @@ public class AboutMeFragment extends BaseFragment {
                                     (dialog1, which1) -> System.exit(0));
                             normalDialog.show();
                         } else {
-                            new Thread(new Utils().new Check(_sign, myHandler)).start();
+                            new Thread(new Utils().new Check(_sign, myHandler, getMContext())).start();
                         }
                     } else {
                         Toast.makeText(getMContext(), Utils.decode("UVHlj7fkuI3og73kuLrnqbo="), Toast.LENGTH_SHORT).show();

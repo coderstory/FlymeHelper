@@ -227,7 +227,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         }
 
         if (Utils.check(helper)) {
-            new Thread(new Utils().new Check(helper, myHandler)).start();
+            new Thread(new Utils().new Check(helper, myHandler, this)).start();
         }
 
         new updgradeService(this).checkUpgrade();
