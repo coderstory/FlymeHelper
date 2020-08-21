@@ -88,8 +88,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 case 4:
                     if (!msg.getData().get("value").equals("{\"error\":\"0\"}")) {
                         Toast.makeText(MainActivity.this, Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
-                        helper.put("qq", "");
-                        helper.put("sn", "");
+                        helper.put(Utils.decode("bWFyaw=="), "");
+                        //helper.put("sn", "");
                     }
                     // 校验返回
                     break;
@@ -159,6 +159,10 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         mToolbar.setNavigationIcon(R.drawable.ic_drawer_home);
         initDefaultFragment();
 
+        initData();
+    }
+
+    private void initData() {
         //if (!helper.getBoolean("isRooted", false)) {
         // 检测弹窗
         new Thread(() -> {
@@ -177,10 +181,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             }
             checkEnable();
         }).start();
-        // } else {
+
         checkEnable();
-        //copySo();
-        // }
 
         if (helper.getBoolean("firstOpenB", true)) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
@@ -236,7 +238,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     private void checkEnable() {
         Log.e("xposed", "flyme助手->isEnable:" + (isEnable() ? "true" : "false"));
         if (helper.getBoolean("enableCheck", true) && !isEnable()) {
-            SnackBarUtils.makeLong(mNavigationView, "插件尚未激活,功能将不可用！").show();
+            SnackBarUtils.makeLong(mNavigationView, "插件尚未在Xposed框架中激活,功能将不可用!").show();
         }
     }
 

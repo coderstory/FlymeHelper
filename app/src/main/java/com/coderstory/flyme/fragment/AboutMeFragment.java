@@ -70,8 +70,8 @@ public class AboutMeFragment extends BaseFragment {
 
                 case 4:
                     if (msg.getData().get("value").equals("{\"error\":\"0\"}")) {
-                        getEditor().putString("qq", msg.getData().get("qq").toString()).apply();
-                        getEditor().putString("sn", msg.getData().get("sn").toString()).apply();
+                        getEditor().putString(Utils.decode("bWFyaw=="), Utils.encodeStr(msg.getData().get("mark").toString())).apply();
+                        //getEditor().putString("sn", msg.getData().get("sn").toString()).apply();
                         Toast.makeText(getMContext(), "绑定成功,重启应用生效", Toast.LENGTH_SHORT).show();
                         refresh();
                     } else {
@@ -139,7 +139,7 @@ public class AboutMeFragment extends BaseFragment {
 
     public void refresh() {
         ((TextView) $(R.id.vip_version)).setText(Utils.decode("5b2T5YmN54mI5pys57G75Z6L") + ": " + (!Utils.check(helper) ? Utils.decode("5YWN6LS554mI") : Utils.decode("5LuY6LS554mI")));
-        ((TextView) $(R.id.bound_qq)).setText(Utils.decode("57uR5a6aUVE=") + ": " + helper.getString("qq", "无"));
+        ((TextView) $(R.id.bound_qq)).setText(Utils.decode("57uR5a6aUVE=") + ": " + Utils.decodeStr(helper.getString(Utils.decode("bWFyaw=="), "瘡")));
     }
 
     /****************

@@ -2,6 +2,7 @@ package com.coderstory.flyme.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.Utils;
@@ -45,6 +46,7 @@ public class PreferencesUtils {
     public static boolean putString(Context context, String spName, String key, String value) {
         SharedPreferences settings = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
         SharedPreferences.Editor editor = settings.edit();
+        Log.e(key, value);
         editor.putString(key, value);
         return editor.commit();
     }

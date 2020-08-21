@@ -82,7 +82,7 @@ public class Utils {
     }
 
     public static boolean check(SharedHelper helper) {
-        return !helper.getString("qq", "").equals("") && !helper.getString("sn", "").equals("");
+        return !helper.getString(Utils.decode("bWFyaw=="), "").equals("");
     }
 
     public String getSerialNumber(Context mContext) {
@@ -115,23 +115,43 @@ public class Utils {
         }
     }
 
+    public static String encodeStr(String data) {
+        //把字符串转为字节数组
+        byte[] b = data.getBytes();
+        //遍历
+        for (int i = 0; i < b.length; i++) {
+            b[i] += 1;//在原有的基础上+1
+        }
+        return new String(b);
+    }
+
+    public static String decodeStr(String data) {
+        //把字符串转为字节数组
+        byte[] b = data.getBytes();
+        //遍历
+        for (int i = 0; i < b.length; i++) {
+            b[i] -= 1;//在原有的基础上-1
+        }
+        return new String(b);
+    }
+
     public class Check implements Runnable {
-        String qq;
+        String mark;
         String sn;
         Handler myHandler;
         int isLogin;
         Context mContext;
 
         public Check(SharedHelper helper, Handler myHandler, Context mContext) {
-            this.qq = helper.getString("qq", "");
+            this.mark = Utils.decodeStr(helper.getString(Utils.decode("bWFyaw=="), ""));
             this.sn = getSerialNumber(mContext);
             this.myHandler = myHandler;
             this.isLogin = 0;
             this.mContext = mContext;
         }
 
-        public Check(String qq, Handler myHandler, Context mContext) {
-            this.qq = qq;
+        public Check(String mark, Handler myHandler, Context mContext) {
+            this.mark = mark;
             this.sn = getSerialNumber(mContext);
             this.myHandler = myHandler;
             this.isLogin = 1;
@@ -149,8 +169,8 @@ public class Utils {
 
                 //数据准备
                 String data = "{\n" +
-                        "    \"QQ\": \"" + qq + "\",\n" +
-                        "    \"sn\": \"" + sn + "\",\n" +
+                        "    \"" + Utils.decode("UVE=") + "\": \"" + mark + "\",\n" +
+                        "    \"" + Utils.decode("c24=") + "\": \"" + sn + "\",\n" +
                         "    \"isLogin\": " + isLogin + "\n" +
                         "}";
                 //至少要设置的两个请求头
@@ -172,7 +192,7 @@ public class Utils {
                     msg.arg1 = 4;
                     Bundle data2 = new Bundle();
                     data2.putString("value", dealResponseResult(is));
-                    data2.putString("qq", qq);
+                    data2.putString(Utils.decode("bWFyaw=="), mark);
                     data2.putString("sn", sn);
                     msg.setData(data2);
                     myHandler.sendMessage(msg);
@@ -205,4 +225,5 @@ public class Utils {
             return resultData;
         }
     }
+
 }
