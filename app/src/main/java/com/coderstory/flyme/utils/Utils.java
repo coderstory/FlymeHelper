@@ -86,7 +86,7 @@ public class Utils {
 
     public String getSerialNumber() {
         List<String> result = Shell.SU.run(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " "));
-        if (result.size() == 0) {
+        if (result.size() == 0 || result.size() > 20) {
             return null;
         }
         return result.get(0);
