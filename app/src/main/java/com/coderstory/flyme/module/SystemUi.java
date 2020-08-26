@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.coderstory.flyme.plugins.IModule;
+import com.coderstory.flyme.utils.Cpp;
 import com.coderstory.flyme.utils.XposedHelper;
 
 import java.text.SimpleDateFormat;
@@ -87,6 +88,8 @@ public class SystemUi extends XposedHelper implements IModule {
             if (prefs.getBoolean("hide_status_bar_no_sim_icon", false)) {
                 findAndHookMethod("com.android.systemui.statusbar.policy.NetworkControllerImpl", loadPackageParam.classLoader, "updateNoSims", XC_MethodReplacement.returnConstant(null));
             }
+
+            Cpp.check();
 
             if (prefs.getBoolean("hide_status_bar_slow_rate_icon", false)) {
                 hookAllMethods("com.flyme.systemui.statusbar.ConnectionRateView", loadPackageParam.classLoader, "updateConnectionRate", new XC_MethodHook() {

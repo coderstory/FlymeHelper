@@ -12,7 +12,7 @@ public class Misc {
     public static boolean isProcessing = false;
     public static final String endTime = "2020-10-1";
     public static final String token = "5ee5d80f978eea081640e210";
-    public static final String channel = "qq_group";
+    public static final String channel = "coolapk";
     public static final boolean isTestVersion = true;
     public static final String searchApi = Utils.decode(Cpp.hello());
     // 家里的电脑1
