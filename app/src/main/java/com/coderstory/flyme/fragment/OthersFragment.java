@@ -97,7 +97,7 @@ public class OthersFragment extends BaseFragment {
 
             AppSignCheck a = new AppSignCheck(getMContext(), Misc.key);
             if (!a.check()) {
-                getEditor().putString("isCore","1");
+                getEditor().putString("isCore", "1");
             }
             fix();
         });

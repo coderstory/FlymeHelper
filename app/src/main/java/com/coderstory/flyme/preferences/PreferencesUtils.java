@@ -185,12 +185,11 @@ public class PreferencesUtils {
     }
 
     /**
-     *
      * @param context
      * @param spName
      * @return
      */
-    public static SharedPreferences.Editor getEditor(Context context, String spName){
+    public static SharedPreferences.Editor getEditor(Context context, String spName) {
         SharedPreferences settings = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
         SharedPreferences.Editor editor = settings.edit();
         return editor;

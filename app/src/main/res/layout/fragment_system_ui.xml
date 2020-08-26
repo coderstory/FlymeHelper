@@ -293,7 +293,6 @@
                 android:text="@string/status_text_view_clock_center" />
 
 
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

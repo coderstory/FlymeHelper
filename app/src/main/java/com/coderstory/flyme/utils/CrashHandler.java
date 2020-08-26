@@ -30,7 +30,7 @@ import static com.coderstory.flyme.utils.Misc.CrashFilePath;
 
 /**
  * 收集手机全局崩溃时的exception,并log到本地
- *
+ * <p>
  * https://github.com/amimo/dcc
  *
  * @author Jackland_zgl

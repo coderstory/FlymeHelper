@@ -18,9 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center"
+            android:text="警告"
             android:textColor="#232323"
-            android:textSize="16sp"
-            android:text="警告" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_dialog_content"
@@ -31,9 +31,9 @@
             android:paddingTop="28dp"
             android:paddingRight="20dp"
             android:paddingBottom="25dp"
+            android:text="检测到插件尚未激活,所有功能将无法生效！\n\n注意禁用资源钩子会导致本插件失效"
             android:textColor="#232323"
-            android:textSize="17sp"
-            android:text="检测到插件尚未激活,所有功能将无法生效！\n\n注意禁用资源钩子会导致本插件失效" />
+            android:textSize="17sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,9 +46,9 @@
                 android:id="@+id/fl_dialog_yes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:clickable="true"
                 android:layout_weight="1"
-                android:background="?android:attr/selectableItemBackground">
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true">
 
                 <ImageView
                     android:id="@+id/iv_dialog_yes"
@@ -63,9 +63,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:text="确定"
                     android:textColor="#232323"
-                    android:textSize="16sp"
-                    android:text="确定" />
+                    android:textSize="16sp" />
 
             </FrameLayout>
 

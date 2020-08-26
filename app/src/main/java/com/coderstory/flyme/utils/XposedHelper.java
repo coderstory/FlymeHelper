@@ -52,7 +52,7 @@ public class XposedHelper {
         }
     }
 
-    public static void hookAllConstructors(String p1,ClassLoader classLoader, XC_MethodHook parameterTypesAndCallback) {
+    public static void hookAllConstructors(String p1, ClassLoader classLoader, XC_MethodHook parameterTypesAndCallback) {
         try {
             Class packageParser = XposedHelpers.findClass(p1, classLoader);
             XposedBridge.hookAllConstructors(packageParser, parameterTypesAndCallback);

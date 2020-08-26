@@ -28,12 +28,12 @@ import static com.coderstory.flyme.utils.Misc.ApplicationName;
  */
 public abstract class BaseFragment extends Fragment {
     public static final String PREFS_FOLDER = " /data/user_de/0/" + ApplicationName + "/shared_prefs\n";
-    private View mContentView;
-    private Context mContext;
     public static final String PREFS_FILE = " /data/user_de/0/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml\n";
     private static final String TAG = "BaseFragment";
     private static SharedPreferences prefs;
     private static SharedPreferences.Editor editor;
+    private View mContentView;
+    private Context mContext;
 
     @Nullable
     @Override

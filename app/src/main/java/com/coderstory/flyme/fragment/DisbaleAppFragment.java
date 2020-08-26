@@ -47,6 +47,8 @@ import static com.coderstory.flyme.utils.Misc.BackPath;
 
 
 public class DisbaleAppFragment extends BaseFragment {
+    private final List<AppInfo> appInfoList = new ArrayList<>();
+    private final List<AppInfo> appInfoList2 = new ArrayList<>();
     List<PackageInfo> packages = new ArrayList<>();
     AppInfoAdapter adapter = null;
     ListView listView = null;
@@ -54,8 +56,6 @@ public class DisbaleAppFragment extends BaseFragment {
     int mposition = 0;
     View mview = null;
     PullToRefreshView mPullToRefreshView;
-    private final List<AppInfo> appInfoList = new ArrayList<>();
-    private final List<AppInfo> appInfoList2 = new ArrayList<>();
     private Dialog dialog;
     @SuppressLint("HandlerLeak")
     Handler myHandler = new Handler() {
@@ -207,7 +207,7 @@ public class DisbaleAppFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
-        if(dialog != null) {
+        if (dialog != null) {
             dialog.dismiss();
         }
         super.onDestroyView();

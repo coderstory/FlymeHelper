@@ -27,11 +27,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:digits="0123456789"
             android:gravity="center_horizontal"
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
             android:text="一段测试文本"
-            android:digits="0123456789"
             android:textColor="#232323"
             android:textSize="17sp" />
 
@@ -39,8 +39,8 @@
             android:id="@+id/input_qq"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text=""
             android:digits="0123456789"
+            android:text=""
             android:textAlignment="center" />
 
         <LinearLayout

@@ -116,8 +116,6 @@ public class Others extends XposedHelper implements IModule {
     }
 
 
-
-
     private boolean handleInfo(Object info) {
         boolean needToast = false;
         if (info != null) {

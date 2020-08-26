@@ -9,14 +9,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -49,9 +46,6 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
-import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.DialogLayer;
-import per.goweii.anylayer.Layer;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -60,6 +54,7 @@ import static com.coderstory.flyme.R.id.navigation_view;
 public class MainActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
     public static final long MAX_DOUBLE_BACK_DURATION = 1500;
     private static final int READ_EXTERNAL_STORAGE_CODE = 1;
+    private final SharedHelper helper = new SharedHelper(this);
     private DrawerLayout mDrawerLayout;//侧边菜单视图
     private Toolbar mToolbar;
     private NavigationView mNavigationView;//侧边菜单项
@@ -67,7 +62,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     private Fragment mCurrentFragment;
     private MenuItem mPreMenuItem;
     private long lastBackKeyDownTick = 0;
-    private final SharedHelper helper = new SharedHelper(this);
     private ProgressDialog dialog;
     @SuppressLint("HandlerLeak")
     public Handler myHandler = new Handler() {
