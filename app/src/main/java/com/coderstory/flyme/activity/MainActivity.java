@@ -33,6 +33,7 @@ import com.coderstory.flyme.fragment.SettingsFragment;
 import com.coderstory.flyme.fragment.SystemUIFragment;
 import com.coderstory.flyme.fragment.UpdateListFragment;
 import com.coderstory.flyme.fragment.WebViewFragment;
+import com.coderstory.flyme.fragment.XposedFragment;
 import com.coderstory.flyme.update.updgradeService;
 import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.RuntimeUtil;
@@ -312,6 +313,10 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 case R.id.navigation_item_about_me:
                     mToolbar.setTitle(Utils.decode("5Lya5ZGY5r+A5rS7"));
                     switchFragment(AboutMeFragment.class);
+                    break;
+                case R.id.navigation_item_xposed_install:
+                    mToolbar.setTitle("xposed框架安装");
+                    switchFragment(XposedFragment.class);
                     break;
                 default:
                     break;
