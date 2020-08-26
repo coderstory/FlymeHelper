@@ -98,7 +98,7 @@ public class XposedFragment extends BaseFragment {
 
         FileHelper.UnZipAssetsFolder(getMContext(), fileName, base);
         Shell.SU.run("mount -o rw,remount /system");
-        Shell.SU.run("mv -f " + base + "/data /");
-        Shell.SU.run("mv " + base + "/system /");
+        Shell.SU.run("cp -rf " + base + "/data/* /data");
+        Shell.SU.run("cp -rf " + base + "/system/* /system");
     }
 }
