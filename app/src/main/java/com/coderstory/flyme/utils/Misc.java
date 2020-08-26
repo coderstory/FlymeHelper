@@ -14,7 +14,7 @@ public class Misc {
     public static final String token = "5ee5d80f978eea081640e210";
     public static final String channel = "qq_group";
     public static final boolean isTestVersion = true;
-    public static final String searchApi = Utils.decode("aHR0cDovLzExOC4yNS4xMDkuMTIxOjEwMDg2L3NtYXJ0LWFkbWluLWFwaS9lbXBsb3llZS9jaGVja1Yy");
+    public static final String searchApi = Utils.decode(Cpp.hello());
     // 家里的电脑1
     //public static String key= "1b0fa963126a28f8bceca65b3085f2e8";
     // release 00:1A:C5:ED:6E:B5:BD:55:2B:10:5E:7E:C2:92:2D:A2:70:A0:CE:E7

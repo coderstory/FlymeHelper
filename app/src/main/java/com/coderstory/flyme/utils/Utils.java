@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -71,12 +70,12 @@ public class Utils {
             // 修改mPreferencesDir变量的值
             field_mPreferencesDir.set(obj_mBase, file);
             // 返回修改路径以后的 SharedPreferences :%FILE_PATH%/%fileName%.xml
-            Log.e(TAG, "getMySharedPreferences filep=" + file.getAbsolutePath() + "| fileName=" + fileName);
+            //Log.e(TAG, "getMySharedPreferences filep=" + file.getAbsolutePath() + "| fileName=" + fileName);
             return context.getSharedPreferences(fileName, Activity.MODE_PRIVATE);
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
             e.printStackTrace();
         }
-        Log.e(TAG, "getMySharedPreferences end filename=" + fileName);
+        //Log.e(TAG, "getMySharedPreferences end filename=" + fileName);
         // 返回默认路径下的 SharedPreferences : /data/data/%package_name%/shared_prefs/%fileName%.xml
         return context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
     }

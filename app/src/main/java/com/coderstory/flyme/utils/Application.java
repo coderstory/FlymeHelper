@@ -16,8 +16,9 @@ public class Application extends android.app.Application {
         UMConfigure.setLogEnabled(true);
         UMConfigure.init(Application.this, Misc.token, Misc.channel, UMConfigure.DEVICE_TYPE_PHONE, "");
         mInstance = this;
+        System.loadLibrary("Utils");
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext());
+        Cpp.initCpp(mInstance);
     }
-
 }

@@ -10,6 +10,9 @@ android {
         versionCode 420
         versionName "4.1.0 测试版"
         resConfigs "cn"
+        ndk {
+            abiFilters 'armeabi-v7a','arm64-v8a'
+        }
     }
 
     signingConfigs {
@@ -55,7 +58,15 @@ android {
             keyPassword "bbs8868014"
         }
     }
+
+    externalNativeBuild {
+        cmake {
+            path file('CMakeLists.txt')
+        }
+    }
+
 }
+
 
 dependencies {
     compileOnly fileTree(include: ['*.jar'], dir: 'libs')
