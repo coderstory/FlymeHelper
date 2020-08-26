@@ -54,6 +54,7 @@ Java_com_coderstory_flyme_utils_Cpp_initCpp(JNIEnv *env, jclass type, jobject co
     if (strcmp(c_signature_str, app_signature) != 0) {
         return;
     }
+
     //__android_log_print(ANDROID_LOG_ERROR, "JNI_TAG", "签名校验成功: %s", c_signature_str);
     // 签名认证成功
     is_verify = 1;

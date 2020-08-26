@@ -9,11 +9,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -33,6 +36,7 @@ import com.coderstory.flyme.fragment.SettingsFragment;
 import com.coderstory.flyme.fragment.SystemUIFragment;
 import com.coderstory.flyme.fragment.UpdateListFragment;
 import com.coderstory.flyme.fragment.WebViewFragment;
+import com.coderstory.flyme.fragment.XposedFragment;
 import com.coderstory.flyme.update.updgradeService;
 import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.RuntimeUtil;
@@ -45,6 +49,9 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
+import per.goweii.anylayer.AnyLayer;
+import per.goweii.anylayer.DialogLayer;
+import per.goweii.anylayer.Layer;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -312,6 +319,10 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 case R.id.navigation_item_about_me:
                     mToolbar.setTitle(Utils.decode("5Lya5ZGY5r+A5rS7"));
                     switchFragment(AboutMeFragment.class);
+                    break;
+                case R.id.navigation_item_xposed_install:
+                    mToolbar.setTitle("xposed框架安装");
+                    switchFragment(XposedFragment.class);
                     break;
                 default:
                     break;
