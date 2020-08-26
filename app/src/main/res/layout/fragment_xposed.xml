@@ -81,7 +81,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="80dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -90,14 +90,44 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:layout_marginTop="10dp"
-                        android:text="如果你通过Magisk获取了ROOT，请使用本安装方式，将框架安装为Magisk模块。"
+                        android:text="如果你通过Magisk获取了ROOT，请使用本安装方式，将框架安装为Magisk模块。请先点击安装riru后然后点击点击安装edxp"
                         android:textSize="14sp" />
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/windowBackground"
+                android:foreground="?android:attr/selectableItemBackground"
 
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="2"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/install_magisk_module_riru"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_nor_down"
+                        android:text="安装Riru模块(必须在安装Edxp模块之前安装)"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -123,8 +153,8 @@
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
-                        android:text="安装为Magisk模块(SandBox)"
-                        android:textSize="14dp" />
+                        android:text="安装Edxposed为Magisk模块(SandBox版本)"
+                        android:textSize="12dp" />
 
                 </LinearLayout>
 
@@ -157,8 +187,8 @@
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
-                        android:text="安装为Magisk模块(YAHFA)"
-                        android:textSize="14dp" />
+                        android:text="安装Edxposed为Magisk模块(YAHFA版本)"
+                        android:textSize="12dp" />
 
                 </LinearLayout>
 
@@ -218,8 +248,8 @@
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
-                        android:text="安装Edxposed(Yahfa)"
-                        android:textSize="14dp" />
+                        android:text="安装Edxposed(Yahfa版本)"
+                        android:textSize="12dp" />
 
                 </LinearLayout>
 
@@ -253,8 +283,8 @@
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
-                        android:text="安装Edxposed(SandBox)"
-                        android:textSize="14dp" />
+                        android:text="安装Edxposed(SandBox版本)"
+                        android:textSize="12dp" />
 
                 </LinearLayout>
 

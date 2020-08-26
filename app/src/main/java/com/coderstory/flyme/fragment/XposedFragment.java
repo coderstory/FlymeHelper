@@ -1,5 +1,6 @@
 package com.coderstory.flyme.fragment;
 
+import android.text.Html;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -30,12 +31,12 @@ public class XposedFragment extends BaseFragment {
 
     @Override
     public void setUpView() {
-        $(R.id.install_magisk_module_y).setOnClickListener(v -> {
+        $(R.id.install_magisk_module_riru).setOnClickListener(v -> {
             if (!installMagisk("magisk-riru-v21.3.zip", "Riru安装日志")) {
                 Toast.makeText(getMContext(), "riru安装失败", Toast.LENGTH_SHORT).show();
-                return;
             }
-
+        });
+        $(R.id.install_magisk_module_y).setOnClickListener(v -> {
             if (installMagisk("EdXposed-YAHFA-v0.4.6.2.4529.-release.zip", "EdXposed安装日志")) {
                 Toast.makeText(getMContext(), "安装成功 重启生效", Toast.LENGTH_SHORT).show();
             } else {
@@ -44,10 +45,6 @@ public class XposedFragment extends BaseFragment {
         });
 
         $(R.id.install_magisk_module_s).setOnClickListener(v -> {
-            if (!installMagisk("magisk-riru-v21.3.zip", "Riru安装日志")) {
-                Toast.makeText(getMContext(), "riru安装失败", Toast.LENGTH_SHORT).show();
-                return;
-            }
 
             if (installMagisk("EdXposed-SandHook-v0.4.6.2.4529.-release.zip", "EdXposed安装日志")) {
                 Toast.makeText(getMContext(), "安装成功 重启生效", Toast.LENGTH_SHORT).show();
@@ -88,10 +85,10 @@ public class XposedFragment extends BaseFragment {
         CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
         LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
         TextView textView = (TextView) linearLayout.getChildAt(0);
+        boolean resultB = result.size() > 5 && "- Done".equals(result.get(result.size() - 1));
+        textView.setText(Html.fromHtml(result.stream().reduce(moduleName + "<br>" , (a, b) -> a + "<br>" + b)+"<br><br>" +(resultB ? "<font color='#dd2c00'><storage>!!安装成功,重启生效!!</b></font><br>" : "<font color='#dd2c00'><b>!!安装失败!!</b></font><br>")));
 
-        textView.setText(result.stream().reduce(moduleName + "\n", (a, b) -> a + "\n" + b));
-
-        return result.size() > 5 && "- Done".equals(result.get(result.size() - 1));
+        return resultB;
     }
 
     private void installByCopy(String fileName) {
