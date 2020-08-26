@@ -53,11 +53,11 @@ public class XposedFragment extends BaseFragment {
 
 
         $(R.id.install_module_y).setOnClickListener(v -> {
-            installByCopy("EdXposed（Y版，Riru21.3）-v0.4.6.2.4529.zip");
+            installByCopy("EdXposedY-v0.4.6.2.4529.zip");
             Toast.makeText(getMContext(), "安装成功 重启生效", Toast.LENGTH_SHORT).show();
         });
         $(R.id.install_module_s).setOnClickListener(v -> {
-            installByCopy("EdXposed（S版，Riru21.3）-v0.4.6.2.4529.zip");
+            installByCopy("EdXposedS-v0.4.6.2.4529.zip");
             Toast.makeText(getMContext(), "安装成功 重启生效", Toast.LENGTH_SHORT).show();
         });
 
