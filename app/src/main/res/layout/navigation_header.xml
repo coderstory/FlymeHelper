@@ -24,8 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
-        android:gravity="right|center_vertical"
-        android:text="不忘初心,方得始终 "
+        android:gravity="center"
+        android:text="不忘初心,方得始终"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#ffffff"
         android:textSize="15sp" />

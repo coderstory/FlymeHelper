@@ -8,7 +8,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 29
         versionCode 420
-        versionName "4.1.0 测试版V2"
+        versionName "4.1.0 测试版V3"
         resConfigs "cn"
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'

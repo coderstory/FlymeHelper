@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--ToolBar-->
-    <color name="colorPrimary">#4db6ac</color>
+    <color name="colorPrimary">#A5A5A5</color>
     <!--状态栏-->
-    <color name="colorPrimaryDark">#4db6ac</color>
-    <color name="colorAccent">#4db6ac</color>
-    <color name="colorItem">#4db6ac</color>
-    <color name="enableApp">#4db6ac</color>
+    <color name="colorPrimaryDark">#A5A5A5</color>
+    <color name="colorAccent">#A5A5A5</color>
+    <color name="colorItem">#A5A5A5</color>
+    <color name="enableApp">#A5A5A5</color>
     <color name="disableeApp">#fff</color>
     <color name="listItem">#b2dfdb</color>
     <color name="switchBtn">#fff</color>
@@ -145,7 +145,7 @@
     <color name="md_teal_50">#e0f2f1</color>
     <color name="md_teal_100">#b2dfdb</color>
     <color name="md_teal_200">#80cbc4</color>
-    <color name="md_teal_300">#4db6ac</color>
+    <color name="md_teal_300">#A5A5A5</color>
     <color name="md_teal_400">#26a69a</color>
     <color name="md_teal_500">#009688</color>
     <color name="md_teal_600">#00897b</color>
