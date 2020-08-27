@@ -89,6 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
                         android:layout_marginTop="10dp"
                         android:text="如果你通过Magisk获取了ROOT，请使用本安装方式，将框架安装为Magisk模块。请先点击安装riru后然后点击点击安装edxp"
                         android:textSize="14sp" />
@@ -216,6 +217,7 @@
                         android:layout_height="60dp"
                         android:layout_marginLeft="12dp"
                         android:layout_marginTop="10dp"
+                        android:layout_marginRight="12dp"
                         android:text="如果你使用的是Flyme系统自带的ROOT，请使用本方式安装EdXposed,本安装方式是直接复制框架文件到System分区"
                         android:textSize="14sp" />
 
