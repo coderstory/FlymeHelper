@@ -43,8 +43,8 @@
     <string name="hide_status_bar_time_chinese_icon"><b>状态栏时间-修饰</b>  <font color='#FFC0CB'>vip</font>\n在状态栏时间前面追加上午下午凌晨等词缀 \n比如 [傍晚 18:20]</string>
     <string name="HideRootGlobal"><b>全局隐藏root</b>\n针对所有的flyme自带软件,隐藏自带的ROOT,开启后自带的root会显示未开启,使用自带root的用户一般不推荐开启,如果魅族Pay 系统更新屏蔽ROOT失效可开启</string>
     <string name="status_text_view_clock_center"><b>状态栏时间居中</b> <font color='#FFC0CB'>vip</font>\n状态栏时间居中显示,与状态栏其他东西重叠时自动隐藏。因为状态栏的功能复杂情况太多,极小情况下还是会出现时间和其他东西重叠的情况</string>
-    <string name="home_icon_num_rows"><b>自定义布局-行</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面每一行的app图标数量</string>
-    <string name="home_icon_num_column"><b>自定义布局-列</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面每一列的app数量</string>
+    <string name="home_icon_num_rows"><b>自定义布局-行</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面有多少行app图标</string>
+    <string name="home_icon_num_column"><b>自定义布局-列</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面有多少列app图标</string>
     <string name="home_icon_num_hot_seat_icons"><b>自定义布局-Dock</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面Dock栏的app数量</string>
     <string name="disableSearch"><b>桌面禁用手势-搜索</b>  <font color='#FFC0CB'>vip</font>\n在不禁用搜索条件下，禁止桌面上划手势触发打开搜索</string>
     <string name="hide_status_bar_sim1_icon"><b>隐藏图标-SIM1</b>\n隐藏状态栏SIM1的图标</string>
