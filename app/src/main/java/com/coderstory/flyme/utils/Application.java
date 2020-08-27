@@ -1,5 +1,7 @@
 package com.coderstory.flyme.utils;
 
+import com.topjohnwu.superuser.BusyBoxInstaller;
+import com.topjohnwu.superuser.Shell;
 import com.umeng.commonsdk.UMConfigure;
 
 
@@ -8,6 +10,13 @@ public class Application extends android.app.Application {
 
     public static Application getInstance() {
         return mInstance;
+    }
+
+    static {
+        Shell.enableVerboseLogging = true;
+        Shell.setDefaultBuilder(Shell.Builder.create()
+                .setFlags(Shell.FLAG_REDIRECT_STDERR)
+                .setTimeout(10).setInitializers(BusyBoxInstaller.class));
     }
 
     @Override

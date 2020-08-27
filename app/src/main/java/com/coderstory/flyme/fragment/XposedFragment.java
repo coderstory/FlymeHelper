@@ -1,6 +1,10 @@
 package com.coderstory.flyme.fragment;
 
+import android.annotation.SuppressLint;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Html;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +24,23 @@ import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
 
 public class XposedFragment extends BaseFragment {
+
+    @SuppressLint("HandlerLeak")
+    public Handler myHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.arg1) {
+                case 0:
+                    final androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(getMContext());
+                    normalDialog.setTitle("提示");
+                    normalDialog.setMessage("安装完毕,重启生效");
+                    normalDialog.setPositiveButton("确定",
+                            (dialog, which) -> dialog.dismiss());
+                    normalDialog.show();
+                    super.handleMessage(msg);
+                    break;
+            }
+        }
+    };
 
 
     @Override
@@ -90,17 +111,28 @@ public class XposedFragment extends BaseFragment {
     }
 
     private void installByCopy(String fileName) {
-        // /sbin/.magisk/mirror/system_root
-        String systemRoot = "/system";
-        String base = getMContext().getFilesDir().getAbsolutePath();
-        Shell.SU.run("rm -rf " + base + "/data");
-        Shell.SU.run("rm -rf " + base + "/system");
+        Toast.makeText(getMContext(), "正在安装,请稍后。。", Toast.LENGTH_SHORT).show();
+        new Thread(() -> {
+            // /sbin/.magisk/mirror/system_root
+            String systemRoot = "/system";
+            String base = getMContext().getFilesDir().getAbsolutePath();
+            Shell.SU.run("rm -rf " + base + "/data");
+            Shell.SU.run("rm -rf " + base + "/system");
 
-        FileHelper.UnZipAssetsFolder(getMContext(), fileName, base);
+            FileHelper.UnZipAssetsFolder(getMContext(), fileName, base);
+            Log.e("FLyme助手", "文件释放完毕");
+            com.topjohnwu.superuser.Shell.su("mount -o rw,remount " + systemRoot);
+            Log.e("FLyme助手", "分区挂载读写");
+            com.topjohnwu.superuser.Shell.su("cp -rf " + base + "/data/* /data").exec();
+            Log.e("FLyme助手", "data分区文件释放完毕");
+            com.topjohnwu.superuser.Shell.su("cp -rf " + base + "/system/* " + systemRoot).exec();
+            Log.e("FLyme助手", "system分区文件释放完毕");
 
-        Shell.SU.run("mount -o rw,remount " + systemRoot);
+            Message msg = new Message();
+            msg.arg1 = 0;
+            myHandler.sendMessage(msg);
 
-        Shell.SU.run("cp -rf " + base + "/data/* /data");
-        Shell.SU.run("cp -rf " + base + "/system/* " + systemRoot);
+        }).start();
+
     }
 }
