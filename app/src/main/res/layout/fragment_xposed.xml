@@ -47,7 +47,6 @@
                 android:background="@color/windowBackground"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:padding="10dp"
-                app:cardCornerRadius="10dp"
                 app:cardElevation="0dp">
 
                 <LinearLayout
@@ -57,10 +56,11 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="50dp"
+                        android:layout_height="80dp"
                         android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
                         android:layout_marginTop="10dp"
-                        android:text="当前集成Edxposed版本:4529\n当前集成Riru版本:21.3"
+                        android:text="当前集成Edxposed版本:4529\n当前集成Riru版本:21.3\n本工具用于安装EdXposed框架,安装了Magisk的或者开启了系统自带的Root的手机都可以通过本工具安装框架"
                         android:textSize="14sp" />
 
 
