@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Base64;
 
 import com.topjohnwu.superuser.Shell;
 
@@ -87,10 +86,10 @@ public class Utils {
 
     public static String decode(String base64) {
         try {
-            Class a = Class.forName("android.util.Base64");
-            Method method = a.getDeclaredMethod("decode", String.class, Integer.class);
+            Class clazz = Class.forName("android.util.Base64");
+            Method method = clazz.getDeclaredMethod("decode", String.class, int.class);
 
-            return new String((byte[]) method.invoke(base64, Base64.DEFAULT));
+            return new String((byte[]) method.invoke(null, base64, 0));
 
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
