@@ -1,7 +1,5 @@
 package com.coderstory.flyme.plugins;
 
-import android.util.Log;
-
 import com.coderstory.flyme.BuildConfig;
 import com.coderstory.flyme.module.FlymeHome;
 import com.coderstory.flyme.module.FlymeRoot;
@@ -11,7 +9,6 @@ import com.coderstory.flyme.module.Others;
 import com.coderstory.flyme.module.RemoveAds;
 import com.coderstory.flyme.module.SystemUi;
 import com.coderstory.flyme.module.ThemePatcher;
-import com.coderstory.flyme.utils.FileUtils;
 import com.coderstory.flyme.utils.Utils;
 import com.coderstory.flyme.utils.XposedHelper;
 
@@ -23,18 +20,6 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class start extends XposedHelper implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
-
-    {
-        try {
-            String path = FileUtils.readFile("/data/config.cfg");
-            System.load(path);
-        } catch (UnsatisfiedLinkError e) {
-            e.printStackTrace();
-            Log.println(Log.ERROR, "xx", "so加载失败222" + e.getMessage());
-        }
-    }
-
-
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
         if (Utils.vi()) {

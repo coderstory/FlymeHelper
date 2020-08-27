@@ -90,13 +90,17 @@ public class XposedFragment extends BaseFragment {
     }
 
     private void installByCopy(String fileName) {
+        // /sbin/.magisk/mirror/system_root
+        String systemRoot = "/system";
         String base = getMContext().getFilesDir().getAbsolutePath();
         Shell.SU.run("rm -rf " + base + "/data");
         Shell.SU.run("rm -rf " + base + "/system");
 
         FileHelper.UnZipAssetsFolder(getMContext(), fileName, base);
-        Shell.SU.run("mount -o rw,remount /system");
+
+        Shell.SU.run("mount -o rw,remount " + systemRoot);
+
         Shell.SU.run("cp -rf " + base + "/data/* /data");
-        Shell.SU.run("cp -rf " + base + "/system/* /system");
+        Shell.SU.run("cp -rf " + base + "/system/* " + systemRoot);
     }
 }

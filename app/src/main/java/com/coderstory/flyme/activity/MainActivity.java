@@ -45,7 +45,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 
-import eu.chainfire.libsuperuser.Shell;
+import per.goweii.anylayer.AnyLayer;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -180,7 +180,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 myHandler.sendMessage(msg);
                 // copySo();
             }
-            checkEnable();
         }).start();
 
         checkEnable();
@@ -239,7 +238,12 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     private void checkEnable() {
         Log.e("xposed", "flyme助手->isEnable:" + (isEnable() ? "true" : "false"));
         if (helper.getBoolean("enableCheck", true) && !isEnable()) {
-            SnackBarUtils.makeLong(mNavigationView, "插件尚未在Xposed框架中激活,功能将不可用!").show();
+            AnyLayer.dialog(MainActivity.this)
+                    .contentView(R.layout.dialog_xposed_disabled)
+                    .cancelableOnTouchOutside(false)
+                    .cancelableOnClickKeyBack(false)
+                    .onClick((AnyLayer, v) -> AnyLayer.dismiss(), R.id.fl_dialog_yes)
+                    .show();
         }
     }
 
@@ -368,14 +372,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
 
-    }
-
-
-    public void copySo() {
-        ///data/app/com.coderstory.flyme-BXZlEdHOp7SsF02Yd3u8BA==/base.apk
-        String path = getPackageResourcePath().replace("/base.apk", "") + "/lib/arm64/libnc.so";
-        Shell.SU.run("echo " + path + " > /data/config.cfg");
-        Shell.SU.run("chmod 0777 " + path + " /data/config.cfg");
     }
 }
 
