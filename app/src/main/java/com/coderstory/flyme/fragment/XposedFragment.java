@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -118,16 +117,10 @@ public class XposedFragment extends BaseFragment {
             String base = getMContext().getFilesDir().getAbsolutePath();
             Shell.SU.run("rm -rf " + base + "/data");
             Shell.SU.run("rm -rf " + base + "/system");
-
             FileHelper.UnZipAssetsFolder(getMContext(), fileName, base);
-            Log.e("FLyme助手", "文件释放完毕");
             com.topjohnwu.superuser.Shell.su("mount -o rw,remount " + systemRoot);
-            Log.e("FLyme助手", "分区挂载读写");
             com.topjohnwu.superuser.Shell.su("cp -rf " + base + "/data/* /data").exec();
-            Log.e("FLyme助手", "data分区文件释放完毕");
             com.topjohnwu.superuser.Shell.su("cp -rf " + base + "/system/* " + systemRoot).exec();
-            Log.e("FLyme助手", "system分区文件释放完毕");
-
             Message msg = new Message();
             msg.arg1 = 0;
             myHandler.sendMessage(msg);
