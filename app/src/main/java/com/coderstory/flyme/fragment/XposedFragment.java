@@ -13,11 +13,11 @@ import androidx.cardview.widget.CardView;
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
 import com.coderstory.flyme.utils.hostshelper.FileHelper;
+import com.topjohnwu.superuser.Shell;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.chainfire.libsuperuser.Shell;
 import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
@@ -88,9 +88,8 @@ public class XposedFragment extends BaseFragment {
         FileHelper.saveAssets(getMContext(), fileName, base);
         FileHelper.saveAssets(getMContext(), "installer", base);
         List<String> commands = new ArrayList<>();
-        commands.add("chmod 777 " + base + "/installer");
-        commands.add("sh " + base + "/installer dummy 1 " + base + "/" + fileName);
-        List<String> result = Shell.SU.run(commands);
+        Shell.su("chmod 777 " + base + "/installer").exec();
+        List<String> result = Shell.su("sh " + base + "/installer dummy 1 " + base + "/" + fileName).exec().getOut();
 
         Layer anyLayer = AnyLayer.dialog(getMContext())
                 .contentView(R.layout.dialog_def)
@@ -115,8 +114,8 @@ public class XposedFragment extends BaseFragment {
             // /sbin/.magisk/mirror/system_root
             String systemRoot = "/system";
             String base = getMContext().getFilesDir().getAbsolutePath();
-            Shell.SU.run("rm -rf " + base + "/data");
-            Shell.SU.run("rm -rf " + base + "/system");
+            Shell.su("rm -rf " + base + "/data");
+            Shell.su("rm -rf " + base + "/system");
             FileHelper.UnZipAssetsFolder(getMContext(), fileName, base);
             com.topjohnwu.superuser.Shell.su("mount -o rw,remount " + systemRoot);
             com.topjohnwu.superuser.Shell.su("cp -rf " + base + "/data/* /data").exec();

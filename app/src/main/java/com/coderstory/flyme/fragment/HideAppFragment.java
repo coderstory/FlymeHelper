@@ -25,11 +25,11 @@ import com.coderstory.flyme.adapter.AppInfo;
 import com.coderstory.flyme.adapter.AppInfoAdapter;
 import com.coderstory.flyme.fragment.base.BaseFragment;
 import com.coderstory.flyme.view.PullToRefreshView;
+import com.topjohnwu.superuser.Shell;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.chainfire.libsuperuser.Shell;
 import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
@@ -206,8 +206,8 @@ public class HideAppFragment extends BaseFragment {
                         AnyLayer.dismiss();
                     }, R.id.fl_dialog_no)
                     .onClick((AnyLayer, v) -> {
-                        Shell.SU.run("killall com.android.systemui");
-                        Shell.SU.run("am force-stop com.meizu.flyme.launcher");
+                        Shell.su("killall com.android.systemui").exec();
+                        Shell.su("am force-stop com.meizu.flyme.launcher").exec();
                         System.exit(0);
                     }, R.id.fl_dialog_yes);
             anyLayer.show();

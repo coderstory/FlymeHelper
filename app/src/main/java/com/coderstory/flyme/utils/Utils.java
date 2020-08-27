@@ -8,6 +8,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Base64;
+
+import com.topjohnwu.superuser.Shell;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -21,11 +24,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
-import eu.chainfire.libsuperuser.Shell;
 
 public class Utils {
     private static final String TAG = "Utils";
@@ -86,10 +87,10 @@ public class Utils {
 
     public static String decode(String base64) {
         try {
-            Class a = Class.forName("java.util.Base64");
-            Method method = a.getDeclaredMethod("getDecoder");
-            Base64.Decoder b = (Base64.Decoder) method.invoke(null);
-            return new String(b.decode(base64));
+            Class a = Class.forName("android.util.Base64");
+            Method method = a.getDeclaredMethod("decode", String.class, Integer.class);
+
+            return new String((byte[]) method.invoke(base64, Base64.DEFAULT));
 
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
@@ -118,7 +119,7 @@ public class Utils {
     }
 
     public String getSerialNumber(Context mContext) {
-        List<String> result = Shell.SU.run(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " "));
+        List<String> result = Shell.su(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " ")).exec().getOut();
         if (result.size() == 0) {
             return null;
         }

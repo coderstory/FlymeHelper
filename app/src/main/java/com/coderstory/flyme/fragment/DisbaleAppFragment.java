@@ -29,6 +29,7 @@ import com.coderstory.flyme.adapter.AppInfoAdapter;
 import com.coderstory.flyme.fragment.base.BaseFragment;
 import com.coderstory.flyme.utils.SnackBarUtils;
 import com.coderstory.flyme.view.PullToRefreshView;
+import com.topjohnwu.superuser.Shell;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -37,7 +38,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.chainfire.libsuperuser.Shell;
 import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
@@ -291,7 +291,7 @@ public class DisbaleAppFragment extends BaseFragment {
         dialog.show();
 
         new Thread(() -> {
-            Shell.SU.run(list);
+            Shell.su(list);
             myHandler.sendMessage(new Message());
         }).start();
 

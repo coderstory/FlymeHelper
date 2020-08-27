@@ -22,11 +22,11 @@ import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.Utils;
 import com.coderstory.flyme.utils.hostshelper.FileHelper;
 import com.coderstory.flyme.utils.hostshelper.HostsHelper;
+import com.topjohnwu.superuser.Shell;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 
-import eu.chainfire.libsuperuser.Shell;
 import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
@@ -51,8 +51,8 @@ public class OthersFragment extends BaseFragment {
                 .cancelableOnClickKeyBack(true)
                 .onClick((AnyLayer, v) -> AnyLayer.dismiss(), R.id.fl_dialog_no)
                 .onClick((AnyLayer, v) -> {
-                    Shell.SU.run("killall com.android.systemui");
-                    Shell.SU.run("am force-stop com.meizu.flyme.launcher");
+                    Shell.su("killall com.android.systemui").exec();
+                    Shell.su("am force-stop com.meizu.flyme.launcher").exec();
                     System.exit(0);
 
                 }, R.id.fl_dialog_yes);

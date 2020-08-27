@@ -3,6 +3,8 @@ package com.coderstory.flyme.utils.hostshelper;
 
 import android.content.Context;
 
+import com.topjohnwu.superuser.Shell;
+
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -10,8 +12,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-
-import eu.chainfire.libsuperuser.Shell;
 
 import static com.coderstory.flyme.utils.Misc.HostFileTmpName;
 
@@ -68,7 +68,7 @@ public class HostsHelper {
         ArrayList<String> commands = getCommandsToExecute();
         if (null != commands && commands.size() > 0) {
             for (String command : commands) {
-                Shell.SU.run(command);
+                Shell.su(command).exec();
             }
         }
 

@@ -13,10 +13,9 @@ import androidx.fragment.app.Fragment;
 
 import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.Utils;
+import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
-
-import eu.chainfire.libsuperuser.Shell;
 
 import static com.coderstory.flyme.utils.Misc.ApplicationName;
 
@@ -71,6 +70,11 @@ public abstract class BaseFragment extends Fragment {
 
     public void fix() {
         getEditor().apply();
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         sudoFixPermissions();
     }
 
@@ -81,9 +85,9 @@ public abstract class BaseFragment extends Fragment {
                 pkgFolder.setExecutable(true, false);
                 pkgFolder.setReadable(true, false);
             }
-            Shell.SU.run("chmod  755 " + PREFS_FOLDER);
+            Shell.su("chmod  755 " + PREFS_FOLDER).exec();
             // Set preferences file permissions to be world readable
-            Shell.SU.run("chmod  644 " + PREFS_FILE);
+            Shell.su("chmod  644 " + PREFS_FILE).exec();
         }).start();
     }
 
