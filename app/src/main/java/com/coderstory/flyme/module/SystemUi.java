@@ -89,8 +89,6 @@ public class SystemUi extends XposedHelper implements IModule {
                 findAndHookMethod("com.android.systemui.statusbar.policy.NetworkControllerImpl", loadPackageParam.classLoader, "updateNoSims", XC_MethodReplacement.returnConstant(null));
             }
 
-            Cpp.check();
-
             if (prefs.getBoolean("hide_status_bar_slow_rate_icon", false)) {
                 hookAllMethods("com.flyme.systemui.statusbar.ConnectionRateView", loadPackageParam.classLoader, "updateConnectionRate", new XC_MethodHook() {
                     @Override
