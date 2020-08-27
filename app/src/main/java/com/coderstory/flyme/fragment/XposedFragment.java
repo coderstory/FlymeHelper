@@ -103,7 +103,7 @@ public class XposedFragment extends BaseFragment {
         LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
         TextView textView = (TextView) linearLayout.getChildAt(0);
         boolean resultB = result.size() > 5 && "- Done".equals(result.get(result.size() - 1));
-        textView.setText(Html.fromHtml(result.stream().reduce(moduleName + "<br>", (a, b) -> a + "<br>" + b) + "<br><br>" + (resultB ? "<font color='#dd2c00'><storage>!!安装成功,重启生效!!</b></font><br>" : "<font color='#dd2c00'><b>!!安装失败!!</b></font><br>")));
+        textView.setText(Html.fromHtml(result.stream().reduce(moduleName + "<br>", (a, b) -> !b.startsWith("Archive:") && !b.startsWith("  inflating") ? a + "<br>" + b : a) + "<br><br>" + (resultB ? "<font color='#dd2c00'><storage>!!安装成功,重启生效!!</b></font><br>" : "<font color='#dd2c00'><b>!!安装失败!!</b></font><br>")));
 
         return resultB;
     }
