@@ -22,24 +22,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
+                android:paddingTop="10dp"
                 android:paddingEnd="30dp"
+                android:paddingBottom="10dp"
                 android:text="@string/hideicon" />
 
             <Switch
                 android:id="@+id/enableCheck"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/switchBtn"
                 android:checked="true"
                 android:paddingStart="30dp"
+                android:paddingTop="10dp"
                 android:paddingEnd="30dp"
+                android:paddingBottom="10dp"
                 android:text="@string/enablexposed" />
 
 

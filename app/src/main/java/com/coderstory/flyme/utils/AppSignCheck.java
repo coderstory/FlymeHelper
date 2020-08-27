@@ -15,10 +15,10 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
 public class AppSignCheck {
+    private static final String slat = "&%5123***JKO&%%$$#@";
     private Context context;
     private String cer = null;
     private String realCer = null;
-    private static final String slat = "&%5123***JKO&%%$$#@";
 
     public AppSignCheck(Context context) {
         this.context = context;
@@ -37,6 +37,24 @@ public class AppSignCheck {
         } catch (PackageManager.NameNotFoundException | CertificateException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String encrypt(String dataStr) {
+        try {
+            dataStr = dataStr + slat;
+            MessageDigest m = MessageDigest.getInstance("MD5");
+            m.update(dataStr.getBytes(StandardCharsets.UTF_8));
+            byte s[] = m.digest();
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < s.length; i++) {
+                result.append(Integer.toHexString((0x000000FF & s[i]) | 0xFFFFFF00).substring(6));
+            }
+            return result.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "";
     }
 
     public String getRealCer() {
@@ -143,24 +161,6 @@ public class AppSignCheck {
             return this.cer.equals(this.realCer);
         }
         return false;
-    }
-
-    public static String encrypt(String dataStr) {
-        try {
-            dataStr = dataStr + slat;
-            MessageDigest m = MessageDigest.getInstance("MD5");
-            m.update(dataStr.getBytes(StandardCharsets.UTF_8));
-            byte s[] = m.digest();
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < s.length; i++) {
-                result.append(Integer.toHexString((0x000000FF & s[i]) | 0xFFFFFF00).substring(6));
-            }
-            return result.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return "";
     }
 
 }

@@ -36,10 +36,10 @@ import static android.content.Context.CLIPBOARD_SERVICE;
 
 
 public class UpdateListFragment extends BaseFragment {
+    private final List<AppInfo> appInfos = new ArrayList<>();
     private List<PackageInfo> packages = new ArrayList<>();
     private AppInfoAdapter adapter = null;
     private PullToRefreshView mPullToRefreshView;
-    private final List<AppInfo> appInfos = new ArrayList<>();
     private Dialog dialog;
 
 
@@ -164,6 +164,15 @@ public class UpdateListFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter != null) {
+            initData();
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     @SuppressLint("StaticFieldLeak")
     class MyTask extends AsyncTask<String, Integer, String> {
 
@@ -201,15 +210,6 @@ public class UpdateListFragment extends BaseFragment {
             }
             initData();
             return null;
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (adapter != null) {
-            initData();
-            adapter.notifyDataSetChanged();
         }
     }
 }

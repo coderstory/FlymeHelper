@@ -154,5 +154,6 @@
         \n\n<b>博客主页: blog.coderstory.cn</b>
         \n\n<b>微博主页: weibo.com/codestory</b>
     </string>
+    <string name="dialog_msg">dialog_msg</string>
 
 </resources>

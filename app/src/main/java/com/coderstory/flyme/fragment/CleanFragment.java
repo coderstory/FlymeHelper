@@ -18,16 +18,6 @@ import java.util.List;
 import eu.chainfire.libsuperuser.Shell;
 
 public class CleanFragment extends BaseFragment {
-    Thread th;
-    private TextView tvClean = null;
-    @SuppressLint("HandlerLeak")
-    private final Handler hInfo = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            tvClean.append((String) msg.obj);
-            super.handleMessage(msg);
-        }
-    };
     @SuppressLint("HandlerLeak")
     private final Handler hComplete = new Handler() {
         @Override
@@ -36,6 +26,16 @@ public class CleanFragment extends BaseFragment {
             ((Button) $(R.id.button)).setText(R.string.starting_clean);
             $(R.id.button).setEnabled(true);
             SnackBarUtils.makeShort($(R.id.button), getString(R.string.clean_success)).info();
+        }
+    };
+    Thread th;
+    private TextView tvClean = null;
+    @SuppressLint("HandlerLeak")
+    private final Handler hInfo = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            tvClean.append((String) msg.obj);
+            super.handleMessage(msg);
         }
     };
 

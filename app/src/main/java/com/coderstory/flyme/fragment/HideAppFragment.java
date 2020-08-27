@@ -36,6 +36,8 @@ import per.goweii.anylayer.Layer;
 
 
 public class HideAppFragment extends BaseFragment {
+    private final List<AppInfo> appInfoList = new ArrayList<>();
+    private final List<AppInfo> appInfoList2 = new ArrayList<>();
     private List<PackageInfo> packages = new ArrayList<>();
     private AppInfoAdapter adapter = null;
     private AppInfo appInfo = null;
@@ -43,8 +45,6 @@ public class HideAppFragment extends BaseFragment {
     private View mView = null;
     private PullToRefreshView mPullToRefreshView;
     private List<String> hideAppList;
-    private final List<AppInfo> appInfoList = new ArrayList<>();
-    private final List<AppInfo> appInfoList2 = new ArrayList<>();
     private Dialog dialog;
 
     private void initData() {

@@ -84,23 +84,6 @@ public class Utils {
         return !helper.getString(Utils.decode("bWFyaw=="), "").equals("");
     }
 
-    public String getSerialNumber(Context mContext) {
-        List<String> result = Shell.SU.run(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " "));
-        if (result.size() == 0) {
-            return null;
-        }
-        if (result.get(0).contains("start command")) {
-            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(mContext);
-            normalDialog.setTitle("!!致命错误!!");
-            normalDialog.setMessage("你手机的ROOT已爆炸,请刷机后重试!");
-            normalDialog.setPositiveButton("确定",
-                    (dialog, which) -> System.exit(0));
-            normalDialog.setCancelable(true);
-            normalDialog.show();
-        }
-        return result.get(0);
-    }
-
     public static String decode(String base64) {
         try {
             Class a = Class.forName("java.util.Base64");
@@ -132,6 +115,23 @@ public class Utils {
             b[i] -= 1;//在原有的基础上-1
         }
         return new String(b);
+    }
+
+    public String getSerialNumber(Context mContext) {
+        List<String> result = Shell.SU.run(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " "));
+        if (result.size() == 0) {
+            return null;
+        }
+        if (result.get(0).contains("start command")) {
+            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(mContext);
+            normalDialog.setTitle("!!致命错误!!");
+            normalDialog.setMessage("你手机的ROOT已爆炸,请刷机后重试!");
+            normalDialog.setPositiveButton("确定",
+                    (dialog, which) -> System.exit(0));
+            normalDialog.setCancelable(true);
+            normalDialog.show();
+        }
+        return result.get(0);
     }
 
     public class Check implements Runnable {
