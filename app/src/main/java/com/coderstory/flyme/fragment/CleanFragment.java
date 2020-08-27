@@ -4,6 +4,7 @@ package com.coderstory.flyme.fragment;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -15,7 +16,6 @@ import com.coderstory.flyme.utils.hostshelper.FileHelper;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
-
 
 
 public class CleanFragment extends BaseFragment {
@@ -36,7 +36,6 @@ public class CleanFragment extends BaseFragment {
         @Override
         public void handleMessage(Message msg) {
             tvClean.append((String) msg.obj);
-            super.handleMessage(msg);
         }
     };
 
@@ -62,13 +61,14 @@ public class CleanFragment extends BaseFragment {
 
     public void threadClean() {
         tvClean = $(R.id.tvClean);
+        tvClean.setMovementMethod(ScrollingMovementMethod.getInstance());
         ((Button) $(R.id.button)).setText(R.string.cleaning);
         tvClean.append(getString(R.string.view_start_clean));
         $(R.id.button).setEnabled(false);
         th = new Thread(() -> {
             long totalSize = 0L; // K
             Misc.isProcessing = true;
-            List<String> ret = Shell.su("find /data/data/ -type dir -name \"cache\"").exec().getOut();
+            List<String> ret = Shell.su("find /data/data/ -type d -name \"cache\"").exec().getOut();
             CacheSize cs;
             for (String s : ret) {
                 cs = getSize(s);
