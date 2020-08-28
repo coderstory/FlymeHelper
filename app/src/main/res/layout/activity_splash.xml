@@ -24,7 +24,7 @@
         android:layout_marginTop="82dp"
         android:fontFamily="sans-serif-condensed"
         android:text="@string/app_name"
-        android:textColor="#1F1F20"
+        android:textColor="#FFFFFF"
         android:textSize="30sp" />
 
     <TextView
@@ -38,7 +38,7 @@
         android:layout_marginTop="40dp"
         android:fontFamily="sans-serif-condensed"
         android:text="基于Xposed的Flyme定制插件"
-        android:textColor="#575759"
+        android:textColor="#FFFFFF"
         android:textSize="20sp" />
 
 
