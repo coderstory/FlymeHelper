@@ -23,7 +23,6 @@ import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
 
 public class XposedFragment extends BaseFragment {
-
     @SuppressLint("HandlerLeak")
     public Handler myHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -117,9 +116,17 @@ public class XposedFragment extends BaseFragment {
             Shell.su("rm -rf " + base + "/data");
             Shell.su("rm -rf " + base + "/system");
             FileHelper.UnZipAssetsFolder(getMContext(), fileName, base);
-            com.topjohnwu.superuser.Shell.su("mount -o rw,remount " + systemRoot);
+            com.topjohnwu.superuser.Shell.su("mount -o rw,remount " + systemRoot).exec();
             com.topjohnwu.superuser.Shell.su("cp -rf " + base + "/data/* /data").exec();
             com.topjohnwu.superuser.Shell.su("cp -rf " + base + "/system/* " + systemRoot).exec();
+
+            if (!getPrefs().getBoolean("alreadyWriteProp", false)) {
+                com.topjohnwu.superuser.Shell.su("echo dalvik.vm.dex2oat-filter=quicken >> /system/build.prop").exec();
+                com.topjohnwu.superuser.Shell.su("echo dalvik.vm.dex2oat-flags=--inline-max-code-units=0 >> /system/build.prop").exec();
+                com.topjohnwu.superuser.Shell.su("echo dalvik.vm.image-dex2oat-flags=--inline-max-code-units=0 --compiler-filter=speed >> /system/build.prop").exec();
+                getEditor().putBoolean("alreadyWriteProp", true);
+            }
+
             Message msg = new Message();
             msg.arg1 = 0;
             myHandler.sendMessage(msg);
