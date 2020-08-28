@@ -71,13 +71,11 @@ Java_com_coderstory_flyme_utils_Cpp_check(JNIEnv *env, jclass type) {
     }
 }
 
-
-extern "C"
-JNIEXPORT jint JNICALL
-JNI_OnLoad(JavaVM *vm, void *reserved) {
-    LOGD("JNI on load...");
-    return JNI_VERSION_1_6;
+extern "C" JNIEXPORT jstring
+JNICALL Java_com_coderstory_flyme_utils_Cpp_hello(JNIEnv *env, jclass clazz) {
+    if (is_verify == JNI_FALSE) {
+        exit(0);
+    }
+    std::string hello = "aHR0cDovLzExOC4yNS4xMDkuMTIxOjEwMDg2L3NtYXJ0LWFkbWluLWFwaS9lbXBsb3llZS9jaGVja1Yy";
+    return env->NewStringUTF(hello.c_str());
 }
-
-
-
