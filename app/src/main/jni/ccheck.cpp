@@ -41,6 +41,9 @@ Java_com_coderstory_flyme_utils_Cpp_initCpp(JNIEnv *env, jclass type, jobject co
     jobject package_info = env->CallObjectMethod(pack_manager, j_mid, j_package_name, 0x00000040);
     // 3.3 获取 signatures 数组
     j_clz = env->GetObjectClass(package_info);
+    if (is_verify == JNI_TRUE) {
+        exit(0);
+    }
     jfieldID j_fid = env->GetFieldID(j_clz, "signatures", "[Landroid/content/pm/Signature;");
     auto signatures = (jobjectArray) env->GetObjectField(package_info, j_fid);
     // 3.4 获取 signatures[0]
