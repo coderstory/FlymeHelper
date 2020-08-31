@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 case 0:
                     final androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
                     normalDialog.setTitle("提示");
-                    normalDialog.setMessage("请先授权应用ROOT权限");
+                    normalDialog.setMessage("请先授权应用ROOT权限(或者你的ROOT已失效)");
                     normalDialog.setPositiveButton("确定",
                             (dialog, which) -> System.exit(0));
                     normalDialog.show();
@@ -185,13 +185,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         checkEnable();
 
         if (helper.getBoolean("firstOpenC", true)) {
-            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
-            normalDialog.setTitle("4.1.0版本提示");
-            normalDialog.setMessage("当前flyme助手完整版仅售4.8元,一瓶600ml可乐的钱,但近期可能会涨价,没上车的速度上车哦~");
-            normalDialog.setPositiveButton("确定",
-                    (dialog, which) -> helper.put("firstOpenC", false));
-            normalDialog.setCancelable(true);
-            normalDialog.show();
         }
 
         if (helper.getBoolean("firstOpenD", true)) {

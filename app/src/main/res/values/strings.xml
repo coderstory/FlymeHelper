@@ -4,8 +4,8 @@
     <string name="drawer_close">Close</string>
     <string name="about_msg"><b>免费/付费版区别</b>\n软件分免费版和付费版，区别在于部分功能只有付费版才能使用。免费版不可用的功能会在功能上会有[vip]字样，且功能灰色无法点击。</string>
     <string name="authorization_agreement"><b>声明</b>\n软件授权协议</string>
-    <string name="buy_way"><b>购买方式</b>\n<b>方式1:</b> 点击[付费专用群],入群后自动绑定会员,可以立即激活助手,无需人工处理[推荐此方式激活]\n<b>方式2:</b>点击[交流群]按钮加入交流群,然后找群主支付4.8元</string>
-    <string name="pay_explain"><b>付费版说明</b>\n付费版本需支付<font color='#FFC0CB'>4.8元</font>,可以授权激活一台设备,不可解绑但支持重复激活。</string>
+    <string name="buy_way"><b>购买方式</b>\n<b>方式1:</b> 点击[付费专用群],入群后自动绑定会员,可以立即激活助手,无需人工处理[推荐此方式激活]\n<b>方式2:</b>点击[交流群]按钮加入交流群,然后找群主支付8.6元</string>
+    <string name="pay_explain"><b>付费版说明</b>\n付费版本需支付<font color='#FFC0CB'>8.6元</font>,可以授权激活一台设备,不可解绑但支持重复激活。</string>
     <string name="enableBlockADS"><b>基础功能</b>\n屏蔽一切使用魅族自家广告SDK显示的广告,比如自带视频的开头广告</string>
     <string name="downloadexplorer"><b>下载管理</b>\n去下载管理界面的广告</string>
     <string name="mms"><b>短信</b>\n去除具体短信信息界面上的充值话费充值流量贷款申请信用卡等垃圾信息</string>
@@ -27,7 +27,7 @@
     <string name="hideDepWarn"><b>隐藏开发者选项风险警告</b>\n禁止开启开发者选项后通知栏弹出的风险警告</string>
     <string name="HideRootWithUpgrade"><b>系统更新</b>\n使用自带root情况下,在系统更新中隐藏Root,注意你root后是无法OTA更新系统的,屏蔽了也不行.本功能是为了能打开系统更新后能检测到OTA包的下载地址</string>
     <string name="HideRootWithPay"><b>魅族Pay</b>\n使用自带root情况下,在魅族Pay中隐藏Root</string>
-    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题 支持主题美化8.3.6 - 8.4.5主题明细页面直接点击试用即可,不会有5分钟倒计时也不会还原.如果失效，请尝试从system分区获取主题对应apk覆盖安装一次。</string>
+    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题 支持主题美化8.3.6 - 8.5.2主题明细页面直接点击试用即可,不会有5分钟倒计时也不会还原.如果失效，请尝试从system分区获取主题对应apk覆盖安装一次。</string>
     <string name="alarem"><b>闹钟</b>\n启用闹钟后,隐藏状态栏上的闹钟图标</string>
     <string name="hide_icon_bluetooth"><b>蓝牙</b>\n连接蓝牙设备后,隐藏状态栏上的蓝牙图标</string>
     <string name="hide_icon_hotspot"><b>手机热点</b>\n隐藏状态栏上的手机热点图标</string>
