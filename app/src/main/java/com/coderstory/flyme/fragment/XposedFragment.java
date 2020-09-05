@@ -26,11 +26,19 @@ public class XposedFragment extends BaseFragment {
     @SuppressLint("HandlerLeak")
     public Handler myHandler = new Handler() {
         public void handleMessage(Message msg) {
+            final androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(getMContext());
             switch (msg.arg1) {
                 case 0:
-                    final androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(getMContext());
                     normalDialog.setTitle("提示");
                     normalDialog.setMessage("安装完毕,重启生效");
+                    normalDialog.setPositiveButton("确定",
+                            (dialog, which) -> dialog.dismiss());
+                    normalDialog.show();
+                    super.handleMessage(msg);
+                    break;
+                case 1:
+                    normalDialog.setTitle("错误提示");
+                    normalDialog.setMessage("命令执行失败，返回值:" + msg.obj);
                     normalDialog.setPositiveButton("确定",
                             (dialog, which) -> dialog.dismiss());
                     normalDialog.show();
@@ -73,11 +81,9 @@ public class XposedFragment extends BaseFragment {
 
         $(R.id.install_module_y).setOnClickListener(v -> {
             installByCopy("EdXposedY-v0.4.6.2.4529.zip");
-            Toast.makeText(getMContext(), "安装成功 重启生效", Toast.LENGTH_SHORT).show();
         });
         $(R.id.install_module_s).setOnClickListener(v -> {
             installByCopy("EdXposedS-v0.4.6.2.4529.zip");
-            Toast.makeText(getMContext(), "安装成功 重启生效", Toast.LENGTH_SHORT).show();
         });
 
     }
@@ -88,6 +94,7 @@ public class XposedFragment extends BaseFragment {
         FileHelper.saveAssets(getMContext(), "installer", base);
         List<String> commands = new ArrayList<>();
         Shell.su("chmod 777 " + base + "/installer").exec();
+        Shell.su("dos2unix " + base + "/installer").exec();
         List<String> result = Shell.su("sh " + base + "/installer dummy 1 " + base + "/" + fileName).exec().getOut();
 
         Layer anyLayer = AnyLayer.dialog(getMContext())
@@ -116,22 +123,35 @@ public class XposedFragment extends BaseFragment {
             Shell.su("rm -rf " + base + "/data");
             Shell.su("rm -rf " + base + "/system");
             FileHelper.UnZipAssetsFolder(getMContext(), fileName, base);
-            com.topjohnwu.superuser.Shell.su("mount -o rw,remount " + systemRoot).exec();
-            com.topjohnwu.superuser.Shell.su("cp -rf " + base + "/data/* /data").exec();
-            com.topjohnwu.superuser.Shell.su("cp -rf " + base + "/system/* " + systemRoot).exec();
+            if (run("mount -o rw,remount " + systemRoot)) {
+                com.topjohnwu.superuser.Shell.su("cp -rf " + base + "/data/* /data").exec();
+                com.topjohnwu.superuser.Shell.su("cp -rf " + base + "/system/* " + systemRoot).exec();
 
-            if (!getPrefs().getBoolean("alreadyWriteProp", false)) {
-                com.topjohnwu.superuser.Shell.su("echo dalvik.vm.dex2oat-filter=quicken >> /system/build.prop").exec();
-                com.topjohnwu.superuser.Shell.su("echo dalvik.vm.dex2oat-flags=--inline-max-code-units=0 >> /system/build.prop").exec();
-                com.topjohnwu.superuser.Shell.su("echo dalvik.vm.image-dex2oat-flags=--inline-max-code-units=0 --compiler-filter=speed >> /system/build.prop").exec();
-                getEditor().putBoolean("alreadyWriteProp", true);
+                if (!getPrefs().getBoolean("alreadyWriteProp", false)) {
+                    com.topjohnwu.superuser.Shell.su("echo dalvik.vm.dex2oat-filter=quicken >> /system/build.prop").exec();
+                    com.topjohnwu.superuser.Shell.su("echo dalvik.vm.dex2oat-flags=--inline-max-code-units=0 >> /system/build.prop").exec();
+                    com.topjohnwu.superuser.Shell.su("echo dalvik.vm.image-dex2oat-flags=--inline-max-code-units=0 --compiler-filter=speed >> /system/build.prop").exec();
+                    getEditor().putBoolean("alreadyWriteProp", true);
+                }
+                Message msg = new Message();
+                msg.arg1 = 0;
+                myHandler.sendMessage(msg);
             }
 
-            Message msg = new Message();
-            msg.arg1 = 0;
-            myHandler.sendMessage(msg);
 
         }).start();
+    }
+
+    public boolean run(String command) {
+        Shell.Result result = Shell.su(command).exec();
+        if (result.getCode() != 0) {
+            Message msg = new Message();
+            msg.arg1 = 1;
+            msg.obj = result.getOut().stream().reduce("", (a, b) -> a + b);
+            myHandler.sendMessage(msg);
+            return false;
+        }
+        return true;
 
     }
 }
