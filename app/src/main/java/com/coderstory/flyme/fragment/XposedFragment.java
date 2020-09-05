@@ -17,6 +17,7 @@ import com.topjohnwu.superuser.Shell;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.DialogLayer;
@@ -109,6 +110,11 @@ public class XposedFragment extends BaseFragment {
         LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
         TextView textView = (TextView) linearLayout.getChildAt(0);
         boolean resultB = result.size() > 5 && "- Done".equals(result.get(result.size() - 1));
+        result = result.stream().filter(item -> !item.startsWith("***") &&
+                !item.startsWith("mount") &&
+                !item.startsWith("Archive:") &&
+                !item.startsWith("  inflating:"))
+                .collect(Collectors.toList());
         textView.setText(Html.fromHtml(result.stream().reduce(moduleName + "<br>", (a, b) -> a + "<br>" + b) + "<br><br>" + (resultB ? "<font color='#dd2c00'><storage>!!安装成功,重启生效!!</b></font><br>" : "<font color='#dd2c00'><b>!!安装失败!!</b></font><br>")));
 
         return resultB;
