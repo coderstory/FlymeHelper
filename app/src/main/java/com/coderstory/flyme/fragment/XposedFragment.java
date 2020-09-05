@@ -38,7 +38,7 @@ public class XposedFragment extends BaseFragment {
                     super.handleMessage(msg);
                     break;
                 case 1:
-                    normalDialog.setTitle("错误提示");
+                    normalDialog.setTitle("框架安装失败");
                     normalDialog.setMessage("命令执行失败，返回值:" + msg.obj);
                     normalDialog.setPositiveButton("确定",
                             (dialog, which) -> dialog.dismiss());
