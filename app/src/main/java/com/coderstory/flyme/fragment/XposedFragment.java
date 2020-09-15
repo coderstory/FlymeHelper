@@ -129,36 +129,38 @@ public class XposedFragment extends BaseFragment {
             Shell.su("rm -rf " + base + "/data");
             Shell.su("rm -rf " + base + "/system");
             FileHelper.UnZipAssetsFolder(getMContext(), fileName, base);
-            if (run("mount -o rw,remount " + systemRoot)) {
-                com.topjohnwu.superuser.Shell.su("cp -rf " + base + "/data/* /data").exec();
-                com.topjohnwu.superuser.Shell.su("cp -rf " + base + "/system/* " + systemRoot).exec();
+            //if (run("mount -o rw,remount " + systemRoot)) {
+            com.topjohnwu.superuser.Shell.su("mount -o rw,remount " + systemRoot).exec();
+            com.topjohnwu.superuser.Shell.su("mount -o rw,remount /").exec();
+            com.topjohnwu.superuser.Shell.su("cp -rf " + base + "/data/* /data").exec();
+            com.topjohnwu.superuser.Shell.su("cp -rf " + base + "/system/* " + systemRoot).exec();
 
-                List<String> commands = new ArrayList<>();
-                commands.add("chmod 0644 /system/lib/libriru_edxp.so");
-                commands.add("chmod 0644 /system/lib/libmemtrack.so");
-                commands.add("chmod 0644 /system/lib/libwhale.edxp.so");
-                commands.add("chmod 0644 /system/lib/libsandhook.edxp.so");
-                commands.add("chmod 0644 /system/lib64/libriru_edxp.so");
-                commands.add("chmod 0644 /system/lib64/libmemtrack.so");
-                commands.add("chmod 0644 /system/lib64/libwhale.edxp.so");
-                commands.add("chmod 0644 /system/lib64/libsandhook.edxp.so");
-                commands.add("chmod 0644 /system/framework/ed*");
-                commands.add("chmod -R 0755 /data/misc/riru");
-                commands.add("chmod 0700 /data/misc/riru/bin/zygote_restart");
-                commands.add("chmod 0644 /data/misc/riru/modules/edxp/module.prop");
+            List<String> commands = new ArrayList<>();
+            commands.add("chmod 0644 /system/lib/libriru_edxp.so");
+            commands.add("chmod 0644 /system/lib/libmemtrack.so");
+            commands.add("chmod 0644 /system/lib/libwhale.edxp.so");
+            commands.add("chmod 0644 /system/lib/libsandhook.edxp.so");
+            commands.add("chmod 0644 /system/lib64/libriru_edxp.so");
+            commands.add("chmod 0644 /system/lib64/libmemtrack.so");
+            commands.add("chmod 0644 /system/lib64/libwhale.edxp.so");
+            commands.add("chmod 0644 /system/lib64/libsandhook.edxp.so");
+            commands.add("chmod 0644 /system/framework/ed*");
+            commands.add("chmod -R 0755 /data/misc/riru");
+            commands.add("chmod 0700 /data/misc/riru/bin/zygote_restart");
+            commands.add("chmod 0644 /data/misc/riru/modules/edxp/module.prop");
 
-                commands.forEach(c -> com.topjohnwu.superuser.Shell.su(c).exec());
+            commands.forEach(c -> com.topjohnwu.superuser.Shell.su(c).exec());
 
-                if (!getPrefs().getBoolean("alreadyWriteProp", false)) {
-                    com.topjohnwu.superuser.Shell.su("echo dalvik.vm.dex2oat-filter=quicken >> /system/build.prop").exec();
-                    com.topjohnwu.superuser.Shell.su("echo dalvik.vm.dex2oat-flags=--inline-max-code-units=0 >> /system/build.prop").exec();
-                    com.topjohnwu.superuser.Shell.su("echo dalvik.vm.image-dex2oat-flags=--inline-max-code-units=0 --compiler-filter=speed >> /system/build.prop").exec();
-                    getEditor().putBoolean("alreadyWriteProp", true);
-                }
-                Message msg = new Message();
-                msg.arg1 = 0;
-                myHandler.sendMessage(msg);
+            if (!getPrefs().getBoolean("alreadyWriteProp", false)) {
+                com.topjohnwu.superuser.Shell.su("echo dalvik.vm.dex2oat-filter=quicken >> /system/build.prop").exec();
+                com.topjohnwu.superuser.Shell.su("echo dalvik.vm.dex2oat-flags=--inline-max-code-units=0 >> /system/build.prop").exec();
+                com.topjohnwu.superuser.Shell.su("echo dalvik.vm.image-dex2oat-flags=--inline-max-code-units=0 --compiler-filter=speed >> /system/build.prop").exec();
+                getEditor().putBoolean("alreadyWriteProp", true);
             }
+            Message msg = new Message();
+            msg.arg1 = 0;
+            myHandler.sendMessage(msg);
+            // }
 
 
         }).start();
