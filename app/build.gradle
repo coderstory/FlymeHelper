@@ -7,8 +7,8 @@ android {
         applicationId "com.coderstory.flyme"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 424
-        versionName "4.1.0 正式版"
+        versionCode 425
+        versionName "4.1.1 正式版"
         resConfigs "cn"
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
