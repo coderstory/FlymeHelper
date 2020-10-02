@@ -70,22 +70,12 @@ public class XposedFragment extends BaseFragment {
             }
         });
 
-        $(R.id.install_magisk_module_s).setOnClickListener(v -> {
-
-            if (installMagisk("EdXposed-SandHook-v0.4.6.2.4529.-release.zip", "EdXposed安装日志")) {
-                Toast.makeText(getMContext(), "安装成功 重启生效", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getMContext(), "Edxposed-s安装失败", Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
         $(R.id.install_module_y).setOnClickListener(v -> {
             installByCopy("EdXposedY-v0.4.6.2.4529.zip");
         });
-        $(R.id.install_module_s).setOnClickListener(v -> {
-            installByCopy("EdXposedS-v0.4.6.2.4529.zip");
-        });
+
 
     }
 

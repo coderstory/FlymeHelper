@@ -18,6 +18,8 @@ import static com.coderstory.flyme.utils.Misc.ApplicationName;
 
 public class XposedHelper {
 
+
+    String config = "{\"custom_launcher_icon_number\":[{\"class\":\"com.android.launcher3.InvariantDeviceProfile$GridOption\",\"type\":\"Constructors\",\"index\":1,\"hooks\":[{\"type\":\"Member variables\",\"name\":\"numRows\",\"value\":\"home_icon_num_rows\"},{\"type\":\"Member variables\",\"name\":\"numColumns\",\"value\":\"home_icon_num_column\"},{\"type\":\"Member variables\",\"name\":\"numHotseatIcons\",\"value\":\"home_icon_num_hot_seat_icons\"}]},{\"class\":\"com.android.launcher3.InvariantDeviceProfile\",\"type\":\"Constructors\",\"index\":2,\"hooks\":[]},{\"class\":\"com.android.launcher3.InvariantDeviceProfile$GridOption\",\"type\":\"Constructors\",\"index\":3,\"hooks\":[]}]}";
     protected XSharedPreferences prefs = new XSharedPreferences(new File("/data/user_de/0/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml"));
 
     {
