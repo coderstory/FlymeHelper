@@ -33,6 +33,7 @@ public class FlymeHome extends XposedHelper implements IModule {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
+        super.handleLoadPackage(lpparam);
         if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 if (prefs.getBoolean("hide_icon_label", false)) {
