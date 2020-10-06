@@ -1,38 +1,7 @@
 {
-  "custom_launcher_icon_number": [
-    {
-      "class": "com.android.launcher3.InvariantDeviceProfile$GridOption",
-      "type": "Constructors",
-      "index": 1,
-      "hooks": [
-        {
-          "type": "Member variables",
-          "name": "numRows",
-          "value": "home_icon_num_rows"
-        },
-        {
-          "type": "Member variables",
-          "name": "numColumns",
-          "value": "home_icon_num_column"
-        },
-        {
-          "type": "Member variables",
-          "name": "numHotseatIcons",
-          "value": "home_icon_num_hot_seat_icons"
-        }
-      ]
-    },
-    {
-      "class": "com.android.launcher3.InvariantDeviceProfile",
-      "type": "Constructors",
-      "index": 2,
-      "hooks": []
-    },
-    {
-      "class": "com.android.launcher3.InvariantDeviceProfile$GridOption",
-      "type": "Constructors",
-      "index": 3,
-      "hooks": []
-    }
-  ]
+  "custom_launcher_icon_number": {
+    "class1": "com.android.launcher3.InvariantDeviceProfile$GridOption",
+    "class2": "com.android.launcher3.InvariantDeviceProfile",
+    "class3": "com.android.launcher3.InvariantDeviceProfile$GridOption"
+  }
 }

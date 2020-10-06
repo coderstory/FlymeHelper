@@ -6,6 +6,7 @@ import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.coderstory.flyme.plugins.IModule;
 import com.coderstory.flyme.utils.XposedHelper;
 
@@ -97,12 +98,12 @@ public class FlymeHome extends XposedHelper implements IModule {
 
 
     private void meizu17(XC_LoadPackage.LoadPackageParam lpparam) {
-
+        JSONObject config = json.getJSONObject("custom_launcher_icon_number");
         int numRows = prefs.getInt("home_icon_num_rows", 0);
         int numColumns = prefs.getInt("home_icon_num_column", 0);
         int numHotseatIcons = prefs.getInt("home_icon_num_hot_seat_icons", 0);
         if (numColumns + numRows + numHotseatIcons != 0) {
-            hookAllConstructors(findClass("", lpparam.classLoader), new XC_MethodHook() {
+            hookAllConstructors(findClass(config.getString("class1"), lpparam.classLoader), new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
@@ -114,7 +115,7 @@ public class FlymeHome extends XposedHelper implements IModule {
                         XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons);
                 }
             });
-            hookAllConstructors(findClass("", lpparam.classLoader), new XC_MethodHook() {
+            hookAllConstructors(findClass(config.getString("class2"), lpparam.classLoader), new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
@@ -127,7 +128,7 @@ public class FlymeHome extends XposedHelper implements IModule {
                 }
             });
 
-            if (findClass("", lpparam.classLoader) != null) {
+            if (findClass(config.getString("class3"), lpparam.classLoader) != null) {
                 hookAllConstructors(SQLiteOpenHelper.class, new XC_MethodHook() {
                     protected void afterHookedMethod(MethodHookParam hookParam) {
                         if ("launcher.db".equals(hookParam.args[1])) {

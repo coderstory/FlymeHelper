@@ -1,6 +1,5 @@
 package com.coderstory.flyme.fragment;
 
-
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -42,7 +41,6 @@ public class OthersFragment extends BaseFragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Layer anyLayer = AnyLayer.dialog(getMContext())
@@ -62,8 +60,6 @@ public class OthersFragment extends BaseFragment {
         LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
         TextView textView = (TextView) linearLayout.getChildAt(1);
         textView.setText("一键重启桌面状态栏包管理器等app");
-
-
         return false;
     }
 

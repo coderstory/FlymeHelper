@@ -1,5 +1,8 @@
 package com.coderstory.flyme.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -19,8 +22,15 @@ import static com.coderstory.flyme.utils.Misc.ApplicationName;
 public class XposedHelper {
 
 
-    String config = "{\"custom_launcher_icon_number\":[{\"class\":\"com.android.launcher3.InvariantDeviceProfile$GridOption\",\"type\":\"Constructors\",\"index\":1,\"hooks\":[{\"type\":\"Member variables\",\"name\":\"numRows\",\"value\":\"home_icon_num_rows\"},{\"type\":\"Member variables\",\"name\":\"numColumns\",\"value\":\"home_icon_num_column\"},{\"type\":\"Member variables\",\"name\":\"numHotseatIcons\",\"value\":\"home_icon_num_hot_seat_icons\"}]},{\"class\":\"com.android.launcher3.InvariantDeviceProfile\",\"type\":\"Constructors\",\"index\":2,\"hooks\":[]},{\"class\":\"com.android.launcher3.InvariantDeviceProfile$GridOption\",\"type\":\"Constructors\",\"index\":3,\"hooks\":[]}]}";
+    static String config = "{\n" +
+            "  \"custom_launcher_icon_number\": {\n" +
+            "    \"class1\": \"com.android.launcher3.InvariantDeviceProfile$GridOption\",\n" +
+            "    \"class2\": \"com.android.launcher3.InvariantDeviceProfile\",\n" +
+            "    \"class3\": \"com.android.launcher3.InvariantDeviceProfile$GridOption\"\n" +
+            "  }\n" +
+            "}";
     protected XSharedPreferences prefs = new XSharedPreferences(new File("/data/user_de/0/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml"));
+    public static JSONObject json = JSON.parseObject(config);
 
     {
         prefs.makeWorldReadable();
