@@ -42,16 +42,30 @@ public class RemoveAds extends XposedHelper implements IModule {
                     }
                 });
             }
-            // 禁止app加载魅族的广告插件 com.meizu.advertise.plugin.apk
+
+            // 禁止app加载魅族的广告插件 com.meizu.advertisef,..plugin.apk
             clazz = findClassWithoutLog("com.meizu.advertise.api.AdManager", loadPackageParam.classLoader);
             if (clazz != null) {
                 findAndHookMethod(clazz, "installPlugin", XC_MethodReplacement.returnConstant(null));
+                findAndHookMethod(clazz, "install", XC_MethodReplacement.returnConstant(null));
             }
-            // com.meizu.advertise.update.install(Context context, InstallConfig installConfig) 8.8.52
+
+            clazz = findClassWithoutLog("com.meizu.dynamic.PluginManager", loadPackageParam.classLoader);
+            if (clazz != null) {
+                hookAllMethods(clazz, "install", XC_MethodReplacement.returnConstant(null));
+                hookAllMethods(clazz, "installFromDownload", XC_MethodReplacement.returnConstant(null));
+                hookAllMethods(clazz, "newContext", XC_MethodReplacement.returnConstant(true));
+                hookAllMethods(clazz, "isFirstInstalled", XC_MethodReplacement.returnConstant(true));
+            }
             clazz = findClassWithoutLog("com.meizu.advertise.update.PluginManager", loadPackageParam.classLoader);
             if (clazz != null) {
                 hookAllMethods(clazz, "install", XC_MethodReplacement.returnConstant(null));
+                hookAllMethods(clazz, "isFirstInstalled", XC_MethodReplacement.returnConstant(true));
+                hookAllMethods(clazz, "newContext", XC_MethodReplacement.returnConstant(true));
+                hookAllMethods(clazz, "installFromDownload", XC_MethodReplacement.returnConstant(null));
             }
+
+
             clazz = findClassWithoutLog("com.meizu.advertise.api.SimpleJsAdBridge", loadPackageParam.classLoader);
             if (clazz != null) {
                 XposedHelpers.findAndHookConstructor(clazz, Context.class, WebView.class, new XC_MethodHook() {
