@@ -21,11 +21,8 @@ import com.coderstory.flyme.utils.AppSignCheck;
 import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.Utils;
-import com.coderstory.flyme.utils.hostshelper.FileHelper;
-import com.coderstory.flyme.utils.hostshelper.HostsHelper;
 import com.topjohnwu.superuser.Shell;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.util.List;
 
@@ -77,23 +74,8 @@ public class OthersFragment extends BaseFragment {
         $(R.id.enableBlockAD).setOnClickListener(v -> {
             getEditor().putBoolean("EnableBlockAD", ((Switch) v).isChecked());
             fix();
-            FileHelper fh = new FileHelper();
-
-
             if (((Switch) v).isChecked()) {
-                String HostsContext = fh.getFromAssets("hosts_default", getMContext());
-                HostsContext += fh.getFromAssets("hosts_noad", getMContext());
-                HostsContext += fh.getFromAssets("hosts_Flyme", getMContext());
-                HostsHelper h = new HostsHelper(HostsContext, getMContext());
-                try {
-                    h.execute();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-
                 dialog = ProgressDialog.show(getMContext(), "提示", "正在处理已安装的广告插件…", true, false, null);
-
                 new Thread(() -> {
                     List<String> paths = Shell.su("cd /data/data;find -name com.meizu.advertise.plugin   -type dir").exec().getOut();
                     String[] command = new String[paths.size()];
@@ -103,10 +85,7 @@ public class OthersFragment extends BaseFragment {
                     }
                     ((Activity) getMContext()).runOnUiThread(() -> dialog.dismiss());
                 }).start();
-
-
             }
-
         });
 
 
