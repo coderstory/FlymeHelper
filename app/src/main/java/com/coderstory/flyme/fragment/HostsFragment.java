@@ -131,7 +131,7 @@ public class HostsFragment extends BaseFragment {
     }
 
     protected String[] getCommandsToExecute(String context) throws UnsupportedEncodingException {
-        String[] list = new String[6];
+        String[] list = new String[3];
         list[0] = "mount -o rw,remount /system";
 
         String path = getMContext().getFilesDir().getPath() + HostFileTmpName;
@@ -155,9 +155,6 @@ public class HostsFragment extends BaseFragment {
         list[1] = String.format("mv %s %s", path, "/etc/hosts");
         list[2] = String.format("chmod 755 %s", "/system/etc/hosts");
 
-        list[3] = String.format("mount -o rw,remount /sbin/.magisk/mirror/system_root");
-        list[4] = String.format("mv %s %s", path, "/sbin/.magisk/mirror/system/etc/hosts");
-        list[5] = String.format("chmod 755 %s", "/sbin/.magisk/mirror/system/etc/hosts");
         return list;
     }
 
