@@ -70,14 +70,14 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 case 0:
                     final androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
                     normalDialog.setTitle("提示");
-                    normalDialog.setMessage("请先授权应用ROOT权限");
+                    normalDialog.setMessage("请先授权应用ROOT权限(或者你的ROOT已失效)");
                     normalDialog.setPositiveButton("确定",
                             (dialog, which) -> System.exit(0));
                     normalDialog.show();
                     super.handleMessage(msg);
                     break;
                 case 1:
-                    dialog = ProgressDialog.show(MainActivity.this, "检测ROOT权限", "请在ROOT授权弹窗中给与ROOT权限,\n如果长时间无反应则请检查ROOT程序是否被\"省电程序\"干掉");
+                    dialog = ProgressDialog.show(MainActivity.this, "检测ROOT权限", "请在ROOT授权弹窗中给与ROOT权限,\n如果长时间无反应则请检查自带的ROOT是否失效或者magisk是否允许后台运行");
                     dialog.show();
                     break;
                 case 2:
@@ -184,14 +184,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
         checkEnable();
 
-        if (helper.getBoolean("firstOpenB", true)) {
-            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
-            normalDialog.setTitle("初始提示");
-            normalDialog.setMessage("flyme助手是基于xposed框架开发的插件，使用本插件前请确保已经安装并激活了xposed/edxposed框架");
-            normalDialog.setPositiveButton("确定",
-                    (dialog, which) -> helper.put("firstOpenB", false));
-            normalDialog.setCancelable(true);
-            normalDialog.show();
+        if (helper.getBoolean("firstOpenC", true)) {
         }
 
         if (helper.getBoolean("firstOpenD", true)) {

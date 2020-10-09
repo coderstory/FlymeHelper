@@ -8,7 +8,6 @@ add_library( # Sets the name of the library. so库名字
 
         # 具体的C++ 文件
         src/main/jni/ccheck.cpp
-        src/main/jni/hello.cpp
         )
 
 

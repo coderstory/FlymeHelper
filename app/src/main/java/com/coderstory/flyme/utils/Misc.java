@@ -6,9 +6,9 @@ public class Misc {
     public static final String ApplicationName = "com.coderstory.flyme";
     public static final String SharedPreferencesName = "UserSettings";
     public static final String HostFileTmpName = "/hosts";
-    public static final String endTime = "2020-12-1";
+    public static final String endTime = "2020-11-1";
     public static final String token = "5ee5d80f978eea081640e210";
-    public static final String channel = "coolapk";
+    public static final String channel = "qq_group";
     public static final boolean isTestVersion = false;
     public static final String searchApi = Utils.decode(Cpp.hello());
     private static final String BasePath = "/storage/emulated/0/Flyme_Purify";

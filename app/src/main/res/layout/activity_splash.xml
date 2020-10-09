@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="82dp"
         android:fontFamily="sans-serif-condensed"
         android:text="@string/app_name"
         android:textColor="#FFFFFF"
@@ -39,7 +39,7 @@
         android:fontFamily="sans-serif-condensed"
         android:text="基于Xposed的Flyme定制插件"
         android:textColor="#FFFFFF"
-        android:textSize="23sp" />
+        android:textSize="20sp" />
 
 
 </RelativeLayout>

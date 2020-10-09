@@ -154,6 +154,7 @@ public class HostsFragment extends BaseFragment {
         }
         list[1] = String.format("mv %s %s", path, "/etc/hosts");
         list[2] = String.format("chmod 755 %s", "/system/etc/hosts");
+
         return list;
     }
 

@@ -1,0 +1,7 @@
+{
+  "custom_launcher_icon_number": {
+    "class1": "com.android.launcher3.InvariantDeviceProfile$GridOption",
+    "class2": "com.android.launcher3.InvariantDeviceProfile",
+    "class3": "com.android.launcher3.InvariantDeviceProfile$GridOption"
+  }
+}

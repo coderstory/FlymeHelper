@@ -1,6 +1,7 @@
 package com.coderstory.flyme.fragment;
 
-
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -20,12 +21,10 @@ import com.coderstory.flyme.utils.AppSignCheck;
 import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.Utils;
-import com.coderstory.flyme.utils.hostshelper.FileHelper;
-import com.coderstory.flyme.utils.hostshelper.HostsHelper;
 import com.topjohnwu.superuser.Shell;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.util.List;
 
 import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.DialogLayer;
@@ -33,6 +32,8 @@ import per.goweii.anylayer.Layer;
 
 
 public class OthersFragment extends BaseFragment {
+    ProgressDialog dialog;
+
     public OthersFragment() {
     }
 
@@ -41,7 +42,6 @@ public class OthersFragment extends BaseFragment {
         inflater.inflate(R.menu.menu_upgrade_toolbar, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -62,8 +62,6 @@ public class OthersFragment extends BaseFragment {
         LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
         TextView textView = (TextView) linearLayout.getChildAt(1);
         textView.setText("一键重启桌面状态栏包管理器等app");
-
-
         return false;
     }
 
@@ -76,18 +74,17 @@ public class OthersFragment extends BaseFragment {
         $(R.id.enableBlockAD).setOnClickListener(v -> {
             getEditor().putBoolean("EnableBlockAD", ((Switch) v).isChecked());
             fix();
-            FileHelper fh = new FileHelper();
-            String HostsContext = fh.getFromAssets("hosts_default", getMContext());
-
             if (((Switch) v).isChecked()) {
-                HostsContext += fh.getFromAssets("hosts_noad", getMContext());
-                HostsContext += fh.getFromAssets("hosts_Flyme", getMContext());
-            }
-            HostsHelper h = new HostsHelper(HostsContext, getMContext());
-            try {
-                h.execute();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+                dialog = ProgressDialog.show(getMContext(), "提示", "正在处理已安装的广告插件…", true, false, null);
+                new Thread(() -> {
+                    List<String> paths = Shell.su("cd /data/data;find -name com.meizu.advertise.plugin   -type dir").exec().getOut();
+                    String[] command = new String[paths.size()];
+                    for (int i = 0; i < paths.size(); i++) {
+                        String path = paths.get(i).substring(1);
+                        command[i] = "rm -rf  /data/data" + path + "/*" + ";" + "chmod 0000 " + "/data/data" + path;
+                    }
+                    ((Activity) getMContext()).runOnUiThread(() -> dialog.dismiss());
+                }).start();
             }
         });
 

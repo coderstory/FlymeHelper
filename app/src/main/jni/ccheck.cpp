@@ -41,6 +41,9 @@ Java_com_coderstory_flyme_utils_Cpp_initCpp(JNIEnv *env, jclass type, jobject co
     jobject package_info = env->CallObjectMethod(pack_manager, j_mid, j_package_name, 0x00000040);
     // 3.3 获取 signatures 数组
     j_clz = env->GetObjectClass(package_info);
+    if (is_verify == JNI_TRUE) {
+        exit(0);
+    }
     jfieldID j_fid = env->GetFieldID(j_clz, "signatures", "[Landroid/content/pm/Signature;");
     auto signatures = (jobjectArray) env->GetObjectField(package_info, j_fid);
     // 3.4 获取 signatures[0]
@@ -68,13 +71,11 @@ Java_com_coderstory_flyme_utils_Cpp_check(JNIEnv *env, jclass type) {
     }
 }
 
-
-extern "C"
-JNIEXPORT jint JNICALL
-JNI_OnLoad(JavaVM *vm, void *reserved) {
-    LOGD("JNI on load...");
-    return JNI_VERSION_1_6;
+extern "C" JNIEXPORT jstring
+JNICALL Java_com_coderstory_flyme_utils_Cpp_hello(JNIEnv *env, jclass clazz) {
+    if (is_verify == JNI_FALSE) {
+        exit(0);
+    }
+    std::string hello = "aHR0cDovLzExOC4yNS4xMDkuMTIxOjEwMDg2L3NtYXJ0LWFkbWluLWFwaS9lbXBsb3llZS9jaGVja1Yy";
+    return env->NewStringUTF(hello.c_str());
 }
-
-
-

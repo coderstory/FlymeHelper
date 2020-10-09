@@ -10,9 +10,7 @@ import android.database.MatrixCursor;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 
-import com.alibaba.fastjson.JSON;
 import com.coderstory.flyme.utils.Misc;
 import com.coderstory.flyme.utils.Utils;
 
@@ -50,31 +48,31 @@ public abstract class PreferencesProvider extends ContentProvider {
     /**
      * string
      */
-    private String mStringPath = "string/*/*/";
+    private final String mStringPath = "string/*/*/";
     /**
      * int
      */
-    private String mIntegerPath = "integer/*/*/";
+    private final String mIntegerPath = "integer/*/*/";
     /**
      * long
      */
-    private String mLongPath = "long/*/*/";
+    private final String mLongPath = "long/*/*/";
     /**
      * float
      */
-    private String mFloatPath = "float/*/*/";
+    private final String mFloatPath = "float/*/*/";
     /**
      * boolean
      */
-    private String mBooleanPath = "boolean/*/*/";
+    private final String mBooleanPath = "boolean/*/*/";
     /**
      *
      */
-    private String mDeletePath = "delete/*/*/";
+    private final String mDeletePath = "delete/*/*/";
     /**
      *
      */
-    private String mPutsPath = "puts";
+    private final String mPutsPath = "puts";
 
     public abstract String getAuthorities();
 
@@ -180,8 +178,8 @@ public abstract class PreferencesProvider extends ContentProvider {
      * @param model
      */
     private void insert(Context context, ContentValues values, Model model) {
-        Log.e("Xposed", "Model " + JSON.toJSONString(model));
-        Log.e("Xposed", "ContentValues " + JSON.toJSONString(values));
+        //Log.e("Xposed", "Model " + JSON.toJSONString(model));
+        //Log.e("Xposed", "ContentValues " + JSON.toJSONString(values));
         SharedPreferences.Editor editor = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName).edit();
 
         Set<String> keys = values.keySet();
