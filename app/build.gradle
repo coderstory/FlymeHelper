@@ -7,7 +7,7 @@ android {
         applicationId "com.coderstory.flyme"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 425
+        versionCode 427
         versionName "4.1.2 开发版"
         resConfigs "cn"
         ndk {
