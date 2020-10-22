@@ -169,6 +169,9 @@ public class SystemUIFragment extends BaseFragment {
     //clock
     public void updateIcon() {
         List<String> hiddenIcons = new ArrayList<>();
+        hiddenIcons.add("rotate");
+        hiddenIcons.add("headset");
+
         if (getPrefs().getBoolean("hide_status_bar_location_icon", false))
             hiddenIcons.add("location");
         if (getPrefs().getBoolean("hide_icon_bluetooth", false))
