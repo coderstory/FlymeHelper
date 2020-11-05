@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.coderstory.flyme.plugins.IModule;
-import com.coderstory.flyme.utils.Cpp;
 import com.coderstory.flyme.utils.XposedHelper;
 
 import java.text.SimpleDateFormat;
@@ -22,6 +21,7 @@ import java.util.Locale;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -43,6 +43,24 @@ public class SystemUi extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         if (loadPackageParam.packageName.equals("com.android.systemui")) {
+
+            hookAllMethods("com.android.systemui.statusbar.StatusBarIconView", loadPackageParam.classLoader, "set", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    Object statusBarIcon = param.args[0];
+                    String desc = XposedHelpers.getObjectField(statusBarIcon, "contentDescription").toString();
+                    XposedBridge.log(desc);
+                    if (desc.contains("便携式热点") && prefs.getBoolean("hide_icon_hotspot", false)) {
+                        XposedHelpers.setBooleanField(statusBarIcon, "visible", false);
+                    } else if (desc.contains("USB") && prefs.getBoolean("hide_icon_debug", false)) {
+                        XposedHelpers.setBooleanField(statusBarIcon, "visible", false);
+                    } else if (desc.contains("流量") && prefs.getBoolean("hide_icon_save", false)) {
+                        XposedHelpers.setBooleanField(statusBarIcon, "visible", false);
+                    }
+                }
+            });
+
             String className;
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 className = "com.android.systemui.statusbar.phone.StatusBarIconControllerImpl";
@@ -53,10 +71,6 @@ public class SystemUi extends XposedHelper implements IModule {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                    //XposedBridge.log("图标类型: " + param.args[0].toString());
-                    if ("hotspot".equals(param.args[0]) && prefs.getBoolean("hide_icon_hotspot", false)) {
-                        param.args[1] = false;
-                    }
                     if ("rotate".equals(param.args[0])) {
                         param.args[1] = false;
                     }
@@ -245,6 +259,7 @@ public class SystemUi extends XposedHelper implements IModule {
                         }
                     }
                 });
+
             }
             //coord: (200179,10,46) | addr: Lcom/android/systemui/statusbar/phone/StatusBarSignalPolicy$WifiIconState;->toString()Ljava/lang/String;+28h | loc: ?
             hookAllMethods("com.android.systemui.statusbar.phone.StatusBarSignalPolicy", loadPackageParam.classLoader, "setMobileDataIndicators", new XC_MethodHook() {

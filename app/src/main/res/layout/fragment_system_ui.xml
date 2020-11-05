@@ -86,6 +86,30 @@
                 android:text="@string/hide_icon_hotspot" />
 
             <Switch
+                android:id="@+id/hide_icon_debug"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:text="@string/hide_icon_debug" />
+
+            <Switch
+                android:id="@+id/hide_icon_save"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:text="@string/hide_icon_save" />
+
+            <Switch
                 android:id="@+id/hide_icon_volte"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
