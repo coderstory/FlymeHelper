@@ -30,7 +30,7 @@
     <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题 支持主题美化8.3.6 - 8.7.1主题明细页面直接点击试用即可,不会有5分钟倒计时也不会还原.如果失效，请尝试从system分区获取主题对应apk覆盖安装一次。</string>
     <string name="alarem"><b>闹钟</b>\n启用闹钟后,隐藏状态栏上的闹钟图标</string>
     <string name="hide_icon_debug"><b>USB调试</b>\n隐藏链接电脑后的USB调试图标</string>
-    <string name="hide_icon_save"><b>流量监控</b>\n在手机管家中开启流量监控后，隐藏状态栏中对应的水滴图标,开机时间长了可能会重新出现,重启即可。</string>
+    <string name="hide_icon_save"><b>流量监控</b>\n在手机管家中开启流量监控后，隐藏状态栏中对应的水滴图标,偶尔会隐藏失效,重启即可。</string>
     <string name="hide_icon_bluetooth"><b>蓝牙</b>\n连接蓝牙设备后,隐藏状态栏上的蓝牙图标</string>
     <string name="hide_icon_hotspot"><b>手机热点</b>\n隐藏状态栏上的手机热点图标</string>
     <string name="hide_icon_volte"><b>VoLte</b>\n手机号开通volte后,隐藏状态栏上的HD高清通话图标</string>
