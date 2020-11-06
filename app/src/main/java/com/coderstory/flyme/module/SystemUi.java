@@ -49,14 +49,16 @@ public class SystemUi extends XposedHelper implements IModule {
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
                     Object statusBarIcon = param.args[0];
-                    String desc = XposedHelpers.getObjectField(statusBarIcon, "contentDescription").toString();
-                    XposedBridge.log(desc);
-                    if (desc.contains("便携式热点") && prefs.getBoolean("hide_icon_hotspot", false)) {
-                        XposedHelpers.setBooleanField(statusBarIcon, "visible", false);
-                    } else if (desc.contains("USB") && prefs.getBoolean("hide_icon_debug", false)) {
-                        XposedHelpers.setBooleanField(statusBarIcon, "visible", false);
-                    } else if (desc.contains("流量") && prefs.getBoolean("hide_icon_save", false)) {
-                        XposedHelpers.setBooleanField(statusBarIcon, "visible", false);
+                    if (XposedHelpers.getObjectField(statusBarIcon, "contentDescription") != null) {
+                        String desc = XposedHelpers.getObjectField(statusBarIcon, "contentDescription").toString();
+                        XposedBridge.log(desc);
+                        if (desc.contains("便携式热点") && prefs.getBoolean("hide_icon_hotspot", false)) {
+                            XposedHelpers.setBooleanField(statusBarIcon, "visible", false);
+                        } else if (desc.contains("USB") && prefs.getBoolean("hide_icon_debug", false)) {
+                            XposedHelpers.setBooleanField(statusBarIcon, "visible", false);
+                        } else if (desc.contains("流量") && prefs.getBoolean("hide_icon_save", false)) {
+                            XposedHelpers.setBooleanField(statusBarIcon, "visible", false);
+                        }
                     }
                 }
             });
