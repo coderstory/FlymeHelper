@@ -46,7 +46,7 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
 
     @Override
     public void initZygote(StartupParam startupParam) {
-        XposedBridge.log("Flyme8助手 " + BuildConfig.VERSION_NAME + " 开始Patch");
+        XposedBridge.log("Flyme助手 " + BuildConfig.VERSION_NAME + " 开始Patch");
         //XposedBridge.log(" 产品有效期:" + Misc.endTime);
         //XposedBridge.log("激活状态:" + vi());
         //XposedBridge.log("SDK版本号: " + android.os.Build.VERSION.SDK_INT);
