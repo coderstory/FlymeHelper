@@ -16,7 +16,6 @@ public class FlymeRoot extends XposedHelper {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
 
         if (loadPackageParam.packageName.equals("com.meizu.mznfcpay") && prefs.getBoolean("HideRootWithPay", false)) {
-            findAndHookMethod("com.meizu.cloud.a.a.a", loadPackageParam.classLoader, "c", Context.class, XC_MethodReplacement.returnConstant(false));
             // 6.0.7
             findAndHookMethod("com.meizu.cloud.a.a.a", loadPackageParam.classLoader, "b", Context.class, XC_MethodReplacement.returnConstant(false));
         }

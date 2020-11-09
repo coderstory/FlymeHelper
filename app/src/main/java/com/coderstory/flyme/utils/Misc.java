@@ -2,11 +2,11 @@ package com.coderstory.flyme.utils;
 
 
 public class Misc {
-    public static final String MyBlogUrl = "https://blog.coderstory.cn";
+    public static final String MyBlogUrl = "http://blog.coderstory.cn:4433";
     public static final String ApplicationName = "com.coderstory.flyme";
     public static final String SharedPreferencesName = "UserSettings";
     public static final String HostFileTmpName = "/hosts";
-    public static final String endTime = "2020-11-1";
+    public static final String endTime = "2021-11-1";
     public static final String token = "5ee5d80f978eea081640e210";
     public static final String channel = "qq_group";
     public static final boolean isTestVersion = false;

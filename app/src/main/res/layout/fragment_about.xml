@@ -61,8 +61,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="12dp"
-                    android:autoLink="none"
-                    android:linksClickable="false"
                     android:text="@string/about_app"
                     android:textColor="#262626"
                     android:textColorLink="#40aff4"

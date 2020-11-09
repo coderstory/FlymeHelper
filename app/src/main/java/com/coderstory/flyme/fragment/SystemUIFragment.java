@@ -29,6 +29,14 @@ public class SystemUIFragment extends BaseFragment {
             getEditor().putBoolean("hide_icon_hotspot", ((Switch) v).isChecked());
             fix();
         });
+        $(R.id.hide_icon_save).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_icon_save", ((Switch) v).isChecked());
+            fix();
+        });
+        $(R.id.hide_icon_debug).setOnClickListener(v -> {
+            getEditor().putBoolean("hide_icon_debug", ((Switch) v).isChecked());
+            fix();
+        });
         $(R.id.hide_icon_volte).setOnClickListener(v -> {
             getEditor().putBoolean("hide_icon_volte", ((Switch) v).isChecked());
             fix();
@@ -124,6 +132,8 @@ public class SystemUIFragment extends BaseFragment {
     protected void setUpData() {
         ((Switch) $(R.id.hide_icon_bluetooth)).setChecked(getPrefs().getBoolean("hide_icon_bluetooth", false));
         ((Switch) $(R.id.hide_icon_hotspot)).setChecked(getPrefs().getBoolean("hide_icon_hotspot", false));
+        ((Switch) $(R.id.hide_icon_debug)).setChecked(getPrefs().getBoolean("hide_icon_debug", false));
+        ((Switch) $(R.id.hide_icon_save)).setChecked(getPrefs().getBoolean("hide_icon_save", false));
         ((Switch) $(R.id.hide_icon_alarm_clock)).setChecked(getPrefs().getBoolean("hide_icon_alarm_clock", false));
         ((Switch) $(R.id.hide_icon_volte)).setChecked(getPrefs().getBoolean("hide_icon_volte", false));
         ((Switch) $(R.id.hide_icon_shake)).setChecked(getPrefs().getBoolean("hide_icon_shake", false));
@@ -169,6 +179,9 @@ public class SystemUIFragment extends BaseFragment {
     //clock
     public void updateIcon() {
         List<String> hiddenIcons = new ArrayList<>();
+        hiddenIcons.add("rotate");
+        hiddenIcons.add("headset");
+
         if (getPrefs().getBoolean("hide_status_bar_location_icon", false))
             hiddenIcons.add("location");
         if (getPrefs().getBoolean("hide_icon_bluetooth", false))

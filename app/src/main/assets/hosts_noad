@@ -74,8 +74,7 @@
 127.0.0.1 d3.sina.com.cn
 127.0.0.1 sdkinit.taobao.com
 
-
-#version=2020010052000
+#version=2020010251818
 #url=https://github.com/VeleSila/yhosts/blob/master/hosts
 #-----Test
 127.0.0.1 at.umeng.com
@@ -2895,6 +2894,7 @@
 127.0.0.1 43242.zh1144.com
 127.0.0.1 4au.htf16a.cn
 127.0.0.1 4gf.9tkl2d.cn
+127.0.0.1 4kfv18.cn
 127.0.0.1 4nemiaje2.aupig.cn
 127.0.0.1 4xhyr.shuimujinggong.com
 127.0.0.1 5.qqm98.com
@@ -3195,12 +3195,14 @@
 127.0.0.1 c.dcghp.top
 127.0.0.1 c.dcgwnhk.cn
 127.0.0.1 c.dengbaozx.cn
+127.0.0.1 c.dg186.cn
 127.0.0.1 c.dhsfcw.cn
 127.0.0.1 c.dokrmob.com
 127.0.0.1 c.dzuky.top
 127.0.0.1 c.dzytjqcc.com
 127.0.0.1 c.easypatent.net
 127.0.0.1 c.f1zd.com
+127.0.0.1 c.ffupiiv.cn
 127.0.0.1 c.future888.net
 127.0.0.1 c.guangtui1999.com
 127.0.0.1 c.gzsanxiaomingshi.cn
@@ -3223,6 +3225,7 @@
 127.0.0.1 c.mkmp365.com
 127.0.0.1 c.mnjkw.cn
 127.0.0.1 c.mobishu.com
+127.0.0.1 c.mozqca.cn
 127.0.0.1 c.nanjinglongyu.com
 127.0.0.1 c.ningbojipiao.com
 127.0.0.1 c.nkzker.cn
@@ -4292,6 +4295,7 @@
 127.0.0.1 i4.fuimg.com
 127.0.0.1 i5.akjunshi.com
 127.0.0.1 ibafnw.cn
+127.0.0.1 ic.aliyune.xyz
 127.0.0.1 ico.58pic.com
 127.0.0.1 ieju.zgtwpscw.cn
 127.0.0.1 if.yyjsbz.cn
@@ -4315,6 +4319,7 @@
 127.0.0.1 img.1whour.com
 127.0.0.1 img.86yp.cn
 127.0.0.1 img.9ads.net
+127.0.0.1 img.buyunqian.com
 127.0.0.1 img.cxxyft.com
 127.0.0.1 img.dajibai.com
 127.0.0.1 img.dawenxue.org
@@ -4354,6 +4359,7 @@
 127.0.0.1 img.yqgytx.com
 127.0.0.1 img.yuyue007.cn
 127.0.0.1 img.zeruinong.com
+127.0.0.1 img.zswph.com
 127.0.0.1 img.zx590.com
 127.0.0.1 img1.km.com
 127.0.0.1 img1.pszyzxh.org
@@ -4491,6 +4497,7 @@
 127.0.0.1 js.lovexia.top
 127.0.0.1 js.lwnne.cn
 127.0.0.1 js.mnkan.com
+127.0.0.1 js.mudezs.com
 127.0.0.1 js.mzxxiend.com
 127.0.0.1 js.paochala.net
 127.0.0.1 js.ptmind.com
@@ -5827,6 +5834,7 @@
 127.0.0.1 ooop.zqwlkj.cn
 127.0.0.1 op.88dush.com
 127.0.0.1 op00w.baiyangzs.com
+127.0.0.1 open.lalanuz.cn
 127.0.0.1 opsm.qflwh.cn
 127.0.0.1 oss-asq-static.11222.cn
 127.0.0.1 ow.biqugego.com
@@ -5847,9 +5855,11 @@
 127.0.0.1 p.niudashu.com
 127.0.0.1 p.qiailm.com
 127.0.0.1 p.qijijs.top
+127.0.0.1 p.qfmzys.com
 127.0.0.1 p.saozhu1.top
 127.0.0.1 p.skimresources.com
 127.0.0.1 p.tamenshuo.com
+127.0.0.1 p.vtdtfl.cn
 127.0.0.1 p.ynjczy.net
 127.0.0.1 p2.hyz86.com
 127.0.0.1 p2.ykauto.cn
@@ -6023,6 +6033,7 @@
 127.0.0.1 qweqwe.mctvhp.cn
 127.0.0.1 qzxcvb.m.zwdu.com
 127.0.0.1 r.5207470.com
+127.0.0.1 r.airrn.cn
 127.0.0.1 r.lzumg.xyz
 127.0.0.1 r.myadx.net
 127.0.0.1 r.zlongad.com
@@ -6351,6 +6362,7 @@
 127.0.0.1 teen.77rog.com
 127.0.0.1 tejia.gaibang.fun
 127.0.0.1 tf.caohua.com
+127.0.0.1 tf.gzleilin.com
 127.0.0.1 tf.hftaili.com
 127.0.0.1 tfs.zhamm.cn
 127.0.0.1 tfssl.caohua.com
@@ -6474,8 +6486,11 @@
 127.0.0.1 v.com.5p67n.cn
 127.0.0.1 v.dcgwnhk.cn
 127.0.0.1 v.dengbaozx.cn
+127.0.0.1 v.dg186.cn
 127.0.0.1 v.dhsfcw.cn
 127.0.0.1 v.e7002.com
+127.0.0.1 v.ffupiiv.cn
+127.0.0.1 v.ggsgww.cn
 127.0.0.1 v.heygugu.com
 127.0.0.1 v.iche88.cn
 127.0.0.1 v.jntxst.cn
@@ -6484,6 +6499,7 @@
 127.0.0.1 v.lalaxqt.cn
 127.0.0.1 v.lrzazjl.cn
 127.0.0.1 v.lystrw.cn
+127.0.0.1 v.mozqca.cn
 127.0.0.1 v.nanjinglongyu.com
 127.0.0.1 v.nkzker.cn
 127.0.0.1 v.oq68.com
@@ -6494,6 +6510,7 @@
 127.0.0.1 v.sixiuwl.cn
 127.0.0.1 v.szpaopao.com
 127.0.0.1 v.tgslww.cn
+127.0.0.1 v.tr31t.cn
 127.0.0.1 v.xinshide.cn
 127.0.0.1 v.xiuzhenjewelry.cn
 127.0.0.1 v.xrooxeo.cn
@@ -6524,6 +6541,7 @@
 127.0.0.1 vip.qqxwf.com
 127.0.0.1 vip.winfisc.com
 127.0.0.1 vip.zhuba8.com
+127.0.0.1 vipchaoshi.cn
 127.0.0.1 vipwx.zhong-zhu.com
 127.0.0.1 vj.tianji520.cn
 127.0.0.1 vj.x-ssp.com
@@ -6665,6 +6683,7 @@
 127.0.0.1 www.aafanke.cc
 127.0.0.1 www.abie18.top
 127.0.0.1 www.abie19.top
+127.0.0.1 www.abie26.top
 127.0.0.1 www.ads80.com
 127.0.0.1 www.afj0.com
 127.0.0.1 www.ahw3.com
@@ -6870,6 +6889,7 @@
 127.0.0.1 www.tj-cmys.com
 127.0.0.1 www.tjhhr.com
 127.0.0.1 www.tjhuajiantang.com
+127.0.0.1 www.toujing1.com
 127.0.0.1 www.ttcdn.cn
 127.0.0.1 www.ttyyuuoo.com
 127.0.0.1 www.tui1999.com
@@ -6961,6 +6981,7 @@
 127.0.0.1 xd.code.tanwanyx.com
 127.0.0.1 xffg.1x26q3.cn
 127.0.0.1 xfo.monesyy.com
+127.0.0.1 xg.tjwmtrw.cn
 127.0.0.1 xhaiu.com
 127.0.0.1 xhnt.snqrk.cn
 127.0.0.1 xhtd.99hg.wang
