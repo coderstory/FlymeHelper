@@ -47,6 +47,14 @@ public class FlymeHome extends XposedHelper implements IModule {
                             }
                         }
                     });
+
+                    hookAllMethods("com.meizu.launcher3.view.MzFolderBubbleTextView", lpparam.classLoader, "setText", new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                            super.beforeHookedMethod(param);
+                            param.args[0] = "";
+                        }
+                    });
                 }
                 meizu17(lpparam);
             } else {
