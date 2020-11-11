@@ -21,6 +21,11 @@ public class SettingsFragment extends BaseFragment {
             fix();
         });
 
+        $(R.id.enableUpdate).setOnClickListener(v -> {
+            getEditor().putBoolean("enableUpdate", ((Switch) v).isChecked());
+            fix();
+        });
+
         $(R.id.hideicon).setOnClickListener(v -> {
             getEditor().putBoolean("hideIcon", ((Switch) v).isChecked());
             fix();
@@ -50,5 +55,6 @@ public class SettingsFragment extends BaseFragment {
     protected void setUpData() {
         ((Switch) $(R.id.enableCheck)).setChecked(getPrefs().getBoolean("enableCheck", true));
         ((Switch) $(R.id.hideicon)).setChecked(getPrefs().getBoolean("hideIcon", false));
+        ((Switch) $(R.id.enableUpdate)).setChecked(getPrefs().getBoolean("enableUpdate", true));
     }
 }

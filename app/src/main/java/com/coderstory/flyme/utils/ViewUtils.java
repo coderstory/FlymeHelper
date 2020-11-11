@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class ViewUtils {
 
-    private static Map<String, BaseFragment> fragmentList = new HashMap<>();
+    private static final Map<String, BaseFragment> fragmentList = new HashMap<>();
 
     /**
      * 根据Class创建Fragment

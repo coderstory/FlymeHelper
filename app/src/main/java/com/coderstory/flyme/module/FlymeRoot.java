@@ -39,10 +39,6 @@ public class FlymeRoot extends XposedHelper {
                         if (code == 1 || code == 3 || code == 4) {
                             param.setResult(0);
                         }
-                    } else if (prefs.getBoolean("enabletheme", false)) {
-                        if (code == 1) {
-                            param.setResult(0);
-                        }
                     }
                 }
             });

@@ -3,10 +3,11 @@ package com.coderstory.flyme.utils;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.coderstory.flyme.BuildConfig;
 import com.coderstory.flyme.plugins.IModule;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -197,7 +198,7 @@ public class XposedHelper implements IModule {
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
-            json = JSON.parseObject(sb.toString());
+            json = new Gson().fromJson(sb.toString(),JSONObject.class);
 
         } catch (Exception e) {
             Logger.loge(e.toString());

@@ -43,7 +43,18 @@
                 android:paddingBottom="10dp"
                 android:text="@string/enablexposed" />
 
-
+            <Switch
+                android:id="@+id/enableUpdate"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/switchBtn"
+                android:checked="true"
+                android:paddingStart="30dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="10dp"
+                android:text="@string/enableUpdate" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

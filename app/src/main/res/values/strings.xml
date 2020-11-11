@@ -7,16 +7,13 @@
     <string name="buy_way"><b>购买方式</b>\n<b>方式1:</b> 点击[付费专用群],入群后自动绑定会员,可以立即激活助手,无需人工处理[推荐此方式激活]\n<b>方式2:</b>点击[交流群]按钮加入交流群,然后找群主支付8.6元</string>
     <string name="pay_explain"><b>付费版说明</b>\n付费版本需支付<font color='#FFC0CB'>8.6元</font>,可以授权激活一台设备,不可解绑但支持重复激活。</string>
     <string name="enableBlockADS"><b>基础功能</b>\n屏蔽一切使用魅族自家广告SDK显示的广告,比如自带视频的开头广告</string>
-    <string name="downloadexplorer"><b>下载管理</b>\n去下载管理界面的广告</string>
     <string name="mms"><b>短信</b>\n去除具体短信信息界面上的充值话费充值流量贷款申请信用卡等垃圾信息</string>
     <string name="enableHosts"><b>启用模块</b>\n开启Hosts支持模块</string>
-    <string name="Flymeads"><b>屏蔽Flyme广告</b>\n通过hosts屏蔽部分Flyme的广告</string>
     <string name="blockads"><b>开启常规去广告</b>\nGithub上的hosts合集,用于屏蔽国内广告.</string>
     <string name="googlehosts"><b>开启常见国外网站访问支持</b>\nGithub上随意找的Hosts,包含了一些常见的国外网站,不含google,有时效性</string>
     <string name="hostsnote"><b>注意事项:</b>\n本功能需要ROOT权限,通过直接修改hosts文件实现</string>
-    <string name="cracknote"><b>注意事项</b>\n此为Xposed插件功能,必须在启用插件的情况下才能使用,且所有选项修改重启生效。</string>
-    <string name="enableupdater"><b>开启更新检测</b>\n启用后每次打开应用都会检测一次新版本</string>
     <string name="enablexposed"><b>开启Xposed启用检测</b>\n开启后,如果未在Xposed中激活则弹出相应提示</string>
+    <string name="enableUpdate"><b>开启更新检测</b>\n每次启动助手时,自动检测并提示新版本</string>
     <string name="hideicon"><b>隐藏应用图标</b>\n隐藏Flyme助手在桌上面的图标，隐藏图标后可在Xposed中打开,但是如果使用的是自带的ROOT的情况下则不推荐，从xposed中打开助手可能导致助手白屏无法运行</string>
     <string name="hide_icon_label"><b>隐藏桌面图标标签</b>\n隐藏桌面图标和文件夹下的标签文字</string>
     <string name="hide_icon_4x5"><b>桌面图标布局 - 小</b>\n使用4x5的桌面图标布局,可能会导致部分图标丢失</string>
@@ -27,7 +24,7 @@
     <string name="hideDepWarn"><b>隐藏开发者选项风险警告</b>\n禁止开启开发者选项后通知栏弹出的风险警告</string>
     <string name="HideRootWithUpgrade"><b>系统更新</b>\n使用自带root情况下,在系统更新中隐藏Root,注意你root后是无法OTA更新系统的,屏蔽了也不行.本功能是为了能打开系统更新后能检测到OTA包的下载地址</string>
     <string name="HideRootWithPay"><b>魅族Pay</b>\n使用自带root情况下,在魅族Pay中隐藏Root</string>
-    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题 支持主题美化8.3.6 - 8.7.1主题明细页面直接点击试用即可,不会有5分钟倒计时也不会还原.如果失效，请尝试从system分区获取主题对应apk覆盖安装一次。</string>
+    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题 不会有倒计时之类的提示 重启不恢复 当前仅在主题8.7.1版本测试通过。</string>
     <string name="alarem"><b>闹钟</b>\n启用闹钟后,隐藏状态栏上的闹钟图标</string>
     <string name="hide_icon_debug"><b>USB调试</b>\n隐藏链接电脑后的USB调试图标</string>
     <string name="hide_icon_save"><b>流量监控</b>\n在手机管家中开启流量监控后，隐藏状态栏中对应的水滴图标,偶尔会隐藏失效,重启即可。</string>
@@ -59,11 +56,6 @@
     <string name="hide_status_bar_app_icon"><b>隐藏应用图标</b>  <font color='#FFC0CB'>vip</font>\n隐藏状态栏上左侧区域的所有图标,比如开启流量监控的图标,usb调试图标等</string>
     <string name="show_status_bar_time_am_pm"><b>AM-PM</b>\n状态栏时间添加AM-PM前缀</string>
     <string name="Tips_Title">温馨提示</string>
-    <string name="Btn_Sure">确定</string>
-    <string name="Btn_Cancel">取消</string>
-    <string name="save">保存</string>
-    <string name="share">分享</string>
-    <string name="fast_boot">快速重启</string>
     <string name="about">关于应用</string>
     <string name="Flyme_Purify">基础功能</string>
     <string name="hosts">Hosts去广告</string>
@@ -77,8 +69,6 @@
     <string name="Waiting">请耐心等待。。</string>
     <string name="noupdater"><b>禁止系统检测更新</b>\n禁止系统更新检测新版本</string>
     <string name="nostore"><b>禁止部分应用联网</b>\n屏蔽自带的应用商店,视频和一点资讯联网</string>
-    <string name="title_activity_app_intro">AppIntro</string>
-    <string name="skip">退出</string>
 
     <string name="disableapptips">提示:点击应用切换冻结状态</string>
     <string name="sureAntiDisable">你确定要解除</string>
@@ -92,30 +82,14 @@
     <string name="view_start_clean">开始清理, 请耐心等待…\n</string>
     <string name="view_clean_cache" formatted="false">清理: %s (%s) …\n</string>
     <string name="view_clean_anr" formatted="false">清理 ANR 日志 (%s) …\n</string>
-    <string name="view_clean_art_remain" formatted="false">清理 ART: %s (%s) …\n</string>
     <string name="view_clean_complete" formatted="false">清理完毕, 共清理文件 %s\n\n</string>
-    <string name="xposedmodule">\n<b>其他</b></string>
     <string name="startclean">开始清理</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="isWorkingTips">请耐心等待应用清理完成再进行其他的操作！</string>
-
-    <string name="tab_1">备份应用</string>
-    <string name="tab_2">还原应用</string>
 
     <string name="notices_title">开放源代码许可</string>
     <string name="notices_close">关闭</string>
 
-    <string name="single">Single</string>
-    <string name="multiple">Multiple</string>
-    <string name="multiple_include_own">Multiple with own License</string>
-    <string name="multiple_programmatic">Multiple programmaticly</string>
-    <string name="single_fragment">Single (Fragment)</string>
-    <string name="multiple_fragment">Multiple (Fragment)</string>
-    <string name="multiple_include_own_fragment">Multiple with own License (Fragment)</string>
-    <string name="multiple_programmatic_fragment">Multiple programmaticly (Fragment)</string>
-    <string name="custom_theme">Custom theme</string>
-    <string name="custom_theme_fragment">Custom theme (Fragment)</string>
     <string name="cp_url_success">已复制网址到粘贴板！</string>
     <string name="share_url">网址分享</string>
     <string name="starting_clean">开始清理</string>
@@ -123,9 +97,7 @@
     <string name="cleaning">正在清理中…</string>
     <string name="tips_backup_success">OK,列表备份完成！</string>
     <string name="tips_backup_error">备份失败,一般是因为APP没读写存储权限导致的</string>
-    <string name="backup_list">备份列表</string>
     <string name="tips_sure_backuplist">你确定要备份当前系统应用的冻结列表吗?</string>
-    <string name="tips_sure_restore_settings">还原设置</string>
     <string name="restore_set">你确定要还原当前系统应用的冻结状态吗?</string>
     <string name="refreshing_list">OK,正在刷新列表</string>
     <string name="tips">提示</string>
@@ -133,8 +105,6 @@
     <string name="not_fond_backup_list">未找到备份列表！</string>
     <string name="not_fond_backup_list_file">未找到备份列表！</string>
     <string name="hide_app_icon">隐藏桌面应用图标</string>
-    <string name="navigation_item_donation">捐赠</string>
-    <string name="historyFunctions">历史功能</string>
     <string name="appname">应用名: %1$s \n版本号 :%2$s</string>
     <string name="app_info">版本号: %1$s \n文件大小:%2$s\n发布日期:%3$s</string>
     <string name="others_appsettings">应用设置</string>
@@ -157,6 +127,7 @@
         \n\n<b>微博主页: https://weibo.com/codestory</b>
     </string>
     <string name="dialog_msg">dialog_msg</string>
+
 
 
 </resources>

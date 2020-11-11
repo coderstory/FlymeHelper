@@ -41,17 +41,17 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     public static final String TAG = "CrashHandler";
     //CrashHandler实例
     @SuppressLint("StaticFieldLeak")
-    private static CrashHandler INSTANCE = new CrashHandler();
+    private static final CrashHandler INSTANCE = new CrashHandler();
     //系统默认的UncaughtException处理类
     private Thread.UncaughtExceptionHandler mDefaultHandler;
     //程序的Context对象
     private Context mContext;
     //用来存储设备信息和异常信息
-    private Map<String, String> infos = new HashMap<>();
+    private final Map<String, String> infos = new HashMap<>();
 
     //用于格式化日期,作为日志文件名的一部分
-    private SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.CHINESE);
-    private Comparator<File> newfileFinder = new Comparator<File>() {
+    private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.CHINESE);
+    private final Comparator<File> newfileFinder = new Comparator<File>() {
 
         @Override
         public int compare(File x, File y) {

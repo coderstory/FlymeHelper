@@ -36,10 +36,9 @@ public class ThemePatcher extends XposedHelper implements IModule {
 
                 //device_states | doCheckState
                 //8.3.6
-                //findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.b", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(false));
-                findAndHookMethod("com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility", lpparam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(false));
+                findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.c", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
+                findAndHookMethod("com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility", lpparam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(0));
                 findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.f.b", lpparam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(false));
-                //findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.b", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
                 // com.meizu.advertise.plugin
                 hookAllMethods("com.meizu.advertise.api.AdManager", lpparam.classLoader, "install", XC_MethodReplacement.returnConstant(null));
 

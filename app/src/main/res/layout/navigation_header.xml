@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_navigation_header"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="90dp"
     android:background="@color/colorPrimaryDark"
 
     android:gravity="center"
@@ -13,21 +13,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#ffffff"
         android:textSize="23sp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="不忘初心,方得始终"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#ffffff"
-        android:textSize="15sp" />
 
 </LinearLayout>

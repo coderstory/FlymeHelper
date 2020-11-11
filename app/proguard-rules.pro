@@ -46,16 +46,6 @@
 #-printusage unused.txt
 #混淆前后的映射
 #-printmapping mapping.txt
--keepclassmembers class * {
-   public <init>(org.json.JSONObject);
-}
--keepclassmembers enum * {
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
-}
 
 -keep class com.umeng.** {*;}
 
--assumenosideeffects class android.util.Log {
-	public static *** d(...);
-}

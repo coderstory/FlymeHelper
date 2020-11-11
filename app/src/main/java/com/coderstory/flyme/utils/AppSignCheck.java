@@ -16,7 +16,7 @@ import java.security.cert.X509Certificate;
 
 public class AppSignCheck {
     private static final String slat = "&%5123***JKO&%%$$#@";
-    private Context context;
+    private final Context context;
     private String cer = null;
     private String realCer = null;
 
@@ -44,7 +44,7 @@ public class AppSignCheck {
             dataStr = dataStr + slat;
             MessageDigest m = MessageDigest.getInstance("MD5");
             m.update(dataStr.getBytes(StandardCharsets.UTF_8));
-            byte s[] = m.digest();
+            byte[] s = m.digest();
             StringBuilder result = new StringBuilder();
             for (int i = 0; i < s.length; i++) {
                 result.append(Integer.toHexString((0x000000FF & s[i]) | 0xFFFFFF00).substring(6));
