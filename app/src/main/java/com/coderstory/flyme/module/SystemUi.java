@@ -51,7 +51,7 @@ public class SystemUi extends XposedHelper implements IModule {
                     Object statusBarIcon = param.args[0];
                     if (XposedHelpers.getObjectField(statusBarIcon, "contentDescription") != null) {
                         String desc = XposedHelpers.getObjectField(statusBarIcon, "contentDescription").toString();
-                        XposedBridge.log(desc);
+                        //XposedBridge.log(desc);
                         if (desc.contains("便携式热点") && prefs.getBoolean("hide_icon_hotspot", false)) {
                             XposedHelpers.setBooleanField(statusBarIcon, "visible", false);
                         } else if (desc.contains("USB") && prefs.getBoolean("hide_icon_debug", false)) {

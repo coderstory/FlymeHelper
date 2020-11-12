@@ -6,7 +6,7 @@ import com.coderstory.flyme.preferences.PreferencesProviderUtils;
 
 public class SharedHelper {
     String spName = "UserSettings";
-    private Context context;
+    private final Context context;
 
     public SharedHelper(Context context) {
         this.context = context;

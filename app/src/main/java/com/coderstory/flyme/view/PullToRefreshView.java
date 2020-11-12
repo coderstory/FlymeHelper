@@ -34,10 +34,10 @@ public class PullToRefreshView extends ViewGroup {
     private static final int INVALID_POINTER = -1;
 
     private View mTarget;
-    private ImageView mRefreshView;
-    private Interpolator mDecelerateInterpolator;
-    private int mTouchSlop;
-    private int mTotalDragDistance;
+    private final ImageView mRefreshView;
+    private final Interpolator mDecelerateInterpolator;
+    private final int mTouchSlop;
+    private final int mTotalDragDistance;
     private BaseRefreshView mBaseRefreshView;
     private float mCurrentDragPercent;
     private int mCurrentOffsetTop;
@@ -73,7 +73,7 @@ public class PullToRefreshView extends ViewGroup {
             moveToStart(interpolatedTime);
         }
     };
-    private Animation.AnimationListener mToStartListener = new Animation.AnimationListener() {
+    private final Animation.AnimationListener mToStartListener = new Animation.AnimationListener() {
         @Override
         public void onAnimationStart(Animation animation) {
         }

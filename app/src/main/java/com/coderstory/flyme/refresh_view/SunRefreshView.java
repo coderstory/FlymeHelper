@@ -39,8 +39,8 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
 
     private static final Interpolator LINEAR_INTERPOLATOR = new LinearInterpolator();
 
-    private PullToRefreshView mParent;
-    private Matrix mMatrix;
+    private final PullToRefreshView mParent;
+    private final Matrix mMatrix;
     private Animation mAnimation;
 
     private int mTop;
@@ -55,7 +55,7 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
     private float mTownFinalTopOffset;
     private float mTownMoveOffset;
 
-    private int mSunSize = 100;
+    private final int mSunSize = 100;
     private float mSunLeftOffset;
     private float mSunTopOffset;
 

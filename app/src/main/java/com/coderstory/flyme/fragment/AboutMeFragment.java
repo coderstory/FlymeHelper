@@ -17,14 +17,15 @@ import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 
-import com.alibaba.fastjson.JSON;
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
 import com.coderstory.flyme.utils.SharedHelper;
 import com.coderstory.flyme.utils.Utils;
+import com.google.gson.Gson;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.List;
+import java.util.Map;
 
 import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.DialogLayer;
@@ -75,7 +76,7 @@ public class AboutMeFragment extends BaseFragment {
                         Toast.makeText(getMContext(), "绑定成功,重启应用生效", Toast.LENGTH_SHORT).show();
                         refresh();
                     } else {
-                        Toast.makeText(getMContext(), Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getMContext(), Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" +  new Gson().fromJson(msg.getData().get("value").toString(), Map.class) .getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
                     }
                     // 校验返回
                     break;

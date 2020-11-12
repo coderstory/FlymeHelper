@@ -31,7 +31,7 @@ public class XposedFragment extends BaseFragment {
             switch (msg.arg1) {
                 case 0:
                     normalDialog.setTitle("提示");
-                    normalDialog.setMessage("安装完毕,重启生效");
+                    normalDialog.setMessage("框架安装完毕,请手动安装xposed manager");
                     normalDialog.setPositiveButton("确定",
                             (dialog, which) -> dialog.dismiss());
                     normalDialog.show();
@@ -64,19 +64,15 @@ public class XposedFragment extends BaseFragment {
         });
         $(R.id.install_magisk_module_y).setOnClickListener(v -> {
             if (installMagisk("EdXposed-YAHFA-v0.4.6.2.4529.-release.zip", "EdXposed安装日志")) {
-                Toast.makeText(getMContext(), "安装成功 重启生效", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getMContext(), "框架安装成功,请手动安装xposed manager", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getMContext(), "Edxposed-y安装失败", Toast.LENGTH_SHORT).show();
             }
         });
 
-
-
         $(R.id.install_module_y).setOnClickListener(v -> {
             installByCopy("EdXposedY-v0.4.6.2.4529.zip");
         });
-
-
     }
 
     private boolean installMagisk(String fileName, String moduleName) {

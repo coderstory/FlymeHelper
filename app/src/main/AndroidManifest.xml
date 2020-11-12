@@ -34,10 +34,6 @@
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.AboutActivity" />
         <activity
@@ -54,7 +50,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="勿忘初心，方得始终" />
+            android:value="静待花开终有时,守得云开见月明" />
         <meta-data
             android:name="xposedminversion"
             android:value="54" />

@@ -17,7 +17,7 @@ import com.coderstory.flyme.R;
 import java.util.List;
 
 public class AppInfoAdapter extends ArrayAdapter {
-    private int resourceId;
+    private final int resourceId;
 
 
     public AppInfoAdapter(Context context, int textViewResourceId, List<AppInfo> objects) {

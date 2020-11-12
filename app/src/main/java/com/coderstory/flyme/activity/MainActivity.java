@@ -19,7 +19,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.alibaba.fastjson.JSON;
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.activity.base.BaseActivity;
 import com.coderstory.flyme.fragment.AboutMeFragment;
@@ -42,8 +41,10 @@ import com.coderstory.flyme.utils.SnackBarUtils;
 import com.coderstory.flyme.utils.Utils;
 import com.coderstory.flyme.utils.ViewUtils;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 
 import java.util.List;
+import java.util.Map;
 
 import per.goweii.anylayer.AnyLayer;
 import pub.devrel.easypermissions.AppSettingsDialog;
@@ -88,7 +89,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     break;
                 case 4:
                     if (!msg.getData().get("value").equals("{\"error\":\"0\"}")) {
-                        Toast.makeText(MainActivity.this, Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" + JSON.parseObject(msg.getData().get("value").toString()).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" + new Gson().fromJson(msg.getData().get("value").toString(), Map.class) .getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
                         helper.put(Utils.decode("bWFyaw=="), "");
                         //helper.put("sn", "");
                     }
@@ -225,7 +226,9 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             new Thread(new Utils().new Check(helper, myHandler, this)).start();
         }
 
-        new updgradeService(this).checkUpgrade();
+        if (helper.getBoolean("enableUpdate", true)) {
+            new updgradeService(this).checkUpgrade();
+        }
     }
 
     private void checkEnable() {

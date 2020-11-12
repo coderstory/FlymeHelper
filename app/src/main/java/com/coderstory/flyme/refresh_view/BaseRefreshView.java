@@ -12,7 +12,7 @@ import com.coderstory.flyme.view.PullToRefreshView;
 
 public abstract class BaseRefreshView extends Drawable implements Drawable.Callback, Animatable {
 
-    private PullToRefreshView mRefreshLayout;
+    private final PullToRefreshView mRefreshLayout;
 
     BaseRefreshView(PullToRefreshView layout) {
         mRefreshLayout = layout;

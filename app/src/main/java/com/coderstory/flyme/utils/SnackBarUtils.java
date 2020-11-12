@@ -17,7 +17,7 @@ public class SnackBarUtils {
 
     private static final int color_action = 0XFFCDC5BF;
 
-    private Snackbar mSnackbar;
+    private final Snackbar mSnackbar;
 
     private SnackBarUtils(Snackbar snackbar) {
         mSnackbar = snackbar;

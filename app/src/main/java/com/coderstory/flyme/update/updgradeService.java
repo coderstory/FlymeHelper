@@ -12,7 +12,7 @@ import java.io.File;
 
 public class updgradeService {
 
-    private Activity mActivity;
+    private final Activity mActivity;
 
     public updgradeService(Activity mActivity) {
         this.mActivity = mActivity;

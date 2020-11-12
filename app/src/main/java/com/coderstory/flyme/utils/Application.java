@@ -4,8 +4,6 @@ import android.os.Debug;
 
 import com.umeng.commonsdk.UMConfigure;
 
-import net.sqlcipher.database.SQLiteDatabase;
-
 
 public class Application extends android.app.Application {
     private static Application mInstance;
@@ -22,7 +20,6 @@ public class Application extends android.app.Application {
         mInstance = this;
         if (!Debug.isDebuggerConnected()) {
             System.loadLibrary("Utils");
-            SQLiteDatabase.loadLibs(this);
         }
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext());
