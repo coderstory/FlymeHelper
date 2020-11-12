@@ -17,26 +17,6 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:gravity="fill_vertical"
-                android:paddingTop="10dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:gravity="center_horizontal"
-                    android:shadowColor="#332E2E"
-                    android:shadowDx="10"
-                    android:shadowDy="10"
-                    android:shadowRadius="15"
-                    android:text="Flyme助手会员"
-                    android:textColor="#D0F44336"
-                    android:textSize="20sp" />
-            </LinearLayout>
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -120,7 +100,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
-                        android:text="付费专用群"
+                        android:text="加入付费群"
                         android:textSize="14dp" />
 
                     <Button
@@ -129,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
-                        android:text="交流群"
+                        android:text="加入交流群"
                         android:textSize="14dp" />
                 </LinearLayout>
 

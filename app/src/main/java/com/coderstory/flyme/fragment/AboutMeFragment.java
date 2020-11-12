@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.InputFilter;
 import android.text.method.DigitsKeyListener;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -76,7 +75,7 @@ public class AboutMeFragment extends BaseFragment {
                         Toast.makeText(getMContext(), "绑定成功,重启应用生效", Toast.LENGTH_SHORT).show();
                         refresh();
                     } else {
-                        Toast.makeText(getMContext(), Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" +  new Gson().fromJson(msg.getData().get("value").toString(), Map.class) .getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getMContext(), Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" + new Gson().fromJson(msg.getData().get("value").toString(), Map.class).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
                     }
                     // 校验返回
                     break;
@@ -123,13 +122,7 @@ public class AboutMeFragment extends BaseFragment {
 
         refresh();
 
-        if (!Utils.check(helper)) {
-            $(R.id.activation).setOnClickListener(v -> test());
-            // $(R.id.join_vip_group).setOnClickListener(v -> Toast.makeText(getMContext(), Utils.decode("5bCa5pyq5r+A5rS75Lya5ZGYLOS4jeWPr+eUs+ivtw=="), Toast.LENGTH_LONG).show());
-        } else {
-            $(R.id.activation).setVisibility(View.GONE);
-            $(R.id.join_vip_group).setVisibility(View.GONE);
-        }
+        $(R.id.activation).setOnClickListener(v -> test());
 
         $(R.id.join_vip_group).setOnClickListener(v -> {
             if (!joinQQGroup("dNIW3xRJ8YKTdsFcJBak3_cZ0AwTBdEn")) {
