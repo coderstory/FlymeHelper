@@ -75,12 +75,18 @@ public class OthersFragment extends BaseFragment {
             getEditor().putBoolean("EnableBlockAD", ((Switch) v).isChecked());
             fix();
             if (((Switch) v).isChecked()) {
-                dialog = ProgressDialog.show(getMContext(), "提示", "正在处理已安装的广告插件…", true, false, null);
+                dialog = ProgressDialog.show(getMContext(), "分析应用中...", "", true, false, null);
                 new Thread(() -> {
                     List<String> paths = Shell.su("cd /data/data;find -name com.meizu.advertise.plugin   -type dir").exec().getOut();
                     String[] command = new String[paths.size()];
                     for (int i = 0; i < paths.size(); i++) {
                         String path = paths.get(i).substring(1);
+                        ((Activity) getMContext()).runOnUiThread(() -> dialog.setMessage("正在处理\n" + path.split("/file")[0].replace("/", "")));
+                        try {
+                            Thread.sleep(150);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         command[i] = "rm -rf  /data/data" + path + "/*" + ";" + "chmod 0000 " + "/data/data" + path;
                     }
                     ((Activity) getMContext()).runOnUiThread(() -> dialog.dismiss());
