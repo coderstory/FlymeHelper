@@ -54,7 +54,7 @@
             <Switch
                 android:id="@+id/HideRootWithUpgrade"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:maxLines="10"
@@ -68,7 +68,7 @@
             <Switch
                 android:id="@+id/HideRootGlobal"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:maxLines="10"
@@ -162,7 +162,7 @@
             <Switch
                 android:id="@+id/enabletheme"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"

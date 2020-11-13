@@ -46,7 +46,7 @@
             <Switch
                 android:id="@+id/enableUpdate"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="60dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/switchBtn"
                 android:checked="true"
