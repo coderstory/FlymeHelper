@@ -80,6 +80,7 @@ dependencies {
     implementation 'com.github.itsnows:android-upgrade:1.2.4'
     implementation "com.github.topjohnwu.libsu:core:3.0.2"
     implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.alibaba:fastjson:1.2.73'
 }
 
 

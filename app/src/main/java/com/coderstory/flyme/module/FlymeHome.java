@@ -6,11 +6,9 @@ import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.coderstory.flyme.plugins.IModule;
 import com.coderstory.flyme.utils.XposedHelper;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 
@@ -58,11 +56,7 @@ public class FlymeHome extends XposedHelper implements IModule {
                         }
                     });
                 }
-                try {
-                    meizu17(lpparam);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                meizu17(lpparam);
             } else {
                 hook55(findClass("com.meizu.flyme.launcher.u", lpparam.classLoader), lpparam.classLoader);
                 hook55(findClass("com.meizu.flyme.launcher.v", lpparam.classLoader), lpparam.classLoader);
@@ -112,7 +106,7 @@ public class FlymeHome extends XposedHelper implements IModule {
     }
 
 
-    private void meizu17(XC_LoadPackage.LoadPackageParam lpparam) throws JSONException {
+    private void meizu17(XC_LoadPackage.LoadPackageParam lpparam) {
         JSONObject config = json.getJSONObject("custom_launcher_icon_number");
         int numRows = prefs.getInt("home_icon_num_rows", 0);
         int numColumns = prefs.getInt("home_icon_num_column", 0);

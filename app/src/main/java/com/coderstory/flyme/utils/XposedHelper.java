@@ -3,11 +3,10 @@ package com.coderstory.flyme.utils;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+import com.alibaba.fastjson.JSONObject;
 import com.coderstory.flyme.BuildConfig;
 import com.coderstory.flyme.plugins.IModule;
 import com.google.gson.Gson;
-
-import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
