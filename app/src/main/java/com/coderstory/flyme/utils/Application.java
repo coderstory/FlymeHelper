@@ -22,7 +22,7 @@ public class Application extends android.app.Application {
             System.loadLibrary("Utils");
         }
         CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(getApplicationContext());
+        // crashHandler.init(getApplicationContext());
         Cpp.initCpp(mInstance);
     }
 }

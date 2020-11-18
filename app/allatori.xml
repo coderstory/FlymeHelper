@@ -1,0 +1,46 @@
+<config>
+    <input>
+        <dir in="${classesRoot}" out="${classesRoot}-obfuscated" />
+        <!-- Kotlin support -->
+        <!--<dir in="${kotlinRoot}" out="${kotlinRoot}-obfuscated"/>-->
+    </input>
+
+    <classpath>
+        <jar name="${androidJar}" />
+        <jar name="${classpathJars}" />
+    </classpath>
+
+    <keep-names>
+        <class template="public class * instanceof android.app.Activity">
+            <method template="public void *(android.view.View)" />
+        </class>
+        <class template="public class * instanceof android.view.View">
+            <method template="void set*(**)" />
+            <method template="get*()" />
+        </class>
+        <class template="class * extends java.lang.Enum">
+            <method template="values()" />
+            <method template="valueOf(java.lang.String)" />
+        </class>
+        <class template="class * implements android.os.Parcelable">
+            <field template="public static final android.os.Parcelable*Creator *" />
+        </class>
+        <class template="class *.R*">
+            <field template="public static *" />
+        </class>
+        <class template="public class * instanceof android.app.Application" />
+        <class template="public class * instanceof android.app.Service" />
+        <class template="public class com.coderstory.flyme.plugins.start" />
+        <class template="public class com.coderstory.flyme.activity.MainActivity">
+            <method template="isEnable()" />
+        </class>
+        <class template="public class * instanceof android.content.BroadcastReceiver" />
+        <class template="public class * instanceof android.content.ContentProvider" />
+        <class template="public class * instanceof android.app.backup.BackupAgentHelper" />
+        <class template="public class * instanceof android.preference.Preference" />
+        <class template="public class com.android.vending.licensing.ILicensingService" />
+        <class template="public class com.google.android.vending.licensing.ILicensingService" />
+    </keep-names>
+
+    <property name="log-file" value="${logFile}" />
+</config>

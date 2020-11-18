@@ -1,9 +1,10 @@
--repackageclasses com.coderstory.flyme.utils
+#-repackageclasses com.coderstory.flyme.utils
 -mergeinterfacesaggressively
 -dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
 #指定代码的压缩级别
 -optimizationpasses 7
+-overloadaggressively
+-useuniqueclassmembernames
 #包明不混合大小写
 #-dontusemixedcaseclassnames
 #不去忽略非公共的库类

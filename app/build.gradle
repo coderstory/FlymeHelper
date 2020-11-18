@@ -7,8 +7,8 @@ android {
         applicationId "com.coderstory.flyme"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 430
-        versionName "4.1.3 Build 3"
+        versionCode 431
+        versionName "4.1.4"
         resConfigs "cn"
         ndk {
             abiFilters 'arm64-v8a'
@@ -21,9 +21,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            shrinkResources true
+            //shrinkResources true
             zipAlignEnabled true
             pseudoLocalesEnabled true
             signingConfig signingConfigs.release
@@ -64,6 +64,48 @@ android {
             path file('CMakeLists.txt')
         }
     }
+    applicationVariants.all { variant ->
+        // old Gradle versions:
+        // variant.javaCompile.doLast {
+        // new Gradle versions:
+        variant.javaCompileProvider.get().doLast {
+            runAllatori(variant)
+        }
+    }
+//    libraryVariants.all { variant ->
+//        // old Gradle versions:
+//        // variant.javaCompile.doLast {
+//        // new Gradle versions:
+//        variant.javaCompileProvider.get().doLast {
+//            runAllatori(variant)
+//        }
+//    }
+}
+
+def runAllatori(variant) {
+    copy {
+        from "$projectDir/allatori.xml"
+        into "$buildDir/intermediates/classes/"
+        expand(classesRoot: variant.javaCompileProvider.get().destinationDir,
+                kotlinRoot: "${buildDir}/tmp/kotlin-classes/${variant.name}",
+                androidJar: "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar",
+                classpathJars: variant.javaCompileProvider.get().classpath.getAsPath(),
+                logFile: "allatori-log-${variant.name}.xml")
+        rename('allatori.xml', "allatori-${variant.name}.xml")
+    }
+
+    new File("${variant.javaCompileProvider.get().destinationDir}-obfuscated").deleteDir()
+    javaexec {
+        main = 'com.allatori.Obfuscate'
+        classpath = files("$rootDir/allatori/allatori.jar")
+        args "$buildDir/intermediates/classes/allatori-${variant.name}.xml"
+    }
+    new File("${variant.javaCompileProvider.get().destinationDir}").deleteDir()
+    new File("${variant.javaCompileProvider.get().destinationDir}-obfuscated").renameTo(new File("${variant.javaCompileProvider.get().destinationDir}"))
+
+    // Kotlin support
+    // new File("${buildDir}/tmp/kotlin-classes/${variant.name}").deleteDir()
+    // new File("${buildDir}/tmp/kotlin-classes/${variant.name}-obfuscated").renameTo(new File("${buildDir}/tmp/kotlin-classes/${variant.name}"))
 }
 
 dependencies {
