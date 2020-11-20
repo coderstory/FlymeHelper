@@ -63,7 +63,7 @@ public class XposedFragment extends BaseFragment {
             }
         });
         $(R.id.install_magisk_module_y).setOnClickListener(v -> {
-            if (installMagisk("EdXposed-YAHFA-v0.4.6.2.4529.-release.zip", "EdXposed安装日志")) {
+            if (installMagisk("EdXposed-YAHFA-v0.4.6.4.4563.-release.zip", "EdXposed安装日志")) {
                 Toast.makeText(getMContext(), "框架安装成功,请手动安装xposed manager", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getMContext(), "Edxposed-y安装失败", Toast.LENGTH_SHORT).show();
@@ -71,7 +71,7 @@ public class XposedFragment extends BaseFragment {
         });
 
         $(R.id.install_module_y).setOnClickListener(v -> {
-            installByCopy("EdXposedY-v0.4.6.2.4529.zip");
+            installByCopy("EdXposedY-v0.4.6.4.4563.zip");
         });
     }
 
