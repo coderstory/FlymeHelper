@@ -15,6 +15,7 @@ import com.coderstory.flyme.fragment.base.BaseFragment;
 import com.coderstory.flyme.utils.hostshelper.FileHelper;
 import com.topjohnwu.superuser.Shell;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -71,7 +72,18 @@ public class XposedFragment extends BaseFragment {
         });
 
         $(R.id.install_module_y).setOnClickListener(v -> {
-            installByCopy("EdXposedY-v0.4.6.4.4563.zip");
+            if (new File("/system/lib/libriru_edxp.so").exists()) {
+                androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(getMContext());
+                normalDialog.setTitle("提示");
+                normalDialog.setMessage("检测到已经安装xposed框架,覆盖安装可能导致无法开机");
+                normalDialog.setPositiveButton("继续安装",
+                        (dialog, which) -> installByCopy("EdXposedY-v0.4.6.4.4563.zip"));
+                normalDialog.setNegativeButton("取消安装",
+                        (dialog, which) -> dialog.dismiss());
+                normalDialog.show();
+            } else {
+                installByCopy("EdXposedY-v0.4.6.4.4563.zip");
+            }
         });
     }
 
