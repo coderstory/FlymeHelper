@@ -3,12 +3,7 @@ package com.coderstory.flyme.fragment;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Html;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.cardview.widget.CardView;
 
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
@@ -18,11 +13,6 @@ import com.topjohnwu.superuser.Shell;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.DialogLayer;
-import per.goweii.anylayer.Layer;
 
 public class XposedFragment extends BaseFragment {
     @SuppressLint("HandlerLeak")
@@ -32,7 +22,7 @@ public class XposedFragment extends BaseFragment {
             switch (msg.arg1) {
                 case 0:
                     normalDialog.setTitle("提示");
-                    normalDialog.setMessage("框架安装完毕,请手动安装xposed manager");
+                    normalDialog.setMessage("框架安装完毕,重启生效");
                     normalDialog.setPositiveButton("确定",
                             (dialog, which) -> dialog.dismiss());
                     normalDialog.show();
@@ -59,64 +49,45 @@ public class XposedFragment extends BaseFragment {
     @Override
     public void setUpView() {
         $(R.id.install_magisk_module_riru).setOnClickListener(v -> {
-            if (!installMagisk("magisk-riru-v21.3.zip", "Riru安装日志")) {
-                Toast.makeText(getMContext(), "riru安装失败", Toast.LENGTH_SHORT).show();
-            }
+            installByCopy("magisk-riru-v21.3.zip");
         });
         $(R.id.install_magisk_module_y).setOnClickListener(v -> {
-            if (installMagisk("EdXposed-YAHFA-v0.4.6.4.4563.-release.zip", "EdXposed安装日志")) {
-                Toast.makeText(getMContext(), "框架安装成功,请手动安装xposed manager", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getMContext(), "Edxposed-y安装失败", Toast.LENGTH_SHORT).show();
+            if(checkRiru()) {
+                installByCopy("magisk-riru-storage-redirect-v22.8.zip");
             }
         });
 
         $(R.id.install_module_y).setOnClickListener(v -> {
-            if (new File("/system/lib/libriru_edxp.so").exists()) {
+            if ( checkRiru() && new File("/system/lib/libriru_edxp.so").exists()) {
                 androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(getMContext());
                 normalDialog.setTitle("提示");
                 normalDialog.setMessage("检测到已经安装xposed框架,覆盖安装可能导致无法开机");
                 normalDialog.setPositiveButton("继续安装",
-                        (dialog, which) -> installByCopy("EdXposedY-v0.4.6.4.4563.zip"));
+                        (dialog, which) -> installByCopy("EdXposed-YAHFA-v0.4.6.4.4563.-release.zip"));
                 normalDialog.setNegativeButton("取消安装",
                         (dialog, which) -> dialog.dismiss());
                 normalDialog.show();
             } else {
-                installByCopy("EdXposedY-v0.4.6.4.4563.zip");
+                installByCopy("EdXposed-YAHFA-v0.4.6.4.4563.-release.zip");
             }
         });
     }
 
-    private boolean installMagisk(String fileName, String moduleName) {
-        String base = getMContext().getFilesDir().getAbsolutePath();
-        FileHelper.saveAssets(getMContext(), fileName, base);
-        FileHelper.saveAssets(getMContext(), "installer", base);
-        List<String> commands = new ArrayList<>();
-        Shell.su("chmod 777 " + base + "/installer").exec();
-        Shell.su("dos2unix " + base + "/installer").exec();
-        List<String> result = Shell.su("sh " + base + "/installer dummy 1 " + base + "/" + fileName).exec().getOut();
-
-        Layer anyLayer = AnyLayer.dialog(getMContext())
-                .contentView(R.layout.dialog_def)
-                .cancelableOnTouchOutside(true)
-                .cancelableOnClickKeyBack(true)
-                .onClick((AnyLayer, v) -> {
-                    AnyLayer.dismiss();
-                }, R.id.tv_close);
-        anyLayer.show();
-        CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
-        LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-        TextView textView = (TextView) linearLayout.getChildAt(0);
-        boolean resultB = result.size() > 5 && "- Done".equals(result.get(result.size() - 1));
-        result = result.stream().filter(item -> !item.startsWith("***") &&
-                !item.startsWith("mount") &&
-                !item.startsWith("Archive:") &&
-                !item.startsWith("  inflating:"))
-                .collect(Collectors.toList());
-        textView.setText(Html.fromHtml(result.stream().reduce(moduleName + "<br>", (a, b) -> a + "<br>" + b) + "<br><br>" + (resultB ? "<font color='#dd2c00'><storage>!!安装成功,重启生效!!</b></font><br>" : "<font color='#dd2c00'><b>!!安装失败!!</b></font><br>")));
-
-        return resultB;
+    private boolean checkRiru(){
+        if (!new File("/system/lib64/libmemtrack.so.sha256sum").exists()) {
+            androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(getMContext());
+            normalDialog.setTitle("提示");
+            normalDialog.setMessage("检测到尚未安装Riru模块,请安装后再试");
+            normalDialog.setNegativeButton("确定",
+                    (dialog, which) -> dialog.dismiss());
+            normalDialog.show();
+            return  false;
+        } else {
+            return true;
+        }
     }
+
+
 
     private void installByCopy(String fileName) {
         Toast.makeText(getMContext(), "正在安装,请稍后。。", Toast.LENGTH_SHORT).show();
@@ -124,8 +95,8 @@ public class XposedFragment extends BaseFragment {
             // /sbin/.magisk/mirror/system_root
             String systemRoot = "/system";
             String base = getMContext().getFilesDir().getAbsolutePath();
-            Shell.su("rm -rf " + base + "/data");
-            Shell.su("rm -rf " + base + "/system");
+            Shell.su("rm -rf " + base + "/data").exec();
+            Shell.su("rm -rf " + base + "/system").exec();
             FileHelper.UnZipAssetsFolder(getMContext(), fileName, base);
             //if (run("mount -o rw,remount " + systemRoot)) {
             com.topjohnwu.superuser.Shell.su("mount -o rw,remount " + systemRoot).exec();
@@ -138,10 +109,12 @@ public class XposedFragment extends BaseFragment {
             commands.add("chmod 0644 /system/lib/libmemtrack.so");
             commands.add("chmod 0644 /system/lib/libwhale.edxp.so");
             commands.add("chmod 0644 /system/lib/libsandhook.edxp.so");
+            commands.add("chmod 0644 /system/lib/libriru_storage_redirect.so");
             commands.add("chmod 0644 /system/lib64/libriru_edxp.so");
             commands.add("chmod 0644 /system/lib64/libmemtrack.so");
             commands.add("chmod 0644 /system/lib64/libwhale.edxp.so");
             commands.add("chmod 0644 /system/lib64/libsandhook.edxp.so");
+            commands.add("chmod 0644 /system/lib64/libriru_storage_redirect.so");
             commands.add("chmod 0644 /system/framework/ed*");
             commands.add("chmod -R 0755 /data/misc/riru");
             commands.add("chmod 0700 /data/misc/riru/bin/zygote_restart");
@@ -158,22 +131,6 @@ public class XposedFragment extends BaseFragment {
             Message msg = new Message();
             msg.arg1 = 0;
             myHandler.sendMessage(msg);
-            // }
-
-
         }).start();
-    }
-
-    public boolean run(String command) {
-        Shell.Result result = Shell.su(command).exec();
-        if (result.getCode() != 0) {
-            Message msg = new Message();
-            msg.arg1 = 1;
-            msg.obj = result.getOut().stream().reduce("", (a, b) -> a + b);
-            myHandler.sendMessage(msg);
-            return false;
-        }
-        return true;
-
     }
 }

@@ -36,14 +36,12 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="50dp"
+                        android:layout_height="70dp"
                         android:layout_marginLeft="12dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="12dp"
-                        android:text="本工具用于安装EdXposed框架,支持通过Magisk或者ROOT安装。Edxposed版本:4563,Riru版本:21.3"
+                        android:text="本功能仅支持使用自带ROOT用户使用,Magisk用户请从仓库下载安装。本功能只包含对应框架安装，不包含对应的android 客户端"
                         android:textSize="14sp" />
-
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -60,23 +58,24 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:background="#FF9800"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/time"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="70dp"
                         android:layout_marginLeft="12dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="12dp"
-                        android:text="如果你已经安装了Magisk，请使用本安装方式，将框架安装为Magisk模块。"
+                        android:text="Edxposed版本:4563\nRiru版本:21.3\n存储重定向:22.8"
                         android:textSize="14sp" />
+
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+
+
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -103,7 +102,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
-                        android:text="步骤一：安装Riru模块(务必先安装)"
+                        android:text="安装Riru模块"
                         android:textSize="12dp" />
 
                 </LinearLayout>
@@ -136,39 +135,11 @@
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
-                        android:text="步骤二：安装Edxposed模块"
+                        android:text="安装存储重定向模块"
                         android:textSize="12dp" />
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="10dp"
-                android:background="@color/windowBackground"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:padding="10dp"
-
-                app:cardElevation="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#FF9800"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/time2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="70dp"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="12dp"
-                        android:text="如果你使用的是Flyme系统自带的ROOT，请使用本方式安装EdXposed,本安装方式是直接复制框架文件到System分区"
-                        android:textSize="14sp" />
-                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
 
@@ -196,7 +167,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
-                        android:text="安装Edxposed(ROOT安装)"
+                        android:text="安装Edxposed框架"
                         android:textSize="12dp" />
 
                 </LinearLayout>
