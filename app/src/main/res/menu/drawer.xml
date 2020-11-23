@@ -43,7 +43,7 @@
         <item
             android:id="@+id/navigation_item_xposed_install"
             android:icon="@drawable/hosts"
-            android:title="模块安装" />
+            android:title="框架安装" />
 
         <item android:title="@string/other">
             <menu>

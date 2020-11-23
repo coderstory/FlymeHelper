@@ -63,18 +63,15 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="70dp"
+                        android:layout_height="50dp"
                         android:layout_marginLeft="12dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="12dp"
-                        android:text="Edxposed版本:4563\nRiru版本:21.3\n存储重定向:22.8"
+                        android:text="EdXposed版本:0.4.6.4.4563\nRiru版本:21.3"
                         android:textSize="14sp" />
-
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
-
 
 
             <androidx.cardview.widget.CardView
@@ -102,7 +99,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
-                        android:text="安装Riru模块"
+                        android:text="安装Riru框架"
                         android:textSize="12dp" />
 
                 </LinearLayout>
@@ -118,7 +115,7 @@
                 android:layout_marginRight="10dp"
                 android:background="@color/windowBackground"
                 android:foreground="?android:attr/selectableItemBackground"
-
+                android:visibility="gone"
                 app:cardElevation="0dp">
 
                 <LinearLayout
@@ -137,11 +134,8 @@
                         android:background="@drawable/btn_nor_down"
                         android:text="安装存储重定向模块"
                         android:textSize="12dp" />
-
                 </LinearLayout>
-
             </androidx.cardview.widget.CardView>
-
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -167,7 +161,7 @@
                         android:layout_marginRight="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
-                        android:text="安装Edxposed框架"
+                        android:text="安装EdXposed框架"
                         android:textSize="12dp" />
 
                 </LinearLayout>
