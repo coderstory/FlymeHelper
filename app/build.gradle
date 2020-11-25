@@ -27,11 +27,9 @@ android {
             //shrinkResources true
             zipAlignEnabled true
             pseudoLocalesEnabled true
-            signingConfig signingConfigs.release
+         
         }
-        debug {
-            signingConfig signingConfigs.release
-        }
+        
     }
     lintOptions {
         abortOnError false
@@ -40,11 +38,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    productFlavors {
-    }
-    signingConfigs {
-     
-    }
+
 
     externalNativeBuild {
         cmake {
