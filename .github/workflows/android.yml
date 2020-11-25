@@ -18,7 +18,7 @@ jobs:
     - name: Install NDK
       run:  echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;22.0.6917172" --channel=1 --sdk_root=${ANDROID_SDK_ROOT}
     - name: Build with Gradle
-      run:  bash ./gradlew :app:assembleRelease
+      run:  bash ./gradlew build
     - name: Sign Android release
       id: sign
       uses: r0adkll/sign-android-release@v1.0.4
