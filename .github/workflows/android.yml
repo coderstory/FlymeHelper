@@ -19,3 +19,14 @@ jobs:
       run:  echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;22.0.6917172" --channel=1 --sdk_root=${ANDROID_SDK_ROOT}
     - name: Build with Gradle
       run:  bash ./gradlew release
+    - name: Sign Android release
+      id: sign
+      uses: r0adkll/sign-android-release@v1.0.4
+      env:
+        BUILD_TOOLS_VERSION: "30.0.2"
+      with:
+        releaseDirectory: app/build/outputs/apk/release
+        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+        alias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}      
