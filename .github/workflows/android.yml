@@ -22,5 +22,7 @@ jobs:
       with:
         # Exact version to use
         ndk-version: 22.0.6917172
+    - name: Install NDK
+      run:  echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;22.0.6917172" --channel=1 --sdk_root=${ANDROID_SDK_ROOT}
     - name: Build with Gradle
-      run: ./gradlew build
+      run:  bash ./gradlew release
