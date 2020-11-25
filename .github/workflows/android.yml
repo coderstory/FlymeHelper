@@ -19,27 +19,22 @@ jobs:
       run:  echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;22.0.6917172" --channel=1 --sdk_root=${ANDROID_SDK_ROOT}
     - name: Build with Gradle
       run:  bash ./gradlew assembleRelease
-    - name: Android Sign
-       # You may pin to the exact commit or the version.
-       # uses: Tlaster/android-sign@1c5bf4b2fa309acb0c0ae0bf9379ab458f14d5b1
-      uses: Tlaster/android-sign@v1.2.2
+    - uses: r0adkll/sign-android-release@v1
+      name: Sign app APK
+      # ID used to access action output
+      id: sign_app
       with:
-        # The directory to find your release to sign
-           releaseDirectory:  app/build/outputs/apk/release
-         # The key used to sign your release in base64 encoded format
-           signingKeyBase64: /u3+7QAAAAIAAAABAAAAAQAHY29vbGFwawAAAVU5CKc4AAAFADCCBPwwDgYKKwYBBAEqAhEBAQUABIIE6Os1LRjxq9nRegcI00B5ROZeZsHWRWEAXmA3JVkg3Vw3OKKGV3/m1yZ3QhP+xEGqpf7GBZxFagmY+PnXOQxQkjSf4kcpJemupaLuqtw16JeD96H4+9HBuY1432jAELOJFbqIXHeRdeXEDZ+UC77kKWeKwbLO1QD7G8uTDem4Gtj+ELtfPCTPYPfqXwKE/LdG4eMyamT51nrfTvbbDpOl7Sf2EdxUvJbpjveq/6vtpZmumLNYz9OUv8dPHSb6D/aP5YM0RmrMY2zT9qZUckkAuXC7eXADuy7psUStQFMeIRjVvhUQa/iCSolfFUiWx/5ojD6Q0cfc4i5Xl36DoPpSVF5ieXnY5VQCIjbA089NL3yTz8yQdfIhWAkUkwz5jr9c3vnMK1hJOjkO5Ne4BOaXp4q5NVJtM1EfQvgxuJfuEvJMUDdqRzvs0UVW9m8vloviT1XZcTuLbTLuNk7gzq+TaBMjUkbU6tg/2SxO3qW/sGaFKY0JEgNtLK4XkhVgdi76CHP/VpDaioF7pEdLXZ+UatuwKYDivqDbYCg2DivZ3LClRZpM2sAejuSbgqTPdib3Hrfj+s+uNkljJCzVuao68+qkkK7aijlGHUaqmAZ8lji85h5WdvVYlY7JwHkGMtRutOh/6N4PtmIHC/gy2gQ5APukCKbeUoac96FMbSmI6cjEoX5/APLuFpEhaWQISwrOw4bnF8iW+juoc8CIzufsJwn9smh2mS8OLv+h/6/Dcp1XYViK8VMLRlBJL9bw/4osY0p+EVeYu0HHOvve7fiLwDjtmFhCkPSo+HBo/mkk6ISb33LUIB6ng7ggtj9oopZhJoAfd8pSiXDc7wurEQeVRAuvmKKqPx3O1CuG8EHLBVx4uLQjES6tUppRM6J0yoYKs7jv7sjsHwju+O60slf95vpxKGsMaf56AIJ25YiDE3tqTJvf9AMQyUl2BXetan+hdvfJ84rHv9Cr0RBIaLnWhXfstdlJKKS+jX6C3x/5vJWOQLhJa4PvGp70zr0CDz5UoNwLmly9fDyRPgJaIZNunvnSXgu/9tPoFJiN7DxBaS0+e+S6RpZuCfvz1z529P8Dr9BhPoS/DqsfClw38+e4loZqgSN1qk/dY1xBgaQoMY7NykmwN7VP3H0Fs1WvCAA9T0uySCspLDme9pYL9o/RDhG3UoBNHM0gztQLcaIb2MVxVOUyjozZKS7yEcHnb07gjdciGOfO3RVJCAqYdsuXwmXDRWNi/4ZzNUffopvY8ayCtAmwlrc2U4M7WKqD2DDnZ3fAxQ8cWfi2ToREx72144FuZIgxIDoGg97K6KLGtIGuMYf29YzGVl7Fq0rg0RxgPwwVbKAJLOlRrFJ//KHZshfsSIUd/jtlAMRiuRw227QwMX+b+AMnXEinywLEmYl0jjApZptaI4sGCNargil6b8SW6rXbf+9++Z/mFLNTj61I6Shlm5P9vBYNDpk3R/VBuiRMiZTv70jC/A0n8DQCx9uu9v9u/7ctARe/TvLkKC5LpUXwRcO6WYsqHfYfsd/fP1Bvau2YKZRJfMHtRwgF3RtU2LnYvQnJ22x/S3gCB8yMQsBimgyxOjGZt81+TY+SjbxEKYn29gwXOJBUO/NpYY56MsepgNNaiAK974YC3OtLz+5f0QdW1oytpa2IEli9bglS4NAUPkvqAAAAAQAFWC41MDkAAAOXMIIDkzCCAnugAwIBAgIEOTYBOzANBgkqhkiG9w0BAQsFADB6MQswCQYDVQQGEwI4NjERMA8GA1UECBMIemhlamlhbmcxETAPBgNVBAcTCGhhbmd6aG91MRMwEQYDVQQKEwpjb2RlcnN0b3J5MRswGQYDVQQLExJibG9nLmNvZGVyc3RvcnkuY24xEzARBgNVBAMTCmNvZGVyc3RvcnkwHhcNMTYwNjEwMDYzODM2WhcNNDEwNjA0MDYzODM2WjB6MQswCQYDVQQGEwI4NjERMA8GA1UECBMIemhlamlhbmcxETAPBgNVBAcTCGhhbmd6aG91MRMwEQYDVQQKEwpjb2RlcnN0b3J5MRswGQYDVQQLExJibG9nLmNvZGVyc3RvcnkuY24xEzARBgNVBAMTCmNvZGVyc3RvcnkwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCGBc1h7wpS0MXmo0pQS65FdjUGthDJXyy2FqH4yK71VOQ2tG2OOp9cvku+zRsb8u1d+YqiuKshpxeR3rDQOWneY0MliJK4efhaO2wwKx316NlSbIMC3QHXwlWnUiI7FKXNuzl1oni1Co6dOsKd3jlY/TVJHzwRtfL2T+2B1Qt9SY/O7zA1hjNcN7UhJn/2124rkIai7bn+tMhOl9T7+XkukoEKyNrL50aMgO7n1jg+B4g7O3kPpJh9uHZxnGfxHxAoz15TcGwDFQMR3wgII73yiMn3aOXQTeALao5J4Txh4rsI2MVJ1KoWY+ApedeV+hhyOz+GnT4ziAT1bNprr633AgMBAAGjITAfMB0GA1UdDgQWBBTd+UDOz4nhrl6rzZBGrgw7zXk31jANBgkqhkiG9w0BAQsFAAOCAQEAEDlsjFzoMizLXCG04i3auruWe2M28tScWpC7IOoc4N3ZSqNF3GLD9qJ7x5FyrFgMzPpR/1069tVh4G0XENzSJCDgoMPr/oZ6D3DK/ZJkroY8leMEtrZg5SYApwQyUX/stL6/ojngdI6vR+TYmsVqaB+YSYXCw16xquopH2O/N/bqBF+R+uw5tX8gwwbZVXmGF1m9Tasn/K/4/NbnXR9IBZRytkhB6UbE2NWelWdBFrMAV0O3mcZsG5PlDxZaBnDGl8ji8Y4ZY7R6u2W0ghS4h7QVsW+7GZ86QOeHwfK38dt+dAB5NR8JF353bzE6l3DtQq9uEFKfwuysoS7S6EfN2V7HRGVcjfo5TFxedi869xe2DJuN
-         # The key alias
-           alias: coolapk
-        # The password to the keystore
-           keyStorePassword: zzj8868014
-         # The password for the key
-           keyPassword: bbs8868014
-         # The working directory for action, default to build
-           #buildDirectory: # optional
-         # The output directory for sign, default to build/signed
-           output: build/outputs/apk/release    
+        releaseDirectory: app/build/outputs/apk/release
+        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+        alias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}
+      env:
+        // override default build-tools version (29.0.3) -- optional
+        BUILD_TOOLS_VERSION: "30.0.2"
+      
     # Example use of `signedReleaseFile` output -- not needed
     - uses: actions/upload-artifact@v2
       with:
-          name: Signed app bundle
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+        name: Signed app bundle
+        path: ${{steps.sign_app.outputs.signedReleaseFile}}
