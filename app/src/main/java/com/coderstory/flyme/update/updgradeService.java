@@ -5,20 +5,33 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 
 import com.coderstory.flyme.R;
+import com.coderstory.flyme.utils.SharedHelper;
 import com.itsnows.upgrade.UpgradeManager;
 import com.itsnows.upgrade.model.bean.UpgradeOptions;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class updgradeService {
 
     private final Activity mActivity;
-
+    private final SharedHelper helper;
     public updgradeService(Activity mActivity) {
         this.mActivity = mActivity;
+        this.helper = new SharedHelper(mActivity);
     }
 
     public void checkUpgrade() {
+
+        String time = helper.getString("last_update_check_time", "");
+        String now = new SimpleDateFormat("yyyy-MM-dd HH").format(new Date());
+        if (!time.equals("") && now.equals(time)) {
+            return;
+        } else {
+            helper.put("last_update_check_time", now);
+        }
+
         UpgradeManager manager = new UpgradeManager(mActivity);
         // 自动检测更新
         manager.checkForUpdates(new UpgradeOptions.Builder()
