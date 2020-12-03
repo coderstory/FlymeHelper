@@ -63,12 +63,12 @@ public class XposedFragment extends BaseFragment {
                 normalDialog.setTitle("提示");
                 normalDialog.setMessage("检测到已经安装xposed框架,覆盖安装可能导致无法开机");
                 normalDialog.setPositiveButton("继续安装",
-                        (dialog, which) -> installByCopy("EdXposed-YAHFA-v0.4.6.4.4563.-release.zip"));
+                        (dialog, which) -> installByCopy("EdXposed-YAHFA-vDEVTESTONLY.4631-release.zip"));
                 normalDialog.setNegativeButton("取消安装",
                         (dialog, which) -> dialog.dismiss());
                 normalDialog.show();
             } else {
-                installByCopy("EdXposed-YAHFA-v0.4.6.4.4563.-release.zip");
+                installByCopy("EdXposed-YAHFA-vDEVTESTONLY.4631-release.zip");
             }
         });
     }
