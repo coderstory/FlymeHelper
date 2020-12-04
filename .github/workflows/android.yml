@@ -2,7 +2,7 @@ name: Android CI
 
 on:
   push:
-    branches: [ flyme8 ]
+    branches: [ master ]
 
 jobs:
   build:
