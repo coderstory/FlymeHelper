@@ -1,0 +1,113 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+    defaultConfig {
+        applicationId "com.coderstory.flyme"
+        minSdkVersion 24
+        targetSdkVersion 30
+        versionCode 432
+        versionName "4.1.5"
+        resConfigs "cn"
+        ndk {
+            abiFilters 'arm64-v8a'
+        }
+    }
+
+    productFlavors {
+    }
+    signingConfigs {
+
+    }
+    signingConfigs {
+        release {
+            File strFile = new File("../../mykey.jks")
+            storeFile file(strFile)
+            storePassword "zzj8868014"
+            keyAlias "coolapk"
+            keyPassword "bbs8868014"
+        }
+        debug {
+            File strFile = new File("../../mykey.jks")
+            storeFile file(strFile)
+            storePassword "zzj8868014"
+            keyAlias "coolapk"
+            keyPassword "bbs8868014"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
+            pseudoLocalesEnabled true
+            multiDexEnabled true
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
+        }
+
+    }
+    lintOptions {
+        abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+
+    externalNativeBuild {
+        cmake {
+            path file('CMakeLists.txt')
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.javaCompileProvider.get().doLast {
+            runAllatori(variant)
+        }
+    }
+}
+
+def runAllatori(variant) {
+    copy {
+        from "$projectDir/allatori.xml"
+        into "$buildDir/intermediates/classes/"
+        expand(classesRoot: variant.javaCompileProvider.get().destinationDir,
+                kotlinRoot: "${buildDir}/tmp/kotlin-classes/${variant.name}",
+                androidJar: "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar",
+                classpathJars: variant.javaCompileProvider.get().classpath.getAsPath(),
+                logFile: "allatori-log-${variant.name}.xml")
+        rename('allatori.xml', "allatori-${variant.name}.xml")
+    }
+
+    new File("${variant.javaCompileProvider.get().destinationDir}-obfuscated").deleteDir()
+    javaexec {
+        main = 'com.allatori.Obfuscate'
+        classpath = files("$rootDir/allatori/allatori.jar")
+        args "$buildDir/intermediates/classes/allatori-${variant.name}.xml"
+    }
+    new File("${variant.javaCompileProvider.get().destinationDir}").deleteDir()
+    new File("${variant.javaCompileProvider.get().destinationDir}-obfuscated").renameTo(new File("${variant.javaCompileProvider.get().destinationDir}"))
+}
+
+dependencies {
+    compileOnly fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.github.goweii:AnyLayer:3.4.3-support'
+    implementation "com.umeng.umsdk:common:2.1.0"
+    implementation 'pub.devrel:easypermissions:3.0.0'
+    implementation 'com.github.itsnows:android-upgrade:1.2.4'
+    implementation "com.github.topjohnwu.libsu:core:3.0.2"
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.alibaba:fastjson:1.2.73'
+    compileOnly 'de.robv.android.xposed:api:82'
+}
+
+
