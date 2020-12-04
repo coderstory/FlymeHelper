@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    ndkVersion "22.0.6917172"
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
     defaultConfig {
@@ -24,10 +23,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            //shrinkResources true
             zipAlignEnabled true
             pseudoLocalesEnabled true
-         
         }
         
     }
@@ -46,21 +43,10 @@ android {
         }
     }
     applicationVariants.all { variant ->
-        // old Gradle versions:
-        // variant.javaCompile.doLast {
-        // new Gradle versions:
         variant.javaCompileProvider.get().doLast {
             runAllatori(variant)
         }
     }
-//    libraryVariants.all { variant ->
-//        // old Gradle versions:
-//        // variant.javaCompile.doLast {
-//        // new Gradle versions:
-//        variant.javaCompileProvider.get().doLast {
-//            runAllatori(variant)
-//        }
-//    }
 }
 
 def runAllatori(variant) {
@@ -83,10 +69,6 @@ def runAllatori(variant) {
     }
     new File("${variant.javaCompileProvider.get().destinationDir}").deleteDir()
     new File("${variant.javaCompileProvider.get().destinationDir}-obfuscated").renameTo(new File("${variant.javaCompileProvider.get().destinationDir}"))
-
-    // Kotlin support
-    // new File("${buildDir}/tmp/kotlin-classes/${variant.name}").deleteDir()
-    // new File("${buildDir}/tmp/kotlin-classes/${variant.name}-obfuscated").renameTo(new File("${buildDir}/tmp/kotlin-classes/${variant.name}"))
 }
 
 dependencies {
@@ -97,13 +79,13 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.goweii:AnyLayer:3.4.3-support'
-    compileOnly 'de.robv.android.xposed:api:82'
     implementation "com.umeng.umsdk:common:2.1.0"
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'com.github.itsnows:android-upgrade:1.2.4'
     implementation "com.github.topjohnwu.libsu:core:3.0.2"
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.alibaba:fastjson:1.2.73'
+    compileOnly 'de.robv.android.xposed:api:82'
 }
 
 
