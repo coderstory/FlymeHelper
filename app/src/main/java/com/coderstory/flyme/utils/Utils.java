@@ -125,7 +125,7 @@ public class Utils {
         if (result.get(0).contains("start command")) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(mContext);
             normalDialog.setTitle("!!致命错误!!");
-            normalDialog.setMessage("你手机的ROOT已爆炸,请刷机后重试!");
+            normalDialog.setMessage("检测到您手机自带的ROOT已失效!");
             normalDialog.setPositiveButton("确定",
                     (dialog, which) -> System.exit(0));
             normalDialog.setCancelable(true);
