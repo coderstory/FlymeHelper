@@ -36,16 +36,32 @@ public class ThemePatcher extends XposedHelper implements IModule {
 
                 //device_states | doCheckState
                 //8.7.1
-                findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.c", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
+                hookAllConstructors("com.meizu.customizecenter.manager.utilstool.a.c", lpparam.classLoader, new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.c", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
+                    }
+                });
+                //findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.c", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
+                // hookAllMethods("com.meizu.customizecenter.manager.utilstool.conversionutils.g", lpparam.classLoader, "a", new XC_MethodHook() {
+                //     @Override
+                //     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                //         super.beforeHookedMethod(param);
+                //         if (param.args.length > 2 && "doCheckState".equals(param.args[1])) {
+                //             param.setResult(0);
+                //         }
+                //     }
+                // });
                 findAndHookMethod("com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility", lpparam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(false));
                 findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.f.b", lpparam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(false));
 
                 // com.meizu.advertise.plugin
-                hookAllMethods("com.meizu.advertise.api.AdManager", lpparam.classLoader, "install", XC_MethodReplacement.returnConstant(null));
+                findAndHookMethod("com.meizu.advertise.api.AdManager", lpparam.classLoader, "install", XC_MethodReplacement.returnConstant(null));
 
                 //resetToSystemTheme
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true));
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "b", XC_MethodReplacement.returnConstant(true));
+                //findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "b", XC_MethodReplacement.returnConstant(true));
 
                 /**
                  *

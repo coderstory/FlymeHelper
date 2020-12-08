@@ -88,6 +88,7 @@ public class OthersFragment extends BaseFragment {
                             e.printStackTrace();
                         }
                         command[i] = "rm -rf  /data/data" + path + "/*" + ";" + "chmod 0000 " + "/data/data" + path;
+                        Shell.su(command[i]).exec();
                     }
                     ((Activity) getMContext()).runOnUiThread(() -> dialog.dismiss());
                 }).start();
