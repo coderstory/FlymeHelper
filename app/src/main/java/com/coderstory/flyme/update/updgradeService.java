@@ -3,6 +3,7 @@ package com.coderstory.flyme.update;
 import android.app.Activity;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.util.Base64;
 
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.utils.SharedHelper;
@@ -25,8 +26,8 @@ public class updgradeService {
     public void checkUpgrade() {
 
         String time = helper.getString("last_update_check_time", "");
-        String now = new SimpleDateFormat("yyyy-MM-dd HH").format(new Date());
-        if (!time.equals("") && now.equals(time)) {
+        String now = Base64.encodeToString(new SimpleDateFormat("yyyyMMddHH").format(new Date()).getBytes(), Base64.DEFAULT);
+        if (!time.equals("") && now.equals(Base64.encodeToString(time.getBytes(), Base64.DEFAULT))) {
             return;
         } else {
             helper.put("last_update_check_time", now);
