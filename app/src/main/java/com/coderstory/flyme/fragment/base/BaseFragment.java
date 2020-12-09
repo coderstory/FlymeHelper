@@ -69,12 +69,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void fix() {
-        getEditor().apply();
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        getEditor().commit();
         sudoFixPermissions();
     }
 
