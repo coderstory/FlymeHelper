@@ -15,25 +15,8 @@ android {
         }
     }
 
-    productFlavors {
-    }
-    signingConfigs {
-
-    }
     signingConfigs {
         release {
-            File strFile = new File("../../mykey.jks")
-            storeFile file(strFile)
-            storePassword "zzj8868014"
-            keyAlias "coolapk"
-            keyPassword "bbs8868014"
-        }
-        debug {
-            File strFile = new File("../../mykey.jks")
-            storeFile file(strFile)
-            storePassword "zzj8868014"
-            keyAlias "coolapk"
-            keyPassword "bbs8868014"
         }
     }
     buildTypes {
@@ -42,11 +25,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
             pseudoLocalesEnabled true
-            multiDexEnabled true
-            signingConfig signingConfigs.release
-        }
-        debug {
-            signingConfig signingConfigs.release
         }
 
     }
