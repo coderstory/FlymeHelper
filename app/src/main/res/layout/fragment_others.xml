@@ -239,7 +239,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="40dp"
                 android:paddingStart="30dp"
                 android:paddingTop="15dp"
 
@@ -325,10 +325,13 @@
                     android:descendantFocusability="blocksDescendants" />
             </LinearLayout>
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="#FFF" />
+                android:layout_height="100dp"
+                android:paddingStart="30dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="4dp"
+                android:text="@string/tips2" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
