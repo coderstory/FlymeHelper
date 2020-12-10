@@ -53,5 +53,9 @@
     <property name="random-seed" value="wqeqweqweqw qweqwe11111" />
     <property name="update-resource-contents" value="enable" />
     <property name="update-resource-contents" value="enable:UTF-8" />
+    <property name="remove-calls" value="android.util.Log.*" />
     <property name="log-file" value="${logFile}" />
+    <property name="synthetize-methods" value="all" />
+    <property name="control-flow-obfuscation" value="enable" />
+    <property name="synthetize-fields" value="all" />
 </config>
