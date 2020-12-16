@@ -7,63 +7,63 @@
 
         <item
             android:id="@+id/navigation_item_otherssettings"
-            android:icon="@drawable/iconfont_custom_view"
+            android:icon="@drawable/ic_format_list"
             android:title="@string/othersettings" />
 
         <item
             android:id="@+id/navigation_item_system_ui_settings"
-            android:icon="@drawable/iconfont_custom_view"
+            android:icon="@drawable/ic_link"
             android:title="@string/systemui_settings" />
 
         <item
+            android:id="@+id/navigation_item_xposed_install"
+            android:icon="@drawable/ic_telegram"
+            android:title="@string/install_xposed" />
+
+        <item
             android:id="@+id/navigation_item_updateList"
-            android:icon="@drawable/hosts"
+            android:icon="@drawable/ic_refresh"
             android:title="@string/updateList" />
 
         <item
             android:id="@+id/navigation_item_disableapps"
-            android:icon="@drawable/disable"
+            android:icon="@drawable/ic_block"
             android:title="@string/disableapp" />
 
         <item
             android:id="@+id/navigation_item_Clean"
-            android:icon="@drawable/clean"
+            android:icon="@drawable/ic_circle_down"
             android:title="@string/appclean" />
 
         <item
             android:id="@+id/navigation_item_hide_app"
-            android:icon="@drawable/iconfont_source"
+            android:icon="@drawable/ic_swap_horiz"
             android:title="@string/hide_app_icon" />
 
         <item
             android:id="@+id/navigation_item_hosts"
-            android:icon="@drawable/hosts"
+            android:icon="@drawable/ic_table_rows"
             android:title="@string/hosts" />
-
-        <item
-            android:id="@+id/navigation_item_xposed_install"
-            android:icon="@drawable/hosts"
-            android:title="框架安装" />
 
         <item android:title="@string/other">
             <menu>
                 <item
                     android:id="@+id/navigation_item_Blog"
-                    android:icon="@drawable/clean"
+                    android:icon="@drawable/ic_share"
                     android:title="@string/blog" />
                 <item
                     android:id="@+id/navigation_item_settings"
-                    android:icon="@drawable/iconfont_custom_view"
+                    android:icon="@drawable/ic_settings"
                     android:title="@string/others_appsettings" />
 
                 <item
                     android:id="@+id/navigation_item_about_me"
-                    android:icon="@drawable/iconfont_about"
+                    android:icon="@drawable/ic_vip"
                     android:title="@string/member_binding" />
 
                 <item
                     android:id="@+id/navigation_item_about"
-                    android:icon="@drawable/skin"
+                    android:icon="@drawable/ic_info"
                     android:title="@string/about" />
             </menu>
         </item>
