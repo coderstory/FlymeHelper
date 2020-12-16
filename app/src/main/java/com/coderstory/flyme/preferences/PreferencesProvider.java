@@ -167,7 +167,7 @@ public abstract class PreferencesProvider extends ContentProvider {
     private void delete(Context context, Model model) {
         SharedPreferences.Editor editor = PreferencesUtils.getEditor(context, model.getSpName());
         editor.remove(model.getKey());
-        editor.apply();
+        editor.commit();
     }
 
     /**
@@ -197,7 +197,7 @@ public abstract class PreferencesProvider extends ContentProvider {
                 editor.putString(key, (value == null ? "" : new String(android.util.Base64.decode(((String) value), Base64.DEFAULT))));
             }
         }
-        editor.apply();
+        editor.commit();
     }
 
     /**

@@ -70,7 +70,8 @@ public class AboutMeFragment extends BaseFragment {
 
                 case 4:
                     if (msg.getData().get("value").equals("{\"error\":\"0\"}")) {
-                        getEditor().putString(Utils.decode("bWFyaw=="), Utils.encodeStr(msg.getData().get("mark").toString())).apply();
+                        getEditor().putString(Utils.decode("bWFyaw=="), Utils.encodeStr(msg.getData().get("mark").toString())).commit();
+                        sudoFixPermissions();
                         //getEditor().putString("sn", msg.getData().get("sn").toString()).apply();
                         Toast.makeText(getMContext(), "绑定成功,重启应用生效", Toast.LENGTH_SHORT).show();
                         refresh();

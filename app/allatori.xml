@@ -41,6 +41,21 @@
         <class template="public class com.android.vending.licensing.ILicensingService" />
         <class template="public class com.google.android.vending.licensing.ILicensingService" />
     </keep-names>
-
+    <property name="extensive-flow-obfuscation" value="maximum" />
+    <property name="string-encryption" value="maximum-with-warnings" />
+    <property name="string-encryption-type" value="strong" />
+    <property name="default-package" value="" />
+    <property name="force-default-package" value="enable" />
+    <property name="update-resource-names" value="enable" />
+    <property name="inner-classes" value="remove" />
+    <property name="finalize" value="enable" />
+    <property name="generics" value="remove" />
+    <property name="random-seed" value="wqeqweqweqw qweqwe11111" />
+    <property name="update-resource-contents" value="enable" />
+    <property name="update-resource-contents" value="enable:UTF-8" />
+    <property name="remove-calls" value="android.util.Log.*" />
     <property name="log-file" value="${logFile}" />
+    <property name="synthetize-methods" value="all" />
+    <property name="control-flow-obfuscation" value="enable" />
+    <property name="synthetize-fields" value="all" />
 </config>

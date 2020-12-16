@@ -51,14 +51,10 @@ public class SplashActivity extends Activity {
 
             @Override
             protected Integer doInBackground(Void... params) {
-                long startTime = System.currentTimeMillis();
-                long loadingTime = System.currentTimeMillis() - startTime;
-                if (loadingTime < SHOW_TIME_MIN) {
-                    try {
-                        Thread.sleep(SHOW_TIME_MIN - loadingTime);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    Thread.sleep(SHOW_TIME_MIN);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
                 Cpp.check();
                 return 1;

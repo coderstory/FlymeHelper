@@ -106,20 +106,6 @@
                 android:text="@string/hideDepWarn" />
 
             <Switch
-                android:id="@+id/enableCTS"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/switchBtn"
-                android:maxLines="10"
-                android:paddingStart="30dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="30dp"
-                android:paddingBottom="4dp"
-                android:text="@string/enableCTS" />
-
-
-            <Switch
                 android:id="@+id/removeStore"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -193,6 +179,18 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_icon_label" />
 
+            <Switch
+                android:id="@+id/enableCTS"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:maxLines="10"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:text="@string/enableCTS" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -241,7 +239,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="40dp"
                 android:paddingStart="30dp"
                 android:paddingTop="15dp"
 
@@ -327,10 +325,13 @@
                     android:descendantFocusability="blocksDescendants" />
             </LinearLayout>
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="#FFF" />
+                android:layout_height="100dp"
+                android:paddingStart="30dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="4dp"
+                android:text="@string/tips2" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
