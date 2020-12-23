@@ -32,6 +32,7 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
+        XposedBridge.log("Flyme助手 " + BuildConfig.VERSION_NAME + " 开始Patch" + lpparam.packageName);
         if (Utils.vi()) {
             new FlymeHome().handleLoadPackage(lpparam);
             new IsEnable().handleLoadPackage(lpparam);
@@ -46,7 +47,6 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
 
     @Override
     public void initZygote(StartupParam startupParam) {
-        XposedBridge.log("Flyme助手 " + BuildConfig.VERSION_NAME + " 开始Patch");
         //XposedBridge.log(" 产品有效期:" + Misc.endTime);
         //XposedBridge.log("激活状态:" + vi());
         //XposedBridge.log("SDK版本号: " + android.os.Build.VERSION.SDK_INT);
