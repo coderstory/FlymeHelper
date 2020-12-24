@@ -48,32 +48,41 @@ public class XposedFragment extends BaseFragment {
 
     @Override
     public void setUpView() {
-        $(R.id.install_magisk_module_riru).setOnClickListener(v -> {
-            installByCopy("magisk-riru-v21.3.zip");
-        });
-        $(R.id.install_magisk_module_y).setOnClickListener(v -> {
-            if(checkRiru()) {
-                installByCopy("magisk-riru-storage-redirect-v22.8.zip");
-            }
-        });
+        if (android.os.Build.VERSION.SDK_INT == 30) {
+            androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(getMContext());
+            normalDialog.setTitle("很遗憾");
+            normalDialog.setMessage("检测到你正在使用基于Android 11的安卓系统,无法通过ROOT安装EdXposed框架");
+            normalDialog.setNegativeButton("确定",
+                    (dialog, which) -> dialog.dismiss());
+            normalDialog.show();
+        } else {
+            $(R.id.install_magisk_module_riru).setOnClickListener(v -> {
+                installByCopy("magisk-riru-v21.3.zip");
+            });
+            $(R.id.install_magisk_module_y).setOnClickListener(v -> {
+                if (checkRiru()) {
+                    installByCopy("magisk-riru-storage-redirect-v22.8.zip");
+                }
+            });
 
-        $(R.id.install_module_y).setOnClickListener(v -> {
-            if ( checkRiru() && new File("/system/lib/libriru_edxp.so").exists()) {
-                androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(getMContext());
-                normalDialog.setTitle("提示");
-                normalDialog.setMessage("检测到已经安装xposed框架,覆盖安装可能导致无法开机");
-                normalDialog.setPositiveButton("继续安装",
-                        (dialog, which) -> installByCopy("EdXposed-YAHFA-vDEVTESTONLY.4631-release.zip"));
-                normalDialog.setNegativeButton("取消安装",
-                        (dialog, which) -> dialog.dismiss());
-                normalDialog.show();
-            } else {
-                installByCopy("EdXposed-YAHFA-vDEVTESTONLY.4631-release.zip");
-            }
-        });
+            $(R.id.install_module_y).setOnClickListener(v -> {
+                if (checkRiru() && new File("/system/lib/libriru_edxp.so").exists()) {
+                    androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(getMContext());
+                    normalDialog.setTitle("提示");
+                    normalDialog.setMessage("检测到已经安装xposed框架,覆盖安装可能导致无法开机");
+                    normalDialog.setPositiveButton("继续安装",
+                            (dialog, which) -> installByCopy("EdXposed-YAHFA-vDEVTESTONLY.4631-release.zip"));
+                    normalDialog.setNegativeButton("取消安装",
+                            (dialog, which) -> dialog.dismiss());
+                    normalDialog.show();
+                } else {
+                    installByCopy("EdXposed-YAHFA-vDEVTESTONLY.4631-release.zip");
+                }
+            });
+        }
     }
 
-    private boolean checkRiru(){
+    private boolean checkRiru() {
         if (!new File("/system/lib64/libmemtrack.so.sha256sum").exists()) {
             androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(getMContext());
             normalDialog.setTitle("提示");
@@ -81,12 +90,11 @@ public class XposedFragment extends BaseFragment {
             normalDialog.setNegativeButton("确定",
                     (dialog, which) -> dialog.dismiss());
             normalDialog.show();
-            return  false;
+            return false;
         } else {
             return true;
         }
     }
-
 
 
     private void installByCopy(String fileName) {

@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -35,12 +36,15 @@ import static com.coderstory.flyme.utils.Misc.ApplicationName;
 public class XposedHelper implements IModule {
 
 
-    protected XSharedPreferences prefs = new XSharedPreferences(new File("/data/user_de/0/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml"));
+    protected XSharedPreferences prefs;
     public static JSONObject json = new JSONObject();
 
     {
-        prefs.makeWorldReadable();
-        prefs.reload();
+        if (android.os.Build.VERSION.SDK_INT == 30) {
+            prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID, Misc.SharedPreferencesName);
+        } else {
+            prefs = new XSharedPreferences(new File("/data/user_de/0/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml"));
+        }
     }
 
     public static Class findClass(String classpatch, ClassLoader classLoader) {
@@ -197,7 +201,7 @@ public class XposedHelper implements IModule {
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
-            json = new Gson().fromJson(sb.toString(),JSONObject.class);
+            json = new Gson().fromJson(sb.toString(), JSONObject.class);
 
         } catch (Exception e) {
             Logger.loge(e.toString());
