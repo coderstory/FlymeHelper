@@ -10,6 +10,7 @@ import com.coderstory.flyme.utils.XposedHelper;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -31,8 +32,14 @@ public class ThemePatcher extends XposedHelper implements IModule {
                 findAndHookMethod("com.meizu.customizecenter.admin.receiver.BootBroadcastReceiver", lpparam.classLoader, "onReceive", Context.class, Intent.class, XC_MethodReplacement.returnConstant(null));
 
                 // 拦截试用服务
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.FontTrialService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, XC_MethodReplacement.returnConstant(0));
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.ThemeTrialService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, XC_MethodReplacement.returnConstant(0));
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.FontTrialService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, XC_MethodReplacement.returnConstant(2));
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.ThemeTrialService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, new XC_MethodReplacement() {
+                    @Override
+                    protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                        XposedBridge.log("fuck ThemeTrialService");
+                       return 2;
+                    }
+                });
 
                 //device_states | doCheckState
                 //8.7.1
@@ -123,6 +130,12 @@ public class ThemePatcher extends XposedHelper implements IModule {
                         super.beforeHookedMethod(param);
                     }
                 });
+
+                // android 11 8.30.2
+                findAndHookMethod("com.meizu.customizecenter.manager.utilshelper.restorehelper.ThemeRestoreService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, XC_MethodReplacement.returnConstant(0));
+                findAndHookMethod("com.meizu.customizecenter.manager.utilshelper.restorehelper.FontRestoreService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, XC_MethodReplacement.returnConstant(0));
+                findAndHookMethod("com.meizu.customizecenter.manager.utilshelper.scannerhelper.CustomizeScannerService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, XC_MethodReplacement.returnConstant(0));
+
             }
         }
     }
