@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -185,6 +186,18 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
         checkEnable();
 
+        try {
+             getSharedPreferences("test", Context.MODE_WORLD_READABLE);
+        } catch (SecurityException e) {
+            if (android.os.Build.VERSION.SDK_INT == 30) {
+                final androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
+                normalDialog.setTitle("警告");
+                normalDialog.setMessage("检测到当前系统是Android 11,但EdXposed版本过低,插件将不会生效");
+                normalDialog.setPositiveButton("确定",
+                        (dialog, which) -> System.exit(0));
+                normalDialog.show();
+            }
+        }
         if (helper.getBoolean("firstOpenC", true)) {
         }
 

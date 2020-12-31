@@ -59,14 +59,7 @@ public class Utils {
         try {
             result = context.getSharedPreferences(fileName, Context.MODE_WORLD_READABLE);
         } catch (SecurityException e) {
-            if(android.os.Build.VERSION.SDK_INT == 30){
-                final androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(context);
-                normalDialog.setTitle("警告");
-                normalDialog.setMessage("检测到当前系统是Android 11,但EdXposed版本过低,插件将不会生效");
-                normalDialog.setPositiveButton("确定",
-                        (dialog, which) -> System.exit(0));
-                normalDialog.show();
-            }
+
             try {
                 // 获取 ContextWrapper对象中的mBase变量。该变量保存了 ContextImpl 对象
                 Field field_mBase = ContextWrapper.class.getDeclaredField("mBase");
