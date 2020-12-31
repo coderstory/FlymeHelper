@@ -34,8 +34,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import static com.coderstory.flyme.utils.Misc.ApplicationName;
 
 public class XposedHelper implements IModule {
-
-
     protected XSharedPreferences prefs;
     public static JSONObject json = new JSONObject();
 
@@ -47,15 +45,14 @@ public class XposedHelper implements IModule {
         }
     }
 
-    public static Class findClass(String classpatch, ClassLoader classLoader) {
+    public static Class<?> findClass(String classpatch, ClassLoader classLoader) {
         try {
             return XposedHelpers.findClass(classpatch, classLoader);
         } catch (XposedHelpers.ClassNotFoundError error) {
-            XposedBridge.log(error.getMessage());
+            XposedBridge.log(error);
         }
         return null;
     }
-
 
     public static void findAndHookMethod(String p1, ClassLoader lpparam, String p2, Object... parameterTypesAndCallback) {
         try {
@@ -76,7 +73,7 @@ public class XposedHelper implements IModule {
 
     public static void hookAllConstructors(String p1, ClassLoader classLoader, XC_MethodHook parameterTypesAndCallback) {
         try {
-            Class packageParser = XposedHelpers.findClass(p1, classLoader);
+            Class<?> packageParser = XposedHelpers.findClass(p1, classLoader);
             XposedBridge.hookAllConstructors(packageParser, parameterTypesAndCallback);
 
         } catch (Throwable error) {
@@ -106,7 +103,7 @@ public class XposedHelper implements IModule {
         try {
             return XposedBridge.hookAllMethods(hookClass, methodName, callback);
         } catch (Throwable error) {
-            XposedBridge.log(error.getMessage());
+            XposedBridge.log(error);
         }
         return null;
     }
@@ -148,7 +145,7 @@ public class XposedHelper implements IModule {
         try {
             return XposedBridge.hookAllConstructors(hookClass, callback);
         } catch (Throwable error) {
-            XposedBridge.log(error.getMessage());
+            XposedBridge.log(error);
             return new HashSet<>();
         }
     }
@@ -157,7 +154,7 @@ public class XposedHelper implements IModule {
         try {
             return XposedHelpers.findClass(classpatch, classLoader);
         } catch (XposedHelpers.ClassNotFoundError error) {
-            error.printStackTrace();
+            //XposedBridge.log(error);
         }
         return null;
     }
@@ -215,7 +212,6 @@ public class XposedHelper implements IModule {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
-
         try {
             // 获取context对象
             Context context = (Context) XposedHelpers.callMethod(
@@ -232,23 +228,6 @@ public class XposedHelper implements IModule {
         } catch (Exception e) {
             Logger.loge(String.format("Set NeedHookPackage Accounding:%s Error", BuildConfig.APPLICATION_ID));
         }
-
-//            if ((hookPackages != null) && (hookPackages.contains(loadPackageParam.processName)) && (!loadPackageParam.processName.equals(modulePackage))) {
-//                try {
-//
-//                    XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
-//                        @Override
-//                        protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-//                            Logger.logi(String.format("Get Needed Hook Package:%s", loadPackageParam.packageName));
-//                            Context context = (Context) param.args[0];
-//                            loadPackageParam.classLoader = context.getClassLoader();
-//                            invokeHandleHookMethod(context, modulePackage, handleHookClass, handleHookMethod, loadPackageParam);
-//                        }
-//                    });
-//                } catch (Exception e) {
-//                    Logger.loge(String.format("Invoke Hook Method Error, Package:%s", loadPackageParam.packageName));
-//                }
-//            }
     }
 
     @Override
