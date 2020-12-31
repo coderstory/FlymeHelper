@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -92,7 +91,11 @@ public class XposedHelper implements IModule {
     public static int hookAllMethods(String p1, ClassLoader lpparam, String methodName, XC_MethodHook parameterTypesAndCallback) {
         try {
             Class packageParser = XposedHelpers.findClass(p1, lpparam);
-            return XposedBridge.hookAllMethods(packageParser, methodName, parameterTypesAndCallback).size();
+            int count = XposedBridge.hookAllMethods(packageParser, methodName, parameterTypesAndCallback).size();
+            if (count == 0) {
+                XposedBridge.log("类" + p1 + "中的方法" + methodName + "没有被hook到");
+            }
+            return count;
         } catch (Throwable error) {
             XposedBridge.log(error);
             return 0;
@@ -101,7 +104,11 @@ public class XposedHelper implements IModule {
 
     public static Set<XC_MethodHook.Unhook> hookAllMethods(Class<?> hookClass, String methodName, XC_MethodHook callback) {
         try {
-            return XposedBridge.hookAllMethods(hookClass, methodName, callback);
+            Set<XC_MethodHook.Unhook> result = XposedBridge.hookAllMethods(hookClass, methodName, callback);
+            if (result.size() == 0) {
+                XposedBridge.log("类" + hookClass.getName() + "中的方法" + methodName + "没有被hook到");
+            }
+            return result;
         } catch (Throwable error) {
             XposedBridge.log(error);
         }
@@ -143,7 +150,11 @@ public class XposedHelper implements IModule {
 
     protected Set<XC_MethodHook.Unhook> hookAllConstructors(Class<?> hookClass, XC_MethodHook callback) {
         try {
-            return XposedBridge.hookAllConstructors(hookClass, callback);
+            Set<XC_MethodHook.Unhook> result = XposedBridge.hookAllConstructors(hookClass, callback);
+            if (result.size() == 0) {
+                XposedBridge.log("类" + hookClass.getName() + "中的构造方法没有被hook到");
+            }
+            return result;
         } catch (Throwable error) {
             XposedBridge.log(error);
             return new HashSet<>();
@@ -200,6 +211,9 @@ public class XposedHelper implements IModule {
             }
             json = new Gson().fromJson(sb.toString(), JSONObject.class);
 
+            br.close();
+            in.close();
+            inputStream.close();
         } catch (Exception e) {
             Logger.loge(e.toString());
         }
@@ -207,7 +221,6 @@ public class XposedHelper implements IModule {
 
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
-
     }
 
     @Override
@@ -232,6 +245,5 @@ public class XposedHelper implements IModule {
 
     @Override
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) {
-
     }
 }
