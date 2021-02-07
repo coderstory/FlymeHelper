@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     break;
                 case 4:
                     if (!msg.getData().get("value").equals("{\"error\":\"0\"}")) {
-                        Toast.makeText(MainActivity.this, Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" + new Gson().fromJson(msg.getData().get("value").toString(), Map.class) .getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" + new Gson().fromJson(msg.getData().get("value").toString(), Map.class).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
                         helper.put(Utils.decode("bWFyaw=="), "");
                         //helper.put("sn", "");
                     }
@@ -146,16 +146,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
     @Override
     protected void setUpView() {
-
-        if (android.os.Build.VERSION.SDK_INT != 30) {
-            final androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
-            normalDialog.setTitle("警告");
-            normalDialog.setMessage("当前系统不是android 11,请前往交流群下载对应版本");
-            normalDialog.setPositiveButton("确定",
-                    (dialog, which) -> System.exit(0));
-            normalDialog.show();
-        }
-
         requestCameraPermission();
         mToolbar = $(R.id.toolbar);
         mDrawerLayout = $(R.id.drawer_layout);
@@ -176,7 +166,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     }
 
     private void initData() {
-        // if (!helper.getBoolean("isRooted", false)) {
+
         // 检测弹窗
         new Thread(() -> {
             Message msg = new Message();
@@ -190,16 +180,28 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 msg = new Message();
                 msg.arg1 = 2;
                 myHandler.sendMessage(msg);
-                // copySo();
             }
         }).start();
 
         checkEnable();
 
-        try {
-             getSharedPreferences("test", Context.MODE_WORLD_READABLE);
-        } catch (SecurityException e) {
-            if (android.os.Build.VERSION.SDK_INT == 30) {
+        checkDialog();
+
+        if (Utils.check(helper)) {
+            new Thread(new Utils().new Check(helper, myHandler, this)).start();
+        }
+
+        if (helper.getBoolean("enableUpdate", true)) {
+            new updgradeService(this).checkUpgrade();
+        }
+    }
+
+    private void checkDialog() {
+        if (android.os.Build.VERSION.SDK_INT == 30) {
+            try {
+                getSharedPreferences("test", Context.MODE_WORLD_READABLE);
+            } catch (SecurityException e) {
+
                 final androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
                 normalDialog.setTitle("配置设置失败警告");
                 normalDialog.setMessage("请在LSPosed Manager或者EdXposed Manager中启用本插件后再打开本插件");
@@ -208,13 +210,11 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 normalDialog.show();
             }
         }
-        if (helper.getBoolean("firstOpenC", true)) {
-        }
 
-        if (helper.getBoolean("firstOpenD", true)) {
+        if (helper.getBoolean("firstOpenD", true) && android.os.Build.VERSION.SDK_INT <= 28) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
-            normalDialog.setTitle("!!重要提示!!");
-            normalDialog.setMessage("部分功能，比如时间居中只有升级到android 10后才能使用");
+            normalDialog.setTitle("提示");
+            normalDialog.setMessage("部分涉及系统UI的功能在低版本安卓系统[7.0-9.0]上不可以用");
             normalDialog.setPositiveButton("确定",
                     (dialog, which) -> {
                         helper.put("firstOpenD", false);
@@ -243,14 +243,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     });
             normalDialog.setCancelable(true);
             normalDialog.show();
-        }
-
-        if (Utils.check(helper)) {
-            new Thread(new Utils().new Check(helper, myHandler, this)).start();
-        }
-
-        if (helper.getBoolean("enableUpdate", true)) {
-            new updgradeService(this).checkUpgrade();
         }
     }
 

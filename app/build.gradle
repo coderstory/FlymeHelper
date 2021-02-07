@@ -19,21 +19,21 @@ android {
     signingConfigs {
         release {
 
-//            File strFile = new File("../../mykey.jks")
-//            storeFile file(strFile)
-//            storePassword "zzj8868014"
-//            keyAlias "coolapk"
-//            keyPassword "bbs8868014"
-//        }
-//        debug {
-//            File strFile = new File("../../mykey.jks")
-//            storeFile file(strFile)
-//            storePassword "zzj8868014"
-//            keyAlias "coolapk"
-//            keyPassword "bbs8868014"
+            File strFile = new File("../../mykey.jks")
+            storeFile file(strFile)
+            storePassword "zzj8868014"
+            keyAlias "coolapk"
+            keyPassword "bbs8868014"
+        }
+        debug {
+            File strFile = new File("../../mykey.jks")
+            storeFile file(strFile)
+            storePassword "zzj8868014"
+            keyAlias "coolapk"
+            keyPassword "bbs8868014"
         }
     }
-    buildTypes {
+    buildTypes {21
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

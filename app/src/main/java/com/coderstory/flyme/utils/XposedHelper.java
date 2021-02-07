@@ -3,6 +3,7 @@ package com.coderstory.flyme.utils;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.coderstory.flyme.BuildConfig;
 import com.coderstory.flyme.plugins.IModule;
@@ -37,11 +38,11 @@ public class XposedHelper implements IModule {
     public static JSONObject json = new JSONObject();
 
     {
-        if (android.os.Build.VERSION.SDK_INT == 30) {
-            prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID, Misc.SharedPreferencesName);
-        } else {
+        prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID, Misc.SharedPreferencesName);
+        if (prefs.getAll().keySet().size() == 0) {
             prefs = new XSharedPreferences(new File("/data/user_de/0/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml"));
         }
+        XposedBridge.log("当前助手配置 -> " + JSON.toJSON(prefs));
     }
 
     public static Class<?> findClass(String classpatch, ClassLoader classLoader) {
