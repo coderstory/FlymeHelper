@@ -146,6 +146,16 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
     @Override
     protected void setUpView() {
+
+        if (android.os.Build.VERSION.SDK_INT != 30) {
+            final androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
+            normalDialog.setTitle("警告");
+            normalDialog.setMessage("当前系统不是android 11,请前往交流群下载对应版本");
+            normalDialog.setPositiveButton("确定",
+                    (dialog, which) -> System.exit(0));
+            normalDialog.show();
+        }
+
         requestCameraPermission();
         mToolbar = $(R.id.toolbar);
         mDrawerLayout = $(R.id.drawer_layout);
@@ -166,7 +176,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     }
 
     private void initData() {
-        //if (!helper.getBoolean("isRooted", false)) {
+        // if (!helper.getBoolean("isRooted", false)) {
         // 检测弹窗
         new Thread(() -> {
             Message msg = new Message();
@@ -191,8 +201,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         } catch (SecurityException e) {
             if (android.os.Build.VERSION.SDK_INT == 30) {
                 final androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
-                normalDialog.setTitle("警告");
-                normalDialog.setMessage("检测到当前系统是Android 11,但EdXposed版本过低,插件将不会生效");
+                normalDialog.setTitle("配置设置失败警告");
+                normalDialog.setMessage("请在LSPosed Manager或者EdXposed Manager中启用本插件后再打开本插件");
                 normalDialog.setPositiveButton("确定",
                         (dialog, which) -> System.exit(0));
                 normalDialog.show();
