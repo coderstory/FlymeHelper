@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hideicon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -29,7 +29,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/hideicon" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/enableCheck"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
@@ -42,7 +42,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/enablexposed" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/enableUpdate"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"

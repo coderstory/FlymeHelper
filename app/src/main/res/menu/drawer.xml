@@ -16,6 +16,11 @@
             android:title="@string/systemui_settings" />
 
         <item
+            android:id="@+id/navigation_item_core_patch_settings"
+            android:icon="@drawable/ic_vip_nav"
+            android:title="核心破解" />
+
+        <item
             android:id="@+id/navigation_item_xposed_install"
             android:icon="@drawable/ic_telegram"
             android:title="@string/install_xposed" />

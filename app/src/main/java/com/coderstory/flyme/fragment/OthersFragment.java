@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -72,9 +71,9 @@ public class OthersFragment extends BaseFragment {
         setDatePickerDividerColor($(R.id.home_icon_num_hot_seat_icons), 7, 3);
 
         $(R.id.enableBlockAD).setOnClickListener(v -> {
-            getEditor().putBoolean("EnableBlockAD", ((Switch) v).isChecked());
+            getEditor().putBoolean("EnableBlockAD", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
-            if (((Switch) v).isChecked()) {
+            if (((androidx.appcompat.widget.SwitchCompat) v).isChecked()) {
                 dialog = ProgressDialog.show(getMContext(), "分析应用中...", "", true, false, null);
                 new Thread(() -> {
                     List<String> paths = Shell.su("cd /data/data;find -name com.meizu.advertise.plugin   -type dir").exec().getOut();
@@ -97,7 +96,7 @@ public class OthersFragment extends BaseFragment {
 
 
         $(R.id.enabletheme).setOnClickListener(v -> {
-            getEditor().putBoolean("enabletheme", ((Switch) v).isChecked());
+            getEditor().putBoolean("enabletheme", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
 
             AppSignCheck a = new AppSignCheck(getMContext(), Misc.key);
             if (!a.check()) {
@@ -106,56 +105,56 @@ public class OthersFragment extends BaseFragment {
             fix();
         });
         $(R.id.HideRootWithPay).setOnClickListener(v -> {
-            getEditor().putBoolean("HideRootWithPay", ((Switch) v).isChecked());
+            getEditor().putBoolean("HideRootWithPay", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
         $(R.id.HideRootWithUpgrade).setOnClickListener(v -> {
-            getEditor().putBoolean("HideRootWithUpgrade", ((Switch) v).isChecked());
+            getEditor().putBoolean("HideRootWithUpgrade", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
         $(R.id.hide_icon_label).setOnClickListener(v -> {
-            getEditor().putBoolean("hide_icon_label", ((Switch) v).isChecked());
+            getEditor().putBoolean("hide_icon_label", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
         $(R.id.hide_icon_45).setOnClickListener(v -> {
-            getEditor().putBoolean("hide_icon_4", ((Switch) v).isChecked());
+            getEditor().putBoolean("hide_icon_4", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
         $(R.id.hide_icon_5).setOnClickListener(v -> {
-            getEditor().putBoolean("hide_icon_5", ((Switch) v).isChecked());
+            getEditor().putBoolean("hide_icon_5", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
         $(R.id.hide_icon_6).setOnClickListener(v -> {
-            getEditor().putBoolean("hide_icon_6", ((Switch) v).isChecked());
+            getEditor().putBoolean("hide_icon_6", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
 
         $(R.id.enableCTS).setOnClickListener(v -> {
-            getEditor().putBoolean("enableCTS", ((Switch) v).isChecked());
+            getEditor().putBoolean("enableCTS", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
         $(R.id.enableCheckInstaller).setOnClickListener(v -> {
-            getEditor().putBoolean("enableCheckInstaller", ((Switch) v).isChecked());
+            getEditor().putBoolean("enableCheckInstaller", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
 
         $(R.id.hideDepWarn).setOnClickListener(v -> {
-            getEditor().putBoolean("hideDepWarn", ((Switch) v).isChecked());
+            getEditor().putBoolean("hideDepWarn", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
 
 
         $(R.id.removeStore).setOnClickListener(v -> {
-            getEditor().putBoolean("removeStore", ((Switch) v).isChecked());
+            getEditor().putBoolean("removeStore", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
 
         $(R.id.autoInstall).setOnClickListener(v -> {
-            getEditor().putBoolean("autoInstall", ((Switch) v).isChecked());
+            getEditor().putBoolean("autoInstall", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
         $(R.id.HideRootGlobal).setOnClickListener(v -> {
-            getEditor().putBoolean("HideRootGlobal", ((Switch) v).isChecked());
+            getEditor().putBoolean("HideRootGlobal", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
 
@@ -173,11 +172,11 @@ public class OthersFragment extends BaseFragment {
             fix();
         });
         $(R.id.disableSearch).setOnClickListener(v -> {
-            getEditor().putBoolean("disableSearch", ((Switch) v).isChecked());
+            getEditor().putBoolean("disableSearch", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
         $(R.id.mms).setOnClickListener(v -> {
-            getEditor().putBoolean("mms", ((Switch) v).isChecked());
+            getEditor().putBoolean("mms", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
     }
@@ -189,25 +188,25 @@ public class OthersFragment extends BaseFragment {
 
     @Override
     protected void setUpData() {
-        ((Switch) $(R.id.hide_icon_label)).setChecked(getPrefs().getBoolean("hide_icon_label", false));
-        ((Switch) $(R.id.enableBlockAD)).setChecked(getPrefs().getBoolean("EnableBlockAD", false));
-        ((Switch) $(R.id.enabletheme)).setChecked(getPrefs().getBoolean("enabletheme", false));
-        ((Switch) $(R.id.HideRootWithPay)).setChecked(getPrefs().getBoolean("HideRootWithPay", false));
-        ((Switch) $(R.id.HideRootWithUpgrade)).setChecked(getPrefs().getBoolean("HideRootWithUpgrade", false));
-        ((Switch) $(R.id.hide_icon_45)).setChecked(getPrefs().getBoolean("hide_icon_4", false));
-        ((Switch) $(R.id.hide_icon_5)).setChecked(getPrefs().getBoolean("hide_icon_5", false));
-        ((Switch) $(R.id.hide_icon_6)).setChecked(getPrefs().getBoolean("hide_icon_6", false));
-        ((Switch) $(R.id.enableCheckInstaller)).setChecked(getPrefs().getBoolean("enableCheckInstaller", false));
-        ((Switch) $(R.id.enableCTS)).setChecked(getPrefs().getBoolean("enableCTS", false));
-        ((Switch) $(R.id.hideDepWarn)).setChecked(getPrefs().getBoolean("hideDepWarn", false));
-        ((Switch) $(R.id.removeStore)).setChecked(getPrefs().getBoolean("removeStore", false));
-        ((Switch) $(R.id.autoInstall)).setChecked(getPrefs().getBoolean("autoInstall", false));
-        ((Switch) $(R.id.HideRootGlobal)).setChecked(getPrefs().getBoolean("HideRootGlobal", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.hide_icon_label)).setChecked(getPrefs().getBoolean("hide_icon_label", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableBlockAD)).setChecked(getPrefs().getBoolean("EnableBlockAD", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enabletheme)).setChecked(getPrefs().getBoolean("enabletheme", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.HideRootWithPay)).setChecked(getPrefs().getBoolean("HideRootWithPay", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.HideRootWithUpgrade)).setChecked(getPrefs().getBoolean("HideRootWithUpgrade", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.hide_icon_45)).setChecked(getPrefs().getBoolean("hide_icon_4", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.hide_icon_5)).setChecked(getPrefs().getBoolean("hide_icon_5", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.hide_icon_6)).setChecked(getPrefs().getBoolean("hide_icon_6", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableCheckInstaller)).setChecked(getPrefs().getBoolean("enableCheckInstaller", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableCTS)).setChecked(getPrefs().getBoolean("enableCTS", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.hideDepWarn)).setChecked(getPrefs().getBoolean("hideDepWarn", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.removeStore)).setChecked(getPrefs().getBoolean("removeStore", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.autoInstall)).setChecked(getPrefs().getBoolean("autoInstall", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.HideRootGlobal)).setChecked(getPrefs().getBoolean("HideRootGlobal", false));
         ((NumberPicker) $(R.id.home_icon_num_column)).setValue(getPrefs().getInt("home_icon_num_column", 4));
         ((NumberPicker) $(R.id.home_icon_num_rows)).setValue(getPrefs().getInt("home_icon_num_rows", 5));
         ((NumberPicker) $(R.id.home_icon_num_hot_seat_icons)).setValue(getPrefs().getInt("home_icon_num_hot_seat_icons", 4));
-        ((Switch) $(R.id.disableSearch)).setChecked(getPrefs().getBoolean("disableSearch", false));
-        ((Switch) $(R.id.mms)).setChecked(getPrefs().getBoolean("mms", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.disableSearch)).setChecked(getPrefs().getBoolean("disableSearch", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.mms)).setChecked(getPrefs().getBoolean("mms", false));
 
         if (!Utils.check(new SharedHelper(getMContext()))) {
             $(R.id.removeStore).setEnabled(false);

@@ -34,7 +34,6 @@ public class FlymeHome extends XposedHelper implements IModule {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        super.handleLoadPackage(lpparam);
         if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
             XposedBridge.log("开始hook桌面");
             XposedBridge.log("获取到的参数个数" + prefs.getAll().isEmpty());

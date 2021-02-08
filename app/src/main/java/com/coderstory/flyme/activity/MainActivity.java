@@ -25,6 +25,7 @@ import com.coderstory.flyme.activity.base.BaseActivity;
 import com.coderstory.flyme.fragment.AboutMeFragment;
 import com.coderstory.flyme.fragment.BlogFragment;
 import com.coderstory.flyme.fragment.CleanFragment;
+import com.coderstory.flyme.fragment.CorePatchFragment;
 import com.coderstory.flyme.fragment.DisbaleAppFragment;
 import com.coderstory.flyme.fragment.HideAppFragment;
 import com.coderstory.flyme.fragment.HostsFragment;
@@ -281,60 +282,45 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 return false;
             }
 
-            switch (item.getItemId()) {
-
-                case R.id.navigation_item_settings:
-                    mToolbar.setTitle(R.string.others_appsettings);
-                    switchFragment(SettingsFragment.class);
-                    break;
-
-                case R.id.navigation_item_Clean:
-                    mToolbar.setTitle(R.string.appclean);
-                    switchFragment(CleanFragment.class);
-                    break;
-
-                case R.id.navigation_item_disableapps:
-                    mToolbar.setTitle(R.string.disableapp);
-                    switchFragment(DisbaleAppFragment.class);
-                    break;
-                case R.id.navigation_item_about:
-                    startActivityWithoutExtras(AboutActivity.class);
-                    break;
-                case R.id.navigation_item_hide_app:
-                    mToolbar.setTitle(R.string.hide_app_icon);
-                    switchFragment(HideAppFragment.class);
-                    break;
-
-                case R.id.navigation_item_otherssettings:
-                    mToolbar.setTitle(R.string.othersettings);
-                    switchFragment(OthersFragment.class);
-                    break;
-                case R.id.navigation_item_Blog:
-                    mToolbar.setTitle(R.string.blog);
-                    switchFragment(BlogFragment.class);
-                    break;
-                case R.id.navigation_item_updateList:
-                    mToolbar.setTitle(R.string.updateList);
-                    switchFragment(UpdateListFragment.class);
-                    break;
-                case R.id.navigation_item_system_ui_settings:
-                    mToolbar.setTitle(R.string.systemui_settings);
-                    switchFragment(SystemUIFragment.class);
-                    break;
-                case R.id.navigation_item_hosts:
-                    mToolbar.setTitle(R.string.hosts);
-                    switchFragment(HostsFragment.class);
-                    break;
-                case R.id.navigation_item_about_me:
-                    mToolbar.setTitle(Utils.decode("5Lya5ZGY5r+A5rS7"));
-                    switchFragment(AboutMeFragment.class);
-                    break;
-                case R.id.navigation_item_xposed_install:
-                    mToolbar.setTitle("xposed框架安装");
-                    switchFragment(XposedFragment.class);
-                    break;
-                default:
-                    break;
+            int itemId = item.getItemId();
+            if (itemId == R.id.navigation_item_settings) {
+                mToolbar.setTitle(R.string.others_appsettings);
+                switchFragment(SettingsFragment.class);
+            } else if (itemId == R.id.navigation_item_Clean) {
+                mToolbar.setTitle(R.string.appclean);
+                switchFragment(CleanFragment.class);
+            } else if (itemId == R.id.navigation_item_disableapps) {
+                mToolbar.setTitle(R.string.disableapp);
+                switchFragment(DisbaleAppFragment.class);
+            } else if (itemId == R.id.navigation_item_about) {
+                startActivityWithoutExtras(AboutActivity.class);
+            } else if (itemId == R.id.navigation_item_hide_app) {
+                mToolbar.setTitle(R.string.hide_app_icon);
+                switchFragment(HideAppFragment.class);
+            } else if (itemId == R.id.navigation_item_otherssettings) {
+                mToolbar.setTitle(R.string.othersettings);
+                switchFragment(OthersFragment.class);
+            } else if (itemId == R.id.navigation_item_Blog) {
+                mToolbar.setTitle(R.string.blog);
+                switchFragment(BlogFragment.class);
+            } else if (itemId == R.id.navigation_item_updateList) {
+                mToolbar.setTitle(R.string.updateList);
+                switchFragment(UpdateListFragment.class);
+            } else if (itemId == R.id.navigation_item_system_ui_settings) {
+                mToolbar.setTitle(R.string.systemui_settings);
+                switchFragment(SystemUIFragment.class);
+            } else if (itemId == R.id.navigation_item_hosts) {
+                mToolbar.setTitle(R.string.hosts);
+                switchFragment(HostsFragment.class);
+            } else if (itemId == R.id.navigation_item_about_me) {
+                mToolbar.setTitle(Utils.decode("5Lya5ZGY5r+A5rS7"));
+                switchFragment(AboutMeFragment.class);
+            } else if (itemId == R.id.navigation_item_xposed_install) {
+                mToolbar.setTitle("xposed框架安装");
+                switchFragment(XposedFragment.class);
+            } else if (itemId == R.id.navigation_item_core_patch_settings) {
+                mToolbar.setTitle("核心破解");
+                switchFragment(CorePatchFragment.class);
             }
             item.setChecked(true);
             mDrawerLayout.closeDrawer(GravityCompat.START);

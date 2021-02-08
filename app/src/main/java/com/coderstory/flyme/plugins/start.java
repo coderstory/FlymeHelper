@@ -1,5 +1,7 @@
 package com.coderstory.flyme.plugins;
 
+import android.os.Build;
+
 import com.coderstory.flyme.BuildConfig;
 import com.coderstory.flyme.module.FlymeHome;
 import com.coderstory.flyme.module.FlymeRoot;
@@ -9,8 +11,12 @@ import com.coderstory.flyme.module.Others;
 import com.coderstory.flyme.module.RemoveAds;
 import com.coderstory.flyme.module.SystemUi;
 import com.coderstory.flyme.module.ThemePatcher;
+import com.coderstory.flyme.module.corepatch.CorePatchForQ;
+import com.coderstory.flyme.module.corepatch.CorePatchForR;
 import com.coderstory.flyme.utils.Utils;
 import com.coderstory.flyme.utils.XposedHelper;
+
+import java.lang.reflect.InvocationTargetException;
 
 import de.robv.android.xposed.IXposedHookInitPackageResources;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -31,7 +37,10 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
     }
 
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws IllegalAccessException, InstantiationException, InvocationTargetException {
+        if (json.isEmpty()) {
+            super.handleLoadPackage(lpparam);
+        }
         XposedBridge.log("Flyme助手 " + BuildConfig.VERSION_NAME + " 开始Patch" + lpparam.packageName);
         if (Utils.vi()) {
             new FlymeHome().handleLoadPackage(lpparam);
@@ -42,6 +51,16 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
             new FlymeRoot().handleLoadPackage(lpparam);
             new RemoveAds().handleLoadPackage(lpparam);
             new SystemUi().handleLoadPackage(lpparam);
+
+            if (("android".equals(lpparam.packageName)) && (lpparam.processName.equals("android"))) {
+                if (Build.VERSION.SDK_INT == 30) {
+                    new CorePatchForR().handleLoadPackage(lpparam);
+                } else if (Build.VERSION.SDK_INT == 29) {
+                    new CorePatchForQ().handleLoadPackage(lpparam);
+                } else {
+                    XposedBridge.log("Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
+                }
+            }
         }
     }
 
@@ -51,5 +70,14 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
         //XposedBridge.log("激活状态:" + vi());
         //XposedBridge.log("SDK版本号: " + android.os.Build.VERSION.SDK_INT);
         //XposedBridge.log("exists" + new File("/data/user_de/0/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml").exists());
+        if (startupParam.startsSystemServer) {
+            if (Build.VERSION.SDK_INT == 30) {
+                new CorePatchForR().initZygote(startupParam);
+            } else if (Build.VERSION.SDK_INT == 29) {
+                new CorePatchForQ().initZygote(startupParam);
+            } else {
+                XposedBridge.log("Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
+            }
+        }
     }
 }
