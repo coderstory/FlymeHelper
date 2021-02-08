@@ -61,7 +61,7 @@
             android:value="静待花开终有时,守得云开见月明" />
         <meta-data
             android:name="xposedminversion"
-            android:value="93" />
+            android:value="54" />
         <meta-data
             android:name="xposedsharedprefs"
             android:value="true" />
