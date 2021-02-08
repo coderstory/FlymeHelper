@@ -57,9 +57,9 @@ android {
         }
     }
     applicationVariants.all { variant ->
-        variant.javaCompileProvider.get().doLast {
-            runAllatori(variant)
-        }
+//        variant.javaCompileProvider.get().doLast {
+//            runAllatori(variant)
+//        }
         variant.outputs.all { output ->
             outputFileName = "Flyme助手-${defaultConfig.versionName}-${defaultConfig.versionCode}-${buildType.name}.apk"
         }
