@@ -9,7 +9,7 @@ public class Misc {
     public static final String endTime = "2099-11-1";
     public static final String token = "5ee5d80f978eea081640e210";
     public static final String channel = "qq_group";
-    public static final boolean isTestVersion = true;
+    public static final boolean isTestVersion = false;
     public static final String searchApi = Utils.decode(Cpp.hello());
     private static final String BasePath = "/storage/emulated/0/Flyme_Purify";
     public static final String BackPath = BasePath + "/Backup/";
