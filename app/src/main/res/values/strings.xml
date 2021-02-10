@@ -13,7 +13,7 @@
     <string name="googlehosts"><b>开启常见国外网站访问支持</b>\nGithub上随意找的Hosts,包含了一些常见的国外网站,不含google,有时效性</string>
     <string name="hostsnote"><b>注意事项:</b>\n本功能需要ROOT权限,通过直接修改hosts文件实现</string>
     <string name="enablexposed"><b>开启Xposed启用检测</b>\n开启后,如果未在Xposed中激活则弹出相应提示</string>
-    <string name="enableUpdate"><b>开启更新检测</b>\n每次启动助手时,自动检测并提示新版本</string>
+    <string name="enableUpdate"><b>开启更新检测</b>\n每天第一次打开助手时,自动检测并提示新版本</string>
     <string name="hideicon"><b>隐藏应用图标</b>\n隐藏Flyme助手在桌上面的图标，隐藏图标后可在Xposed中打开.如果你没安装magisk则请勿开启</string>
     <string name="hide_icon_label"><b>隐藏桌面图标标签</b>\n隐藏桌面图标和文件夹下的标签文字</string>
     <string name="hide_icon_4x5"><b>桌面图标布局 - 小</b>\n使用4x5的桌面图标布局,可能会导致部分图标丢失</string>
