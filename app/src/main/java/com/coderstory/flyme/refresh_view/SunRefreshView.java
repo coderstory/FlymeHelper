@@ -41,21 +41,17 @@ public class SunRefreshView extends BaseRefreshView implements Animatable {
 
     private final PullToRefreshView mParent;
     private final Matrix mMatrix;
+    private final int mSunSize = 100;
     private Animation mAnimation;
-
     private int mTop;
     private int mScreenWidth;
-
     private int mSkyHeight;
     private float mSkyTopOffset;
     private float mSkyMoveOffset;
-
     private int mTownHeight;
     private float mTownInitialTopOffset;
     private float mTownFinalTopOffset;
     private float mTownMoveOffset;
-
-    private final int mSunSize = 100;
     private float mSunLeftOffset;
     private float mSunTopOffset;
 

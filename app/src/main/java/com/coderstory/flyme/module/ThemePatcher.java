@@ -37,7 +37,7 @@ public class ThemePatcher extends XposedHelper implements IModule {
                     @Override
                     protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
                         XposedBridge.log("fuck ThemeTrialService");
-                       return 2;
+                        return 2;
                     }
                 });
 

@@ -44,7 +44,6 @@ public abstract class PreferencesProvider extends ContentProvider {
      * authorities_spname
      */
     public static String AUTHORITIES_SPNAME = "UserSettings";
-    private UriMatcher mUriMatcher;
     /**
      * string
      */
@@ -73,6 +72,7 @@ public abstract class PreferencesProvider extends ContentProvider {
      *
      */
     private final String mPutsPath = "puts";
+    private UriMatcher mUriMatcher;
 
     public abstract String getAuthorities();
 

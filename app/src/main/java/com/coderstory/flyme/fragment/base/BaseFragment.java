@@ -74,18 +74,18 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void sudoFixPermissions() {
-      if(android.os.Build.VERSION.SDK_INT < 30){
-          new Thread(() -> {
-              File pkgFolder = new File("/data/user_de/0/" + ApplicationName);
-              if (pkgFolder.exists()) {
-                  pkgFolder.setExecutable(true, false);
-                  pkgFolder.setReadable(true, false);
-              }
-              Shell.su("chmod  755 " + PREFS_FOLDER).exec();
-              // Set preferences file permissions to be world readable
-              Shell.su("chmod  644 " + PREFS_FILE).exec();
-          }).start();
-      }
+        if (android.os.Build.VERSION.SDK_INT < 30) {
+            new Thread(() -> {
+                File pkgFolder = new File("/data/user_de/0/" + ApplicationName);
+                if (pkgFolder.exists()) {
+                    pkgFolder.setExecutable(true, false);
+                    pkgFolder.setReadable(true, false);
+                }
+                Shell.su("chmod  755 " + PREFS_FOLDER).exec();
+                // Set preferences file permissions to be world readable
+                Shell.su("chmod  644 " + PREFS_FILE).exec();
+            }).start();
+        }
     }
 
     protected void init() {
