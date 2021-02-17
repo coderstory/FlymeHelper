@@ -24,7 +24,7 @@
     <string name="hideDepWarn"><b>隐藏开发者选项风险警告</b>\n禁止开启开发者选项后通知栏弹出的风险警告</string>
     <string name="HideRootWithUpgrade"><b>系统更新</b>\n使用自带root情况下,在系统更新中隐藏Root,注意ROOT后是无法增量更新的</string>
     <string name="HideRootWithPay"><b>魅族Pay</b>\n使用自带root情况下,在魅族Pay中隐藏Root</string>
-    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题,不会有倒计时之类的提示,重启不恢复.当前仅在主题8.7.1版本测试通过。</string>
+    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题,不会有倒计时之类的提示.如果你使用自带root则还需要开启全局隐藏ROOT</string>
     <string name="alarem"><b>闹钟</b>\n启用闹钟后,隐藏状态栏上的闹钟图标</string>
     <string name="hide_icon_debug"><b>USB调试</b>\n隐藏链接电脑后的USB调试图标</string>
     <string name="hide_icon_save"><b>流量监控</b>\n在手机管家中开启流量监控后，隐藏状态栏中对应的水滴图标,偶尔会隐藏失效,重启即可。</string>
@@ -39,7 +39,7 @@
     <string name="show_icon_battery_percentage"><b>电量百分比</b>\n在状态栏电量百分比后面加个百分号，比如电量97显示成97%</string>
     <string name="hide_status_bar_slow_rate_icon"><b>低速隐藏</b>  <font color='#FFC0CB'>vip</font>\n在系统设置里开启显示状态栏网速后，当实时网速低于100K/s则自隐藏状态栏上的网速图标</string>
     <string name="hide_status_bar_time_week_icon"><b>状态栏时间-星期</b>  <font color='#FFC0CB'>vip</font>\n在状态栏时间后面追加星期 \n比如 [18:20 周一]</string>
-    <string name="hide_status_bar_time_chinese_icon"><b>状态栏时间-修饰</b>  <font color='#FFC0CB'>vip</font>\n在状态栏时间前面追加上午下午凌晨等词缀 \n比如 [傍晚 18:20]</string>
+    <string name="hide_status_bar_time_chinese_icon"><b>状态栏时间-修饰</b>  <font color='#FFC0CB'>vip</font>\n在状态栏时间前面追加上午下午凌晨等词缀 比如 [傍晚 18:20]</string>
     <string name="HideRootGlobal"><b>全局隐藏root</b>\n针对所有的flyme自带软件,隐藏自带的ROOT,开启后设置里会显示ROOT未开启</string>
     <string name="status_text_view_clock_center"><b>状态栏时间居中</b> <font color='#FFC0CB'>vip</font>\n状态栏时间居中显示,与状态栏其他东西重叠时自动隐藏。</string>
     <string name="home_icon_num_rows"><b>自定义布局-行</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面有多少行app图标</string>
@@ -48,7 +48,7 @@
     <string name="disableSearch"><b>桌面禁用手势-搜索</b>  <font color='#FFC0CB'>vip</font>\n在不禁用搜索条件下，禁止桌面上划手势触发打开搜索</string>
     <string name="hide_status_bar_sim1_icon"><b>隐藏图标-SIM1</b>\n隐藏状态栏SIM1的图标</string>
     <string name="hide_status_bar_sim2_icon"><b>隐藏图标-SIM2</b>\n隐藏状态栏SIM2的图标</string>
-    <string name="launcher10">自定义桌面布局(<font color='#4db6ac'> Android 10可用</font>)</string>
+    <string name="launcher10">自定义桌面布局(<font color='#4db6ac'> Android 10-11 可用</font>)</string>
     <string name="launcher8">自定义桌面布局(<font color='#4db6ac'> Andorid 8.0- 9.0可用</font>)</string>
     <string name="hide_status_bar_location_icon"><b>定位</b>\n使用GPS的时候，隐藏状态栏上的定位图标</string>
     <string name="hide_status_bar_clock_icon"><b>时钟</b>\n隐藏状态栏中的时间</string>
