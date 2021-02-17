@@ -78,6 +78,7 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
             } else {
                 XposedBridge.log("Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
             }
+            XposedBridge.log("当前助手配置 -> " + JSON.toJSON(prefs));
         }
     }
 }

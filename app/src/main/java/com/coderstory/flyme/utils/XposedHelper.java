@@ -41,7 +41,6 @@ public class XposedHelper {
         if (prefs.getAll().keySet().size() == 0) {
             prefs = new XSharedPreferences(new File("/data/user_de/0/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml"));
         }
-        XposedBridge.log("当前助手配置 -> " + JSON.toJSON(prefs));
     }
 
     public static Class<?> findClass(String classpatch, ClassLoader classLoader) {
