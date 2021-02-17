@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.coderstory.flyme"
         minSdkVersion 24
-        targetSdkVersion 24
+        targetSdkVersion 30
         resConfigs "zh", "xxhdpi"
         versionCode 456
         versionName "4.2.1"
@@ -57,9 +57,9 @@ android {
         }
     }
     applicationVariants.all { variant ->
-//        variant.javaCompileProvider.get().doLast {
-//            runAllatori(variant)
-//        }
+        variant.javaCompileProvider.get().doLast {
+            runAllatori(variant)
+        }
         variant.outputs.all { output ->
             outputFileName = "Flyme助手-${defaultConfig.versionName}-${defaultConfig.versionCode}-${buildType.name}.apk"
         }

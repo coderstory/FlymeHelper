@@ -39,7 +39,7 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws IllegalAccessException, InstantiationException, InvocationTargetException {
         if (json.isEmpty()) {
-            super.handleLoadPackage(lpparam);
+            initJson(lpparam);
         }
         XposedBridge.log("Flyme助手 " + BuildConfig.VERSION_NAME + " 开始Patch" + lpparam.packageName);
         if (Utils.vi()) {

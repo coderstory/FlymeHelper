@@ -220,7 +220,7 @@ public class XposedHelper {
         }
     }
 
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
+    public void initJson(XC_LoadPackage.LoadPackageParam loadPackageParam) throws IllegalAccessException, InvocationTargetException, InstantiationException {
         try {
             // 获取context对象
             Context context = (Context) XposedHelpers.callMethod(
