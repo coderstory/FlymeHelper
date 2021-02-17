@@ -2,6 +2,7 @@ package com.coderstory.flyme.plugins;
 
 import android.os.Build;
 
+import com.alibaba.fastjson.JSON;
 import com.coderstory.flyme.BuildConfig;
 import com.coderstory.flyme.module.FlymeHome;
 import com.coderstory.flyme.module.FlymeRoot;

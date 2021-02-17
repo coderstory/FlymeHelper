@@ -3,7 +3,6 @@ package com.coderstory.flyme.utils;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.coderstory.flyme.BuildConfig;
 import com.google.gson.Gson;
