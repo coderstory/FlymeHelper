@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +25,7 @@ import com.coderstory.flyme.activity.base.BaseActivity;
 import com.coderstory.flyme.fragment.AboutMeFragment;
 import com.coderstory.flyme.fragment.BlogFragment;
 import com.coderstory.flyme.fragment.CleanFragment;
+import com.coderstory.flyme.fragment.CorePatchFragment;
 import com.coderstory.flyme.fragment.DisbaleAppFragment;
 import com.coderstory.flyme.fragment.HideAppFragment;
 import com.coderstory.flyme.fragment.HostsFragment;
@@ -89,7 +91,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     break;
                 case 4:
                     if (!msg.getData().get("value").equals("{\"error\":\"0\"}")) {
-                        Toast.makeText(MainActivity.this, Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" + new Gson().fromJson(msg.getData().get("value").toString(), Map.class) .getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" + new Gson().fromJson(msg.getData().get("value").toString(), Map.class).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
                         helper.put(Utils.decode("bWFyaw=="), "");
                         //helper.put("sn", "");
                     }
@@ -165,7 +167,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     }
 
     private void initData() {
-        //if (!helper.getBoolean("isRooted", false)) {
+
         // 检测弹窗
         new Thread(() -> {
             Message msg = new Message();
@@ -179,19 +181,41 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 msg = new Message();
                 msg.arg1 = 2;
                 myHandler.sendMessage(msg);
-                // copySo();
             }
         }).start();
 
         checkEnable();
 
-        if (helper.getBoolean("firstOpenC", true)) {
+        checkDialog();
+
+        if (Utils.check(helper)) {
+            new Thread(new Utils().new Check(helper, myHandler, this)).start();
         }
 
-        if (helper.getBoolean("firstOpenD", true)) {
+        if (helper.getBoolean("enableUpdate", true)) {
+            new updgradeService(this).checkUpgrade();
+        }
+    }
+
+    private void checkDialog() {
+        if (android.os.Build.VERSION.SDK_INT == 30) {
+            try {
+                getSharedPreferences("test", Context.MODE_WORLD_READABLE);
+            } catch (SecurityException e) {
+
+                final androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
+                normalDialog.setTitle("配置设置失败警告");
+                normalDialog.setMessage("请在LSPosed Manager或者EdXposed Manager中启用本插件后再打开本插件");
+                normalDialog.setPositiveButton("确定",
+                        (dialog, which) -> System.exit(0));
+                normalDialog.show();
+            }
+        }
+
+        if (helper.getBoolean("firstOpenD", true) && android.os.Build.VERSION.SDK_INT <= 28) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
-            normalDialog.setTitle("!!重要提示!!");
-            normalDialog.setMessage("部分功能，比如时间居中只有升级到android 10后才能使用");
+            normalDialog.setTitle("提示");
+            normalDialog.setMessage("部分涉及系统UI的功能在低版本安卓系统[7.0-9.0]上不可以用");
             normalDialog.setPositiveButton("确定",
                     (dialog, which) -> {
                         helper.put("firstOpenD", false);
@@ -220,14 +244,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     });
             normalDialog.setCancelable(true);
             normalDialog.show();
-        }
-
-        if (Utils.check(helper)) {
-            new Thread(new Utils().new Check(helper, myHandler, this)).start();
-        }
-
-        if (helper.getBoolean("enableUpdate", true)) {
-            new updgradeService(this).checkUpgrade();
         }
     }
 
@@ -266,60 +282,45 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 return false;
             }
 
-            switch (item.getItemId()) {
-
-                case R.id.navigation_item_settings:
-                    mToolbar.setTitle(R.string.others_appsettings);
-                    switchFragment(SettingsFragment.class);
-                    break;
-
-                case R.id.navigation_item_Clean:
-                    mToolbar.setTitle(R.string.appclean);
-                    switchFragment(CleanFragment.class);
-                    break;
-
-                case R.id.navigation_item_disableapps:
-                    mToolbar.setTitle(R.string.disableapp);
-                    switchFragment(DisbaleAppFragment.class);
-                    break;
-                case R.id.navigation_item_about:
-                    startActivityWithoutExtras(AboutActivity.class);
-                    break;
-                case R.id.navigation_item_hide_app:
-                    mToolbar.setTitle(R.string.hide_app_icon);
-                    switchFragment(HideAppFragment.class);
-                    break;
-
-                case R.id.navigation_item_otherssettings:
-                    mToolbar.setTitle(R.string.othersettings);
-                    switchFragment(OthersFragment.class);
-                    break;
-                case R.id.navigation_item_Blog:
-                    mToolbar.setTitle(R.string.blog);
-                    switchFragment(BlogFragment.class);
-                    break;
-                case R.id.navigation_item_updateList:
-                    mToolbar.setTitle(R.string.updateList);
-                    switchFragment(UpdateListFragment.class);
-                    break;
-                case R.id.navigation_item_system_ui_settings:
-                    mToolbar.setTitle(R.string.systemui_settings);
-                    switchFragment(SystemUIFragment.class);
-                    break;
-                case R.id.navigation_item_hosts:
-                    mToolbar.setTitle(R.string.hosts);
-                    switchFragment(HostsFragment.class);
-                    break;
-                case R.id.navigation_item_about_me:
-                    mToolbar.setTitle(Utils.decode("5Lya5ZGY5r+A5rS7"));
-                    switchFragment(AboutMeFragment.class);
-                    break;
-                case R.id.navigation_item_xposed_install:
-                    mToolbar.setTitle("xposed框架安装");
-                    switchFragment(XposedFragment.class);
-                    break;
-                default:
-                    break;
+            int itemId = item.getItemId();
+            if (itemId == R.id.navigation_item_settings) {
+                mToolbar.setTitle(R.string.others_appsettings);
+                switchFragment(SettingsFragment.class);
+            } else if (itemId == R.id.navigation_item_Clean) {
+                mToolbar.setTitle(R.string.appclean);
+                switchFragment(CleanFragment.class);
+            } else if (itemId == R.id.navigation_item_disableapps) {
+                mToolbar.setTitle(R.string.disableapp);
+                switchFragment(DisbaleAppFragment.class);
+            } else if (itemId == R.id.navigation_item_about) {
+                startActivityWithoutExtras(AboutActivity.class);
+            } else if (itemId == R.id.navigation_item_hide_app) {
+                mToolbar.setTitle(R.string.hide_app_icon);
+                switchFragment(HideAppFragment.class);
+            } else if (itemId == R.id.navigation_item_otherssettings) {
+                mToolbar.setTitle(R.string.othersettings);
+                switchFragment(OthersFragment.class);
+            } else if (itemId == R.id.navigation_item_Blog) {
+                mToolbar.setTitle(R.string.blog);
+                switchFragment(BlogFragment.class);
+            } else if (itemId == R.id.navigation_item_updateList) {
+                mToolbar.setTitle(R.string.updateList);
+                switchFragment(UpdateListFragment.class);
+            } else if (itemId == R.id.navigation_item_system_ui_settings) {
+                mToolbar.setTitle(R.string.systemui_settings);
+                switchFragment(SystemUIFragment.class);
+            } else if (itemId == R.id.navigation_item_hosts) {
+                mToolbar.setTitle(R.string.hosts);
+                switchFragment(HostsFragment.class);
+            } else if (itemId == R.id.navigation_item_about_me) {
+                mToolbar.setTitle(Utils.decode("5Lya5ZGY5r+A5rS7"));
+                switchFragment(AboutMeFragment.class);
+            } else if (itemId == R.id.navigation_item_xposed_install) {
+                mToolbar.setTitle("xposed框架安装");
+                switchFragment(XposedFragment.class);
+            } else if (itemId == R.id.navigation_item_core_patch_settings) {
+                mToolbar.setTitle("核心破解");
+                switchFragment(CorePatchFragment.class);
             }
             item.setChecked(true);
             mDrawerLayout.closeDrawer(GravityCompat.START);

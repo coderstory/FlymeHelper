@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="scope">
+        <item>android</item>
+        <item>com.android.mms</item>
+        <item>com.android.packageinstaller</item>
+        <item>com.android.systemui</item>
+        <item>com.meizu.mznfcpay</item>
+        <item>com.meizu.flyme.update</item>
+        <item>com.meizu.flyme.launcher</item>
+        <item>com.meizu.customizecenter</item>
+    </string-array>
+</resources>

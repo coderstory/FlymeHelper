@@ -11,13 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:skin="http://schemas.android.com/android/skin"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hideicon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -29,7 +28,7 @@
                 android:paddingBottom="10dp"
                 android:text="@string/hideicon" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/enableCheck"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
@@ -42,10 +41,10 @@
                 android:paddingBottom="10dp"
                 android:text="@string/enablexposed" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/enableUpdate"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/switchBtn"
                 android:checked="true"

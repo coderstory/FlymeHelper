@@ -3,7 +3,6 @@ package com.coderstory.flyme.fragment;
 
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
-import android.widget.Switch;
 
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
@@ -17,17 +16,17 @@ public class SettingsFragment extends BaseFragment {
     protected void setUpView() {
 
         $(R.id.enableCheck).setOnClickListener(v -> {
-            getEditor().putBoolean("enableCheck", ((Switch) v).isChecked());
+            getEditor().putBoolean("enableCheck", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
 
         $(R.id.enableUpdate).setOnClickListener(v -> {
-            getEditor().putBoolean("enableUpdate", ((Switch) v).isChecked());
+            getEditor().putBoolean("enableUpdate", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
 
         $(R.id.hideicon).setOnClickListener(v -> {
-            getEditor().putBoolean("hideIcon", ((Switch) v).isChecked());
+            getEditor().putBoolean("hideIcon", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
 
             ComponentName localComponentName = new ComponentName(getMContext(), "com.coderstory.flyme.activity.SplashActivity");
@@ -36,7 +35,7 @@ public class SettingsFragment extends BaseFragment {
             PackageManager packageManager = getMContext().getPackageManager();
             ComponentName componentName = new ComponentName(getMContext(), "com.coderstory.flyme.activity.SplashActivity");
 
-            if (((Switch) v).isChecked()) {
+            if (((androidx.appcompat.widget.SwitchCompat) v).isChecked()) {
                 packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                         PackageManager.DONT_KILL_APP);
             } else {
@@ -53,8 +52,8 @@ public class SettingsFragment extends BaseFragment {
 
     @Override
     protected void setUpData() {
-        ((Switch) $(R.id.enableCheck)).setChecked(getPrefs().getBoolean("enableCheck", true));
-        ((Switch) $(R.id.hideicon)).setChecked(getPrefs().getBoolean("hideIcon", false));
-        ((Switch) $(R.id.enableUpdate)).setChecked(getPrefs().getBoolean("enableUpdate", true));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableCheck)).setChecked(getPrefs().getBoolean("enableCheck", true));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.hideicon)).setChecked(getPrefs().getBoolean("hideIcon", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableUpdate)).setChecked(getPrefs().getBoolean("enableUpdate", true));
     }
 }

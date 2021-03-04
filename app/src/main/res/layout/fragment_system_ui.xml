@@ -25,7 +25,7 @@
                 android:paddingEnd="4dp"
                 android:text="状态栏图标" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_icon_alarm_clock"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -37,7 +37,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/alarem" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_icon_bluetooth"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -49,7 +49,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_icon_bluetooth" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_status_bar_no_sim_icon"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
@@ -61,7 +61,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_status_bar_no_sim_icon" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_status_bar_slow_rate_icon"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
@@ -73,7 +73,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_status_bar_slow_rate_icon" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_icon_hotspot"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -85,7 +85,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_icon_hotspot" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_icon_debug"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -97,7 +97,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_icon_debug" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_icon_save"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
@@ -109,7 +109,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_icon_save" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_icon_volte"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -121,7 +121,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_icon_volte" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_icon_shake"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -133,7 +133,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_icon_shake" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_status_bar_wifi_icon"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -146,7 +146,7 @@
                 android:text="@string/hide_status_bar_wifi_icon" />
 
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_status_bar_sim1_icon"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -158,7 +158,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_status_bar_sim1_icon" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_status_bar_sim2_icon"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -170,7 +170,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_status_bar_sim2_icon" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_status_bar_vpn_icon"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -183,7 +183,7 @@
                 android:text="@string/hide_status_bar_vpn_icon" />
 
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_status_bar_location_icon"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -196,7 +196,7 @@
                 android:text="@string/hide_status_bar_location_icon" />
 
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_status_bar_clock_icon"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -209,7 +209,7 @@
                 android:text="@string/hide_status_bar_clock_icon" />
 
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_status_bar_battery_icon"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
@@ -221,7 +221,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_status_bar_battery_icon" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_status_bar_app_icon"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -242,7 +242,7 @@
                 android:paddingEnd="4dp"
                 android:text="状态栏图标样式修改" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/show_status_bar_time_second_icon"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -255,7 +255,7 @@
                 android:text="@string/show_status_bar_time_second_icon" />
 
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/show_icon_battery_percentage"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -268,7 +268,7 @@
                 android:text="@string/show_icon_battery_percentage" />
 
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_status_bar_time_week_icon"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -280,7 +280,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_status_bar_time_week_icon" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/show_status_bar_time_am_pm"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -292,7 +292,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/show_status_bar_time_am_pm" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_status_bar_time_chinese_icon"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
@@ -304,7 +304,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_status_bar_time_chinese_icon" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/status_text_view_clock_center"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"

@@ -32,15 +32,29 @@ public class PullToRefreshView extends ViewGroup {
     private static final float DRAG_RATE = .5f;
     private static final float DECELERATE_INTERPOLATION_FACTOR = 2f;
     private static final int INVALID_POINTER = -1;
-
-    private View mTarget;
     private final ImageView mRefreshView;
     private final Interpolator mDecelerateInterpolator;
     private final int mTouchSlop;
     private final int mTotalDragDistance;
+    private View mTarget;
     private BaseRefreshView mBaseRefreshView;
     private float mCurrentDragPercent;
     private int mCurrentOffsetTop;
+    private final Animation.AnimationListener mToStartListener = new Animation.AnimationListener() {
+        @Override
+        public void onAnimationStart(Animation animation) {
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            mBaseRefreshView.stop();
+            mCurrentOffsetTop = mTarget.getTop();
+        }
+    };
     private boolean mRefreshing;
     private int mActivePointerId;
     private boolean mIsBeingDragged;
@@ -71,21 +85,6 @@ public class PullToRefreshView extends ViewGroup {
         @Override
         public void applyTransformation(float interpolatedTime, Transformation t) {
             moveToStart(interpolatedTime);
-        }
-    };
-    private final Animation.AnimationListener mToStartListener = new Animation.AnimationListener() {
-        @Override
-        public void onAnimationStart(Animation animation) {
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            mBaseRefreshView.stop();
-            mCurrentOffsetTop = mTarget.getTop();
         }
     };
 

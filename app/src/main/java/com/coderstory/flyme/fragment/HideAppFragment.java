@@ -131,7 +131,7 @@ public class HideAppFragment extends BaseFragment {
                         } else {
                             appInfo.setDisable(true);
                             appInfoList.set(mPosition, appInfo);
-                            mView.setBackgroundColor(getResources().getColor(R.color.disableeApp, null)); //冻结的颜色
+                            mView.setBackgroundColor(getResources().getColor(R.color.disableApp, null)); //冻结的颜色
                         }
                         AnyLayer.dismiss();
                     }, R.id.fl_dialog_yes);
@@ -162,7 +162,7 @@ public class HideAppFragment extends BaseFragment {
 
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            Toast.makeText(getActivity(), "本功能在Android 10上暂时无效", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "本功能在Android 10及以上系统上暂时无效", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getActivity(), "点击应用切换 隐藏/显示 状态 【重启桌面生效】", Toast.LENGTH_LONG).show();
         }

@@ -16,6 +16,8 @@ import com.coderstory.flyme.utils.Cpp;
 
 public class SplashActivity extends Activity {
 
+    private static final int SHOW_TIME_MIN = 1200;
+
     @Override
     public Resources getResources() {//还原字体大小
         Resources res = super.getResources();
@@ -27,8 +29,6 @@ public class SplashActivity extends Activity {
         }
         return res;
     }
-
-    private static final int SHOW_TIME_MIN = 1200;
 
     @SuppressLint("StaticFieldLeak")
     @Override

@@ -18,6 +18,7 @@ public class updgradeService {
 
     private final Activity mActivity;
     private final SharedHelper helper;
+
     public updgradeService(Activity mActivity) {
         this.mActivity = mActivity;
         this.helper = new SharedHelper(mActivity);

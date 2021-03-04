@@ -25,7 +25,7 @@
                 android:paddingEnd="30dp"
                 android:text="@string/Flyme_Purify" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/enableBlockAD"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -38,7 +38,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/enableBlockADS" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/HideRootWithPay"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -51,7 +51,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/HideRootWithPay" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/HideRootWithUpgrade"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
@@ -65,7 +65,7 @@
                 android:text="@string/HideRootWithUpgrade" />
 
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/HideRootGlobal"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
@@ -79,7 +79,7 @@
                 android:text="@string/HideRootGlobal" />
 
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/enableCheckInstaller"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
@@ -92,7 +92,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/enableCheckInstaller" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hideDepWarn"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
@@ -105,7 +105,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hideDepWarn" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/removeStore"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -119,7 +119,7 @@
                 android:text="@string/removeStore" />
 
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/autoInstall"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -132,7 +132,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/autoInstall" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/disableSearch"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -145,7 +145,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/disableSearch" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/enabletheme"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -155,7 +155,7 @@
                 android:paddingEnd="30dp"
                 android:text="@string/fucktheme" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/mms"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -168,7 +168,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/mms" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_icon_label"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -179,7 +179,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_icon_label" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/enableCTS"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
@@ -200,7 +200,7 @@
                 android:paddingEnd="4dp"
                 android:text="@string/launcher8" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_icon_45"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -213,7 +213,7 @@
                 android:text="@string/hide_icon_4x5" />
 
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_icon_5"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -225,7 +225,7 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_icon_5x5" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_icon_6"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"

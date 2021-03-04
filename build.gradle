@@ -2,25 +2,20 @@
 buildscript {
 
     repositories {
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
-        maven { url 'http://maven.aliyun.com/nexus/content/repositories/google' }
-        maven { url 'http://maven.aliyun.com/nexus/content/repositories/gradle-plugin' }
-        maven { url 'https://dl.bintray.com/umsdk/release' }
+        google()
         jcenter()
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.0-beta01'
+        classpath 'com.android.tools.build:gradle:4.2.0-beta05'
     }
 }
 
 allprojects {
     repositories {
+        google()
         jcenter()
         maven { url "https://jitpack.io" }
-        google()
-        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 }
 

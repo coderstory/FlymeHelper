@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Looper;
-import android.widget.Switch;
 
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
@@ -36,41 +35,41 @@ public class HostsFragment extends BaseFragment {
     protected void setUpView() {
 
         $(R.id.enableHosts).setOnClickListener(v -> {
-            getEditor().putBoolean("enableHosts", ((Switch) v).isChecked());
+            getEditor().putBoolean("enableHosts", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             getEditor().commit();
             sudoFixPermissions();
-            setCheck(((Switch) v).isChecked());
+            setCheck(((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             new MyTask().execute();
         });
 
         $(R.id.enableMIUIHosts).setOnClickListener(v -> {
-            getEditor().putBoolean("enableMIUIHosts", ((Switch) v).isChecked());
+            getEditor().putBoolean("enableMIUIHosts", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             getEditor().commit();
             sudoFixPermissions();
             new MyTask().execute();
         });
 
         $(R.id.enableBlockAdsHosts).setOnClickListener(v -> {
-            getEditor().putBoolean("enableBlockAdsHosts", ((Switch) v).isChecked());
+            getEditor().putBoolean("enableBlockAdsHosts", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             getEditor().commit();
             sudoFixPermissions();
             new MyTask().execute();
         });
         $(R.id.enableGoogleHosts).setOnClickListener(v -> {
-            getEditor().putBoolean("enableGoogleHosts", ((Switch) v).isChecked());
+            getEditor().putBoolean("enableGoogleHosts", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             getEditor().commit();
             sudoFixPermissions();
             new MyTask().execute();
         });
 
         $(R.id.enableStore).setOnClickListener(v -> {
-            getEditor().putBoolean("enableStore", ((Switch) v).isChecked());
+            getEditor().putBoolean("enableStore", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             getEditor().commit();
             sudoFixPermissions();
             new MyTask().execute();
         });
         $(R.id.enableupdater).setOnClickListener(v -> {
-            getEditor().putBoolean("enableUpdater", ((Switch) v).isChecked());
+            getEditor().putBoolean("enableUpdater", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             getEditor().commit();
             sudoFixPermissions();
             new MyTask().execute();
@@ -79,12 +78,12 @@ public class HostsFragment extends BaseFragment {
 
     @Override
     protected void setUpData() {
-        ((Switch) $(R.id.enableHosts)).setChecked(getPrefs().getBoolean("enableHosts", false));
-        ((Switch) $(R.id.enableMIUIHosts)).setChecked(getPrefs().getBoolean("enableMIUIHosts", false));
-        ((Switch) $(R.id.enableBlockAdsHosts)).setChecked(getPrefs().getBoolean("enableBlockAdsHosts", false));
-        ((Switch) $(R.id.enableGoogleHosts)).setChecked(getPrefs().getBoolean("enableGoogleHosts", false));
-        ((Switch) $(R.id.enableStore)).setChecked(getPrefs().getBoolean("enableStore", false));
-        ((Switch) $(R.id.enableupdater)).setChecked(getPrefs().getBoolean("enableUpdater", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableHosts)).setChecked(getPrefs().getBoolean("enableHosts", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableMIUIHosts)).setChecked(getPrefs().getBoolean("enableMIUIHosts", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableBlockAdsHosts)).setChecked(getPrefs().getBoolean("enableBlockAdsHosts", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableGoogleHosts)).setChecked(getPrefs().getBoolean("enableGoogleHosts", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableStore)).setChecked(getPrefs().getBoolean("enableStore", false));
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableupdater)).setChecked(getPrefs().getBoolean("enableUpdater", false));
         setCheck(getPrefs().getBoolean("enableHosts", false));
     }
 

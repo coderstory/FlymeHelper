@@ -5,8 +5,8 @@ import android.content.Context;
 import com.coderstory.flyme.preferences.PreferencesProviderUtils;
 
 public class SharedHelper {
-    String spName = "UserSettings";
     private final Context context;
+    String spName = "UserSettings";
 
     public SharedHelper(Context context) {
         this.context = context;

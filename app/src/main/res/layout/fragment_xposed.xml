@@ -66,8 +66,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="12dp"
+                        android:layout_marginBottom="10dp"
                         android:text="EdXposed版本:dev.4631[能够通过ROOT安装的最终版本]\nRiru版本:21.3"
                         android:textSize="14sp" />
                 </LinearLayout>

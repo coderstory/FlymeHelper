@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/enableHosts"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -28,7 +28,7 @@
                 android:paddingEnd="30dp"
                 android:text="@string/enableHosts" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/enableMIUIHosts"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -38,7 +38,7 @@
                 android:paddingEnd="30dp"
                 android:text="@string/miuiads" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/enableBlockAdsHosts"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -48,7 +48,7 @@
                 android:paddingEnd="30dp"
                 android:text="@string/blockads" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/enableStore"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -59,7 +59,7 @@
                 android:text="@string/nostore"
                 android:visibility="gone" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/enableupdater"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -70,7 +70,7 @@
                 android:text="@string/noupdater"
                 android:visibility="gone" />
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/enableGoogleHosts"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"

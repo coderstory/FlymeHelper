@@ -34,6 +34,10 @@
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
         </activity>
         <activity android:name=".activity.AboutActivity" />
         <activity
@@ -42,6 +46,10 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
         </activity>
 
@@ -54,6 +62,12 @@
         <meta-data
             android:name="xposedminversion"
             android:value="54" />
+        <meta-data
+            android:name="xposedsharedprefs"
+            android:value="true" />
+        <meta-data
+            android:name="xposedscope"
+            android:resource="@array/scope" />
 
         <provider
             android:name=".preferencesProvider"

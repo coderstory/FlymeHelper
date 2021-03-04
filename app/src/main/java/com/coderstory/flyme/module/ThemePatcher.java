@@ -31,8 +31,13 @@ public class ThemePatcher extends XposedHelper implements IModule {
                 findAndHookMethod("com.meizu.customizecenter.admin.receiver.BootBroadcastReceiver", lpparam.classLoader, "onReceive", Context.class, Intent.class, XC_MethodReplacement.returnConstant(null));
 
                 // 拦截试用服务
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.FontTrialService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, XC_MethodReplacement.returnConstant(0));
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.ThemeTrialService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, XC_MethodReplacement.returnConstant(0));
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.FontTrialService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, XC_MethodReplacement.returnConstant(2));
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.ThemeTrialService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, new XC_MethodReplacement() {
+                    @Override
+                    protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
+                        return 2;
+                    }
+                });
 
                 //device_states | doCheckState
                 //8.7.1
@@ -43,16 +48,6 @@ public class ThemePatcher extends XposedHelper implements IModule {
                         findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.c", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
                     }
                 });
-                //findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.c", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
-                // hookAllMethods("com.meizu.customizecenter.manager.utilstool.conversionutils.g", lpparam.classLoader, "a", new XC_MethodHook() {
-                //     @Override
-                //     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                //         super.beforeHookedMethod(param);
-                //         if (param.args.length > 2 && "doCheckState".equals(param.args[1])) {
-                //             param.setResult(0);
-                //         }
-                //     }
-                // });
                 findAndHookMethod("com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility", lpparam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(false));
                 findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.f.b", lpparam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(false));
 
@@ -123,6 +118,12 @@ public class ThemePatcher extends XposedHelper implements IModule {
                         super.beforeHookedMethod(param);
                     }
                 });
+
+                // android 11 8.30.2
+                findAndHookMethod("com.meizu.customizecenter.manager.utilshelper.restorehelper.ThemeRestoreService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, XC_MethodReplacement.returnConstant(0));
+                findAndHookMethod("com.meizu.customizecenter.manager.utilshelper.restorehelper.FontRestoreService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, XC_MethodReplacement.returnConstant(0));
+                findAndHookMethod("com.meizu.customizecenter.manager.utilshelper.scannerhelper.CustomizeScannerService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, XC_MethodReplacement.returnConstant(0));
+
             }
         }
     }
