@@ -1,54 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--ToolBar-->
-    <color name="colorPrimary">#f9bdbb</color>
-    <!--状态栏-->
-    <color name="colorPrimaryDark">#f9bdbb</color>
-    <color name="colorAccent">#f9bdbb</color>
-    <color name="enableApp">#f9bdbb</color>
-    <color name="disableeApp">#fff</color>
-    <color name="listItem">#f9bdbb</color>
+    <color name="colorPrimary">#85b9cb</color>
+    <color name="colorPrimaryDark">#85b9cb</color>
+    <color name="colorAccent">#85b9cb</color>
+    <color name="colorItem">#85b9cb</color>
+    <color name="enableApp">#85b9cb</color>
+    <color name="splash">#85b9cb</color>
+    <color name="white">#ffffff</color>
     <color name="switchBtn">#fff</color>
     <color name="divider">#00f7f7f7</color>
-    <color name="windowBackground">#fafafa</color>
-
-    <color name="md_red_100">#f9bdbb</color>
-    <color name="header">#EDACAA</color>
-    <!-- pinks -->
-
-    <!-- purples -->
-
-    <!-- deep purples -->
-
-    <!-- indigo -->
-
-    <!--blue-->
+    <color name="disableApp">#b337ae60</color>
     <color name="md_blue_50">#e7e9fd</color>
     <color name="md_blue_200">#afbfff</color>
-
-    <!-- light blue-->
-
-    <!-- cyan -->
-
-    <!-- teal -->
-
-    <!-- green -->
-
-    <!--light green-->
-
-    <!-- lime-->
-
-    <!--yellow -->
-
-    <!--amber-->
-
-    <!--orange-->
-
-    <!--deep orange-->
-
-    <!--brown -->
-
-    <!--grey-->
-
-    <!--blue grey-->
+    <color name="windowBackground">#fafafa</color>
+    <color name="md_red_100">#85b9cb</color>
+    <color name="listItem">#85b9cb</color>
+    <color name="header">#85b9cb</color>
 </resources>

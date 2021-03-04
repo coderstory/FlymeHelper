@@ -15,7 +15,6 @@ import java.io.File;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -35,8 +34,6 @@ public class FlymeHome extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
-            XposedBridge.log("开始hook桌面");
-            XposedBridge.log("获取到的参数个数" + prefs.getAll().isEmpty());
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 if (prefs.getBoolean("hide_icon_label", false)) {
                     // android 10
@@ -99,7 +96,7 @@ public class FlymeHome extends XposedHelper implements IModule {
                  */
                 if (findClassWithoutLog("com.meizu.flyme.g.a", lpparam.classLoader) != null) {
                     findAndHookMethod("com.meizu.flyme.g.a", lpparam.classLoader, "a", XC_MethodReplacement.returnConstant(null));
-                } else {
+                } else if (findClassWithoutLog("com.meizu.launcher3.controller.CommonTouchController", lpparam.classLoader) != null) {
                     findAndHookMethod("com.meizu.launcher3.controller.CommonTouchController", lpparam.classLoader, "startSearchActivity", XC_MethodReplacement.returnConstant(null));
                 }
             }

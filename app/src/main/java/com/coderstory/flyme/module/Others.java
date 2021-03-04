@@ -116,7 +116,7 @@ public class Others extends XposedHelper implements IModule {
     }
 
 
-    private boolean handleInfo(Object info) {
+    private void handleInfo(Object info) {
         boolean needToast = false;
         if (info != null) {
             String update = new SharedHelper(mContext).getString("updateList", "");
@@ -141,7 +141,6 @@ public class Others extends XposedHelper implements IModule {
                 //XposedBridge.log("flyme助手: 检测完到更新包已被记录");
             }
         }
-        return needToast;
     }
 
     @Override

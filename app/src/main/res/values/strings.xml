@@ -6,7 +6,7 @@
     <string name="authorization_agreement"><b>声明</b>\n软件授权协议</string>
     <string name="buy_way"><b>购买方式</b>\n<b>方式1:</b> 点击[加入付费群],入群后点击[激活会员]按钮输入QQ号激活,无需人工处理[推荐此方式激活]\n<b>方式2:</b>扫码支付8.6元,点击[加入交流群]按钮加入交流群,截图给群主</string>
     <string name="pay_explain"><b>付费版说明</b>\n付费版本需支付<font color='#FFC0CB'>8.6元</font>,可以授权激活一台设备,不可解绑但支持在同一台设备上重复激活。</string>
-    <string name="enableBlockADS"><b>基础功能</b>\n删除和屏蔽魅族自家的广告插件,可以屏蔽一部分系统App的广告</string>
+    <string name="enableBlockADS"><b>基础功能</b>\n删除和屏蔽魅族自家的广告插件,可以屏蔽一部分App的广告</string>
     <string name="mms"><b>短信</b>\n去除短信信息界面上的充值话费,申请信用卡等广告,但会无法快捷复制验证码</string>
     <string name="enableHosts"><b>启用模块</b>\n开启Hosts支持模块</string>
     <string name="blockads"><b>开启常规去广告</b>\nGithub上的hosts合集,用于屏蔽国内广告.</string>
@@ -22,9 +22,9 @@
     <string name="enableCheckInstaller"><b>禁用安全检查</b>\n跳过安装应用时候的安全检查,加快应用安装速度</string>
     <string name="enableCTS"><b>启用原生应用安装界面</b>\n使用Android原生安装界面替换flyme定制的安装界面</string>
     <string name="hideDepWarn"><b>隐藏开发者选项风险警告</b>\n禁止开启开发者选项后通知栏弹出的风险警告</string>
-    <string name="HideRootWithUpgrade"><b>系统更新</b>\n使用自带root情况下,在系统更新中隐藏Root,注意ROOT后是无法增量更新的</string>
-    <string name="HideRootWithPay"><b>魅族Pay</b>\n使用自带root情况下,在魅族Pay中隐藏Root</string>
-    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题,不会有倒计时之类的提示.如果你使用自带root则还需要开启全局隐藏ROOT</string>
+    <string name="HideRootWithUpgrade"><b>系统更新</b>\n关闭系统更新中Root检测,使之可以检测更新,注意开启ROOT会更新失败</string>
+    <string name="HideRootWithPay"><b>魅族Pay</b>\n关闭魅族Pay的Root检测</string>
+    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题,不会有倒计时之类的提示.如果你使用自带root则还需要开启[全局隐藏ROOT]</string>
     <string name="alarem"><b>闹钟</b>\n启用闹钟后,隐藏状态栏上的闹钟图标</string>
     <string name="hide_icon_debug"><b>USB调试</b>\n隐藏链接电脑后的USB调试图标</string>
     <string name="hide_icon_save"><b>流量监控</b>\n在手机管家中开启流量监控后，隐藏状态栏中对应的水滴图标,偶尔会隐藏失效,重启即可。</string>
@@ -45,7 +45,7 @@
     <string name="home_icon_num_rows"><b>自定义布局-行</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面有多少行app图标</string>
     <string name="home_icon_num_column"><b>自定义布局-列</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面有多少列app图标</string>
     <string name="home_icon_num_hot_seat_icons"><b>自定义布局-Dock</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面Dock栏的app数量</string>
-    <string name="disableSearch"><b>桌面禁用手势-搜索</b>  <font color='#FFC0CB'>vip</font>\n在不禁用搜索条件下，禁止桌面上划手势触发打开搜索</string>
+    <string name="disableSearch"><b>桌面禁用手势-搜索</b>  <font color='#FFC0CB'>vip</font>\n禁止桌面上划手势触发打开搜索</string>
     <string name="hide_status_bar_sim1_icon"><b>隐藏图标-SIM1</b>\n隐藏状态栏SIM1的图标</string>
     <string name="hide_status_bar_sim2_icon"><b>隐藏图标-SIM2</b>\n隐藏状态栏SIM2的图标</string>
     <string name="launcher10">自定义桌面布局(<font color='#4db6ac'> Android 10-11 可用</font>)</string>

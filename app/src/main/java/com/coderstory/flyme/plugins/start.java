@@ -3,7 +3,6 @@ package com.coderstory.flyme.plugins;
 import android.os.Build;
 
 import com.alibaba.fastjson.JSON;
-import com.coderstory.flyme.BuildConfig;
 import com.coderstory.flyme.module.FlymeHome;
 import com.coderstory.flyme.module.FlymeRoot;
 import com.coderstory.flyme.module.HideApp;
@@ -42,7 +41,6 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
         if (json.isEmpty()) {
             initJson(lpparam);
         }
-        XposedBridge.log("Flyme助手 " + BuildConfig.VERSION_NAME + " 开始Patch" + lpparam.packageName);
         if (Utils.vi()) {
             new FlymeHome().handleLoadPackage(lpparam);
             new IsEnable().handleLoadPackage(lpparam);

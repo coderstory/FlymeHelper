@@ -131,7 +131,7 @@ public class HideAppFragment extends BaseFragment {
                         } else {
                             appInfo.setDisable(true);
                             appInfoList.set(mPosition, appInfo);
-                            mView.setBackgroundColor(getResources().getColor(R.color.disableeApp, null)); //冻结的颜色
+                            mView.setBackgroundColor(getResources().getColor(R.color.disableApp, null)); //冻结的颜色
                         }
                         AnyLayer.dismiss();
                     }, R.id.fl_dialog_yes);

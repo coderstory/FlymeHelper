@@ -10,7 +10,6 @@ import com.coderstory.flyme.utils.XposedHelper;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -36,7 +35,6 @@ public class ThemePatcher extends XposedHelper implements IModule {
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.ThemeTrialService", lpparam.classLoader, "onStartCommand", Intent.class, int.class, int.class, new XC_MethodReplacement() {
                     @Override
                     protected Object replaceHookedMethod(MethodHookParam param) throws Throwable {
-                        XposedBridge.log("fuck ThemeTrialService");
                         return 2;
                     }
                 });
@@ -50,16 +48,6 @@ public class ThemePatcher extends XposedHelper implements IModule {
                         findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.c", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
                     }
                 });
-                //findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.c", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
-                // hookAllMethods("com.meizu.customizecenter.manager.utilstool.conversionutils.g", lpparam.classLoader, "a", new XC_MethodHook() {
-                //     @Override
-                //     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                //         super.beforeHookedMethod(param);
-                //         if (param.args.length > 2 && "doCheckState".equals(param.args[1])) {
-                //             param.setResult(0);
-                //         }
-                //     }
-                // });
                 findAndHookMethod("com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility", lpparam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(false));
                 findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.f.b", lpparam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(false));
 
