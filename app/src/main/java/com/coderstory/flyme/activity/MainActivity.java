@@ -45,6 +45,7 @@ import com.coderstory.flyme.utils.ViewUtils;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
@@ -211,6 +212,28 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 normalDialog.show();
             }
         }
+
+
+        try {
+            Class<?> classType = Class.forName("android.os.SystemProperties");
+            Method getMethod = classType.getDeclaredMethod("get", new Class<?>[]{String.class});
+            String value = (String) getMethod.invoke(classType, new Object[]{"ro.build.flyme.version"});
+            Log.e("xposed", "当前flyme版本" + value);
+            if (!"9".equals(value)) {
+                final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
+                normalDialog.setTitle("版本不匹配");
+                normalDialog.setMessage("当前助手适配的是flyme9系统,而当前系统是flyme" + value + ",请选择合适的版本");
+                normalDialog.setPositiveButton("退出",
+                        (dialog, which) -> {
+                            System.exit(0);
+                        });
+                normalDialog.setCancelable(false);
+                normalDialog.show();
+            }
+        } catch (Exception e) {
+            Log.e("", e.getMessage(), e);
+        }
+
 
         if (helper.getBoolean("firstOpenD", true) && android.os.Build.VERSION.SDK_INT <= 28) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);

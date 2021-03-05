@@ -68,7 +68,6 @@ public class OthersFragment extends BaseFragment {
     protected void setUpView() {
         setDatePickerDividerColor($(R.id.home_icon_num_column), 7, 4);
         setDatePickerDividerColor($(R.id.home_icon_num_rows), 7, 4);
-        setDatePickerDividerColor($(R.id.home_icon_num_hot_seat_icons), 7, 3);
 
         $(R.id.enableBlockAD).setOnClickListener(v -> {
             getEditor().putBoolean("EnableBlockAD", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
@@ -167,10 +166,6 @@ public class OthersFragment extends BaseFragment {
             fix();
         });
 
-        ((NumberPicker) $(R.id.home_icon_num_hot_seat_icons)).setOnValueChangedListener((v, oldValue, newValue) -> {
-            getEditor().putInt("home_icon_num_hot_seat_icons", newValue);
-            fix();
-        });
         $(R.id.disableSearch).setOnClickListener(v -> {
             getEditor().putBoolean("disableSearch", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
@@ -204,7 +199,6 @@ public class OthersFragment extends BaseFragment {
         ((androidx.appcompat.widget.SwitchCompat) $(R.id.HideRootGlobal)).setChecked(getPrefs().getBoolean("HideRootGlobal", false));
         ((NumberPicker) $(R.id.home_icon_num_column)).setValue(getPrefs().getInt("home_icon_num_column", 4));
         ((NumberPicker) $(R.id.home_icon_num_rows)).setValue(getPrefs().getInt("home_icon_num_rows", 5));
-        ((NumberPicker) $(R.id.home_icon_num_hot_seat_icons)).setValue(getPrefs().getInt("home_icon_num_hot_seat_icons", 4));
         ((androidx.appcompat.widget.SwitchCompat) $(R.id.disableSearch)).setChecked(getPrefs().getBoolean("disableSearch", false));
         ((androidx.appcompat.widget.SwitchCompat) $(R.id.mms)).setChecked(getPrefs().getBoolean("mms", false));
 
@@ -213,12 +207,10 @@ public class OthersFragment extends BaseFragment {
             $(R.id.autoInstall).setEnabled(false);
             $(R.id.home_icon_num_column).setEnabled(false);
             $(R.id.home_icon_num_rows).setEnabled(false);
-            $(R.id.home_icon_num_hot_seat_icons).setEnabled(false);
             $(R.id.disableSearch).setEnabled(false);
 
             ((TextView) $(R.id.test1)).setTextColor(Color.parseColor("#A9A9A9"));
             ((TextView) $(R.id.test2)).setTextColor(Color.parseColor("#A9A9A9"));
-            ((TextView) $(R.id.test3)).setTextColor(Color.parseColor("#A9A9A9"));
         }
     }
 
