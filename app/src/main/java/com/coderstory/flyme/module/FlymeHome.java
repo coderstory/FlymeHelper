@@ -109,8 +109,7 @@ public class FlymeHome extends XposedHelper implements IModule {
         JSONObject config = json.getJSONObject("custom_launcher_icon_number");
         int numRows = prefs.getInt("home_icon_num_rows", 0);
         int numColumns = prefs.getInt("home_icon_num_column", 0);
-        int numHotseatIcons = prefs.getInt("home_icon_num_hot_seat_icons", 0);
-        if (numColumns + numRows + numHotseatIcons != 0) {
+        if (numColumns + numRows != 0) {
             hookAllConstructors(findClass(config.getString("class1"), lpparam.classLoader), new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -119,8 +118,6 @@ public class FlymeHome extends XposedHelper implements IModule {
                         XposedHelpers.setIntField(param.thisObject, "numRows", numRows);
                     if (numColumns != 0)
                         XposedHelpers.setIntField(param.thisObject, "numColumns", numColumns);
-                    if (numHotseatIcons != 0)
-                        XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons);
                 }
             });
             hookAllConstructors(findClass(config.getString("class2"), lpparam.classLoader), new XC_MethodHook() {
@@ -131,8 +128,6 @@ public class FlymeHome extends XposedHelper implements IModule {
                         XposedHelpers.setIntField(param.thisObject, "numRows", numRows);
                     if (numColumns != 0)
                         XposedHelpers.setIntField(param.thisObject, "numColumns", numColumns);
-                    if (numHotseatIcons != 0)
-                        XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons);
                 }
             });
 
@@ -142,7 +137,7 @@ public class FlymeHome extends XposedHelper implements IModule {
                         if ("launcher.db".equals(hookParam.args[1])) {
                             Object arg = hookParam.args[0];
                             if (arg != null) {
-                                String dbName = "launcher_coderStory_" + (numColumns + numRows + numHotseatIcons) + ".db";
+                                String dbName = "launcher_coderStory_" + (numColumns + numRows) + ".db";
                                 XposedHelpers.setObjectField(hookParam.thisObject, "mName", dbName);
                                 File file = ((Context) arg).getDatabasePath("launcher.db");
                                 if (file != null && (file.exists())) {

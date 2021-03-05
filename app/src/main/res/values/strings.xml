@@ -42,13 +42,12 @@
     <string name="hide_status_bar_time_chinese_icon"><b>状态栏时间-修饰</b>  <font color='#FFC0CB'>vip</font>\n在状态栏时间前面追加上午下午凌晨等词缀 比如 [傍晚 18:20]</string>
     <string name="HideRootGlobal"><b>全局隐藏root</b>\n针对所有的flyme自带软件,隐藏自带的ROOT,开启后设置里会显示ROOT未开启</string>
     <string name="status_text_view_clock_center"><b>状态栏时间居中</b> <font color='#FFC0CB'>vip</font>\n状态栏时间居中显示,与状态栏其他东西重叠时自动隐藏。</string>
-    <string name="home_icon_num_rows"><b>自定义布局-行</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面有多少行app图标</string>
-    <string name="home_icon_num_column"><b>自定义布局-列</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面有多少列app图标</string>
-    <string name="home_icon_num_hot_seat_icons"><b>自定义布局-Dock</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面Dock栏的app数量</string>
+    <string name="home_icon_num_rows"><b>自定义布局-行</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面有多少行app图标,含Dock栏</string>
+    <string name="home_icon_num_column"><b>自定义布局-列</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面每行显示多少个app</string>
     <string name="disableSearch"><b>桌面禁用手势-搜索</b>  <font color='#FFC0CB'>vip</font>\n禁止桌面上划手势触发打开搜索</string>
     <string name="hide_status_bar_sim1_icon"><b>隐藏图标-SIM1</b>\n隐藏状态栏SIM1的图标</string>
     <string name="hide_status_bar_sim2_icon"><b>隐藏图标-SIM2</b>\n隐藏状态栏SIM2的图标</string>
-    <string name="launcher10">自定义桌面布局(<font color='#4db6ac'> Android 10-11 可用</font>)</string>
+    <string name="launcher10">自定义桌面布局</string>
     <string name="launcher8">自定义桌面布局(<font color='#4db6ac'> Andorid 8.0- 9.0可用</font>)</string>
     <string name="hide_status_bar_location_icon"><b>定位</b>\n使用GPS的时候，隐藏状态栏上的定位图标</string>
     <string name="hide_status_bar_clock_icon"><b>时钟</b>\n隐藏状态栏中的时间</string>
