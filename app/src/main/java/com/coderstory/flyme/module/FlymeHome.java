@@ -15,6 +15,7 @@ import java.io.File;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -24,11 +25,6 @@ public class FlymeHome extends XposedHelper implements IModule {
 
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
-        if (resparam.packageName.equals("com.meizu.flyme.launcher")) {
-            resparam.res.setReplacement(resparam.packageName, "dimen", "iconsize", "20.0dip");
-            resparam.res.setReplacement(resparam.packageName, "dimen", "app_icon_size", "20.0dip");
-            resparam.res.setReplacement(resparam.packageName, "dimen", "iconsize_big", "20.0dip");
-        }
     }
 
     @Override
@@ -110,6 +106,19 @@ public class FlymeHome extends XposedHelper implements IModule {
         int numRows = prefs.getInt("home_icon_num_rows", 0);
         int numColumns = prefs.getInt("home_icon_num_column", 0);
         if (numColumns + numRows != 0) {
+            // 解决桌面widget长度问题
+            XposedHelpers.findAndHookMethod(XposedHelpers.findClass("android.appwidget.AppWidgetHostView", lpparam.classLoader),
+                    "getAppWidgetInfo", new XC_MethodHook() {
+                        protected void beforeHookedMethod(XC_MethodHook.MethodHookParam arg5) {
+                            Object v0 = XposedHelpers.getObjectField(arg5.thisObject, "mInfo");
+                            if (v0 != null) {
+                                XposedHelpers.setIntField(v0, "resizeMode", 3);
+                                XposedHelpers.setIntField(v0, "minResizeWidth", 40);
+                                XposedHelpers.setIntField(v0, "minResizeHeight", 40);
+                            }
+                        }
+                    });
+
             hookAllConstructors(findClass(config.getString("class1"), lpparam.classLoader), new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
