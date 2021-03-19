@@ -34,6 +34,19 @@ public class FlymeHome extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
+            // 解决桌面widget长度问题
+            XposedHelpers.findAndHookMethod(XposedHelpers.findClass("android.appwidget.AppWidgetHostView", lpparam.classLoader),
+                    "getAppWidgetInfo", new XC_MethodHook() {
+                        protected void beforeHookedMethod(XC_MethodHook.MethodHookParam arg5) {
+                            Object v0 = XposedHelpers.getObjectField(arg5.thisObject, "mInfo");
+                            if (v0 != null) {
+                                XposedHelpers.setIntField(v0, "resizeMode", 3);
+                                XposedHelpers.setIntField(v0, "minResizeWidth", 40);
+                                XposedHelpers.setIntField(v0, "minResizeHeight", 40);
+                            }
+                        }
+                    });
+
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 if (prefs.getBoolean("hide_icon_label", false)) {
                     // android 10
