@@ -3,19 +3,17 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
-        maven { url "https://jitpack.io" }
+        maven { url "https://mirrors.cloud.tencent.com/maven" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.0-beta05'
+        classpath 'com.android.tools.build:gradle:4.2.0-beta06'
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
-        maven { url "https://jitpack.io" }
+        maven { url "https://mirrors.cloud.tencent.com/maven" }
     }
 }
 
