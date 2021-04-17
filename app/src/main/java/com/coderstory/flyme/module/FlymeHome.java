@@ -37,7 +37,9 @@ public class FlymeHome extends XposedHelper implements IModule {
                         @Override
                         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                             super.beforeHookedMethod(param);
-                            if (XposedHelpers.getIntField(param.thisObject, "mIconSize") > 100) {
+                            XposedBridge.log("当前图标尺寸" + XposedHelpers.getIntField(param.thisObject, "mIconSize"));
+                            // 魅族17 shortcut 80  普通应用 146  魅族18 116 普通app 208
+                            if (XposedHelpers.getIntField(param.thisObject, "mIconSize") > 116) {
                                 param.args[0] = "";
                             }
                         }
