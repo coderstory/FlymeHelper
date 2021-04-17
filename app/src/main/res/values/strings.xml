@@ -120,7 +120,7 @@
             <b>root-tools</b>\n https://github.com/rarnu/root-tools\n\n
             <b>LicensesDialog</b>\n https://github.com/PSDev/LicensesDialog\n\n
     </string>
-    <string name="about_app">\nFlyme助手适配于Flyme8系统，主要用于去除系统自带的一些广告和其他一些修改.功能需要Xposed模块和ROOT支持
+    <string name="about_app">\nFlyme助手适配于Flyme9系统，主要用于去除系统自带的一些广告和其他一些修改.功能需要Xposed模块和ROOT支持
         \n\n<b>作者:CoderStory</b>
         \n\n<b>博客主页: http://blog.coderstory.cn:4433</b>
         \n\n<b>微博主页: https://weibo.com/codestory</b>
