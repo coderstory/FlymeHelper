@@ -100,11 +100,11 @@
                 android:background="@color/switchBtn"
                 android:maxLines="10"
                 android:paddingStart="30dp"
-                android:visibility="gone"
                 android:paddingTop="4dp"
                 android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
-                android:text="@string/hideDepWarn" />
+                android:text="@string/hideDepWarn"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/removeStore"
@@ -143,9 +143,9 @@
                 android:paddingStart="30dp"
                 android:paddingTop="4dp"
                 android:paddingEnd="30dp"
-                android:visibility="gone"
                 android:paddingBottom="4dp"
-                android:text="@string/disableSearch" />
+                android:text="@string/disableSearch"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/enabletheme"
@@ -200,8 +200,8 @@
                 android:paddingStart="30dp"
                 android:paddingTop="15dp"
                 android:paddingEnd="4dp"
-                android:visibility="gone"
-                android:text="@string/launcher8" />
+                android:text="@string/launcher8"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_icon_45"
@@ -212,9 +212,9 @@
                 android:paddingStart="30dp"
                 android:paddingTop="4dp"
                 android:paddingEnd="30dp"
-                android:visibility="gone"
                 android:paddingBottom="4dp"
-                android:text="@string/hide_icon_4x5" />
+                android:text="@string/hide_icon_4x5"
+                android:visibility="gone" />
 
 
             <androidx.appcompat.widget.SwitchCompat
@@ -224,11 +224,11 @@
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
-                android:visibility="gone"
                 android:paddingTop="4dp"
                 android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
-                android:text="@string/hide_icon_5x5" />
+                android:text="@string/hide_icon_5x5"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_icon_6"
@@ -238,10 +238,10 @@
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
                 android:paddingTop="4dp"
-                android:visibility="gone"
                 android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
-                android:text="@string/hide_icon_65" />
+                android:text="@string/hide_icon_65"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -308,10 +308,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:paddingStart="30dp"
-                android:visibility="gone"
                 android:paddingTop="15dp"
                 android:paddingEnd="4dp"
-                android:text="@string/tips2" />
+                android:text="@string/tips2"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
