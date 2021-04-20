@@ -8,7 +8,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 29
         resConfigs "zh", "xxhdpi"
-        versionCode 480
+        versionCode 485
         versionName "4.3.3"
         resConfigs "cn"
         ndk {
