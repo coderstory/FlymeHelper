@@ -30,6 +30,8 @@ public class FlymeHome extends XposedHelper implements IModule {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         if (lpparam.packageName.equals("com.meizu.flyme.launcher")) {
+            XposedBridge.log("开始hook桌面");
+            XposedBridge.log("获取到的参数个数" + prefs.getAll().size());
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 if (prefs.getBoolean("hide_icon_label", false)) {
                     // android 10
@@ -37,19 +39,11 @@ public class FlymeHome extends XposedHelper implements IModule {
                         @Override
                         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                             super.beforeHookedMethod(param);
-                            XposedBridge.log("当前图标尺寸" + XposedHelpers.getIntField(param.thisObject, "mIconSize"));
+
                             // 魅族17 shortcut 80  普通应用 146  魅族18 116 普通app 208
-                            if (XposedHelpers.getIntField(param.thisObject, "mIconSize") > 116) {
+                            if (XposedHelpers.getIntField(param.thisObject, "mDisplay") != 4) {
                                 param.args[0] = "";
                             }
-                        }
-                    });
-
-                    hookAllMethods("com.meizu.launcher3.view.MzFolderBubbleTextView", lpparam.classLoader, "setText", new XC_MethodHook() {
-                        @Override
-                        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                            super.beforeHookedMethod(param);
-                            param.args[0] = "";
                         }
                     });
                 }

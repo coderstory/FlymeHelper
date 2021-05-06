@@ -48,7 +48,7 @@ public class updgradeService {
                 // 下载链接或更新文档链接
                 .setUrl("https://app-1301652864.cos.ap-nanjing.myqcloud.com/update.json")
                 // 下载文件存储路径（可选）
-                .setStorage(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/com.upgrade.apk"))
+                .setStorage(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/flymeHelper.upgrade.apk"))
                 // 是否支持多线性下载（可选）
                 .setMultithreadEnabled(true)
                 // 线程池大小（可选）
