@@ -17,8 +17,22 @@ jobs:
         java-version: 1.8
     - name: Install NDK
       run:  echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.1.6352462" --channel=1 --sdk_root=${ANDROID_SDK_ROOT}
+    - name: Cache Gradle
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: gradle-manager-${{ github.sha }}
+        restore-keys: |
+          gradle-      
     - name: Build with Gradle
-      run:  bash ./gradlew assembleRelease
+      run:   |
+          echo 'org.gradle.caching=true' >> gradle.properties
+          echo 'org.gradle.parallel=true' >> gradle.properties
+          echo 'org.gradle.vfs.watch=true' >> gradle.properties
+          echo 'org.gradle.jvmargs=-Xmx2048m' >> gradle.properties
+          ./gradlew assembleRelease
     - uses: r0adkll/sign-android-release@v1
       name: Sign app APK
       # ID used to access action output
