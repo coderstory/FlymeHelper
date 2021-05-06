@@ -3,12 +3,9 @@ name: Android CI
 on:
   push:
     branches: [ dev ]
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: set up JDK 1.8
