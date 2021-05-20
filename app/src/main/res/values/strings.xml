@@ -32,7 +32,7 @@
     <string name="hide_icon_hotspot"><b>手机热点</b>\n隐藏状态栏上的手机热点图标</string>
     <string name="hide_icon_volte"><b>VoLte</b>\n手机号开通volte后,隐藏状态栏上的HD高清通话图标</string>
     <string name="hide_icon_shake"><b>震动</b>\n音量为0的情况下,隐藏状态栏上的震动图标</string>
-    <string name="hide_status_bar_no_sim_icon"><b>SIM</b>\n隐藏空sim卡图标 当前适配Android 9-10,使用Anroid 8的比如16th可能不能用</string>
+    <string name="hide_status_bar_no_sim_icon"><b>空SIM</b>\n隐藏状态栏上的空sim卡图标</string>
     <string name="hide_status_bar_wifi_icon"><b>隐藏wifi图标</b>\n隐藏状态栏上的wifi图标</string>
     <string name="hide_status_bar_vpn_icon"><b>隐藏vpn图标</b>\n开启vpn后，自动隐藏状态栏上的VPN图标和相关常驻通知</string>
     <string name="show_status_bar_time_second_icon"><b>时间显秒</b>\n状态栏上的当前时间格式变成[时:分:秒]</string>
@@ -45,10 +45,10 @@
     <string name="home_icon_num_rows"><b>自定义布局-行</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面有多少行app图标</string>
     <string name="home_icon_num_column"><b>自定义布局-列</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面有多少列app图标</string>
     <string name="home_icon_num_hot_seat_icons"><b>自定义布局-Dock</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面Dock栏的app数量</string>
-    <string name="disableSearch"><b>桌面禁用手势-搜索</b>  <font color='#FFC0CB'>vip</font>\n禁止桌面上划手势触发打开搜索</string>
+    <string name="disableSearch"><b>桌面禁用手势-搜索</b>\n禁止桌面上划手势触发打开搜索</string>
     <string name="hide_status_bar_sim1_icon"><b>隐藏图标-SIM1</b>\n隐藏状态栏SIM1的图标</string>
     <string name="hide_status_bar_sim2_icon"><b>隐藏图标-SIM2</b>\n隐藏状态栏SIM2的图标</string>
-    <string name="launcher10">自定义桌面布局(<font color='#4db6ac'> Android 10-11 可用</font>)</string>
+    <string name="launcher10">自定义桌面布局</string>
     <string name="launcher8">自定义桌面布局(<font color='#4db6ac'> Andorid 8.0- 9.0可用</font>)</string>
     <string name="hide_status_bar_location_icon"><b>定位</b>\n使用GPS的时候，隐藏状态栏上的定位图标</string>
     <string name="hide_status_bar_clock_icon"><b>时钟</b>\n隐藏状态栏中的时间</string>

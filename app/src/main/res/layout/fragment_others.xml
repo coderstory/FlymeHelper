@@ -254,14 +254,14 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:background="@color/switchBtn">
 
                 <TextView
                     android:id="@+id/test1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="15dp"
                     android:layout_weight="8"
                     android:paddingStart="30dp"
                     android:paddingTop="4dp"
@@ -280,14 +280,14 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:background="@color/switchBtn">
 
                 <TextView
                     android:id="@+id/test2"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="15dp"
                     android:layout_weight="8"
                     android:paddingStart="30dp"
                     android:paddingTop="4dp"
@@ -307,14 +307,14 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:background="@color/switchBtn">
 
                 <TextView
                     android:id="@+id/test3"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="15dp"
                     android:layout_weight="8"
                     android:paddingStart="30dp"
                     android:paddingTop="4dp"

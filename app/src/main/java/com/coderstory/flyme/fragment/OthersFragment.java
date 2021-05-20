@@ -68,6 +68,7 @@ public class OthersFragment extends BaseFragment {
     protected void setUpView() {
         setDatePickerDividerColor($(R.id.home_icon_num_column), 7, 4);
         setDatePickerDividerColor($(R.id.home_icon_num_rows), 7, 4);
+        setDatePickerDividerColor($(R.id.home_icon_num_hot_seat_icons), 5, 1);
 
         $(R.id.enableBlockAD).setOnClickListener(v -> {
             getEditor().putBoolean("EnableBlockAD", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
@@ -77,6 +78,14 @@ public class OthersFragment extends BaseFragment {
                 new Thread(() -> {
                     List<String> paths = Shell.su("cd /data/data;find -name com.meizu.advertise.plugin   -type dir").exec().getOut();
                     String[] command = new String[paths.size()];
+                    if (paths.size() == 0) {
+                        ((Activity) getMContext()).runOnUiThread(() -> {
+                            dialog.setMessage("处理失败,请重试");
+                            getEditor().putBoolean("EnableBlockAD", false);
+                            ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableBlockAD)).isChecked();
+                        });
+                        return;
+                    }
                     for (int i = 0; i < paths.size(); i++) {
                         String path = paths.get(i).substring(1);
                         ((Activity) getMContext()).runOnUiThread(() -> dialog.setMessage("正在处理\n" + path.split("/file")[0].replace("/", "")));
@@ -207,7 +216,6 @@ public class OthersFragment extends BaseFragment {
             $(R.id.autoInstall).setEnabled(false);
             $(R.id.home_icon_num_column).setEnabled(false);
             $(R.id.home_icon_num_rows).setEnabled(false);
-            $(R.id.disableSearch).setEnabled(false);
 
             ((TextView) $(R.id.test1)).setTextColor(Color.parseColor("#A9A9A9"));
             ((TextView) $(R.id.test2)).setTextColor(Color.parseColor("#A9A9A9"));

@@ -23,7 +23,7 @@
                 android:paddingStart="30dp"
                 android:paddingTop="20dp"
                 android:paddingEnd="30dp"
-                android:text="本功能需要EdXp或者LSP框架支持,功能开关重启生效" />
+                android:text="本功能需要LSPosed框架支持,功能开关重启生效" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/authcreak"
@@ -83,7 +83,7 @@
                 android:paddingStart="30dp"
                 android:paddingTop="15dp"
                 android:paddingEnd="4dp"
-                android:text="FLyme助手集成了作者开源的最新版核心破解,支持android[10-11]系统,9.0及以下的版本请安装对应版本的独立版核心破解" />
+                android:text="FLyme助手集成了开源的最新版核心破解,支持android[10-11]系统" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
