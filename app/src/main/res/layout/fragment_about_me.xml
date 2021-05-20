@@ -101,6 +101,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/btn_nor_down"
                         android:text="加入付费群"
+                        android:visibility="gone"
                         android:textSize="14dp" />
 
                     <Button
