@@ -304,6 +304,33 @@
                     android:descendantFocusability="blocksDescendants" />
             </LinearLayout>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/switchBtn">
+
+                <TextView
+                    android:id="@+id/test3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="8"
+                    android:paddingStart="30dp"
+                    android:paddingTop="4dp"
+                    android:paddingEnd="30dp"
+                    android:paddingBottom="10dp"
+                    android:text="@string/home_icon_num_hot_seat_icons"
+                    android:textColor="#000" />
+
+                <com.coderstory.flyme.view.QNumberPicker
+                    android:id="@+id/home_icon_num_hot_seat_icons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:descendantFocusability="blocksDescendants" />
+            </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
