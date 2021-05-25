@@ -41,7 +41,7 @@ public class AboutMeFragment extends BaseFragment {
                 case 0:
                     final androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(getMContext());
                     normalDialog.setTitle("提示");
-                    normalDialog.setMessage("请先授权应用ROOT权限(或者你的ROOT已失效)");
+                    normalDialog.setMessage("请先授权应用ROOT权限");
                     normalDialog.setPositiveButton("确定",
                             (dialog, which) -> System.exit(0));
                     normalDialog.show();
@@ -171,7 +171,7 @@ public class AboutMeFragment extends BaseFragment {
                 if (sn == null) {
                     androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(getMContext());
                     normalDialog.setTitle("提示");
-                    normalDialog.setMessage("请先授权应用ROOT权限(或者你的ROOT已失效)");
+                    normalDialog.setMessage("请先授权应用ROOT权限");
                     normalDialog.setPositiveButton("确定",
                             (dialog1, which1) -> System.exit(0));
                     normalDialog.show();
@@ -199,7 +199,7 @@ public class AboutMeFragment extends BaseFragment {
                         if (sn == null) {
                             androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(getMContext());
                             normalDialog.setTitle("提示");
-                            normalDialog.setMessage("请先授权应用ROOT权限(或者你的ROOT已失效)");
+                            normalDialog.setMessage("请先授权应用ROOT权限");
                             normalDialog.setPositiveButton("确定",
                                     (dialog1, which1) -> System.exit(0));
                             normalDialog.show();

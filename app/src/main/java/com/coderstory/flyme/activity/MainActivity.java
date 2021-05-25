@@ -74,7 +74,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 case 0:
                     final androidx.appcompat.app.AlertDialog.Builder normalDialog = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
                     normalDialog.setTitle("提示");
-                    normalDialog.setMessage("请先授权应用ROOT权限(或者你的ROOT已失效)");
+                    normalDialog.setMessage("请先授权应用ROOT权限");
                     normalDialog.setPositiveButton("确定",
                             (dialog, which) -> System.exit(0));
                     normalDialog.show();
@@ -216,18 +216,25 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
         try {
             Class<?> classType = Class.forName("android.os.SystemProperties");
-            Method getMethod = classType.getDeclaredMethod("get", new Class<?>[]{String.class});
+            Method getMethod = classType.getDeclaredMethod("get", String.class);
             String value = (String) getMethod.invoke(classType, new Object[]{"ro.build.flyme.version"});
             Log.e("xposed", "当前flyme版本" + value);
             if (!"9".equals(value)) {
                 final AlertDialog.Builder normalDialog = new AlertDialog.Builder(MainActivity.this);
-                normalDialog.setTitle("版本不匹配");
-                normalDialog.setMessage("当前助手适配的是flyme9系统,而当前系统是flyme" + value + ",请选择合适的版本");
+                normalDialog.setTitle("不兼容的操作系统");
+                if (value == null || "".equals(value)) {
+                    normalDialog.setMessage("当前助手适配的是Flyme9系统,而当前系统不是FLyme");
+                } else {
+                    normalDialog.setMessage("当前助手适配的是Flyme9系统,而当前系统是flyme" + value + ",请选择合适的版本");
+                }
+
                 normalDialog.setPositiveButton("退出",
                         (dialog, which) -> {
                             System.exit(0);
                         });
-                normalDialog.setCancelable(false);
+                normalDialog.setCancelable(true
+
+                );
                 normalDialog.show();
             }
         } catch (Exception e) {
