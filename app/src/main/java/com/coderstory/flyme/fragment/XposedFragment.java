@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
-import com.coderstory.flyme.utils.hostshelper.FileHelper;
+import com.coderstory.flyme.tools.hostshelper.FileHelper;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;

@@ -11,13 +11,13 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.coderstory.flyme.utils.Misc;
-import com.coderstory.flyme.utils.Utils;
+import com.coderstory.flyme.tools.Misc;
+import com.coderstory.flyme.tools.Utils;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.File;
 
-import static com.coderstory.flyme.utils.Misc.ApplicationName;
+import static com.coderstory.flyme.tools.Misc.ApplicationName;
 
 
 /**
@@ -95,7 +95,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected <T extends View> T $(int id) {
-        return (T) mContentView.findViewById(id);
+        return mContentView.findViewById(id);
     }
 
 

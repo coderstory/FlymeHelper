@@ -27,7 +27,7 @@ import com.coderstory.flyme.R;
 import com.coderstory.flyme.adapter.AppInfo;
 import com.coderstory.flyme.adapter.AppInfoAdapter;
 import com.coderstory.flyme.fragment.base.BaseFragment;
-import com.coderstory.flyme.utils.SnackBarUtils;
+import com.coderstory.flyme.tools.SnackBarUtils;
 import com.coderstory.flyme.view.PullToRefreshView;
 import com.topjohnwu.superuser.Shell;
 
@@ -42,8 +42,8 @@ import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
 
-import static com.coderstory.flyme.utils.FileUtils.readFile;
-import static com.coderstory.flyme.utils.Misc.BackPath;
+import static com.coderstory.flyme.tools.FileUtils.readFile;
+import static com.coderstory.flyme.tools.Misc.BackPath;
 
 
 public class DisbaleAppFragment extends BaseFragment {

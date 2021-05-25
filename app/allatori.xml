@@ -30,7 +30,7 @@
         </class>
         <class template="public class * instanceof android.app.Application" />
         <class template="public class * instanceof android.app.Service" />
-        <class template="public class com.coderstory.flyme.plugins.start" />
+        <class template="public class com.coderstory.flyme.xposed.start" />
         <class template="public class com.coderstory.flyme.activity.MainActivity">
             <method template="isEnable()" />
         </class>

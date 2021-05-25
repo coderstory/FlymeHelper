@@ -9,10 +9,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.coderstory.flyme.R;
-import com.coderstory.flyme.utils.SnackBarUtils;
+import com.coderstory.flyme.tools.SnackBarUtils;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
-import static com.coderstory.flyme.utils.Misc.MyBlogUrl;
+import static com.coderstory.flyme.tools.Misc.MyBlogUrl;
 
 public class BlogFragment extends WebViewFragment {
     @Override

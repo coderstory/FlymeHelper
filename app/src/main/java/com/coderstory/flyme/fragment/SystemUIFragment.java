@@ -2,8 +2,8 @@ package com.coderstory.flyme.fragment;
 
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
-import com.coderstory.flyme.utils.SharedHelper;
-import com.coderstory.flyme.utils.Utils;
+import com.coderstory.flyme.tools.SharedHelper;
+import com.coderstory.flyme.tools.Utils;
 import com.topjohnwu.superuser.Shell;
 
 import java.util.ArrayList;

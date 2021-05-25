@@ -9,7 +9,7 @@ import android.os.Looper;
 
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
-import com.coderstory.flyme.utils.hostshelper.FileHelper;
+import com.coderstory.flyme.tools.hostshelper.FileHelper;
 import com.topjohnwu.superuser.Shell;
 
 import java.io.BufferedWriter;
@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 
-import static com.coderstory.flyme.utils.Misc.HostFileTmpName;
+import static com.coderstory.flyme.tools.Misc.HostFileTmpName;
 
 
 public class HostsFragment extends BaseFragment {

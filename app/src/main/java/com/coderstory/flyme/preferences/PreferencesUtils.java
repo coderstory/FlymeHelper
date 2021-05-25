@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.coderstory.flyme.utils.Misc;
-import com.coderstory.flyme.utils.Utils;
+import com.coderstory.flyme.tools.Misc;
+import com.coderstory.flyme.tools.Utils;
 
-import static com.coderstory.flyme.utils.Misc.ApplicationName;
+import static com.coderstory.flyme.tools.Misc.ApplicationName;
 
 /**
  * PreferencesUtils, easy to get or put data

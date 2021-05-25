@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.coderstory.flyme.R;
-import com.coderstory.flyme.utils.Cpp;
+import com.coderstory.flyme.tools.Cpp;
 
 
 public class SplashActivity extends Activity {
@@ -56,7 +56,7 @@ public class SplashActivity extends Activity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Cpp.check();
+                Cpp.runTest();
                 return 1;
             }
         }.execute();

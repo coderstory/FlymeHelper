@@ -6,7 +6,7 @@ import android.os.Environment;
 import android.util.Base64;
 
 import com.coderstory.flyme.R;
-import com.coderstory.flyme.utils.SharedHelper;
+import com.coderstory.flyme.tools.SharedHelper;
 import com.itsnows.upgrade.UpgradeManager;
 import com.itsnows.upgrade.model.bean.UpgradeOptions;
 

@@ -5,11 +5,11 @@ import android.widget.TextView;
 import com.coderstory.flyme.BuildConfig;
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
-import com.coderstory.flyme.utils.licensesdialog.LicensesDialog;
-import com.coderstory.flyme.utils.licensesdialog.licenses.ApacheSoftwareLicense20;
-import com.coderstory.flyme.utils.licensesdialog.licenses.GnuGeneralPublicLicense20;
-import com.coderstory.flyme.utils.licensesdialog.model.Notice;
-import com.coderstory.flyme.utils.licensesdialog.model.Notices;
+import com.coderstory.flyme.tools.licensesdialog.LicensesDialog;
+import com.coderstory.flyme.tools.licensesdialog.licenses.ApacheSoftwareLicense20;
+import com.coderstory.flyme.tools.licensesdialog.licenses.GnuGeneralPublicLicense20;
+import com.coderstory.flyme.tools.licensesdialog.model.Notice;
+import com.coderstory.flyme.tools.licensesdialog.model.Notices;
 
 public class AboutFragment extends BaseFragment {
     @Override

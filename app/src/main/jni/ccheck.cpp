@@ -19,7 +19,7 @@ const char *app_signature = "308203933082027ba00302010202043936013b300d06092a864
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_coderstory_flyme_utils_Cpp_initCpp(JNIEnv *env, jclass type, jobject context) {
+Java_com_coderstory_flyme_tools_Cpp_firstCpp(JNIEnv *env, jclass type, jobject context) {
     // 1. 获取包名
     jclass j_clz = env->GetObjectClass(context);
     jmethodID j_mid = env->GetMethodID(j_clz, "getPackageName", "()Ljava/lang/String;");
@@ -65,14 +65,14 @@ Java_com_coderstory_flyme_utils_Cpp_initCpp(JNIEnv *env, jclass type, jobject co
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_coderstory_flyme_utils_Cpp_check(JNIEnv *env, jclass type) {
+Java_com_coderstory_flyme_tools_Cpp_runTest(JNIEnv *env, jclass type) {
     if (is_verify == JNI_FALSE) {
         exit(0);
     }
 }
 
 extern "C" JNIEXPORT jstring
-JNICALL Java_com_coderstory_flyme_utils_Cpp_hello(JNIEnv *env, jclass clazz) {
+JNICALL Java_com_coderstory_flyme_tools_Cpp_helloWorld(JNIEnv *env, jclass clazz) {
     if (is_verify == JNI_FALSE) {
         exit(0);
     }

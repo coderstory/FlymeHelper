@@ -16,10 +16,10 @@ import androidx.cardview.widget.CardView;
 
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
-import com.coderstory.flyme.utils.AppSignCheck;
-import com.coderstory.flyme.utils.Misc;
-import com.coderstory.flyme.utils.SharedHelper;
-import com.coderstory.flyme.utils.Utils;
+import com.coderstory.flyme.tools.AppSignCheck;
+import com.coderstory.flyme.tools.Misc;
+import com.coderstory.flyme.tools.SharedHelper;
+import com.coderstory.flyme.tools.Utils;
 import com.topjohnwu.superuser.Shell;
 
 import java.lang.reflect.Field;

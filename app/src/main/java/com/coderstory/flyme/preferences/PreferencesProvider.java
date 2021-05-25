@@ -11,12 +11,12 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.coderstory.flyme.utils.Misc;
-import com.coderstory.flyme.utils.Utils;
+import com.coderstory.flyme.tools.Misc;
+import com.coderstory.flyme.tools.Utils;
 
 import java.util.Set;
 
-import static com.coderstory.flyme.utils.Misc.ApplicationName;
+import static com.coderstory.flyme.tools.Misc.ApplicationName;
 
 /**
  * @Description: ContentProvider

@@ -18,9 +18,9 @@ import androidx.core.view.MotionEventCompat;
 import androidx.core.view.ViewCompat;
 
 import com.coderstory.flyme.R;
-import com.coderstory.flyme.refresh_view.BaseRefreshView;
-import com.coderstory.flyme.refresh_view.SunRefreshView;
-import com.coderstory.flyme.utils.Utils;
+import com.coderstory.flyme.refreshView.BaseRefreshView;
+import com.coderstory.flyme.refreshView.SunRefreshView;
+import com.coderstory.flyme.tools.Utils;
 
 import java.security.InvalidParameterException;
 

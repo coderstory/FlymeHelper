@@ -22,7 +22,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.activity.base.BaseActivity;
-import com.coderstory.flyme.fragment.AboutMeFragment;
+import com.coderstory.flyme.fragment.AccountFragment;
 import com.coderstory.flyme.fragment.BlogFragment;
 import com.coderstory.flyme.fragment.CleanFragment;
 import com.coderstory.flyme.fragment.CorePatchFragment;
@@ -32,16 +32,16 @@ import com.coderstory.flyme.fragment.HostsFragment;
 import com.coderstory.flyme.fragment.OthersFragment;
 import com.coderstory.flyme.fragment.SettingsFragment;
 import com.coderstory.flyme.fragment.SystemUIFragment;
-import com.coderstory.flyme.fragment.UpdateListFragment;
+import com.coderstory.flyme.fragment.UpgradeFragment;
 import com.coderstory.flyme.fragment.WebViewFragment;
 import com.coderstory.flyme.fragment.XposedFragment;
+import com.coderstory.flyme.tools.Misc;
+import com.coderstory.flyme.tools.RuntimeUtil;
+import com.coderstory.flyme.tools.SharedHelper;
+import com.coderstory.flyme.tools.SnackBarUtils;
+import com.coderstory.flyme.tools.Utils;
+import com.coderstory.flyme.tools.ViewUtils;
 import com.coderstory.flyme.update.updgradeService;
-import com.coderstory.flyme.utils.Misc;
-import com.coderstory.flyme.utils.RuntimeUtil;
-import com.coderstory.flyme.utils.SharedHelper;
-import com.coderstory.flyme.utils.SnackBarUtils;
-import com.coderstory.flyme.utils.Utils;
-import com.coderstory.flyme.utils.ViewUtils;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
@@ -335,7 +335,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 switchFragment(BlogFragment.class);
             } else if (itemId == R.id.navigation_item_updateList) {
                 mToolbar.setTitle(R.string.updateList);
-                switchFragment(UpdateListFragment.class);
+                switchFragment(UpgradeFragment.class);
             } else if (itemId == R.id.navigation_item_system_ui_settings) {
                 mToolbar.setTitle(R.string.systemui_settings);
                 switchFragment(SystemUIFragment.class);
@@ -344,7 +344,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 switchFragment(HostsFragment.class);
             } else if (itemId == R.id.navigation_item_about_me) {
                 mToolbar.setTitle(Utils.decode("5Lya5ZGY5r+A5rS7"));
-                switchFragment(AboutMeFragment.class);
+                switchFragment(AccountFragment.class);
             } else if (itemId == R.id.navigation_item_xposed_install) {
                 mToolbar.setTitle("xposed框架安装");
                 switchFragment(XposedFragment.class);

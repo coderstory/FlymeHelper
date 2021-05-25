@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
-        android:name=".utils.Application"
+        android:name=".tools.Application"
         android:allowBackup="true"
         android:extractNativeLibs="true"
         android:fullBackupContent="true"
