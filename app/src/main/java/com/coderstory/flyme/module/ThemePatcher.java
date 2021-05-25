@@ -49,7 +49,8 @@ public class ThemePatcher extends XposedHelper implements IModule {
                     }
                 });
                 findAndHookMethod("com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility", lpparam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(false));
-                findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.f.b", lpparam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(false));
+                //findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.f.b", lpparam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(false));
+                findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.f.b", lpparam.classLoader, "n", Context.class, XC_MethodReplacement.returnConstant(false));
 
                 // com.meizu.advertise.plugin
                 findAndHookMethod("com.meizu.advertise.api.AdManager", lpparam.classLoader, "install", XC_MethodReplacement.returnConstant(null));
