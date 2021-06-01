@@ -48,16 +48,15 @@ public class ThemePatcher extends XposedHelper implements IModule {
                         findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.c", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
                     }
                 });
+                // 8.0.23
+                findAndHookMethod("com.meizu.customizecenter.k.c.a.c", lpparam.classLoader, "w", Context.class, XC_MethodReplacement.returnConstant(2));
                 findAndHookMethod("com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility", lpparam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(false));
-                //findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.f.b", lpparam.classLoader, "h", Context.class, XC_MethodReplacement.returnConstant(false));
                 findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.f.b", lpparam.classLoader, "n", Context.class, XC_MethodReplacement.returnConstant(false));
-
-                // com.meizu.advertise.plugin
-                findAndHookMethod("com.meizu.advertise.api.AdManager", lpparam.classLoader, "install", XC_MethodReplacement.returnConstant(null));
 
                 //resetToSystemTheme
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true));
-                //findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "b", XC_MethodReplacement.returnConstant(true));
+                // 8.0.23
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.j.b", lpparam.classLoader, "e", XC_MethodReplacement.returnConstant(true));
 
                 /**
                  *
@@ -84,6 +83,8 @@ public class ThemePatcher extends XposedHelper implements IModule {
                  */
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.g", lpparam.classLoader, "k", XC_MethodReplacement.returnConstant(null));
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "k", XC_MethodReplacement.returnConstant(null));
+                // 8.0.23
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "b", XC_MethodReplacement.returnConstant(null));
 
                 //"checkTrialFont:!isUsingTrialFont() Context context, String str, long j
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "a", Context.class, String.class, long.class, XC_MethodReplacement.returnConstant(null));
