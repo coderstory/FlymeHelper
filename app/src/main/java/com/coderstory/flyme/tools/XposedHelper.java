@@ -1,5 +1,7 @@
 package com.coderstory.flyme.tools;
 
+import static com.coderstory.flyme.tools.Misc.ApplicationName;
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 
@@ -27,8 +29,6 @@ import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-
-import static com.coderstory.flyme.tools.Misc.ApplicationName;
 
 public class XposedHelper {
     public static JSONObject json = new JSONObject();
@@ -143,6 +143,16 @@ public class XposedHelper {
 
         } catch (IOException error) {
             XposedBridge.log(error);
+        }
+    }
+
+    public void hookAllConstructors(String p1, XC_MethodHook parameterTypesAndCallback) {
+        try {
+            Class<?> packageParser = findClass(p1, null);
+            hookAllConstructors(packageParser, parameterTypesAndCallback);
+        } catch (Throwable e) {
+            if (BuildConfig.DEBUG)
+                XposedBridge.log(e);
         }
     }
 

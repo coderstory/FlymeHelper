@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.coderstory.flyme"
         minSdkVersion 24
-        targetSdkVersion 29
+        targetSdkVersion 28
         resConfigs "zh", "xxhdpi"
         versionCode 490
         versionName "4.3.6"

@@ -33,6 +33,7 @@
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
                 android:paddingTop="4dp"
+                android:visibility="gone"
                 android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
                 android:text="@string/alarem" />
@@ -119,6 +120,7 @@
                 android:paddingTop="4dp"
                 android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
+                android:visibility="gone"
                 android:text="@string/hide_icon_volte" />
 
             <androidx.appcompat.widget.SwitchCompat
@@ -258,7 +260,7 @@
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/show_icon_battery_percentage"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="90dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
