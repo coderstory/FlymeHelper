@@ -33,6 +33,7 @@
     <string name="hide_icon_volte"><b>VoLte</b>\n手机号开通volte后,隐藏状态栏上的HD高清通话图标</string>
     <string name="hide_icon_shake"><b>震动</b>\n音量为0的情况下,隐藏状态栏上的震动图标</string>
     <string name="hide_status_bar_no_sim_icon"><b>空SIM</b>\n隐藏状态栏上的空sim卡图标</string>
+    <string name="status_bar_custom_carrier_name"><b>运营商文本</b>\n自定义锁屏运营商文本</string>
     <string name="hide_status_bar_wifi_icon"><b>隐藏wifi图标</b>\n隐藏状态栏上的wifi图标</string>
     <string name="hide_status_bar_vpn_icon"><b>隐藏vpn图标</b>\n开启vpn后，自动隐藏状态栏上的VPN图标和相关常驻通知</string>
     <string name="show_status_bar_time_second_icon"><b>时间显秒</b>\n状态栏上的当前时间格式变成[时:分:秒]</string>

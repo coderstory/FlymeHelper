@@ -1,5 +1,9 @@
 package com.coderstory.flyme.fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
+
 import com.coderstory.flyme.R;
 import com.coderstory.flyme.fragment.base.BaseFragment;
 import com.coderstory.flyme.tools.SharedHelper;
@@ -119,6 +123,25 @@ public class SystemUIFragment extends BaseFragment {
             getEditor().putBoolean("show_status_bar_time_am_pm", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
+        EditText carrierName = $(R.id.status_bar_custom_carrier_name);
+        carrierName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                getEditor().putString("status_bar_custom_carrier_name", editable.toString());
+                fix();
+            }
+        });
+
     }
 
     @Override
@@ -128,6 +151,7 @@ public class SystemUIFragment extends BaseFragment {
 
     @Override
     protected void setUpData() {
+        ((EditText) $(R.id.status_bar_custom_carrier_name)).setText(getPrefs().getString("status_bar_custom_carrier_name", ""));
         ((androidx.appcompat.widget.SwitchCompat) $(R.id.hide_icon_bluetooth)).setChecked(getPrefs().getBoolean("hide_icon_bluetooth", false));
         ((androidx.appcompat.widget.SwitchCompat) $(R.id.hide_icon_hotspot)).setChecked(getPrefs().getBoolean("hide_icon_hotspot", false));
         ((androidx.appcompat.widget.SwitchCompat) $(R.id.hide_icon_debug)).setChecked(getPrefs().getBoolean("hide_icon_debug", false));

@@ -43,6 +43,12 @@ public class SystemUi extends XposedHelper implements IModule {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         if (loadPackageParam.packageName.equals("com.android.systemui")) {
 
+
+            String status_bar_custom_carrier_name = prefs.getString("status_bar_custom_carrier_name", "");
+            if (!status_bar_custom_carrier_name.equals("")) {
+                hookAllMethods("com.flyme.systemui.statusbar.ext.FlymeStatusBarPluginImpl$FlymeNetWorkName", loadPackageParam.classLoader, "mergeNetWorkNames", XC_MethodReplacement.returnConstant(status_bar_custom_carrier_name));
+            }
+
             hookAllMethods("com.android.systemui.statusbar.StatusBarIconView", loadPackageParam.classLoader, "set", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {

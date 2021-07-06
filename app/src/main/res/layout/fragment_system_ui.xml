@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:skin="http://schemas.android.com/android/skin"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -33,10 +32,10 @@
                 android:background="@color/switchBtn"
                 android:paddingStart="30dp"
                 android:paddingTop="4dp"
-                android:visibility="gone"
                 android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
-                android:text="@string/alarem" />
+                android:text="@string/alarem"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_icon_bluetooth"
@@ -120,8 +119,8 @@
                 android:paddingTop="4dp"
                 android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
-                android:visibility="gone"
-                android:text="@string/hide_icon_volte" />
+                android:text="@string/hide_icon_volte"
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/hide_icon_shake"
@@ -318,6 +317,41 @@
                 android:paddingBottom="4dp"
                 android:text="@string/status_text_view_clock_center" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:textAlignment="viewStart">
+
+                <TextView
+                    android:id="@+id/status_bar_custom_carrier_name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:width="180dp"
+                    android:background="@color/switchBtn"
+                    android:paddingTop="25dp"
+                    android:text="@string/status_bar_custom_carrier_name"
+                    android:textColor="#000" />
+
+                <EditText
+                    android:id="@+id/status_bar_custom_carrier_name"
+                    android:layout_width="28dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:layout_weight="2"
+
+                    android:hint="不填则默认"
+                    android:inputType="text"
+                    android:maxLines="12"
+                    android:textColor="#000"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
