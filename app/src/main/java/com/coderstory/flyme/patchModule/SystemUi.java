@@ -49,6 +49,26 @@ public class SystemUi extends XposedHelper implements IModule {
                 hookAllMethods("com.flyme.systemui.statusbar.ext.FlymeStatusBarPluginImpl$FlymeNetWorkName", loadPackageParam.classLoader, "mergeNetWorkNames", XC_MethodReplacement.returnConstant(status_bar_custom_carrier_name));
             }
 
+            //coord: (0,198,28) | addr: Lcom/flyme/systemui/charge/ChargeAnimationController;->loadCharingView(Z)V | loc: ?
+            if (prefs.getBoolean("disable_charge_animation", false)) {
+                findAndHookMethod("com.flyme.systemui.charge.ChargeAnimationController", loadPackageParam.classLoader, "loadCharingView", boolean.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        param.args[0] = false;
+                    }
+                });
+                hookAllConstructors("com.flyme.systemui.charge.ChargeAnimationController", loadPackageParam.classLoader, new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        XposedHelpers.setObjectField(param.thisObject, "mStartAnimation", (Runnable) () -> {
+                        });
+                    }
+                });
+                hookAllMethods("com.flyme.systemui.charge.ChargeAnimationController", loadPackageParam.classLoader, "updateBatteryState", XC_MethodReplacement.returnConstant(null));
+            }
+
             hookAllMethods("com.android.systemui.statusbar.StatusBarIconView", loadPackageParam.classLoader, "set", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {

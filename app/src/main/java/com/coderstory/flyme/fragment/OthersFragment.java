@@ -183,6 +183,11 @@ public class OthersFragment extends BaseFragment {
             getEditor().putBoolean("mms", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
+
+        $(R.id.disable_charge_animation).setOnClickListener(v -> {
+            getEditor().putBoolean("disable_charge_animation", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
+            fix();
+        });
     }
 
     @Override
@@ -192,6 +197,7 @@ public class OthersFragment extends BaseFragment {
 
     @Override
     protected void setUpData() {
+        ((androidx.appcompat.widget.SwitchCompat) $(R.id.disable_charge_animation)).setChecked(getPrefs().getBoolean("disable_charge_animation", false));
         ((androidx.appcompat.widget.SwitchCompat) $(R.id.hide_icon_label)).setChecked(getPrefs().getBoolean("hide_icon_label", false));
         ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableBlockAD)).setChecked(getPrefs().getBoolean("EnableBlockAD", false));
         ((androidx.appcompat.widget.SwitchCompat) $(R.id.enabletheme)).setChecked(getPrefs().getBoolean("enabletheme", false));
