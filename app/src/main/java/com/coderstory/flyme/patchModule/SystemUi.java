@@ -88,7 +88,7 @@ public class SystemUi extends XposedHelper implements IModule {
                         XposedBridge.log("ggg" + param.thisObject.getClass().getName());
                         Vibrator vb = (Vibrator) mContext.getSystemService(Service.VIBRATOR_SERVICE);
                         // mContext.performHapticFeedback(31011);
-                        vb.vibrate(new long[]{0, 10}, -1);
+                        vb.vibrate(20);
                     }
                 });
             }
