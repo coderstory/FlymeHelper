@@ -2,7 +2,7 @@ package com.coderstory.flyme.tools;
 
 
 public class Misc {
-    public static final String MyBlogUrl = "http://blog.coderstory.cn:4433";
+    public static final String MyBlogUrl = "https://blog.coderstory.cn";
     public static final String ApplicationName = "com.coderstory.flyme";
     public static final String SharedPreferencesName = "UserSettings";
     public static final String HostFileTmpName = "/hosts";

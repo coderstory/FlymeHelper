@@ -2,7 +2,6 @@ package com.coderstory.flyme.xposed;
 
 import android.os.Build;
 
-import com.alibaba.fastjson.JSON;
 import com.coderstory.flyme.patchModule.FlymeHome;
 import com.coderstory.flyme.patchModule.FlymeRoot;
 import com.coderstory.flyme.patchModule.FuckAd;
@@ -77,7 +76,7 @@ public class start extends XposedHelper implements IXposedHookZygoteInit, IXpose
             } else {
                 XposedBridge.log("Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT);
             }
-            XposedBridge.log("当前助手配置 -> " + JSON.toJSON(prefs));
+            // XposedBridge.log("当前助手配置 -> " + JSON.toJSON(prefs));
         }
     }
 }

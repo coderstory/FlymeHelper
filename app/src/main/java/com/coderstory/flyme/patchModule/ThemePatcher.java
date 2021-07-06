@@ -40,21 +40,13 @@ public class ThemePatcher extends XposedHelper implements IModule {
                 });
 
                 //device_states | doCheckState
-                //8.7.1
-                hookAllConstructors("com.meizu.customizecenter.manager.utilstool.a.c", lpparam.classLoader, new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        super.afterHookedMethod(param);
-                        findAndHookMethod("com.meizu.customizecenter.manager.utilstool.a.c", lpparam.classLoader, "e", Context.class, XC_MethodReplacement.returnConstant(0));
-                    }
-                });
                 // 8.0.23
                 findAndHookMethod("com.meizu.customizecenter.k.c.a.c", lpparam.classLoader, "w", Context.class, XC_MethodReplacement.returnConstant(2));
                 findAndHookMethod("com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility", lpparam.classLoader, "isRoot", Context.class, XC_MethodReplacement.returnConstant(false));
                 findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.f.b", lpparam.classLoader, "n", Context.class, XC_MethodReplacement.returnConstant(false));
 
                 //resetToSystemTheme
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true));
+                // findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true));
                 // 8.0.23
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.j.b", lpparam.classLoader, "e", XC_MethodReplacement.returnConstant(true));
 

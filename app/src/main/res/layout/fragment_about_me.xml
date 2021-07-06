@@ -208,13 +208,13 @@
                     android:layout_height="20dp"
                     android:layout_margin="10dp"
                     android:gravity="center"
-                    android:text="支付二维码"
+                    android:text="支付二维码(长按识别或截屏)"
                     android:textColor="#262626"
                     android:textSize="14sp" />
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="230dp"
                     android:paddingTop="30dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/erweima" />
