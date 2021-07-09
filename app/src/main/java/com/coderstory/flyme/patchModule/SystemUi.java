@@ -1,5 +1,6 @@
 package com.coderstory.flyme.patchModule;
 
+import android.app.AndroidAppHelper;
 import android.app.Service;
 import android.content.Context;
 import android.content.res.Resources;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.coderstory.flyme.tools.XposedHelper;
 import com.coderstory.flyme.xposed.IModule;
@@ -29,9 +32,7 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class SystemUi extends XposedHelper implements IModule {
-
     private static final TextView[] mClock = new TextView[1];
-    private static Context mContext = null;
 
     @Override
     public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
@@ -73,24 +74,11 @@ public class SystemUi extends XposedHelper implements IModule {
             }
 
             if (prefs.getBoolean("enable_back_vibrator", false)) {
-                hookAllConstructors("com.android.systemui.statusbar.phone.EdgeBackGestureHandler", loadPackageParam.classLoader, new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        super.beforeHookedMethod(param);
-                        mContext = (Context) param.args[0];
-                    }
-                });
-                // Lcom/android/systemui/statusbar/phone/EdgeBackGestureHandler$4;->triggerBack()V | loc: ?
-                findAndHookMethod("com.android.systemui.statusbar.phone.EdgeBackGestureHandler$4", loadPackageParam.classLoader, "triggerBack", new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        super.beforeHookedMethod(param);
-                        XposedBridge.log("ggg" + param.thisObject.getClass().getName());
-                        Vibrator vb = (Vibrator) mContext.getSystemService(Service.VIBRATOR_SERVICE);
-                        // mContext.performHapticFeedback(31011);
-                        vb.vibrate(20);
-                    }
-                });
+                if (Build.VERSION.SDK_INT == 30) {
+                    findAndHookMethod("com.android.systemui.statusbar.phone.EdgeBackGestureHandler$4", loadPackageParam.classLoader, "triggerBack", getNotifyBackAction());
+                } else if (Build.VERSION.SDK_INT == 29) {
+                    hookAllMethods("com.android.systemui.recents.OverviewProxyService", loadPackageParam.classLoader, "notifyBackAction", getNotifyBackAction());
+                }
             }
 
             hookAllMethods("com.android.systemui.statusbar.StatusBarIconView", loadPackageParam.classLoader, "set", new XC_MethodHook() {
@@ -337,6 +325,20 @@ public class SystemUi extends XposedHelper implements IModule {
             }
         }
 
+    }
+
+    @NonNull
+    private XC_MethodHook getNotifyBackAction() {
+        return new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                super.beforeHookedMethod(param);
+                XposedBridge.log("notifyBackAction");
+                XposedBridge.log("ggg" + param.thisObject.getClass().getName());
+                Vibrator vb = (Vibrator) AndroidAppHelper.currentApplication().getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
+                vb.vibrate(50);
+            }
+        };
     }
 
     public String getTimeType() {
