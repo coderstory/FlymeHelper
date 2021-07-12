@@ -319,11 +319,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            AppSettingsDialog.Builder(this).setTitle("提示").setRationale("为了能正常使用应用,请授权读写存储权限！").setPositiveButton("去设置").setNegativeButton("取消").setRequestCode(1).build().show()
-        } else {
-            Toast.makeText(this, "你拒绝了本权限，将无法使用部分功能", Toast.LENGTH_SHORT).show()
-        }
+
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {

@@ -1,8 +1,8 @@
 <config>
     <input>
-        <dir in="${classesRoot}" out="${classesRoot}-obfuscated" />
+<!--        <dir in="${classesRoot}" out="${classesRoot}-obfuscated" />-->
         <!-- Kotlin support -->
-        <!--<dir in="${kotlinRoot}" out="${kotlinRoot}-obfuscated"/>-->
+        <dir in="${kotlinRoot}" out="${kotlinRoot}-obfuscated" />
     </input>
 
     <classpath>
