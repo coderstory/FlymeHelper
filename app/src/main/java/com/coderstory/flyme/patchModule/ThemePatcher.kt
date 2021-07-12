@@ -16,7 +16,7 @@ class ThemePatcher : XposedHelper(), IModule {
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
 
         // 主题和谐
-        if (lpparam.packageName == "com.meizu.customizecenter" && prefs!!.getBoolean("enabletheme", false)) {
+        if (lpparam.packageName == "com.meizu.customizecenter" && prefs.getBoolean("enabletheme", false)) {
             if (lpparam.packageName == "com.meizu.customizecenter") {
                 // 拦截开机自启广播
                 XposedHelper.Companion.findAndHookMethod("com.meizu.customizecenter.admin.receiver.BootBroadcastReceiver", lpparam.classLoader, "onReceive", Context::class.java, Intent::class.java, XC_MethodReplacement.returnConstant(null))
@@ -69,7 +69,7 @@ class ThemePatcher : XposedHelper(), IModule {
 
                 //"checkTrialFont:!isUsingTrialFont() Context context, String str, long j
                 XposedHelper.Companion.findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "a", Context::class.java, String::class.java, Long::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(null))
-                val themeContentProvider: Class<*> = XposedHelper.Companion.findClass("com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider", lpparam.classLoader)
+                val themeContentProvider: Class<*> = findClass("com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider", lpparam.classLoader)
                 //主题混搭 ThemeContentProvider query Unknown URI
                 XposedHelper.Companion.findAndHookMethod(themeContentProvider, "query", Uri::class.java, Array<String>::class.java, String::class.java, Array<String>::class.java, String::class.java, object : XC_MethodHook() {
                     @Throws(Throwable::class)
@@ -86,8 +86,8 @@ class ThemePatcher : XposedHelper(), IModule {
                         }
                         if (result) {
                             for (obj in objs) {
-                                if (obj is Array<String>) {
-                                    for (j in (obj as Array<String?>).indices) {
+                                if (obj is Array<*>) { // obj is String[]
+                                    for (j in (obj as Array<String>).indices) {
                                         if (obj[j].contains("/storage/emulated/0/Customize/Themes")) {
                                             obj[j] = "/storage/emulated/0/Customize%"
                                         } else if (obj[j].contains("/storage/emulated/0/Customize/TrialThemes")) {

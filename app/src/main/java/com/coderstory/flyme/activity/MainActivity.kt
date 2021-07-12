@@ -20,7 +20,7 @@ import com.coderstory.flyme.R.id
 import com.coderstory.flyme.activity.base.BaseActivity
 import com.coderstory.flyme.fragment.*
 import com.coderstory.flyme.tools.*
-import com.coderstory.flyme.update.updgradeService
+import com.coderstory.flyme.update.UpdgradeService
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import per.goweii.anylayer.AnyLayer
@@ -65,7 +65,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
                 }
                 4 -> if (msg.data["value"] != "{\"error\":\"0\"}") {
                     Toast.makeText(this@MainActivity, Utils.Companion.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" +
-                            Gson().fromJson<Map<*, *>>(msg.data["value"].toString(), MutableMap::class.java).getOrDefault("error", msg.data["value"].toString()), Toast.LENGTH_LONG).show()
+                            Gson().fromJson<Map<String, String>>(msg.data["value"].toString(), MutableMap::class.java).getOrDefault("error", msg.data["value"].toString()), Toast.LENGTH_LONG).show()
                     helper.put(Utils.decode("bWFyaw=="), "")
                 }
                 5 ->                     // 接口调用失败
@@ -137,7 +137,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
             Thread(Utils().Check(helper, myHandler, this)).start()
         }
         if (helper.getBoolean("enableUpdate", true)) {
-            updgradeService(this).checkUpgrade()
+            UpdgradeService(this).checkUpgrade()
         }
     }
 
@@ -146,12 +146,12 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
             try {
                 getSharedPreferences("test", MODE_WORLD_READABLE)
             } catch (e: SecurityException) {
-                val normalDialog = AlertDialog.Builder(this@MainActivity)
-                normalDialog.setTitle("配置设置失败警告")
-                normalDialog.setMessage("请在LSPosed Manager或者EdXposed Manager中启用本插件后再打开本插件")
-                normalDialog.setPositiveButton("确定"
-                ) { dialog: DialogInterface?, which: Int -> System.exit(0) }
-                normalDialog.show()
+//                val normalDialog = AlertDialog.Builder(this@MainActivity)
+//                normalDialog.setTitle("配置设置失败警告")
+//                normalDialog.setMessage("请在LSPosed Manager或者EdXposed Manager中启用本插件后再打开本插件")
+//                normalDialog.setPositiveButton("确定"
+//                ) { dialog: DialogInterface?, which: Int -> System.exit(0) }
+//                normalDialog.show()
             }
         }
         try {

@@ -2,14 +2,13 @@ package com.coderstory.flyme.fragment
 
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.graphics.Color
-import android.os.AsyncTask
 import android.os.Handler
-import android.os.Looper
 import android.os.Message
 import android.util.Log
 import android.view.Menu
@@ -47,7 +46,7 @@ class DisbaleAppFragment : BaseFragment() {
     var mposition = 0
     var mview: View? = null
     var mPullToRefreshView: PullToRefreshView? = null
-    private lateinit var dialog: Dialog
+    private var dialog: Dialog? = null
 
     @SuppressLint("HandlerLeak")
     var myHandler: Handler = object : Handler() {
@@ -55,7 +54,7 @@ class DisbaleAppFragment : BaseFragment() {
             (dialog as ProgressDialog?)!!.setMessage(getString(R.string.refreshing_list))
             initData()
             adapter!!.notifyDataSetChanged()
-            dialog.cancel()
+            dialog?.cancel()
             super.handleMessage(msg)
         }
     }
@@ -158,10 +157,8 @@ class DisbaleAppFragment : BaseFragment() {
         return R.layout.fragment_app_list
     }
 
-    override fun init() {
-        super.init()
+    override fun setUpView() {
         Toast.makeText(activity, R.string.disableapptips, Toast.LENGTH_LONG).show()
-        DisbaleAppFragment().MyTask().execute()
         mPullToRefreshView = contentView?.findViewById(R.id.pull_to_refresh)
         mPullToRefreshView!!.setOnRefreshListener(object : PullToRefreshView.OnRefreshListener {
             override fun onRefresh() {
@@ -175,22 +172,21 @@ class DisbaleAppFragment : BaseFragment() {
 
         })
 
-    }
+        dialog = ProgressDialog.show(mContext, getString(R.string.Tips_Title), getString(R.string.loadappinfo))
+        Thread {
+            initData()
+            (mContext as Activity).runOnUiThread {
+                showData()
+                adapter!!.notifyDataSetChanged()
+                dialog?.dismiss()
+            }
+        }.start()
 
-    protected fun showProgress() {
-        if (dialog == null) {
-            dialog = ProgressDialog.show(context, getString(R.string.Tips_Title), getString(R.string.loadappinfo))
-            dialog.show()
-        }
     }
 
     override fun onDestroyView() {
-        dialog.dismiss()
+        dialog?.dismiss()
         super.onDestroyView()
-    }
-
-    protected fun closeProgress() {
-        dialog.cancel()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -237,7 +233,7 @@ class DisbaleAppFragment : BaseFragment() {
             return
         }
         try {
-            content = FileUtils.readFile(Misc.BackPath + fileName, null)
+            content = FileUtils.readFile(Misc.BackPath + fileName)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -247,7 +243,7 @@ class DisbaleAppFragment : BaseFragment() {
         }
         val list = content.split("\n").toTypedArray()
         dialog = ProgressDialog.show(context, getString(R.string.tips), getString(R.string.restoreing))
-        dialog.show()
+        dialog!!.show()
         Thread {
             Shell.su(*list)
             myHandler.sendMessage(Message())
@@ -282,34 +278,9 @@ class DisbaleAppFragment : BaseFragment() {
             result = e.message ?: ""
         }
         if (result == "") {
-            SnackBarUtils.Companion.makeShort(`$`<View>(R.id.listView), getString(R.string.tips_backup_success)).show()
+            SnackBarUtils.makeShort(`$`<View>(R.id.listView), getString(R.string.tips_backup_success)).show()
         } else {
-            SnackBarUtils.Companion.makeShort(`$`<View>(R.id.listView), getString(R.string.tips_backup_error) + result).show()
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    inner class MyTask : AsyncTask<String?, Int?, String?>() {
-        override fun onPreExecute() {
-            showProgress()
-        }
-
-        override fun onPostExecute(param: String?) {
-            showData()
-            adapter!!.notifyDataSetChanged()
-            closeProgress()
-        }
-
-        override fun onProgressUpdate(vararg values: Int?) {
-            super.onProgressUpdate(*values)
-        }
-
-        override fun doInBackground(vararg params: String?): String? {
-            if (Looper.myLooper() == null) {
-                Looper.prepare()
-            }
-            initData()
-            return null
+            SnackBarUtils.makeShort(`$`<View>(R.id.listView), getString(R.string.tips_backup_error) + result).show()
         }
     }
 }

@@ -140,12 +140,12 @@ class HostsFragment : BaseFragment() {
     private fun showProgress() {
         if (dialog == null || !dialog!!.isShowing) { //dialog未实例化 或者实例化了但没显示
             dialog = ProgressDialog.show(activity, getString(R.string.Working), getString(R.string.Waiting))
-            dialog.show()
+            dialog!!.show()
         }
     }
 
     private fun closeProgress() {
-        if (activity != null && !activity!!.isFinishing) {
+        if (activity != null && !requireActivity().isFinishing) {
             dialog!!.cancel()
         }
     }
@@ -176,11 +176,11 @@ class HostsFragment : BaseFragment() {
             closeProgress()
         }
 
-        protected override fun onProgressUpdate(vararg values: Int) {
+        override fun onProgressUpdate(vararg values: Int?) {
             super.onProgressUpdate(*values)
         }
 
-        protected override fun doInBackground(vararg params: String): String? {
+        override fun doInBackground(vararg params: String?): String? {
             if (Looper.myLooper() == null) {
                 Looper.prepare()
             }

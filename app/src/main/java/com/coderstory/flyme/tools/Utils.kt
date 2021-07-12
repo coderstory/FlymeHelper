@@ -2,8 +2,13 @@ package com.coderstory.flyme.tools
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.*
-import android.os.*
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.DialogInterface
+import android.content.SharedPreferences
+import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import com.topjohnwu.superuser.Shell
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -214,7 +219,7 @@ class Utils {
             val b = data.toByteArray()
             //遍历
             for (i in b.indices) {
-                (b[i] += 1).toByte() //在原有的基础上+1
+                b[i] = b[i].plus(1).toByte() //在原有的基础上+1
             }
             return String(b)
         }
@@ -224,7 +229,7 @@ class Utils {
             val b = data.toByteArray()
             //遍历
             for (i in b.indices) {
-                (b[i] -= 1).toByte() //在原有的基础上-1
+                b[i] =  b[i].plus(-1).toByte()
             }
             return String(b)
         }

@@ -18,8 +18,8 @@ abstract class WebViewFragment : BaseFragment() {
 
     protected abstract val loadUrl: String
     override fun setUpView() {
-        mProgressBar = contentView.findViewById(R.id.progressbar)
-        mWebView = contentView.findViewById(R.id.webView)
+        mProgressBar = contentView!!.findViewById(R.id.progressbar)
+        mWebView = contentView!!.findViewById(R.id.webView)
         initWebViewSettings()
         mWebView!!.webViewClient = MyWebViewClient()
         mWebView!!.webChromeClient = MyWebChromeClient()

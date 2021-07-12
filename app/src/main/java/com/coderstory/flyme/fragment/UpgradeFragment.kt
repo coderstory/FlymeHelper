@@ -4,11 +4,16 @@ package com.coderstory.flyme.fragment
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.app.ProgressDialog
-import android.content.*
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.pm.PackageInfo
 import android.os.AsyncTask
 import android.os.Looper
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import androidx.cardview.widget.CardView
@@ -57,7 +62,7 @@ class UpgradeFragment : BaseFragment() {
     private fun initData() {
         packages = ArrayList()
         if (context != null) {
-            packages = context!!.packageManager.getInstalledPackages(0)
+            packages = requireContext().packageManager.getInstalledPackages(0)
             initFruit()
         }
     }
@@ -83,7 +88,7 @@ class UpgradeFragment : BaseFragment() {
 
     private fun showData() {
         adapter = AppInfoAdapter(context, R.layout.app_upgrade_item, appInfos)
-        val listView = contentView.findViewById<ListView>(R.id.listView)
+        val listView = contentView!!.findViewById<ListView>(R.id.listView)
         listView.adapter = adapter
         listView.onItemClickListener = OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
             val appInfo = appInfos[position]
@@ -93,7 +98,7 @@ class UpgradeFragment : BaseFragment() {
                     .cancelableOnClickKeyBack(true)
                     .onClick({ AnyLayer: Layer, v: View? ->
                         val myClipboard: ClipboardManager
-                        myClipboard = context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        myClipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         val myClip: ClipData
                         val text = appInfo!!.version
                         myClip = ClipData.newPlainText("text", text)
@@ -111,22 +116,25 @@ class UpgradeFragment : BaseFragment() {
     override fun init() {
         super.init()
         // Toast.makeText(getActivity(), "系统更新检测到的更新包地址", Toast.LENGTH_LONG).show();
-        UpgradeFragment.MyTask().execute()
-        mPullToRefreshView = contentView.findViewById(R.id.pull_to_refresh)
-        mPullToRefreshView!!.setOnRefreshListener {
-            mPullToRefreshView!!.postDelayed({
-                initData()
-                showData()
-                adapter!!.notifyDataSetChanged()
-                mPullToRefreshView!!.setRefreshing(false)
-            }, 2000)
-        }
+        UpgradeFragment().MyTask().execute()
+        mPullToRefreshView = contentView!!.findViewById(R.id.pull_to_refresh)
+        mPullToRefreshView!!.setOnRefreshListener(object : PullToRefreshView.OnRefreshListener{
+            override fun onRefresh() {
+                mPullToRefreshView!!.postDelayed({
+                    initData()
+                    showData()
+                    adapter!!.notifyDataSetChanged()
+                    mPullToRefreshView!!.setRefreshing(false)
+                }, 2000)
+            }
+
+        })
     }
 
     protected fun showProgress() {
         if (dialog == null) {
             dialog = ProgressDialog.show(context, getString(R.string.Tips_Title), "正在读取。。。")
-            dialog.show()
+            dialog!!.show()
         }
     }
 
@@ -158,12 +166,11 @@ class UpgradeFragment : BaseFragment() {
             closeProgress()
         }
 
-        protected override fun onProgressUpdate(vararg values: Int) {
-            // TODO Auto-generated method stub
+        override fun onProgressUpdate(vararg values: Int?) {
             super.onProgressUpdate(*values)
         }
 
-        protected override fun doInBackground(vararg params: String): String? {
+        override fun doInBackground(vararg params: String?): String? {
             if (Looper.myLooper() == null) {
                 Looper.prepare()
             }

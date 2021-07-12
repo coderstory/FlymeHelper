@@ -71,8 +71,8 @@
             android:resource="@array/scope" />
 
         <provider
-            android:name=".preferencesProvider"
-            android:authorities="com.coderstory.flyme.preferencesProvider"
+            android:name=".PreferencesProvider"
+            android:authorities="com.coderstory.flyme.PreferencesProvider"
             android:exported="true" />
     </application>
 </manifest>

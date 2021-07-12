@@ -29,7 +29,7 @@ class QNumberPicker : NumberPicker {
         updateView(child)
     }
 
-    fun updateView(view: View?) {
+    private fun updateView(view: View?) {
         if (view is EditText) {
             view.setTextColor(Color.parseColor("#689f38"))
         }

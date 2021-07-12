@@ -1,23 +1,29 @@
 package com.coderstory.flyme.view
 
-import android.content.*
+import android.content.Context
 import android.util.AttributeSet
-import android.view.*
-import android.view.animation.*
-import android.widget.*
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewConfiguration
+import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.Interpolator
+import android.view.animation.Transformation
+import android.widget.ImageView
 import androidx.core.view.MotionEventCompat
 import androidx.core.view.ViewCompat
 import com.coderstory.flyme.R
 import com.coderstory.flyme.refreshView.BaseRefreshView
 import com.coderstory.flyme.refreshView.SunRefreshView
-import com.coderstory.flyme.tools.*
+import com.coderstory.flyme.tools.Utils
 import java.security.InvalidParameterException
 
 class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
     private val mRefreshView: ImageView
     private val mDecelerateInterpolator: Interpolator
     private val mTouchSlop: Int
-    val totalDragDistance: Int
+    var totalDragDistance: Int = 0
     private var mTarget: View? = null
     private var mBaseRefreshView: BaseRefreshView? = null
     private var mCurrentDragPercent = 0f
@@ -76,15 +82,13 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        var widthMeasureSpec = widthMeasureSpec
-        var heightMeasureSpec = heightMeasureSpec
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         ensureTarget()
         if (mTarget == null) return
-        widthMeasureSpec = MeasureSpec.makeMeasureSpec(measuredWidth - paddingRight - paddingLeft, MeasureSpec.EXACTLY)
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(measuredHeight - paddingTop - paddingBottom, MeasureSpec.EXACTLY)
-        mTarget!!.measure(widthMeasureSpec, heightMeasureSpec)
-        mRefreshView.measure(widthMeasureSpec, heightMeasureSpec)
+        val measuredWidth = MeasureSpec.makeMeasureSpec(measuredWidth - paddingRight - paddingLeft, MeasureSpec.EXACTLY)
+        val measuredHeight = MeasureSpec.makeMeasureSpec(measuredHeight - paddingTop - paddingBottom, MeasureSpec.EXACTLY)
+        mTarget!!.measure(measuredWidth, measuredHeight)
+        mRefreshView.measure(measuredWidth, measuredHeight)
     }
 
     private fun ensureTarget() {
@@ -319,12 +323,12 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     init {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.RefreshView)
-        val type = a.getInteger(R.styleable.RefreshView_type, STYLE_SUN)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.PullToRefreshView)
+        val type = a.getInteger(R.styleable.PullToRefreshView_type, STYLE_SUN)
         a.recycle()
         mDecelerateInterpolator = DecelerateInterpolator(DECELERATE_INTERPOLATION_FACTOR)
         mTouchSlop = ViewConfiguration.get(context).scaledTouchSlop
-        totalDragDistance = Utils.Companion.convertDpToPixel(context, DRAG_MAX_DISTANCE)
+        totalDragDistance = Utils.convertDpToPixel(context, DRAG_MAX_DISTANCE)
         mRefreshView = ImageView(context)
         setRefreshStyle(type)
         addView(mRefreshView)

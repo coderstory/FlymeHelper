@@ -22,7 +22,7 @@ object Logger {
      *
      * @param msg the msg
      */
-    fun logi(msg: String?) {
+    fun logi(msg: String) {
         Log.i(Logger.TAG, msg)
     }
 
@@ -31,7 +31,7 @@ object Logger {
      *
      * @param msg the msg
      */
-    fun loge(msg: String?) {
+    fun loge(msg: String) {
         Log.e(Logger.TAG, msg)
     }
 
@@ -40,7 +40,7 @@ object Logger {
      *
      * @param msg the msg
      */
-    fun logw(msg: String?) {
+    fun logw(msg: String) {
         Log.w(Logger.TAG, msg)
     }
 
@@ -49,7 +49,7 @@ object Logger {
      *
      * @param msg the msg
      */
-    fun logd(msg: String?) {
+    fun logd(msg: String) {
         Log.d(Logger.TAG, msg)
     }
 
@@ -58,7 +58,7 @@ object Logger {
      *
      * @param msg the msg
      */
-    fun logv(msg: String?) {
+    fun logv(msg: String) {
         Log.v(Logger.TAG, msg)
     }
 }

@@ -3,11 +3,14 @@ package com.coderstory.flyme.fragment
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.res.Resources.NotFoundException
-import android.graphics.*
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.NumberPicker
@@ -16,7 +19,10 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.cardview.widget.CardView
 import com.coderstory.flyme.R
 import com.coderstory.flyme.fragment.base.BaseFragment
-import com.coderstory.flyme.tools.*
+import com.coderstory.flyme.tools.AppSignCheck
+import com.coderstory.flyme.tools.Misc
+import com.coderstory.flyme.tools.SharedHelper
+import com.coderstory.flyme.tools.Utils
 import com.topjohnwu.superuser.Shell
 import per.goweii.anylayer.AnyLayer
 import per.goweii.anylayer.DialogLayer
@@ -57,37 +63,37 @@ class OthersFragment : BaseFragment() {
             fix()
             if (v.isChecked) {
                 dialog = ProgressDialog.show(mContext, "分析应用中...", "", true, false, null)
-                Thread(label@ Runnable {
+                Thread {
                     val paths = Shell.su("cd /data/data;find -name com.meizu.advertise.plugin   -type dir").exec().out
                     val command = arrayOfNulls<String>(paths.size)
                     if (paths.size == 0) {
                         (mContext as Activity).runOnUiThread {
-                            dialog.setMessage("处理失败,请重试")
+                            dialog!!.setMessage("处理失败,请重试")
                             editor.putBoolean("EnableBlockAD", false)
                             (`$`<View>(R.id.enableBlockAD) as SwitchCompat).isChecked
                         }
-                        return@label
-                    }
-                    var i = 0
-                    while (i < paths.size) {
-                        val path = paths[i].substring(1)
-                        (mContext as Activity).runOnUiThread {
-                            dialog.setMessage("""
+                    } else {
+                        var i = 0
+                        while (i < paths.size) {
+                            val path = paths[i].substring(1)
+                            (mContext as Activity).runOnUiThread {
+                                dialog!!.setMessage("""
     正在处理
     ${path.split("/file").toTypedArray()[0].replace("/", "")}
     """.trimIndent())
+                            }
+                            try {
+                                Thread.sleep(150)
+                            } catch (e: InterruptedException) {
+                                e.printStackTrace()
+                            }
+                            command[i] = "rm -rf  /data/data$path/*;chmod 0000 /data/data$path"
+                            Shell.su(command[i]).exec()
+                            i++
                         }
-                        try {
-                            Thread.sleep(150)
-                        } catch (e: InterruptedException) {
-                            e.printStackTrace()
-                        }
-                        command[i] = "rm -rf  /data/data$path/*;chmod 0000 /data/data$path"
-                        Shell.su(command[i]).exec()
-                        i++
                     }
-                    (mContext as Activity).runOnUiThread { dialog.dismiss() }
-                }).start()
+                    (mContext as Activity).runOnUiThread { dialog?.dismiss() }
+                }.start()
             }
         }
         `$`<View>(R.id.enabletheme).setOnClickListener { v: View ->

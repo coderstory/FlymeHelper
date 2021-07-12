@@ -34,7 +34,7 @@ class HideAppFragment : BaseFragment() {
     private var mPosition = 0
     private var mView: View? = null
     private var mPullToRefreshView: PullToRefreshView? = null
-    private var hideAppList: MutableList<String>? = null
+    private var hideAppList: MutableList<String> = ArrayList()
     private var dialog: Dialog? = null
     private fun initData() {
         val list = prefs.getString("Hide_App_List", "")
@@ -42,7 +42,7 @@ class HideAppFragment : BaseFragment() {
         hideAppList.addAll(Arrays.asList(*list!!.split(":").toTypedArray()))
         packages = ArrayList()
         if (context != null) {
-            packages = context!!.packageManager.getInstalledPackages(0)
+            packages = requireContext().packageManager.getInstalledPackages(0)
             initFruit()
         }
     }
@@ -58,14 +58,14 @@ class HideAppFragment : BaseFragment() {
         for (i in packages.indices) {
             val packageInfo = packages[i]
             if (context != null) {
-                val intent = context!!.packageManager.getLaunchIntentForPackage(packageInfo.packageName)
+                val intent = requireContext().packageManager.getLaunchIntentForPackage(packageInfo.packageName)
                 // 过来掉没启动器图标的app
                 if (intent != null && "com.coderstory.flyme" != packageInfo.packageName) {
-                    if (!hideAppList!!.contains(packageInfo.applicationInfo.packageName)) {
-                        val appInfo = AppInfo(packageInfo.applicationInfo.loadLabel(context!!.packageManager).toString(), packageInfo.applicationInfo.loadIcon(context!!.packageManager), packageInfo.packageName, false, packageInfo.versionName.toString())
+                    if (!hideAppList.contains(packageInfo.applicationInfo.packageName)) {
+                        val appInfo = AppInfo(packageInfo.applicationInfo.loadLabel(requireContext().packageManager).toString(), packageInfo.applicationInfo.loadIcon(requireContext().packageManager), packageInfo.packageName, false, packageInfo.versionName.toString())
                         appInfoList.add(appInfo)
                     } else {
-                        val appInfo = AppInfo(packageInfo.applicationInfo.loadLabel(context!!.packageManager).toString(), packageInfo.applicationInfo.loadIcon(context!!.packageManager), packageInfo.packageName, true, packageInfo.versionName.toString())
+                        val appInfo = AppInfo(packageInfo.applicationInfo.loadLabel(requireContext().packageManager).toString(), packageInfo.applicationInfo.loadIcon(requireContext().packageManager), packageInfo.packageName, true, packageInfo.versionName.toString())
                         appInfoList2.add(appInfo)
                     }
                 }
@@ -76,7 +76,7 @@ class HideAppFragment : BaseFragment() {
 
     private fun showData() {
         adapter = AppInfoAdapter(context, R.layout.app_info_item, appInfoList)
-        val listView = contentView.findViewById<ListView>(R.id.listView)!!
+        val listView = contentView!!.findViewById<ListView>(R.id.listView)!!
         listView.adapter = adapter
         listView.onItemClickListener = OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
             mPosition = position
@@ -91,18 +91,18 @@ class HideAppFragment : BaseFragment() {
                         if (appInfo!!.disable) {
                             // 解除隐藏
                             var tmp = ""
-                            for (s in hideAppList!!) {
+                            for (s in hideAppList) {
                                 if (s == appInfo!!.packageName) {
                                     tmp = s
                                 }
                             }
-                            hideAppList!!.remove(tmp)
+                            hideAppList.remove(tmp)
                         } else {
                             // 隐藏
-                            hideAppList!!.add(appInfo!!.packageName)
+                            hideAppList.add(appInfo!!.packageName)
                         }
                         var value = StringBuilder()
-                        for (s in hideAppList!!) {
+                        for (s in hideAppList) {
                             value.append(s).append(":")
                         }
                         value = StringBuilder(value.substring(0, value.length - 1))
@@ -143,21 +143,24 @@ class HideAppFragment : BaseFragment() {
             Toast.makeText(activity, "点击应用切换 隐藏/显示 状态 【重启桌面生效】", Toast.LENGTH_LONG).show()
         }
         MyTask().execute()
-        mPullToRefreshView = contentView.findViewById(R.id.pull_to_refresh)
-        mPullToRefreshView!!.setOnRefreshListener {
-            mPullToRefreshView!!.postDelayed({
-                initData()
-                showData()
-                adapter!!.notifyDataSetChanged()
-                mPullToRefreshView!!.setRefreshing(false)
-            }, 2000)
-        }
+        mPullToRefreshView = contentView!!.findViewById(R.id.pull_to_refresh)
+        mPullToRefreshView!!.setOnRefreshListener(object : PullToRefreshView.OnRefreshListener {
+            override fun onRefresh() {
+                mPullToRefreshView!!.postDelayed({
+                    initData()
+                    showData()
+                    adapter!!.notifyDataSetChanged()
+                    mPullToRefreshView!!.setRefreshing(false)
+                }, 2000)
+            }
+
+        })
     }
 
     protected fun showProgress() {
         if (dialog == null) {
             dialog = ProgressDialog.show(context, getString(R.string.Tips_Title), getString(R.string.loadappinfo))
-            dialog.show()
+            dialog!!.show()
         }
     }
 
@@ -201,8 +204,7 @@ class HideAppFragment : BaseFragment() {
             adapter!!.notifyDataSetChanged()
             closeProgress()
         }
-
-        protected override fun doInBackground(vararg params: String): String? {
+        override fun doInBackground(vararg params: String?): String? {
             if (Looper.myLooper() == null) {
                 Looper.prepare()
             }

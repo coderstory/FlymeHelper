@@ -2,7 +2,6 @@ package com.coderstory.flyme.preferences
 
 
 import android.content.*
-import android.util.Log
 import com.coderstory.flyme.tools.*
 
 /**
@@ -42,7 +41,6 @@ object PreferencesUtils {
     fun putString(context: Context?, spName: String?, key: String?, value: String?): Boolean {
         val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
         val editor = settings.edit()
-        Log.e(key, value)
         editor.putString(key, value)
         return editor.commit()
     }
@@ -63,8 +61,8 @@ object PreferencesUtils {
      * name that is not a string
      * @see .getString
      */
-    fun getString(context: Context?, spName: String?, key: String?): String {
-        return PreferencesUtils.getString(context, spName, key, null)
+    fun getString(context: Context, spName: String, key: String): String {
+        return getString(context, spName, key, "")
     }
 
     /**
@@ -76,9 +74,9 @@ object PreferencesUtils {
      * @return The preference value if it exists, or defValue. Throws ClassCastException if there is a preference with
      * this name that is not a string
      */
-    fun getString(context: Context?, spName: String?, key: String?, defaultValue: String?): String? {
-        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
-        return settings.getString(key, defaultValue)
+    fun getString(context: Context, spName: String, key: String, defaultValue: String): String {
+        val settings: SharedPreferences = Utils.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        return settings.getString(key, defaultValue)?:""
     }
 
     /**

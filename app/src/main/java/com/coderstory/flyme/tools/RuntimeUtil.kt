@@ -9,13 +9,13 @@ object RuntimeUtil {
      * 通过执行命令的方式判断手机是否root, 会有申请root权限的对话框出现
      */
     fun hasRooted(): Boolean {
-        return RuntimeUtil.execSilent("echo test")
+        return execSilent("echo test")
     }
 
     /**
      * 执行命令获取结果集
      */
-    fun exec(cmd: String?): List<String?>? {
+    fun exec(cmd: String): List<String?>? {
         var dataList: MutableList<String?>? = null
         var writer: BufferedWriter? = null
         var reader: BufferedReader? = null
@@ -24,7 +24,7 @@ object RuntimeUtil {
             process = Runtime.getRuntime().exec("su")
             writer = BufferedWriter(OutputStreamWriter(process.outputStream))
             reader = BufferedReader(InputStreamReader(process.inputStream))
-            RuntimeUtil.runCmd(writer, cmd)
+            runCmd(writer, cmd)
             process.waitFor()
             dataList = ArrayList()
             var content: String?
@@ -34,7 +34,7 @@ object RuntimeUtil {
         } catch (e: Exception) {
             //e.printStackTrace();
         } finally {
-            RuntimeUtil.closeCloseable(reader, writer)
+            closeCloseable(reader, writer)
             process?.destroy()
         }
         return dataList
@@ -43,21 +43,21 @@ object RuntimeUtil {
     /**
      * 判断是否成功执行
      */
-    fun execSilent(cmd: String?): Boolean {
+    fun execSilent(cmd: String): Boolean {
         var result = false
         var writer: BufferedWriter? = null
         var process: Process? = null
         try {
             process = Runtime.getRuntime().exec("su")
             writer = BufferedWriter(OutputStreamWriter(process.outputStream))
-            RuntimeUtil.runCmd(writer, cmd)
+            runCmd(writer, cmd)
             process.waitFor()
             Log.d("runtime", "onCreate: process.exitValue()  " + process.exitValue())
             result = process.exitValue() == 0
         } catch (e: Exception) {
             // e.printStackTrace();
         } finally {
-            RuntimeUtil.closeCloseable(writer)
+            closeCloseable(writer)
             process?.destroy()
         }
         return result

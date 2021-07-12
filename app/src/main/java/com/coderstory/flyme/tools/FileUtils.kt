@@ -11,27 +11,24 @@ import java.io.*
  */
 object FileUtils {
     @Throws(Exception::class)
-    fun readFile(_sFileName: String?, _sEncoding: String?): String {
-        var _sEncoding = _sEncoding
+    fun readFile(_sFileName: String, encoding: String = "UTF-8"): String {
         var buffContent: StringBuffer? = null
         var sLine: String?
         var fis: FileInputStream? = null
         var buffReader: BufferedReader? = null
-        if (_sEncoding == null || "" == _sEncoding) {
-            _sEncoding = "UTF-8"
-        }
         return try {
             fis = FileInputStream(_sFileName)
             buffReader = BufferedReader(InputStreamReader(fis,
-                    _sEncoding))
-            var zFirstLine = "UTF-8".equals(_sEncoding, ignoreCase = true)
+                    encoding))
+            var zFirstLine = "UTF-8".equals(encoding, ignoreCase = true)
             while (buffReader.readLine().also { sLine = it } != null) {
-                buffContent?.append("\n") ?: (buffContent = StringBuffer())
+                buffContent = buffContent?.append("\n") ?: StringBuffer()
                 if (zFirstLine) {
                     sLine = removeBomHeaderIfExists(sLine)
                     zFirstLine = false
                 }
                 buffContent.append(sLine)
+
             } // end while
             buffContent?.toString() ?: ""
         } catch (ex: FileNotFoundException) {
@@ -132,7 +129,7 @@ object FileUtils {
             return null
         }
         var line: String = _sLine
-        if (line.length > 0) {
+        if (line.isNotEmpty()) {
             var ch = line[0]
             // 使用while是因为用一些工具看到过某些文件前几个字节都是0xfffe.
             // 0xfeff,0xfffe是字节序的不同处理.JVM中,一般是0xfeff
@@ -172,7 +169,7 @@ object FileUtils {
         return fileExists(sPath)
     }
 
-    fun fileExists(_sPathFileName: String?): Boolean {
+    fun fileExists(_sPathFileName: String): Boolean {
         val file = File(_sPathFileName)
         return file.exists()
     }
@@ -183,7 +180,7 @@ object FileUtils {
      * @param _sDir             目录名称
      * @param _bCreateParentDir 如果父目录不存在，是否创建父目录
      */
-    fun makeDir(_sDir: String?, _bCreateParentDir: Boolean) {
+    fun makeDir(_sDir: String, _bCreateParentDir: Boolean) {
         val file = File(_sDir)
         if (_bCreateParentDir) file.mkdirs() // 如果父目录不存在，则创建所有必需的父目录
         else file.mkdir() // 如果父目录不存在，不做处理

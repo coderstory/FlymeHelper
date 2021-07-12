@@ -67,7 +67,8 @@ class AccountFragment : BaseFragment() {
                     Toast.makeText(mContext, "绑定成功,重启应用生效", Toast.LENGTH_SHORT).show()
                     refresh()
                 } else {
-                    Toast.makeText(mContext, Utils.Companion.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" + Gson().fromJson<Map<*, *>>(msg.data["value"].toString(), MutableMap::class.java).getOrDefault("error", msg.data["value"].toString()), Toast.LENGTH_LONG).show()
+                    Toast.makeText(mContext, Utils.Companion.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" +
+                            Gson().fromJson<Map<String, String>>(msg.data["value"].toString(), MutableMap::class.java).getOrDefault("error", msg.data["value"].toString()), Toast.LENGTH_LONG).show()
                 }
                 5 ->                     // 接口调用失败
                     Toast.makeText(mContext, "服务器连接失败", Toast.LENGTH_LONG).show()

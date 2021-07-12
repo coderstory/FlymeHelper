@@ -12,8 +12,8 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class updgradeService(private val mActivity: Activity) {
-    private val helper: SharedHelper
+class UpdgradeService(private val mActivity: Activity) {
+    private val helper: SharedHelper = SharedHelper(mActivity)
     fun checkUpgrade() {
         val time = helper.getString("last_update_check_time", "")
         val now = Base64.encodeToString(SimpleDateFormat("yyyyMMddHH").format(Date()).toByteArray(), Base64.DEFAULT)
@@ -40,7 +40,4 @@ class updgradeService(private val mActivity: Activity) {
                 .build(), true)
     }
 
-    init {
-        helper = SharedHelper(mActivity)
-    }
 }

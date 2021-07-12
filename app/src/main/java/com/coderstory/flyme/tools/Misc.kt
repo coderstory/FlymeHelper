@@ -1,7 +1,5 @@
 package com.coderstory.flyme.tools
 
-import com.coderstory.flyme.tools.*
-
 object Misc {
     const val MyBlogUrl = "https://blog.coderstory.cn"
     const val ApplicationName = "com.coderstory.flyme"

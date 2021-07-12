@@ -1,13 +1,8 @@
 package com.coderstory.flyme.tools
 
+import android.view.View
 import com.google.android.material.snackbar.Snackbar
 
-android.view.*
-/**
- * Created by _SOLID
- * Date:2016/5/9
- * Time:11:30
- */
 class SnackBarUtils private constructor(private val mSnackbar: Snackbar) {
     private fun getSnackBarLayout(snackbar: Snackbar?): View? {
         return snackbar?.view

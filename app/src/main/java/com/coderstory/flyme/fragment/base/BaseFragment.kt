@@ -22,12 +22,12 @@ import java.io.File
 abstract class BaseFragment : Fragment() {
     protected var contentView: View? = null
         private set
-    var mContext: Context
+   lateinit var mContext: Context
         private set
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         contentView = inflater.inflate(setLayoutResourceID(), container, false) //setContentView(inflater, container);
-        mContext = context
+        mContext = requireContext()
         val mProgressDialog = ProgressDialog(mContext)
         mProgressDialog.setCanceledOnTouchOutside(false)
         setHasOptionsMenu(true)
@@ -42,7 +42,10 @@ abstract class BaseFragment : Fragment() {
     protected open fun setUpData() {}
     protected val editor: SharedPreferences.Editor
         get() {
-            return Companion.editor
+            if (Companion.editor == null) {
+                Companion.editor = prefs.edit()
+            }
+            return Companion.editor!!
         }
     protected val prefs: SharedPreferences
         get() {
@@ -81,6 +84,6 @@ abstract class BaseFragment : Fragment() {
         const val PREFS_FILE = " /data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml\n"
         private const val TAG = "BaseFragment"
         private lateinit var prefs: SharedPreferences
-        private lateinit var editor: SharedPreferences.Editor
+        private var editor: SharedPreferences.Editor? = null
     }
 }

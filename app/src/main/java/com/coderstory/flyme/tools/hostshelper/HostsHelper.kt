@@ -27,7 +27,7 @@ class HostsHelper(private val mcontent: String, m: Context?) {
             var out: FileOutputStream? = null
             val writer: BufferedWriter
             try {
-                out = mcontext.openFileOutput("hosts", Context.MODE_PRIVATE)
+                out = mcontext!!.openFileOutput("hosts", Context.MODE_PRIVATE)
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
             }

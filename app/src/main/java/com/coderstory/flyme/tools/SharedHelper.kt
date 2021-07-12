@@ -1,11 +1,11 @@
 package com.coderstory.flyme.tools
 
-import android.content.*
+import android.content.Context
 import com.coderstory.flyme.preferences.PreferencesProviderUtils
 
 class SharedHelper(private val context: Context) {
     var spName = "UserSettings"
-    fun put(key: String?, `object`: Any): Boolean {
+    fun put(key: String, `object`: Any): Boolean {
         return if (`object` is String) {
             PreferencesProviderUtils.putString(context, spName, key, `object`)
         } else if (`object` is Int) {
@@ -21,11 +21,11 @@ class SharedHelper(private val context: Context) {
         }
     }
 
-    fun getBoolean(key: String?, defaultObject: Boolean): Boolean {
-        return PreferencesProviderUtils.getBoolean(context, spName, key, defaultObject)
+    fun getBoolean(key: String, defaultObject: Boolean): Boolean {
+        return PreferencesProviderUtils.getBoolean(context, spName,key, defaultObject)
     }
 
-    fun getString(key: String?, defaultObject: String?): String {
+    fun getString(key: String, defaultObject: String): String {
         return PreferencesProviderUtils.getString(context, spName, key, defaultObject)
     }
 }

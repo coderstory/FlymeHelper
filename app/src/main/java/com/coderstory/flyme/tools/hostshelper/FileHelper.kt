@@ -81,7 +81,7 @@ class FileHelper {
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
-                Toast.makeText(context, "框架资源释放失败", 1).show()
+                Toast.makeText(context, "框架资源释放失败", Toast.LENGTH_LONG).show()
             }
         }
 
