@@ -146,12 +146,12 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
             try {
                 getSharedPreferences("test", MODE_WORLD_READABLE)
             } catch (e: SecurityException) {
-//                val normalDialog = AlertDialog.Builder(this@MainActivity)
-//                normalDialog.setTitle("配置设置失败警告")
-//                normalDialog.setMessage("请在LSPosed Manager或者EdXposed Manager中启用本插件后再打开本插件")
-//                normalDialog.setPositiveButton("确定"
-//                ) { dialog: DialogInterface?, which: Int -> System.exit(0) }
-//                normalDialog.show()
+                val normalDialog = AlertDialog.Builder(this@MainActivity)
+                normalDialog.setTitle("配置设置失败警告")
+                normalDialog.setMessage("请在LSPosed Manager或者EdXposed Manager中启用本插件后再打开本插件")
+                normalDialog.setPositiveButton("确定"
+                ) { dialog: DialogInterface?, which: Int -> System.exit(0) }
+                normalDialog.show()
             }
         }
         try {

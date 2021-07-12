@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     // ndkVersion "23.0.7196353"
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "com.coderstory.flyme"
@@ -69,9 +70,12 @@ def runAllatori(variant) {
         classpath = files("$rootDir/allatori/allatori.jar")
         args "$buildDir/intermediates/classes/allatori-${variant.name}.xml"
     }
-    new File("${variant.javaCompileProvider.get().destinationDir}").deleteDir()
-    new File("${variant.javaCompileProvider.get().destinationDir}-obfuscated").renameTo(new File("${variant.javaCompileProvider.get().destinationDir}"))
-}
+   // new File("${variant.javaCompileProvider.get().destinationDir}").deleteDir()
+    //new File("${variant.javaCompileProvider.get().destinationDir}-obfuscated").renameTo(new File("${variant.javaCompileProvider.get().destinationDir}"))
+
+    // Kotlin support
+     new File("${buildDir}/tmp/kotlin-classes/${variant.name}").deleteDir()
+     new File("${buildDir}/tmp/kotlin-classes/${variant.name}-obfuscated").renameTo(new File("${buildDir}/tmp/kotlin-classes/${variant.name}"))}
 
 dependencies {
     compileOnly fileTree(include: ['*.jar'], dir: 'libs')
@@ -86,6 +90,11 @@ dependencies {
     implementation "com.github.topjohnwu.libsu:core:3.0.2"
     implementation 'com.google.code.gson:gson:2.8.7'
     implementation 'com.alibaba:fastjson:1.2.76'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
 
 
