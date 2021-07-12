@@ -13,37 +13,29 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package com.coderstory.flyme.tools.licensesdialog.licenses
 
-package com.coderstory.flyme.tools.licensesdialog.licenses;
+import android.content.Context
+import com.coderstory.flyme.R
 
-import android.content.Context;
-
-import com.coderstory.flyme.R;
-
-public class GnuGeneralPublicLicense20 extends License {
-
-    @Override
-    public String getName() {
-        return "GNU General Public License 2.0";
+class GnuGeneralPublicLicense20 : License() {
+    override fun getName(): String {
+        return "GNU General Public License 2.0"
     }
 
-    @Override
-    public String readSummaryTextFromResources(final Context context) {
-        return getContent(context, R.raw.gpl_20_summary);
+    override fun readSummaryTextFromResources(context: Context?): String? {
+        return getContent(context, R.raw.gpl_20_summary)
     }
 
-    @Override
-    public String readFullTextFromResources(final Context context) {
-        return getContent(context, R.raw.gpl_20_full);
+    override fun readFullTextFromResources(context: Context?): String? {
+        return getContent(context, R.raw.gpl_20_full)
     }
 
-    @Override
-    public String getVersion() {
-        return "2.0";
+    override fun getVersion(): String {
+        return "2.0"
     }
 
-    @Override
-    public String getUrl() {
-        return "http://www.gnu.org/licenses/";
+    override fun getUrl(): String {
+        return "http://www.gnu.org/licenses/"
     }
 }

@@ -1,47 +1,39 @@
-package com.coderstory.flyme.fragment;
+package com.coderstory.flyme.fragment
 
 
-import com.coderstory.flyme.R;
-import com.coderstory.flyme.fragment.base.BaseFragment;
+import android.view.View
+import androidx.appcompat.widget.SwitchCompat
+import com.coderstory.flyme.R
+import com.coderstory.flyme.fragment.base.BaseFragment
 
-
-public class CorePatchFragment extends BaseFragment {
-
-
-    public CorePatchFragment() {
+class CorePatchFragment : BaseFragment() {
+    override fun setUpView() {
+        `$`<View>(R.id.enhancedMode).setOnClickListener { v: View ->
+            editor.putBoolean("enhancedMode", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.downgrade).setOnClickListener { v: View ->
+            editor.putBoolean("downgrade", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.digestCreak).setOnClickListener { v: View ->
+            editor.putBoolean("digestCreak", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.authcreak).setOnClickListener { v: View ->
+            editor.putBoolean("authcreak", (v as SwitchCompat).isChecked)
+            fix()
+        }
     }
 
-    @Override
-    protected void setUpView() {
-        $(R.id.enhancedMode).setOnClickListener(v -> {
-            getEditor().putBoolean("enhancedMode", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-        $(R.id.downgrade).setOnClickListener(v -> {
-            getEditor().putBoolean("downgrade", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-        $(R.id.digestCreak).setOnClickListener(v -> {
-            getEditor().putBoolean("digestCreak", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-        $(R.id.authcreak).setOnClickListener(v -> {
-            getEditor().putBoolean("authcreak", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-
+    override fun setLayoutResourceID(): Int {
+        return R.layout.fragment_core_patch
     }
 
-    @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_core_patch;
-    }
-
-    @Override
-    protected void setUpData() {
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.authcreak)).setChecked(getPrefs().getBoolean("authcreak", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.digestCreak)).setChecked(getPrefs().getBoolean("digestCreak", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.downgrade)).setChecked(getPrefs().getBoolean("downgrade", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enhancedMode)).setChecked(getPrefs().getBoolean("enhancedMode", false));
+    override fun setUpData() {
+        (`$`<View>(R.id.authcreak) as SwitchCompat).isChecked = prefs.getBoolean("authcreak", false)
+        (`$`<View>(R.id.digestCreak) as SwitchCompat).isChecked = prefs.getBoolean("digestCreak", false)
+        (`$`<View>(R.id.downgrade) as SwitchCompat).isChecked = prefs.getBoolean("downgrade", false)
+        (`$`<View>(R.id.enhancedMode) as SwitchCompat).isChecked = prefs.getBoolean("enhancedMode", false)
     }
 }

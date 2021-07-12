@@ -1,375 +1,315 @@
-package com.coderstory.flyme.fragment;
+package com.coderstory.flyme.fragment
 
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.graphics.Color;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.annotation.SuppressLint
+import android.app.Dialog
+import android.app.ProgressDialog
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
+import android.graphics.Color
+import android.os.AsyncTask
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
+import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.widget.*
+import android.widget.AdapterView.OnItemClickListener
+import androidx.cardview.widget.CardView
+import com.coderstory.flyme.R
+import com.coderstory.flyme.adapter.AppInfo
+import com.coderstory.flyme.adapter.AppInfoAdapter
+import com.coderstory.flyme.fragment.base.BaseFragment
+import com.coderstory.flyme.tools.FileUtils
+import com.coderstory.flyme.tools.Misc
+import com.coderstory.flyme.tools.SnackBarUtils
+import com.coderstory.flyme.view.PullToRefreshView
+import com.topjohnwu.superuser.Shell
+import per.goweii.anylayer.AnyLayer
+import per.goweii.anylayer.DialogLayer
+import per.goweii.anylayer.Layer
+import java.io.DataOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.util.*
 
-import androidx.cardview.widget.CardView;
+class DisbaleAppFragment : BaseFragment() {
+    private val appInfoList: MutableList<AppInfo?> = ArrayList()
+    private val appInfoList2: MutableList<AppInfo?> = ArrayList()
+    var packages: List<PackageInfo> = ArrayList()
+    var adapter: AppInfoAdapter? = null
+    var listView: ListView? = null
+    var appInfo: AppInfo? = null
+    var mposition = 0
+    var mview: View? = null
+    var mPullToRefreshView: PullToRefreshView? = null
+    private lateinit var dialog: Dialog
 
-import com.coderstory.flyme.R;
-import com.coderstory.flyme.adapter.AppInfo;
-import com.coderstory.flyme.adapter.AppInfoAdapter;
-import com.coderstory.flyme.fragment.base.BaseFragment;
-import com.coderstory.flyme.tools.SnackBarUtils;
-import com.coderstory.flyme.view.PullToRefreshView;
-import com.topjohnwu.superuser.Shell;
-
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.DialogLayer;
-import per.goweii.anylayer.Layer;
-
-import static com.coderstory.flyme.tools.FileUtils.readFile;
-import static com.coderstory.flyme.tools.Misc.BackPath;
-
-
-public class DisbaleAppFragment extends BaseFragment {
-    private final List<AppInfo> appInfoList = new ArrayList<>();
-    private final List<AppInfo> appInfoList2 = new ArrayList<>();
-    List<PackageInfo> packages = new ArrayList<>();
-    AppInfoAdapter adapter = null;
-    ListView listView = null;
-    AppInfo appInfo = null;
-    int mposition = 0;
-    View mview = null;
-    PullToRefreshView mPullToRefreshView;
-    private Dialog dialog;
     @SuppressLint("HandlerLeak")
-    Handler myHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            ((ProgressDialog) dialog).setMessage(getString(R.string.refreshing_list));
-            initData();
-            adapter.notifyDataSetChanged();
-            dialog.cancel();
-            dialog = null;
-            super.handleMessage(msg);
-        }
-    };
-
-    private void initData() {
-        packages = new ArrayList<>();
-        if (getContext() != null) {
-            packages = getContext().getPackageManager().getInstalledPackages(0);
-            initFruit();
+    var myHandler: Handler = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            (dialog as ProgressDialog?)!!.setMessage(getString(R.string.refreshing_list))
+            initData()
+            adapter!!.notifyDataSetChanged()
+            dialog.cancel()
+            super.handleMessage(msg)
         }
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_disableapp_toolbar, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+    private fun initData() {
+        packages = ArrayList()
+        if (context != null) {
+            packages = requireContext().packageManager.getInstalledPackages(0)
+            initFruit()
+        }
     }
 
-    private void initFruit() {
-        appInfoList.clear();
-        appInfoList2.clear();
-        if (getContext() != null) {
-            for (int i = 0; i < packages.size(); i++) {
-                PackageInfo packageInfo = packages.get(i);
-                if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) > 0) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_disableapp_toolbar, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private fun initFruit() {
+        appInfoList.clear()
+        appInfoList2.clear()
+        if (context != null) {
+            for (i in packages.indices) {
+                val packageInfo = packages[i]
+                if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM > 0) {
                     if (packageInfo.applicationInfo.enabled) {
-                        AppInfo appInfo = new AppInfo(packageInfo.applicationInfo.loadLabel(getContext().getPackageManager()).toString(), packageInfo.applicationInfo.loadIcon(getContext().getPackageManager()), packageInfo.packageName, false, String.valueOf(packageInfo.versionName));
-                        appInfoList.add(appInfo);
+                        val appInfo = AppInfo(packageInfo.applicationInfo.loadLabel(requireContext().packageManager).toString(), packageInfo.applicationInfo.loadIcon(requireContext().packageManager), packageInfo.packageName, false, packageInfo.versionName.toString())
+                        appInfoList.add(appInfo)
                     } else {
-                        AppInfo appInfo = new AppInfo(packageInfo.applicationInfo.loadLabel(getContext().getPackageManager()).toString(), packageInfo.applicationInfo.loadIcon(getContext().getPackageManager()), packageInfo.packageName, true, String.valueOf(packageInfo.versionName));
-                        appInfoList2.add(appInfo);
+                        val appInfo = AppInfo(packageInfo.applicationInfo.loadLabel(requireContext().packageManager).toString(), packageInfo.applicationInfo.loadIcon(requireContext().packageManager), packageInfo.packageName, true, packageInfo.versionName.toString())
+                        appInfoList2.add(appInfo)
                     }
                 }
             }
-            appInfoList.addAll(appInfoList2);
+            appInfoList.addAll(appInfoList2)
         }
     }
 
-    private void showData() {
-        adapter = new AppInfoAdapter(getContext(), R.layout.app_info_item, appInfoList);
-        listView = getContentView().findViewById(R.id.listView);
-        assert listView != null;
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            mposition = position;
-            mview = view;
-
-            Layer anyLayer = AnyLayer.dialog(getContext())
+    private fun showData() {
+        adapter = AppInfoAdapter(context, R.layout.app_info_item, appInfoList)
+        listView = contentView?.findViewById(R.id.listView)
+        assert(listView != null)
+        listView!!.adapter = adapter
+        listView!!.onItemClickListener = OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+            mposition = position
+            mview = view
+            val anyLayer = AnyLayer.dialog(context)
                     .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
-                    .onClick((AnyLayer, v) -> {
-                        AnyLayer.dismiss();
-                    }, R.id.fl_dialog_no)
-                    .onClick((AnyLayer, v) -> {
-                        String commandText = (!appInfo.getDisable() ? "pm disable " : "pm enable ") + appInfo.getPackageName();
-                        Log.e("cc", commandText);
-                        Process process = null;
-                        DataOutputStream os = null;
+                    .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
+                    .onClick({ AnyLayer: Layer, v: View? ->
+                        val commandText = (if (!appInfo!!.disable) "pm disable " else "pm enable ") + appInfo!!.packageName
+                        Log.e("cc", commandText)
+                        var process: Process? = null
+                        var os: DataOutputStream? = null
                         try {
-                            process = Runtime.getRuntime().exec("su"); //切换到root帐号
-                            os = new DataOutputStream(process.getOutputStream());
-                            os.writeBytes(commandText + "\n");
-                            os.writeBytes("exit\n");
-                            os.flush();
-                            process.waitFor();
-                            if (appInfo.getDisable()) {
-                                appInfo.setDisable(false);
-                                appInfoList.set(mposition, appInfo);
-                                mview.setBackgroundColor(getResources().getColor(R.color.colorPrimary)); //正常的颜色
+                            process = Runtime.getRuntime().exec("su") //切换到root帐号
+                            os = DataOutputStream(process.outputStream)
+                            os.writeBytes("""
+    $commandText
+    
+    """.trimIndent())
+                            os.writeBytes("exit\n")
+                            os.flush()
+                            process.waitFor()
+                            if (appInfo!!.disable) {
+                                appInfo!!.disable = false
+                                appInfoList[mposition] = appInfo
+                                mview!!.setBackgroundColor(resources.getColor(R.color.colorPrimary)) //正常的颜色
                             } else {
-                                appInfo.setDisable(true);
-                                appInfoList.set(mposition, appInfo);
-                                mview.setBackgroundColor(Color.parseColor("#d0d7d7d7")); //冻结的颜色
+                                appInfo!!.disable = true
+                                appInfoList[mposition] = appInfo
+                                mview!!.setBackgroundColor(Color.parseColor("#d0d7d7d7")) //冻结的颜色
                             }
-                        } catch (Exception ignored) {
-
+                        } catch (ignored: Exception) {
                         } finally {
                             try {
-                                if (os != null) {
-                                    os.close();
-                                }
-                                assert process != null;
-                                process.destroy();
-                            } catch (Exception ignored) {
+                                os?.close()
+                                assert(process != null)
+                                process!!.destroy()
+                            } catch (ignored: Exception) {
                             }
                         }
-                        AnyLayer.dismiss();
-                    }, R.id.fl_dialog_yes);
-
-            anyLayer.show();
-
-            CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
-            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-            TextView textView = (TextView) linearLayout.getChildAt(1);
-
-
-            appInfo = appInfoList.get(mposition);
-
-
-            if (appInfo.getDisable()) {
-                textView.setText(getString(R.string.sureAntiDisable) + appInfo.getName() + getString(R.string.sureAntiDisableAfter));
-
+                        AnyLayer.dismiss()
+                    }, R.id.fl_dialog_yes)
+            anyLayer.show()
+            val cardView = (anyLayer as DialogLayer).contentView as CardView
+            val linearLayout = cardView.getChildAt(0) as LinearLayout
+            val textView = linearLayout.getChildAt(1) as TextView
+            appInfo = appInfoList[mposition]
+            if (appInfo!!.disable) {
+                textView.text = getString(R.string.sureAntiDisable) + appInfo!!.name + getString(R.string.sureAntiDisableAfter)
             } else {
-                textView.setText(getString(R.string.sureDisable) + appInfo.getName() + getString(R.string.sureDisableAfter));
+                textView.text = getString(R.string.sureDisable) + appInfo!!.name + getString(R.string.sureDisableAfter)
+            }
+        }
+    }
 
+    override fun setLayoutResourceID(): Int {
+        return R.layout.fragment_app_list
+    }
+
+    override fun init() {
+        super.init()
+        Toast.makeText(activity, R.string.disableapptips, Toast.LENGTH_LONG).show()
+        DisbaleAppFragment().MyTask().execute()
+        mPullToRefreshView = contentView?.findViewById(R.id.pull_to_refresh)
+        mPullToRefreshView!!.setOnRefreshListener(object : PullToRefreshView.OnRefreshListener {
+            override fun onRefresh() {
+                mPullToRefreshView!!.postDelayed({
+                    initData()
+                    showData()
+                    adapter!!.notifyDataSetChanged()
+                    mPullToRefreshView!!.setRefreshing(false)
+                }, 2000)
             }
 
-        });
+        })
+
     }
 
-    @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_app_list;
-    }
-
-    @Override
-    protected void init() {
-        super.init();
-        Toast.makeText(getActivity(), R.string.disableapptips, Toast.LENGTH_LONG).show();
-
-        new MyTask().execute();
-
-        mPullToRefreshView = getContentView().findViewById(R.id.pull_to_refresh);
-
-        mPullToRefreshView.setOnRefreshListener(() -> mPullToRefreshView.postDelayed(() -> {
-            initData();
-            showData();
-            adapter.notifyDataSetChanged();
-            mPullToRefreshView.setRefreshing(false);
-        }, 2000));
-    }
-
-    protected void showProgress() {
+    protected fun showProgress() {
         if (dialog == null) {
-            dialog = ProgressDialog.show(getContext(), getString(R.string.Tips_Title), getString(R.string.loadappinfo));
-            dialog.show();
+            dialog = ProgressDialog.show(context, getString(R.string.Tips_Title), getString(R.string.loadappinfo))
+            dialog.show()
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        if (dialog != null) {
-            dialog.dismiss();
-        }
-        super.onDestroyView();
+    override fun onDestroyView() {
+        dialog.dismiss()
+        super.onDestroyView()
     }
 
-    protected void closeProgress() {
-
-        if (dialog != null) {
-            dialog.cancel();
-            dialog = null;
-        }
+    protected fun closeProgress() {
+        dialog.cancel()
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_backupList) {
-            Layer anyLayer = AnyLayer.dialog(getContext())
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_backupList) {
+            val anyLayer = AnyLayer.dialog(context)
                     .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
-                    .onClick((AnyLayer, v) -> {
-                        AnyLayer.dismiss();
-                    }, R.id.fl_dialog_no)
-                    .onClick((AnyLayer, v) -> {
-                        satrtBackuop();
-                        AnyLayer.dismiss();
-                    }, R.id.fl_dialog_yes);
-            anyLayer.show();
-            CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
-            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-            TextView textView = (TextView) linearLayout.getChildAt(1);
-            textView.setText(getString(R.string.tips_sure_backuplist));
-
-
-        } else if (item.getItemId() == R.id.action_restoreList) {
-            Layer anyLayer = AnyLayer.dialog(getContext())
+                    .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
+                    .onClick({ AnyLayer: Layer, v: View? ->
+                        satrtBackuop()
+                        AnyLayer.dismiss()
+                    }, R.id.fl_dialog_yes)
+            anyLayer.show()
+            val cardView = (anyLayer as DialogLayer).contentView as CardView
+            val linearLayout = cardView.getChildAt(0) as LinearLayout
+            val textView = linearLayout.getChildAt(1) as TextView
+            textView.text = getString(R.string.tips_sure_backuplist)
+        } else if (item.itemId == R.id.action_restoreList) {
+            val anyLayer = AnyLayer.dialog(context)
                     .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
-                    .onClick((AnyLayer, v) -> {
-                        AnyLayer.dismiss();
-                    }, R.id.fl_dialog_no)
-                    .onClick((AnyLayer, v) -> {
-                        restoreList();
-                        AnyLayer.dismiss();
-                    }, R.id.fl_dialog_yes);
-            anyLayer.show();
-            CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
-            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-            TextView textView = (TextView) linearLayout.getChildAt(1);
-            textView.setText(getString(R.string.restore_set));
-
+                    .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
+                    .onClick({ AnyLayer: Layer, v: View? ->
+                        restoreList()
+                        AnyLayer.dismiss()
+                    }, R.id.fl_dialog_yes)
+            anyLayer.show()
+            val cardView = (anyLayer as DialogLayer).contentView as CardView
+            val linearLayout = cardView.getChildAt(0) as LinearLayout
+            val textView = linearLayout.getChildAt(1) as TextView
+            textView.text = getString(R.string.restore_set)
         }
-
-        return false;
+        return false
     }
 
-
-    private void restoreList() {
-        File dir = new File(BackPath);
-        String fileName = "userList";
-        String content = "";
+    private fun restoreList() {
+        val dir = File(Misc.BackPath)
+        val fileName = "userList"
+        var content: String? = ""
         if (!dir.exists()) {
-            SnackBarUtils.makeShort($(R.id.listView), getString(R.string.not_fond_backup_list_file)).danger();
-            return;
+            SnackBarUtils.Companion.makeShort(`$`<View>(R.id.listView), getString(R.string.not_fond_backup_list_file)).danger()
+            return
         }
         try {
-            content = readFile(BackPath + fileName, null);
-        } catch (Exception e) {
-            e.printStackTrace();
+            content = FileUtils.readFile(Misc.BackPath + fileName, null)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-
-        if (content.isEmpty()) {
-            SnackBarUtils.makeShort($(R.id.listView), getString(R.string.not_fond_backup_list)).danger();
-            return;
+        if (content!!.isEmpty()) {
+            SnackBarUtils.Companion.makeShort(`$`<View>(R.id.listView), getString(R.string.not_fond_backup_list)).danger()
+            return
         }
-
-        final String[] list = content.split("\n");
-
-        dialog = ProgressDialog.show(getContext(), getString(R.string.tips), getString(R.string.restoreing));
-        dialog.show();
-
-        new Thread(() -> {
-            Shell.su(list);
-            myHandler.sendMessage(new Message());
-        }).start();
-
+        val list = content.split("\n").toTypedArray()
+        dialog = ProgressDialog.show(context, getString(R.string.tips), getString(R.string.restoreing))
+        dialog.show()
+        Thread {
+            Shell.su(*list)
+            myHandler.sendMessage(Message())
+        }.start()
     }
 
-    private void satrtBackuop() {
-        StringBuilder SB = new StringBuilder("#已备份的系统APP冻结列表#\n");
+    private fun satrtBackuop() {
+        val SB = StringBuilder("#已备份的系统APP冻结列表#\n")
 
         //遍历数据源
-        for (AppInfo info : appInfoList) {
-            if (info.getDisable()) { //判断是否被冻结
-                SB.append(info.getPackageName()).append("\n");
+        for (info in appInfoList) {
+            if (info!!.disable) { //判断是否被冻结
+                SB.append(info.packageName).append("\n")
             }
         }
-
-        File dir = new File(BackPath);
-        String fileName = "userList";
+        val dir = File(Misc.BackPath)
+        val fileName = "userList"
         if (!dir.exists()) {
             if (!dir.mkdirs()) {
-                SnackBarUtils.makeShort($(R.id.listView), getString(R.string.tips_backup_error)).show();
-                return;
+                SnackBarUtils.Companion.makeShort(`$`<View>(R.id.listView), getString(R.string.tips_backup_error)).show()
+                return
             }
         }
-        FileOutputStream fos;
-        String result = "";
+        val fos: FileOutputStream
+        var result = ""
         try {
-            fos = new FileOutputStream(BackPath + fileName);
-            fos.write(SB.toString().getBytes());
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            result = e.getMessage();
+            fos = FileOutputStream(Misc.BackPath + fileName)
+            fos.write(SB.toString().toByteArray())
+            fos.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            result = e.message ?: ""
         }
-        if (result.equals("")) {
-            SnackBarUtils.makeShort($(R.id.listView), getString(R.string.tips_backup_success)).show();
+        if (result == "") {
+            SnackBarUtils.Companion.makeShort(`$`<View>(R.id.listView), getString(R.string.tips_backup_success)).show()
         } else {
-            SnackBarUtils.makeShort($(R.id.listView), getString(R.string.tips_backup_error) + result).show();
+            SnackBarUtils.Companion.makeShort(`$`<View>(R.id.listView), getString(R.string.tips_backup_error) + result).show()
         }
     }
 
     @SuppressLint("StaticFieldLeak")
-    class MyTask extends AsyncTask<String, Integer, String> {
-
-        @Override
-        protected void onPreExecute() {
-
-            showProgress();
+    inner class MyTask : AsyncTask<String?, Int?, String?>() {
+        override fun onPreExecute() {
+            showProgress()
         }
 
-        @Override
-        protected void onPostExecute(String param) {
-            showData();
-
-            adapter.notifyDataSetChanged();
-            closeProgress();
+        override fun onPostExecute(param: String?) {
+            showData()
+            adapter!!.notifyDataSetChanged()
+            closeProgress()
         }
 
-        @Override
-        protected void onCancelled() {
-            // TODO Auto-generated method stub
-            super.onCancelled();
+        override fun onProgressUpdate(vararg values: Int?) {
+            super.onProgressUpdate(*values)
         }
 
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            // TODO Auto-generated method stub
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
+        override fun doInBackground(vararg params: String?): String? {
             if (Looper.myLooper() == null) {
-                Looper.prepare();
+                Looper.prepare()
             }
-            initData();
-            return null;
+            initData()
+            return null
         }
     }
 }
-

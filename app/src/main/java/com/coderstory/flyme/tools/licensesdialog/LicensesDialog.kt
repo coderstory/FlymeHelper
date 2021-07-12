@@ -13,349 +13,283 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package com.coderstory.flyme.tools.licensesdialog
 
-package com.coderstory.flyme.tools.licensesdialog;
+import android.app.*
+import android.content.*
+import android.net.Uri
+import android.os.*
+import android.view.*
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import com.coderstory.flyme.R
+import com.coderstory.flyme.tools.licensesdialog.LicensesDialog
+import com.coderstory.flyme.tools.licensesdialog.NoticesHtmlBuilder
+import com.coderstory.flyme.tools.licensesdialog.licenses.ApacheSoftwareLicense20
+import com.coderstory.flyme.tools.licensesdialog.model.Notice
+import com.coderstory.flyme.tools.licensesdialog.model.Notices
 
-
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.net.Uri;
-import android.os.Message;
-import android.view.ContextThemeWrapper;
-import android.view.View;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-
-import androidx.annotation.Nullable;
-
-import com.coderstory.flyme.R;
-import com.coderstory.flyme.tools.licensesdialog.licenses.ApacheSoftwareLicense20;
-import com.coderstory.flyme.tools.licensesdialog.model.Notice;
-import com.coderstory.flyme.tools.licensesdialog.model.Notices;
-
-import java.util.List;
-
-
-public class LicensesDialog {
-    public static final Notice LICENSES_DIALOG_NOTICE = new Notice("LicensesDialog", "http://psdev.de/LicensesDialog",
-            "Copyright 2013-2016 Philip Schiffer",
-            new ApacheSoftwareLicense20());
-
-    private final Context mContext;
-    private final String mTitleText;
-    private final String mLicensesText;
-    private final String mCloseText;
-    private final int mThemeResourceId;
-    private final int mDividerColor;
-
-    private DialogInterface.OnDismissListener mOnDismissListener;
-
-    // ==========================================================================================================================
-    // Constructor
-    // ==========================================================================================================================
-
-    private LicensesDialog(final Context context, final String licensesText, final String titleText, final String closeText,
-                           final int themeResourceId,
-                           final int dividerColor) {
-        mContext = context;
-        mTitleText = titleText;
-        mLicensesText = licensesText;
-        mCloseText = closeText;
-        mThemeResourceId = themeResourceId;
-        mDividerColor = dividerColor;
-    }
-
-    // ==========================================================================================================================
-    // Public API
-    // ==========================================================================================================================
-
-    private static WebView createWebView(final Context context) {
-        final WebView webView = new WebView(context);
-        webView.getSettings().setSupportMultipleWindows(true);
-        webView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public boolean onCreateWindow(final WebView view, final boolean isDialog, final boolean isUserGesture, final Message resultMsg) {
-                final WebView.HitTestResult result = view.getHitTestResult();
-                final String data = result.getExtra();
-                if (data != null) {
-                    final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data));
-                    context.startActivity(browserIntent);
-                }
-                return false;
-            }
-        });
-        return webView;
-    }
-
-    private static Notices getNotices(final Context context, final int rawNoticesResourceId) {
-        try {
-            final Resources resources = context.getResources();
-            if ("raw".equals(resources.getResourceTypeName(rawNoticesResourceId))) {
-                final Notices notices = NoticesXmlParser.parse(resources.openRawResource(rawNoticesResourceId));
-                return notices;
-            } else {
-                throw new IllegalStateException("not a raw resource");
-            }
-        } catch (final Exception e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    private static String getLicensesText(final Context context, final Notices notices, final boolean showFullLicenseText,
-                                          final boolean includeOwnLicense, final String style) {
-        try {
-            if (includeOwnLicense) {
-                final List<Notice> noticeList = notices.getNotices();
-                noticeList.add(LICENSES_DIALOG_NOTICE);
-            }
-            return NoticesHtmlBuilder.create(context).setShowFullLicenseText(showFullLicenseText).setNotices(notices).setStyle(style).build();
-        } catch (final Exception e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    private static Notices getSingleNoticeNotices(final Notice notice) {
-        final Notices notices = new Notices();
-        notices.addNotice(notice);
-        return notices;
-    }
-
-    public LicensesDialog setOnDismissListener(final DialogInterface.OnDismissListener onDismissListener) {
-        mOnDismissListener = onDismissListener;
-        return this;
+class LicensesDialog  // ==========================================================================================================================
+// Constructor
+// ==========================================================================================================================
+private constructor(private val mContext: Context, private val mLicensesText: String, private val mTitleText: String, private val mCloseText: String,
+                    private val mThemeResourceId: Int,
+                    private val mDividerColor: Int) {
+    private var mOnDismissListener: DialogInterface.OnDismissListener? = null
+    fun setOnDismissListener(onDismissListener: DialogInterface.OnDismissListener?): LicensesDialog {
+        mOnDismissListener = onDismissListener
+        return this
     }
 
     // ==========================================================================================================================
     // Private API
     // ==========================================================================================================================
-
-    public Dialog create() {
+    fun create(): Dialog {
         //Get resources
-        final WebView webView = createWebView(mContext);
-        webView.loadDataWithBaseURL(null, mLicensesText, "text/html", "utf-8", null);
-        final AlertDialog.Builder builder;
-        if (mThemeResourceId != 0) {
-            builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext, mThemeResourceId));
+        val webView: WebView = LicensesDialog.Companion.createWebView(mContext)
+        webView.loadDataWithBaseURL(null, mLicensesText, "text/html", "utf-8", null)
+        val builder: AlertDialog.Builder
+        builder = if (mThemeResourceId != 0) {
+            AlertDialog.Builder(ContextThemeWrapper(mContext, mThemeResourceId))
         } else {
-            builder = new AlertDialog.Builder(mContext);
+            AlertDialog.Builder(mContext)
         }
         builder.setTitle(mTitleText)
                 .setView(webView)
-                .setPositiveButton(mCloseText, new Dialog.OnClickListener() {
-                    public void onClick(final DialogInterface dialogInterface, final int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-        final AlertDialog dialog = builder.create();
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(final DialogInterface dialog) {
-                if (mOnDismissListener != null) {
-                    mOnDismissListener.onDismiss(dialog);
-                }
+                .setPositiveButton(mCloseText) { dialogInterface, i -> dialogInterface.dismiss() }
+        val dialog = builder.create()
+        dialog.setOnDismissListener { dialog ->
+            if (mOnDismissListener != null) {
+                mOnDismissListener!!.onDismiss(dialog)
             }
-        });
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(final DialogInterface dialogInterface) {
-                if (mDividerColor != 0) {
-                    // Set title divider color
-                    final int titleDividerId = mContext.getResources().getIdentifier("titleDivider", "id", "android");
-                    final View titleDivider = dialog.findViewById(titleDividerId);
-                    if (titleDivider != null) {
-                        titleDivider.setBackgroundColor(mDividerColor);
-                    }
-                }
+        }
+        dialog.setOnShowListener {
+            if (mDividerColor != 0) {
+                // Set title divider color
+                val titleDividerId = mContext.resources.getIdentifier("titleDivider", "id", "android")
+                val titleDivider = dialog.findViewById<View>(titleDividerId)
+                titleDivider?.setBackgroundColor(mDividerColor)
             }
-        });
-        return dialog;
+        }
+        return dialog
     }
 
-    public Dialog createAppCompat() {
+    fun createAppCompat(): Dialog {
         //Get resources
-        final WebView webView = new WebView(mContext);
-        webView.loadDataWithBaseURL(null, mLicensesText, "text/html", "utf-8", null);
-        final AlertDialog.Builder builder;
-        if (mThemeResourceId != 0) {
-            builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext, mThemeResourceId));
+        val webView = WebView(mContext)
+        webView.loadDataWithBaseURL(null, mLicensesText, "text/html", "utf-8", null)
+        val builder: AlertDialog.Builder
+        builder = if (mThemeResourceId != 0) {
+            AlertDialog.Builder(ContextThemeWrapper(mContext, mThemeResourceId))
         } else {
-            builder = new AlertDialog.Builder(mContext);
+            AlertDialog.Builder(mContext)
         }
         builder.setTitle(mTitleText)
                 .setView(webView)
-                .setPositiveButton(mCloseText, new Dialog.OnClickListener() {
-                    public void onClick(final DialogInterface dialogInterface, final int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-        final AlertDialog dialog = builder.create();
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(final DialogInterface dialog) {
-                if (mOnDismissListener != null) {
-                    mOnDismissListener.onDismiss(dialog);
-                }
+                .setPositiveButton(mCloseText) { dialogInterface, i -> dialogInterface.dismiss() }
+        val dialog = builder.create()
+        dialog.setOnDismissListener { dialog ->
+            if (mOnDismissListener != null) {
+                mOnDismissListener!!.onDismiss(dialog)
             }
-        });
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(final DialogInterface dialogInterface) {
-                if (mDividerColor != 0) {
-                    // Set title divider color
-                    final int titleDividerId = mContext.getResources().getIdentifier("titleDivider", "id", "android");
-                    final View titleDivider = dialog.findViewById(titleDividerId);
-                    if (titleDivider != null) {
-                        titleDivider.setBackgroundColor(mDividerColor);
-                    }
-                }
+        }
+        dialog.setOnShowListener {
+            if (mDividerColor != 0) {
+                // Set title divider color
+                val titleDividerId = mContext.resources.getIdentifier("titleDivider", "id", "android")
+                val titleDivider = dialog.findViewById<View>(titleDividerId)
+                titleDivider?.setBackgroundColor(mDividerColor)
             }
-        });
-        return dialog;
+        }
+        return dialog
     }
 
-    public Dialog show() {
-        final Dialog dialog = create();
-        dialog.show();
-        return dialog;
+    fun show(): Dialog {
+        val dialog = create()
+        dialog.show()
+        return dialog
     }
 
-    public Dialog showAppCompat() {
-        final Dialog dialog = createAppCompat();
-        dialog.show();
-        return dialog;
+    fun showAppCompat(): Dialog {
+        val dialog = createAppCompat()
+        dialog.show()
+        return dialog
     }
 
     // ==========================================================================================================================
     // Inner classes
     // ==========================================================================================================================
-
-    public static final class Builder {
-
-        private final Context mContext;
-
+    class Builder(private val mContext: Context) {
         // Default values
-        private String mTitleText;
-        private String mCloseText;
-        @Nullable
-        private Integer mRawNoticesId;
-        @Nullable
-        private Notices mNotices;
-        @Nullable
-        private String mNoticesText;
-        private String mNoticesStyle;
-        private boolean mShowFullLicenseText;
-        private boolean mIncludeOwnLicense;
-        private int mThemeResourceId;
-        private int mDividerColor;
-
-        public Builder(final Context context) {
-            mContext = context;
-            mTitleText = context.getString(R.string.notices_title);
-            mCloseText = context.getString(R.string.notices_close);
-            mNoticesStyle = context.getString(R.string.notices_default_style);
-            mShowFullLicenseText = false;
-            mIncludeOwnLicense = false;
-            mThemeResourceId = 0;
-            mDividerColor = 0;
+        private var mTitleText: String
+        private var mCloseText: String
+        private var mRawNoticesId: Int? = null
+        private var mNotices: Notices? = null
+        private var mNoticesText: String? = null
+        private var mNoticesStyle: String
+        private var mShowFullLicenseText: Boolean
+        private var mIncludeOwnLicense: Boolean
+        private var mThemeResourceId: Int
+        private var mDividerColor: Int
+        fun setTitle(titleId: Int): LicensesDialog.Builder {
+            mTitleText = mContext.getString(titleId)
+            return this
         }
 
-        public Builder setTitle(final int titleId) {
-            mTitleText = mContext.getString(titleId);
-            return this;
+        fun setTitle(title: String): LicensesDialog.Builder {
+            mTitleText = title
+            return this
         }
 
-        public Builder setTitle(final String title) {
-            mTitleText = title;
-            return this;
+        fun setCloseText(closeId: Int): LicensesDialog.Builder {
+            mCloseText = mContext.getString(closeId)
+            return this
         }
 
-        public Builder setCloseText(final int closeId) {
-            mCloseText = mContext.getString(closeId);
-            return this;
+        fun setCloseText(closeText: String): LicensesDialog.Builder {
+            mCloseText = closeText
+            return this
         }
 
-        public Builder setCloseText(final String closeText) {
-            mCloseText = closeText;
-            return this;
+        fun setNotices(rawNoticesId: Int): LicensesDialog.Builder {
+            mRawNoticesId = rawNoticesId
+            mNotices = null
+            return this
         }
 
-        public Builder setNotices(final int rawNoticesId) {
-            mRawNoticesId = rawNoticesId;
-            mNotices = null;
-            return this;
+        fun setNotices(notices: Notices?): LicensesDialog.Builder {
+            mNotices = notices
+            mRawNoticesId = null
+            return this
         }
 
-        public Builder setNotices(final Notices notices) {
-            mNotices = notices;
-            mRawNoticesId = null;
-            return this;
+        fun setNotices(notice: Notice?): LicensesDialog.Builder {
+            return setNotices(LicensesDialog.Companion.getSingleNoticeNotices(notice))
         }
 
-        public Builder setNotices(final Notice notice) {
-            return setNotices(getSingleNoticeNotices(notice));
+        fun setNotices(notices: String?): LicensesDialog.Builder {
+            mNotices = null
+            mRawNoticesId = null
+            mNoticesText = notices
+            return this
         }
 
-        Builder setNotices(final String notices) {
-            mNotices = null;
-            mRawNoticesId = null;
-            mNoticesText = notices;
-            return this;
+        fun setNoticesCssStyle(cssStyleTextId: Int): LicensesDialog.Builder {
+            mNoticesStyle = mContext.getString(cssStyleTextId)
+            return this
         }
 
-        public Builder setNoticesCssStyle(final int cssStyleTextId) {
-            mNoticesStyle = mContext.getString(cssStyleTextId);
-            return this;
+        fun setNoticesCssStyle(cssStyleText: String): LicensesDialog.Builder {
+            mNoticesStyle = cssStyleText
+            return this
         }
 
-        public Builder setNoticesCssStyle(final String cssStyleText) {
-            mNoticesStyle = cssStyleText;
-            return this;
+        fun setShowFullLicenseText(showFullLicenseText: Boolean): LicensesDialog.Builder {
+            mShowFullLicenseText = showFullLicenseText
+            return this
         }
 
-        public Builder setShowFullLicenseText(final boolean showFullLicenseText) {
-            mShowFullLicenseText = showFullLicenseText;
-            return this;
+        fun setIncludeOwnLicense(includeOwnLicense: Boolean): LicensesDialog.Builder {
+            mIncludeOwnLicense = includeOwnLicense
+            return this
         }
 
-        public Builder setIncludeOwnLicense(final boolean includeOwnLicense) {
-            mIncludeOwnLicense = includeOwnLicense;
-            return this;
+        fun setThemeResourceId(themeResourceId: Int): LicensesDialog.Builder {
+            mThemeResourceId = themeResourceId
+            return this
         }
 
-        public Builder setThemeResourceId(final int themeResourceId) {
-            mThemeResourceId = themeResourceId;
-            return this;
+        fun setDividerColor(dividerColor: Int): LicensesDialog.Builder {
+            mDividerColor = dividerColor
+            return this
         }
 
-        public Builder setDividerColor(final int dividerColor) {
-            mDividerColor = dividerColor;
-            return this;
+        fun setDividerColorId(dividerColorId: Int): LicensesDialog.Builder {
+            mDividerColor = mContext.resources.getColor(dividerColorId)
+            return this
         }
 
-        public Builder setDividerColorId(final int dividerColorId) {
-            mDividerColor = mContext.getResources().getColor(dividerColorId);
-            return this;
-        }
-
-        public LicensesDialog build() {
-            final String licensesText;
-            if (mNotices != null) {
-                licensesText = getLicensesText(mContext, mNotices, mShowFullLicenseText, mIncludeOwnLicense, mNoticesStyle);
+        fun build(): LicensesDialog {
+            val licensesText: String
+            licensesText = if (mNotices != null) {
+                LicensesDialog.Companion.getLicensesText(mContext, mNotices, mShowFullLicenseText, mIncludeOwnLicense, mNoticesStyle)
             } else if (mRawNoticesId != null) {
-                licensesText = getLicensesText(mContext, getNotices(mContext, mRawNoticesId), mShowFullLicenseText, mIncludeOwnLicense,
-                        mNoticesStyle);
+                LicensesDialog.Companion.getLicensesText(mContext, LicensesDialog.Companion.getNotices(mContext, mRawNoticesId), mShowFullLicenseText, mIncludeOwnLicense,
+                        mNoticesStyle)
             } else if (mNoticesText != null) {
-                licensesText = mNoticesText;
+                mNoticesText
             } else {
-                throw new IllegalStateException("Notices have to be provided, see setNotices");
+                throw IllegalStateException("Notices have to be provided, see setNotices")
             }
-
-            return new LicensesDialog(mContext, licensesText, mTitleText, mCloseText, mThemeResourceId, mDividerColor);
+            return LicensesDialog(mContext, licensesText, mTitleText, mCloseText, mThemeResourceId, mDividerColor)
         }
 
+        init {
+            mTitleText = mContext.getString(R.string.notices_title)
+            mCloseText = mContext.getString(R.string.notices_close)
+            mNoticesStyle = mContext.getString(R.string.notices_default_style)
+            mShowFullLicenseText = false
+            mIncludeOwnLicense = false
+            mThemeResourceId = 0
+            mDividerColor = 0
+        }
+    }
+
+    companion object {
+        val LICENSES_DIALOG_NOTICE = Notice("LicensesDialog", "http://psdev.de/LicensesDialog",
+                "Copyright 2013-2016 Philip Schiffer",
+                ApacheSoftwareLicense20())
+
+        // ==========================================================================================================================
+        // Public API
+        // ==========================================================================================================================
+        private fun createWebView(context: Context): WebView {
+            val webView = WebView(context)
+            webView.settings.setSupportMultipleWindows(true)
+            webView.webChromeClient = object : WebChromeClient() {
+                override fun onCreateWindow(view: WebView, isDialog: Boolean, isUserGesture: Boolean, resultMsg: Message): Boolean {
+                    val result = view.hitTestResult
+                    val data = result.extra
+                    if (data != null) {
+                        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(data))
+                        context.startActivity(browserIntent)
+                    }
+                    return false
+                }
+            }
+            return webView
+        }
+
+        private fun getNotices(context: Context, rawNoticesResourceId: Int): Notices {
+            return try {
+                val resources = context.resources
+                if ("raw" == resources.getResourceTypeName(rawNoticesResourceId)) {
+                    NoticesXmlParser.parse(resources.openRawResource(rawNoticesResourceId))
+                } else {
+                    throw IllegalStateException("not a raw resource")
+                }
+            } catch (e: Exception) {
+                throw IllegalStateException(e)
+            }
+        }
+
+        private fun getLicensesText(context: Context, notices: Notices, showFullLicenseText: Boolean,
+                                    includeOwnLicense: Boolean, style: String): String {
+            return try {
+                if (includeOwnLicense) {
+                    val noticeList = notices.notices
+                    noticeList.add(LicensesDialog.Companion.LICENSES_DIALOG_NOTICE)
+                }
+                NoticesHtmlBuilder.Companion.create(context).setShowFullLicenseText(showFullLicenseText).setNotices(notices).setStyle(style).build()
+            } catch (e: Exception) {
+                throw IllegalStateException(e)
+            }
+        }
+
+        private fun getSingleNoticeNotices(notice: Notice): Notices {
+            val notices = Notices()
+            notices.addNotice(notice)
+            return notices
+        }
     }
 }

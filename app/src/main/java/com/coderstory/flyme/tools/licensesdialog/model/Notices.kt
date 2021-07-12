@@ -13,56 +13,52 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package com.coderstory.flyme.tools.licensesdialog.model
 
-package com.coderstory.flyme.tools.licensesdialog.model;
+import android.os.Parcel
+import android.os.Parcelable
+import android.os.Parcelable.Creator
+import com.coderstory.flyme.tools.licensesdialog.model.Notice
+import java.util.*
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class Notices implements Parcelable {
-
-    public static Creator<Notices> CREATOR = new Creator<Notices>() {
-        public Notices createFromParcel(final Parcel source) {
-            return new Notices(source);
-        }
-
-        public Notices[] newArray(final int size) {
-            return new Notices[size];
-        }
-    };
-    private final List<Notice> mNotices;
+class Notices : Parcelable {
+    private val mNotices: MutableList<Notice?>
 
     // Setter / Getter
-
-    public Notices() {
-        mNotices = new ArrayList<Notice>();
+    constructor() {
+        mNotices = ArrayList()
     }
 
-    protected Notices(final Parcel in) {
-        mNotices = new ArrayList<Notice>();
-        in.readList(this.mNotices, Notice.class.getClassLoader());
+    protected constructor(`in`: Parcel) {
+        mNotices = ArrayList()
+        `in`.readList(mNotices, Notice::class.java.classLoader)
     }
 
     // Parcelable
-
-    public void addNotice(final Notice notice) {
-        mNotices.add(notice);
+    fun addNotice(notice: Notice?) {
+        mNotices.add(notice)
     }
 
-    public List<Notice> getNotices() {
-        return mNotices;
+    val notices: List<Notice?>
+        get() = mNotices
+
+    override fun describeContents(): Int {
+        return 0
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeList(mNotices)
     }
 
-    @Override
-    public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeList(this.mNotices);
+    companion object {
+        var CREATOR: Creator<Notices> = object : Creator<Notices?> {
+            override fun createFromParcel(source: Parcel): Notices? {
+                return Notices(source)
+            }
+
+            override fun newArray(size: Int): Array<Notices?> {
+                return arrayOfNulls(size)
+            }
+        }
     }
 }

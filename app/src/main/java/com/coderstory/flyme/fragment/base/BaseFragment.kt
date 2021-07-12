@@ -1,110 +1,86 @@
-package com.coderstory.flyme.fragment.base;
+package com.coderstory.flyme.fragment.base
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import com.coderstory.flyme.tools.Misc;
-import com.coderstory.flyme.tools.Utils;
-import com.topjohnwu.superuser.Shell;
-
-import java.io.File;
-
-import static com.coderstory.flyme.tools.Misc.ApplicationName;
-
+import android.app.ProgressDialog
+import android.content.Context
+import android.content.SharedPreferences
+import android.os.Build
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.coderstory.flyme.tools.Misc
+import com.coderstory.flyme.tools.Utils
+import com.topjohnwu.superuser.Shell
+import java.io.File
 
 /**
  * Created by _SOLID
  * Date:2016/3/30
  * Time:11:30
  */
-public abstract class BaseFragment extends Fragment {
-    public static final String PREFS_FOLDER = " /data/user_de/0/" + ApplicationName + "/shared_prefs\n";
-    public static final String PREFS_FILE = " /data/user_de/0/" + ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml\n";
-    private static final String TAG = "BaseFragment";
-    private static SharedPreferences prefs;
-    private static SharedPreferences.Editor editor;
-    private View mContentView;
-    private Context mContext;
+abstract class BaseFragment : Fragment() {
+    protected var contentView: View? = null
+        private set
+    var mContext: Context
+        private set
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mContentView = inflater.inflate(setLayoutResourceID(), container, false);//setContentView(inflater, container);
-        mContext = getContext();
-        ProgressDialog mProgressDialog = new ProgressDialog(getMContext());
-        mProgressDialog.setCanceledOnTouchOutside(false);
-        setHasOptionsMenu(true);
-        init();
-        setUpView();
-        setUpData();
-        getPrefs();
-        return mContentView;
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        contentView = inflater.inflate(setLayoutResourceID(), container, false) //setContentView(inflater, container);
+        mContext = context
+        val mProgressDialog = ProgressDialog(mContext)
+        mProgressDialog.setCanceledOnTouchOutside(false)
+        setHasOptionsMenu(true)
+        init()
+        setUpView()
+        setUpData()
+        prefs
+        return contentView
     }
 
-    protected abstract int setLayoutResourceID();
-
-    protected void setUpData() {
-    }
-
-    protected SharedPreferences.Editor getEditor() {
-        if (editor == null) {
-            editor = prefs.edit();
+    protected abstract fun setLayoutResourceID(): Int
+    protected open fun setUpData() {}
+    protected val editor: SharedPreferences.Editor
+        get() {
+            return Companion.editor
         }
-        return editor;
+    protected val prefs: SharedPreferences
+        get() {
+            Companion.prefs = Utils.getMySharedPreferences(mContext.applicationContext, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+            return Companion.prefs
+        }
 
+    fun fix() {
+        editor.commit()
+        sudoFixPermissions()
     }
 
-
-    protected SharedPreferences getPrefs() {
-        prefs = Utils.getMySharedPreferences(getMContext().getApplicationContext(), "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
-        return prefs;
-    }
-
-    public void fix() {
-        getEditor().commit();
-        sudoFixPermissions();
-    }
-
-    protected void sudoFixPermissions() {
-        if (android.os.Build.VERSION.SDK_INT < 30) {
-            new Thread(() -> {
-                File pkgFolder = new File("/data/user_de/0/" + ApplicationName);
+    protected fun sudoFixPermissions() {
+        if (Build.VERSION.SDK_INT < 30) {
+            Thread {
+                val pkgFolder = File("/data/user_de/0/" + Misc.ApplicationName)
                 if (pkgFolder.exists()) {
-                    pkgFolder.setExecutable(true, false);
-                    pkgFolder.setReadable(true, false);
+                    pkgFolder.setExecutable(true, false)
+                    pkgFolder.setReadable(true, false)
                 }
-                Shell.su("chmod  755 " + PREFS_FOLDER).exec();
+                Shell.su("chmod  755 " + PREFS_FOLDER).exec()
                 // Set preferences file permissions to be world readable
-                Shell.su("chmod  644 " + PREFS_FILE).exec();
-            }).start();
+                Shell.su("chmod  644 " + PREFS_FILE).exec()
+            }.start()
         }
     }
 
-    protected void init() {
+    protected open fun init() {}
+    protected open fun setUpView() {}
+    protected fun <T : View?> `$`(id: Int): T {
+        return contentView!!.findViewById(id)
     }
 
-    protected void setUpView() {
+    companion object {
+        const val PREFS_FOLDER = " /data/user_de/0/" + Misc.ApplicationName + "/shared_prefs\n"
+        const val PREFS_FILE = " /data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml\n"
+        private const val TAG = "BaseFragment"
+        private lateinit var prefs: SharedPreferences
+        private lateinit var editor: SharedPreferences.Editor
     }
-
-    protected <T extends View> T $(int id) {
-        return mContentView.findViewById(id);
-    }
-
-
-    protected View getContentView() {
-        return mContentView;
-    }
-
-    public Context getMContext() {
-        return mContext;
-    }
-
 }

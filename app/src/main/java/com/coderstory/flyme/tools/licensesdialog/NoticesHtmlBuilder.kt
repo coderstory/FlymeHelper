@@ -13,115 +13,107 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package com.coderstory.flyme.tools.licensesdialog
 
-package com.coderstory.flyme.tools.licensesdialog;
+import android.content.Context
+import com.coderstory.flyme.R
+import com.coderstory.flyme.tools.licensesdialog.licenses.License
+import com.coderstory.flyme.tools.licensesdialog.model.Notice
+import com.coderstory.flyme.tools.licensesdialog.model.Notices
+import java.util.*
 
-
-import android.content.Context;
-
-import com.coderstory.flyme.R;
-import com.coderstory.flyme.tools.licensesdialog.licenses.License;
-import com.coderstory.flyme.tools.licensesdialog.model.Notice;
-import com.coderstory.flyme.tools.licensesdialog.model.Notices;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public final class NoticesHtmlBuilder {
-
-    private final Context mContext;
-    private final Map<License, String> mLicenseTextCache = new HashMap<License, String>();
-    private Notices mNotices;
-    private Notice mNotice;
-    private String mStyle;
-    private boolean mShowFullLicenseText;
-
-    private NoticesHtmlBuilder(final Context context) {
-        mContext = context;
-        mStyle = context.getResources().getString(R.string.notices_default_style);
-        mShowFullLicenseText = false;
+class NoticesHtmlBuilder private constructor(private val mContext: Context) {
+    private val mLicenseTextCache: MutableMap<License, String> = HashMap()
+    private var mNotices: Notices? = null
+    private var mNotice: Notice? = null
+    private var mStyle: String
+    private var mShowFullLicenseText: Boolean
+    fun setNotices(notices: Notices?): NoticesHtmlBuilder {
+        mNotices = notices
+        mNotice = null
+        return this
     }
 
-    public static NoticesHtmlBuilder create(final Context context) {
-        return new NoticesHtmlBuilder(context);
+    fun setNotice(notice: Notice?): NoticesHtmlBuilder {
+        mNotice = notice
+        mNotices = null
+        return this
     }
 
-    public NoticesHtmlBuilder setNotices(final Notices notices) {
-        mNotices = notices;
-        mNotice = null;
-        return this;
+    fun setStyle(style: String): NoticesHtmlBuilder {
+        mStyle = style
+        return this
     }
 
-    public NoticesHtmlBuilder setNotice(final Notice notice) {
-        mNotice = notice;
-        mNotices = null;
-        return this;
+    fun setShowFullLicenseText(showFullLicenseText: Boolean): NoticesHtmlBuilder {
+        mShowFullLicenseText = showFullLicenseText
+        return this
     }
 
-    public NoticesHtmlBuilder setStyle(final String style) {
-        mStyle = style;
-        return this;
-    }
-
-    public NoticesHtmlBuilder setShowFullLicenseText(final boolean showFullLicenseText) {
-        mShowFullLicenseText = showFullLicenseText;
-        return this;
-    }
-
-    public String build() {
-        final StringBuilder noticesHtmlBuilder = new StringBuilder(500);
-        appendNoticesContainerStart(noticesHtmlBuilder);
+    fun build(): String {
+        val noticesHtmlBuilder = StringBuilder(500)
+        appendNoticesContainerStart(noticesHtmlBuilder)
         if (mNotice != null) {
-            appendNoticeBlock(noticesHtmlBuilder, mNotice);
+            appendNoticeBlock(noticesHtmlBuilder, mNotice!!)
         } else if (mNotices != null) {
-            for (final Notice notice : mNotices.getNotices()) {
-                appendNoticeBlock(noticesHtmlBuilder, notice);
+            for (notice in mNotices!!.notices) {
+                appendNoticeBlock(noticesHtmlBuilder, notice)
             }
         } else {
-            throw new IllegalStateException("no notice(s) set");
+            throw IllegalStateException("no notice(s) set")
         }
-        appendNoticesContainerEnd(noticesHtmlBuilder);
-        return noticesHtmlBuilder.toString();
+        appendNoticesContainerEnd(noticesHtmlBuilder)
+        return noticesHtmlBuilder.toString()
     }
 
     //
-
-    private void appendNoticesContainerStart(final StringBuilder noticesHtmlBuilder) {
+    private fun appendNoticesContainerStart(noticesHtmlBuilder: StringBuilder) {
         noticesHtmlBuilder.append("<!DOCTYPE html><html><head>")
                 .append("<style type=\"text/css\">").append(mStyle).append("</style>")
-                .append("</head><body>");
+                .append("</head><body>")
     }
 
-    private void appendNoticeBlock(final StringBuilder noticesHtmlBuilder, final Notice notice) {
-        noticesHtmlBuilder.append("<ul><li>").append(notice.getName());
-        final String currentNoticeUrl = notice.getUrl();
-        if (currentNoticeUrl != null && currentNoticeUrl.length() > 0) {
+    private fun appendNoticeBlock(noticesHtmlBuilder: StringBuilder, notice: Notice) {
+        noticesHtmlBuilder.append("<ul><li>").append(notice.name)
+        val currentNoticeUrl = notice.url
+        if (currentNoticeUrl != null && currentNoticeUrl.length > 0) {
             noticesHtmlBuilder.append(" (<a href=\"")
                     .append(currentNoticeUrl)
                     .append("\" target=\"_blank\">")
                     .append(currentNoticeUrl)
-                    .append("</a>)");
+                    .append("</a>)")
         }
-        noticesHtmlBuilder.append("</li></ul>");
-        noticesHtmlBuilder.append("<pre>");
-        final String copyright = notice.getCopyright();
+        noticesHtmlBuilder.append("</li></ul>")
+        noticesHtmlBuilder.append("<pre>")
+        val copyright = notice.copyright
         if (copyright != null) {
-            noticesHtmlBuilder.append(copyright).append("<br/><br/>");
+            noticesHtmlBuilder.append(copyright).append("<br/><br/>")
         }
-        noticesHtmlBuilder.append(getLicenseText(notice.getLicense())).append("</pre>");
+        noticesHtmlBuilder.append(getLicenseText(notice.license)).append("</pre>")
     }
 
-    private void appendNoticesContainerEnd(final StringBuilder noticesHtmlBuilder) {
-        noticesHtmlBuilder.append("</body></html>");
+    private fun appendNoticesContainerEnd(noticesHtmlBuilder: StringBuilder) {
+        noticesHtmlBuilder.append("</body></html>")
     }
 
-    private String getLicenseText(final License license) {
+    private fun getLicenseText(license: License?): String? {
         if (license != null) {
             if (!mLicenseTextCache.containsKey(license)) {
-                mLicenseTextCache.put(license, mShowFullLicenseText ? license.getFullText(mContext) : license.getSummaryText(mContext));
+                mLicenseTextCache[license] = if (mShowFullLicenseText) license.getFullText(mContext) else license.getSummaryText(mContext)
             }
-            return mLicenseTextCache.get(license);
+            return mLicenseTextCache[license]
         }
-        return "";
+        return ""
+    }
+
+    companion object {
+        fun create(context: Context): NoticesHtmlBuilder {
+            return NoticesHtmlBuilder(context)
+        }
+    }
+
+    init {
+        mStyle = mContext.resources.getString(R.string.notices_default_style)
+        mShowFullLicenseText = false
     }
 }

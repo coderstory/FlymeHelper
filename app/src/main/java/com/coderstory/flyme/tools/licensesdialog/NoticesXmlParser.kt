@@ -13,117 +13,115 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package com.coderstory.flyme.tools.licensesdialog
 
-package com.coderstory.flyme.tools.licensesdialog;
+import android.util.Xml
+import com.coderstory.flyme.tools.licensesdialog.licenses.License
+import com.coderstory.flyme.tools.licensesdialog.model.Notice
+import com.coderstory.flyme.tools.licensesdialog.model.Notices
+import org.xmlpull.v1.XmlPullParser
+import org.xmlpull.v1.XmlPullParserException
+import java.io.IOException
+import java.io.InputStream
 
-import android.util.Xml;
-
-import com.coderstory.flyme.tools.licensesdialog.licenses.License;
-import com.coderstory.flyme.tools.licensesdialog.model.Notice;
-import com.coderstory.flyme.tools.licensesdialog.model.Notices;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-
-public final class NoticesXmlParser {
-
-    private NoticesXmlParser() {
-    }
-
-    public static Notices parse(final InputStream inputStream) throws Exception {
-        try {
-            final XmlPullParser parser = Xml.newPullParser();
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            parser.setInput(inputStream, null);
-            parser.nextTag();
-            return parse(parser);
+object NoticesXmlParser {
+    @Throws(Exception::class)
+    fun parse(inputStream: InputStream): Notices {
+        return try {
+            val parser = Xml.newPullParser()
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
+            parser.setInput(inputStream, null)
+            parser.nextTag()
+            NoticesXmlParser.parse(parser)
         } finally {
-            inputStream.close();
+            inputStream.close()
         }
     }
 
-    private static Notices parse(final XmlPullParser parser) throws IOException, XmlPullParserException {
-        final Notices notices = new Notices();
-        parser.require(XmlPullParser.START_TAG, null, "notices");
+    @Throws(IOException::class, XmlPullParserException::class)
+    private fun parse(parser: XmlPullParser): Notices {
+        val notices = Notices()
+        parser.require(XmlPullParser.START_TAG, null, "notices")
         while (parser.next() != XmlPullParser.END_TAG) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
-                continue;
+            if (parser.eventType != XmlPullParser.START_TAG) {
+                continue
             }
-            final String name = parser.getName();
+            val name = parser.name
             // Starts by looking for the entry tag
-            if ("notice".equals(name)) {
-                notices.addNotice(readNotice(parser));
+            if ("notice" == name) {
+                notices.addNotice(NoticesXmlParser.readNotice(parser))
             } else {
-                skip(parser);
+                NoticesXmlParser.skip(parser)
             }
         }
-        return notices;
+        return notices
     }
 
-    private static Notice readNotice(final XmlPullParser parser) throws IOException,
-            XmlPullParserException {
-        parser.require(XmlPullParser.START_TAG, null, "notice");
-        String name = null;
-        String url = null;
-        String copyright = null;
-        License license = null;
+    @Throws(IOException::class, XmlPullParserException::class)
+    private fun readNotice(parser: XmlPullParser): Notice {
+        parser.require(XmlPullParser.START_TAG, null, "notice")
+        var name: String? = null
+        var url: String? = null
+        var copyright: String? = null
+        var license: License? = null
         while (parser.next() != XmlPullParser.END_TAG) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
-                continue;
+            if (parser.eventType != XmlPullParser.START_TAG) {
+                continue
             }
-            final String element = parser.getName();
-            if ("name".equals(element)) {
-                name = readName(parser);
-            } else if ("url".equals(element)) {
-                url = readUrl(parser);
-            } else if ("copyright".equals(element)) {
-                copyright = readCopyright(parser);
-            } else if ("license".equals(element)) {
-                license = readLicense(parser);
+            val element = parser.name
+            if ("name" == element) {
+                name = NoticesXmlParser.readName(parser)
+            } else if ("url" == element) {
+                url = NoticesXmlParser.readUrl(parser)
+            } else if ("copyright" == element) {
+                copyright = NoticesXmlParser.readCopyright(parser)
+            } else if ("license" == element) {
+                license = NoticesXmlParser.readLicense(parser)
             } else {
-                skip(parser);
+                NoticesXmlParser.skip(parser)
             }
         }
-        return new Notice(name, url, copyright, license);
+        return Notice(name, url, copyright, license)
     }
 
-    private static String readName(final XmlPullParser parser) throws IOException, XmlPullParserException {
-        return readTag(parser, "name");
+    @Throws(IOException::class, XmlPullParserException::class)
+    private fun readName(parser: XmlPullParser): String {
+        return NoticesXmlParser.readTag(parser, "name")
     }
 
-    private static String readUrl(final XmlPullParser parser) throws IOException, XmlPullParserException {
-        return readTag(parser, "url");
+    @Throws(IOException::class, XmlPullParserException::class)
+    private fun readUrl(parser: XmlPullParser): String {
+        return NoticesXmlParser.readTag(parser, "url")
     }
 
-    private static String readCopyright(final XmlPullParser parser) throws IOException, XmlPullParserException {
-        return readTag(parser, "copyright");
+    @Throws(IOException::class, XmlPullParserException::class)
+    private fun readCopyright(parser: XmlPullParser): String {
+        return NoticesXmlParser.readTag(parser, "copyright")
     }
 
-    private static License readLicense(final XmlPullParser parser) throws IOException, XmlPullParserException {
-        final String license = readTag(parser, "license");
-        return LicenseResolver.read(license);
+    @Throws(IOException::class, XmlPullParserException::class)
+    private fun readLicense(parser: XmlPullParser): License {
+        val license = NoticesXmlParser.readTag(parser, "license")
+        return LicenseResolver.read(license)
     }
 
-    private static String readTag(final XmlPullParser parser, final String tag) throws IOException, XmlPullParserException {
-        parser.require(XmlPullParser.START_TAG, null, tag);
-        final String title = readText(parser);
-        parser.require(XmlPullParser.END_TAG, null, tag);
-        return title;
+    @Throws(IOException::class, XmlPullParserException::class)
+    private fun readTag(parser: XmlPullParser, tag: String): String {
+        parser.require(XmlPullParser.START_TAG, null, tag)
+        val title = NoticesXmlParser.readText(parser)
+        parser.require(XmlPullParser.END_TAG, null, tag)
+        return title
     }
 
-    private static String readText(final XmlPullParser parser) throws IOException, XmlPullParserException {
-        String result = "";
+    @Throws(IOException::class, XmlPullParserException::class)
+    private fun readText(parser: XmlPullParser): String {
+        var result = ""
         if (parser.next() == XmlPullParser.TEXT) {
-            result = parser.getText();
-            parser.nextTag();
+            result = parser.text
+            parser.nextTag()
         }
-        return result;
+        return result
     }
 
-    private static void skip(final XmlPullParser parser) {
-    }
+    private fun skip(parser: XmlPullParser) {}
 }

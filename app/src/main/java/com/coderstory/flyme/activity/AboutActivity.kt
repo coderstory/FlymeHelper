@@ -1,20 +1,13 @@
-package com.coderstory.flyme.activity;
+package com.coderstory.flyme.activity
 
+import androidx.fragment.app.Fragment
+import com.coderstory.flyme.fragment.AboutFragment
 
-import androidx.fragment.app.Fragment;
-
-import com.coderstory.flyme.fragment.AboutFragment;
-
-public class AboutActivity extends ToolbarActivity {
-
-
-    @Override
-    protected Fragment setFragment() {
-        return new AboutFragment();
+class AboutActivity : ToolbarActivity() {
+    override fun setFragment(): Fragment {
+        return AboutFragment()
     }
 
-    @Override
-    protected String getToolbarTitle() {
-        return "关于";
-    }
+    override val toolbarTitle: String
+        protected get() = "关于"
 }

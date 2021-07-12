@@ -1,235 +1,232 @@
-package com.coderstory.flyme.tools;
+package com.coderstory.flyme.tools
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.*
+import android.os.*
+import com.topjohnwu.superuser.Shell
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.IOException
+import java.io.InputStream
+import java.lang.reflect.InvocationTargetException
+import java.net.HttpURLConnection
+import java.net.URL
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
-import com.topjohnwu.superuser.Shell;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-
-public class Utils {
-    private static final String TAG = "Utils";
-
-    public static int convertDpToPixel(Context context, int dp) {
-        float density = context.getResources().getDisplayMetrics().density;
-        return Math.round((float) dp * density);
-    }
-
-    private static long compareDay(String day1, String day2) {
-        try {
-            Date d1 = new SimpleDateFormat("yyyy-MM-dd").parse(day1);
-            Date d2 = new SimpleDateFormat("yyyy-MM-dd").parse(day2);
-            return (d2.getTime() - d1.getTime()) / 1000 / 60 / 60 / 24;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return 0;
+class Utils {
+    fun getSerialNumber(mContext: Context?): String? {
+        val result = Shell.su(decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " ")).exec().out
+        if (result.size == 0) {
+            return null
         }
+        if (result[0].contains("start command")) {
+            val normalDialog = AlertDialog.Builder(mContext)
+            normalDialog.setTitle("!!致命错误!!")
+            normalDialog.setMessage("检测到您手机自带的ROOT已失效!")
+            normalDialog.setPositiveButton("确定"
+            ) { dialog: DialogInterface?, which: Int -> System.exit(0) }
+            normalDialog.setCancelable(true)
+            normalDialog.show()
+        }
+        return result[0]
     }
 
-    public static boolean vi() {
-        return vp() >= 0;
-    }
+    inner class Check : Runnable {
+        var mark: String
+        var sn: String?
+        var myHandler: Handler
+        var isLogin: Int
+        var mContext: Context?
 
-    private static long vp() {
-        return compareDay(new SimpleDateFormat("yyyy-MM-dd").format(new Date()), Misc.endTime);
-    }
+        constructor(helper: SharedHelper, myHandler: Handler, mContext: Context?) {
+            mark = decodeStr(helper.getString(decode("bWFyaw=="), ""))
+            sn = getSerialNumber(mContext)
+            this.myHandler = myHandler
+            isLogin = 0
+            this.mContext = mContext
+        }
 
-    public static SharedPreferences getMySharedPreferences(Context context, String dir, String fileName) {
-        SharedPreferences result;
-        try {
-            result = context.getSharedPreferences(fileName, Context.MODE_WORLD_READABLE);
-        } catch (SecurityException e) {
+        constructor(mark: String, myHandler: Handler, mContext: Context?) {
+            this.mark = mark
+            sn = getSerialNumber(mContext)
+            this.myHandler = myHandler
+            isLogin = 1
+            this.mContext = mContext
+        }
 
+        override fun run() {
+            val path = Misc.searchApi
             try {
-                // 获取 ContextWrapper对象中的mBase变量。该变量保存了 ContextImpl 对象
-                Field field_mBase = ContextWrapper.class.getDeclaredField("mBase");
-                field_mBase.setAccessible(true);
-                // 获取 mBase变量
-                Object obj_mBase = field_mBase.get(context);
-                // 获取 ContextImpl。mPreferencesDir变量，该变量保存了数据文件的保存路径
-                Field field_mPreferencesDir = obj_mBase.getClass().getDeclaredField("mPreferencesDir");
-                field_mPreferencesDir.setAccessible(true);
-                // 创建自定义路径
-                //  String FILE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()+"/Android";
-                File file = new File(dir);
-                // 修改mPreferencesDir变量的值
-                field_mPreferencesDir.set(obj_mBase, file);
-                // 返回修改路径以后的 SharedPreferences :%FILE_PATH%/%fileName%.xml
-                //Log.e(TAG, "getMySharedPreferences filep=" + file.getAbsolutePath() + "| fileName=" + fileName);
-                return context.getSharedPreferences(fileName, Activity.MODE_PRIVATE);
-            } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException f) {
-                f.printStackTrace();
-            }
-            //Log.e(TAG, "getMySharedPreferences end filename=" + fileName);
-            // 返回默认路径下的 SharedPreferences : /data/data/%package_name%/shared_prefs/%fileName%.xml
-            result = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
-        }
-        return result;
-    }
-
-    public static boolean check(SharedHelper helper) {
-        return !helper.getString(Utils.decode("bWFyaw=="), "").equals("");
-    }
-
-    public static String decode(String base64) {
-        try {
-            Class clazz = Class.forName("android.util.Base64");
-            Method method = clazz.getDeclaredMethod("decode", String.class, int.class);
-
-            return new String((byte[]) method.invoke(null, base64, 0));
-
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
-    public static String encodeStr(String data) {
-        //把字符串转为字节数组
-        byte[] b = data.getBytes();
-        //遍历
-        for (int i = 0; i < b.length; i++) {
-            b[i] += 1;//在原有的基础上+1
-        }
-        return new String(b);
-    }
-
-    public static String decodeStr(String data) {
-        //把字符串转为字节数组
-        byte[] b = data.getBytes();
-        //遍历
-        for (int i = 0; i < b.length; i++) {
-            b[i] -= 1;//在原有的基础上-1
-        }
-        return new String(b);
-    }
-
-    public String getSerialNumber(Context mContext) {
-        List<String> result = Shell.su(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " ")).exec().getOut();
-        if (result.size() == 0) {
-            return null;
-        }
-        if (result.get(0).contains("start command")) {
-            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(mContext);
-            normalDialog.setTitle("!!致命错误!!");
-            normalDialog.setMessage("检测到您手机自带的ROOT已失效!");
-            normalDialog.setPositiveButton("确定",
-                    (dialog, which) -> System.exit(0));
-            normalDialog.setCancelable(true);
-            normalDialog.show();
-        }
-        return result.get(0);
-    }
-
-    public class Check implements Runnable {
-        String mark;
-        String sn;
-        Handler myHandler;
-        int isLogin;
-        Context mContext;
-
-        public Check(SharedHelper helper, Handler myHandler, Context mContext) {
-            this.mark = Utils.decodeStr(helper.getString(Utils.decode("bWFyaw=="), ""));
-            this.sn = getSerialNumber(mContext);
-            this.myHandler = myHandler;
-            this.isLogin = 0;
-            this.mContext = mContext;
-        }
-
-        public Check(String mark, Handler myHandler, Context mContext) {
-            this.mark = mark;
-            this.sn = getSerialNumber(mContext);
-            this.myHandler = myHandler;
-            this.isLogin = 1;
-            this.mContext = mContext;
-        }
-
-        @Override
-        public void run() {
-            String path = Misc.searchApi;
-            try {
-                URL url = new URL(path);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setConnectTimeout(5000);
-                connection.setRequestMethod("POST");
+                val url = URL(path)
+                val connection = url.openConnection() as HttpURLConnection
+                connection.connectTimeout = 5000
+                connection.requestMethod = "POST"
 
                 //数据准备
-                String data = "{\n" +
-                        "    \"" + Utils.decode("UVE=") + "\": \"" + mark + "\",\n" +
-                        "    \"" + Utils.decode("c24=") + "\": \"" + sn + "\",\n" +
-                        "    \"isLogin\": " + isLogin + "\n" +
-                        "}";
+                val data = """{
+    "${decode("UVE=")}": "$mark",
+    "${decode("c24=")}": "$sn",
+    "isLogin": $isLogin
+}"""
                 //至少要设置的两个请求头
-                connection.setRequestProperty("Content-Type", "application/json");
-                connection.setRequestProperty("Content-Length", data.length() + "");
+                connection.setRequestProperty("Content-Type", "application/json")
+                connection.setRequestProperty("Content-Length", data.length.toString() + "")
 
                 //post的方式提交实际上是留的方式提交给服务器
-                connection.setDoOutput(true);
-                OutputStream outputStream = connection.getOutputStream();
-                outputStream.write(data.getBytes());
+                connection.doOutput = true
+                val outputStream = connection.outputStream
+                outputStream.write(data.toByteArray())
 
                 //获得结果码
-                int responseCode = connection.getResponseCode();
+                val responseCode = connection.responseCode
                 if (responseCode == 200) {
                     //请求成功
-                    InputStream is = connection.getInputStream();
-
-                    Message msg = new Message();
-                    msg.arg1 = 4;
-                    Bundle data2 = new Bundle();
-                    data2.putString("value", dealResponseResult(is));
-                    data2.putString(Utils.decode("bWFyaw=="), mark);
-                    data2.putString("sn", sn);
-                    msg.setData(data2);
-                    myHandler.sendMessage(msg);
+                    val `is` = connection.inputStream
+                    val msg = Message()
+                    msg.arg1 = 4
+                    val data2 = Bundle()
+                    data2.putString("value", dealResponseResult(`is`))
+                    data2.putString(decode("bWFyaw=="), mark)
+                    data2.putString("sn", sn)
+                    msg.data = data2
+                    myHandler.sendMessage(msg)
                 } else {
-                    Message msg = new Message();
-                    msg.arg1 = 5;
-                    myHandler.sendMessage(msg);
+                    val msg = Message()
+                    msg.arg1 = 5
+                    myHandler.sendMessage(msg)
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-                Message msg = new Message();
-                msg.arg1 = 5;
-                myHandler.sendMessage(msg);
+            } catch (e: IOException) {
+                e.printStackTrace()
+                val msg = Message()
+                msg.arg1 = 5
+                myHandler.sendMessage(msg)
             }
         }
 
-        public String dealResponseResult(InputStream inputStream) {
-            String resultData;      //存储处理结果
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            byte[] data = new byte[1024];
-            int len;
+        fun dealResponseResult(inputStream: InputStream): String {
+            val resultData: String //存储处理结果
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            val data = ByteArray(1024)
+            var len: Int
             try {
-                while ((len = inputStream.read(data)) != -1) {
-                    byteArrayOutputStream.write(data, 0, len);
+                while (inputStream.read(data).also { len = it } != -1) {
+                    byteArrayOutputStream.write(data, 0, len)
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
-            resultData = new String(byteArrayOutputStream.toByteArray());
-            return resultData;
+            resultData = String(byteArrayOutputStream.toByteArray())
+            return resultData
         }
     }
 
+    companion object {
+        private const val TAG = "Utils"
+        fun convertDpToPixel(context: Context, dp: Int): Int {
+            val density = context.resources.displayMetrics.density
+            return Math.round(dp.toFloat() * density)
+        }
+
+        private fun compareDay(day1: String, day2: String): Long {
+            return try {
+                val d1 = SimpleDateFormat("yyyy-MM-dd").parse(day1)
+                val d2 = SimpleDateFormat("yyyy-MM-dd").parse(day2)
+                (d2.time - d1.time) / 1000 / 60 / 60 / 24
+            } catch (e: ParseException) {
+                e.printStackTrace()
+                0
+            }
+        }
+
+        fun vi(): Boolean {
+            return vp() >= 0
+        }
+
+        private fun vp(): Long {
+            return compareDay(SimpleDateFormat("yyyy-MM-dd").format(Date()), Misc.endTime)
+        }
+
+        fun getMySharedPreferences(context: Context?, dir: String?, fileName: String?): SharedPreferences {
+            var result: SharedPreferences
+            try {
+                result = context!!.getSharedPreferences(fileName, Context.MODE_WORLD_READABLE)
+            } catch (e: SecurityException) {
+                try {
+                    // 获取 ContextWrapper对象中的mBase变量。该变量保存了 ContextImpl 对象
+                    val field_mBase = ContextWrapper::class.java.getDeclaredField("mBase")
+                    field_mBase.isAccessible = true
+                    // 获取 mBase变量
+                    val obj_mBase = field_mBase[context]
+                    // 获取 ContextImpl。mPreferencesDir变量，该变量保存了数据文件的保存路径
+                    val field_mPreferencesDir = obj_mBase.javaClass.getDeclaredField("mPreferencesDir")
+                    field_mPreferencesDir.isAccessible = true
+                    // 创建自定义路径
+                    //  String FILE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()+"/Android";
+                    val file = File(dir)
+                    // 修改mPreferencesDir变量的值
+                    field_mPreferencesDir[obj_mBase] = file
+                    // 返回修改路径以后的 SharedPreferences :%FILE_PATH%/%fileName%.xml
+                    //Log.e(TAG, "getMySharedPreferences filep=" + file.getAbsolutePath() + "| fileName=" + fileName);
+                    return context!!.getSharedPreferences(fileName, Activity.MODE_PRIVATE)
+                } catch (f: NoSuchFieldException) {
+                    f.printStackTrace()
+                } catch (f: IllegalArgumentException) {
+                    f.printStackTrace()
+                } catch (f: IllegalAccessException) {
+                    f.printStackTrace()
+                }
+                //Log.e(TAG, "getMySharedPreferences end filename=" + fileName);
+                // 返回默认路径下的 SharedPreferences : /data/data/%package_name%/shared_prefs/%fileName%.xml
+                result = context!!.getSharedPreferences(fileName, Context.MODE_PRIVATE)
+            }
+            return result
+        }
+
+        fun check(helper: SharedHelper?): Boolean {
+            return helper!!.getString(decode("bWFyaw=="), "") != ""
+        }
+
+        fun decode(base64: String?): String {
+            return try {
+                val clazz = Class.forName("android.util.Base64")
+                val method = clazz.getDeclaredMethod("decode", String::class.java, Int::class.javaPrimitiveType)
+                String((method.invoke(null, base64, 0) as ByteArray))
+            } catch (e: ClassNotFoundException) {
+                e.printStackTrace()
+                ""
+            } catch (e: NoSuchMethodException) {
+                e.printStackTrace()
+                ""
+            } catch (e: IllegalAccessException) {
+                e.printStackTrace()
+                ""
+            } catch (e: InvocationTargetException) {
+                e.printStackTrace()
+                ""
+            }
+        }
+
+        fun encodeStr(data: String): String {
+            //把字符串转为字节数组
+            val b = data.toByteArray()
+            //遍历
+            for (i in b.indices) {
+                (b[i] += 1).toByte() //在原有的基础上+1
+            }
+            return String(b)
+        }
+
+        fun decodeStr(data: String): String {
+            //把字符串转为字节数组
+            val b = data.toByteArray()
+            //遍历
+            for (i in b.indices) {
+                (b[i] -= 1).toByte() //在原有的基础上-1
+            }
+            return String(b)
+        }
+    }
 }

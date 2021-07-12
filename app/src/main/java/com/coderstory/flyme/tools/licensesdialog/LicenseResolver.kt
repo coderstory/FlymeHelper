@@ -13,33 +13,20 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package com.coderstory.flyme.tools.licensesdialog
 
-package com.coderstory.flyme.tools.licensesdialog;
+import com.coderstory.flyme.tools.licensesdialog.licenses.ApacheSoftwareLicense20
+import com.coderstory.flyme.tools.licensesdialog.licenses.GnuGeneralPublicLicense20
+import com.coderstory.flyme.tools.licensesdialog.licenses.License
+import java.util.*
 
-
-import com.coderstory.flyme.tools.licensesdialog.licenses.ApacheSoftwareLicense20;
-import com.coderstory.flyme.tools.licensesdialog.licenses.GnuGeneralPublicLicense20;
-import com.coderstory.flyme.tools.licensesdialog.licenses.License;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public final class LicenseResolver {
-
-    private static final int INITIAL_LICENSES_COUNT = 4;
-    private static final Map<String, License> sLicenses = new HashMap<String, License>(INITIAL_LICENSES_COUNT);
-
-    static {
-        registerDefaultLicenses();
-    }
-
-    private LicenseResolver() {
-    }
-
-    static void registerDefaultLicenses() {
-        sLicenses.clear();
-        registerLicense(new ApacheSoftwareLicense20());
-        registerLicense(new GnuGeneralPublicLicense20());
+object LicenseResolver {
+    private const val INITIAL_LICENSES_COUNT = 4
+    private val sLicenses: Map<String, License> = HashMap(LicenseResolver.INITIAL_LICENSES_COUNT)
+    fun registerDefaultLicenses() {
+        LicenseResolver.sLicenses.clear()
+        LicenseResolver.registerLicense(ApacheSoftwareLicense20())
+        LicenseResolver.registerLicense(GnuGeneralPublicLicense20())
     }
 
     /**
@@ -47,8 +34,8 @@ public final class LicenseResolver {
      *
      * @param license the license to register
      */
-    public static void registerLicense(final License license) {
-        sLicenses.put(license.getName(), license);
+    fun registerLicense(license: License) {
+        LicenseResolver.sLicenses[license.name] = license
     }
 
     /**
@@ -58,12 +45,16 @@ public final class LicenseResolver {
      * @return License
      * @throws IllegalStateException when unknown license is requested
      */
-    public static License read(final String license) {
-        final String trimmedLicense = license.trim();
-        if (sLicenses.containsKey(trimmedLicense)) {
-            return sLicenses.get(trimmedLicense);
+    fun read(license: String): License? {
+        val trimmedLicense = license.trim { it <= ' ' }
+        return if (LicenseResolver.sLicenses.containsKey(trimmedLicense)) {
+            LicenseResolver.sLicenses[trimmedLicense]
         } else {
-            throw new IllegalStateException(String.format("no such license available: %s, did you forget to register it?", trimmedLicense));
+            throw IllegalStateException(String.format("no such license available: %s, did you forget to register it?", trimmedLicense))
         }
+    }
+
+    init {
+        LicenseResolver.registerDefaultLicenses()
     }
 }

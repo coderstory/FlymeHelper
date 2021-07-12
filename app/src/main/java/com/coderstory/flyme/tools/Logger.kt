@@ -1,33 +1,29 @@
-package com.coderstory.flyme.tools;
+package com.coderstory.flyme.tools
+
+import android.util.Log
+
 /*
  * Logger
  *
  * @author lateautumn4lin
  * @github https://github.com/lateautumn4lin
  * @date 2020/9/10 13:54
- */
-
-import android.util.Log;
-
-/**
+ */ /**
  * The type Logger.
  */
-public class Logger {
+object Logger {
     /**
      * The constant TAG.
      */
-    public static final String TAG = "flyme";
-
-    private Logger() {
-    }
+    const val TAG = "flyme"
 
     /**
      * Logi.
      *
      * @param msg the msg
      */
-    public static void logi(String msg) {
-        Log.i(TAG, msg);
+    fun logi(msg: String?) {
+        Log.i(Logger.TAG, msg)
     }
 
     /**
@@ -35,8 +31,8 @@ public class Logger {
      *
      * @param msg the msg
      */
-    public static void loge(String msg) {
-        Log.e(TAG, msg);
+    fun loge(msg: String?) {
+        Log.e(Logger.TAG, msg)
     }
 
     /**
@@ -44,8 +40,8 @@ public class Logger {
      *
      * @param msg the msg
      */
-    public static void logw(String msg) {
-        Log.w(TAG, msg);
+    fun logw(msg: String?) {
+        Log.w(Logger.TAG, msg)
     }
 
     /**
@@ -53,8 +49,8 @@ public class Logger {
      *
      * @param msg the msg
      */
-    public static void logd(String msg) {
-        Log.d(TAG, msg);
+    fun logd(msg: String?) {
+        Log.d(Logger.TAG, msg)
     }
 
     /**
@@ -62,9 +58,7 @@ public class Logger {
      *
      * @param msg the msg
      */
-    public static void logv(String msg) {
-        Log.v(TAG, msg);
+    fun logv(msg: String?) {
+        Log.v(Logger.TAG, msg)
     }
-
-
 }

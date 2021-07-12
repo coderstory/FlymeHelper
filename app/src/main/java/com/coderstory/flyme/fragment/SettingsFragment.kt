@@ -1,59 +1,48 @@
-package com.coderstory.flyme.fragment;
+package com.coderstory.flyme.fragment
 
 
-import android.content.ComponentName;
-import android.content.pm.PackageManager;
+import android.content.ComponentName
+import android.content.pm.PackageManager
+import android.view.View
+import androidx.appcompat.widget.SwitchCompat
+import com.coderstory.flyme.R
+import com.coderstory.flyme.fragment.base.BaseFragment
 
-import com.coderstory.flyme.R;
-import com.coderstory.flyme.fragment.base.BaseFragment;
-
-
-public class SettingsFragment extends BaseFragment {
-    public SettingsFragment() {
-    }
-
-    @Override
-    protected void setUpView() {
-
-        $(R.id.enableCheck).setOnClickListener(v -> {
-            getEditor().putBoolean("enableCheck", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-
-        $(R.id.enableUpdate).setOnClickListener(v -> {
-            getEditor().putBoolean("enableUpdate", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-
-        $(R.id.hideicon).setOnClickListener(v -> {
-            getEditor().putBoolean("hideIcon", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-
-            ComponentName localComponentName = new ComponentName(getMContext(), "com.coderstory.flyme.activity.SplashActivity");
-            PackageManager localPackageManager = getMContext().getPackageManager();
-            localPackageManager.getComponentEnabledSetting(localComponentName);
-            PackageManager packageManager = getMContext().getPackageManager();
-            ComponentName componentName = new ComponentName(getMContext(), "com.coderstory.flyme.activity.SplashActivity");
-
-            if (((androidx.appcompat.widget.SwitchCompat) v).isChecked()) {
+class SettingsFragment : BaseFragment() {
+    override fun setUpView() {
+        `$`<View>(R.id.enableCheck).setOnClickListener { v: View ->
+            editor.putBoolean("enableCheck", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.enableUpdate).setOnClickListener { v: View ->
+            editor.putBoolean("enableUpdate", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hideicon).setOnClickListener { v: View ->
+            editor.putBoolean("hideIcon", (v as SwitchCompat).isChecked)
+            fix()
+            val localComponentName = ComponentName(mContext, "com.coderstory.flyme.activity.SplashActivity")
+            val localPackageManager = mContext.packageManager
+            localPackageManager.getComponentEnabledSetting(localComponentName)
+            val packageManager = mContext.packageManager
+            val componentName = ComponentName(mContext, "com.coderstory.flyme.activity.SplashActivity")
+            if (v.isChecked) {
                 packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                        PackageManager.DONT_KILL_APP);
+                        PackageManager.DONT_KILL_APP)
             } else {
                 packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
-                        PackageManager.DONT_KILL_APP);
+                        PackageManager.DONT_KILL_APP)
             }
-        });
+        }
     }
 
-    @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_settings;
+    override fun setLayoutResourceID(): Int {
+        return R.layout.fragment_settings
     }
 
-    @Override
-    protected void setUpData() {
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableCheck)).setChecked(getPrefs().getBoolean("enableCheck", true));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.hideicon)).setChecked(getPrefs().getBoolean("hideIcon", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableUpdate)).setChecked(getPrefs().getBoolean("enableUpdate", true));
+    override fun setUpData() {
+        (`$`<View>(R.id.enableCheck) as SwitchCompat).isChecked = prefs.getBoolean("enableCheck", true)
+        (`$`<View>(R.id.hideicon) as SwitchCompat).isChecked = prefs.getBoolean("hideIcon", false)
+        (`$`<View>(R.id.enableUpdate) as SwitchCompat).isChecked = prefs.getBoolean("enableUpdate", true)
     }
 }

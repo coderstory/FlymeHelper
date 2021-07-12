@@ -1,40 +1,36 @@
-package com.coderstory.flyme.preferences;
+package com.coderstory.flyme.preferences
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
 
-import com.coderstory.flyme.tools.Misc;
-import com.coderstory.flyme.tools.Utils;
-
-import static com.coderstory.flyme.tools.Misc.ApplicationName;
+import android.content.*
+import android.util.Log
+import com.coderstory.flyme.tools.*
 
 /**
  * PreferencesUtils, easy to get or put data
- * <ul>
- * <strong>Preference Name</strong>
- * <li>you can change preference name by {@link #}</li>
- * </ul>
- * <ul>
- * <strong>Put Value</strong>
- * <li>put string {@link #putString(Context, String, String, String)}</li>
- * <li>put int {@link #putInt(Context, String, String, int)}</li>
- * <li>put long {@link #putLong(Context, String, String, long)}</li>
- * <li>put float {@link #putFloat(Context, String, String, float)}</li>
- * <li>put boolean {@link #putBoolean(Context, String, String, boolean)}</li>
- * </ul>
- * <ul>
- * <strong>Get Value</strong>
- * <li>get string {@link #getString(Context, String, String)}, {@link #getString(Context, String, String)}</li>
- * <li>get int {@link #getInt(Context, String, String)}, {@link #getInt(Context, String, String, int)}</li>
- * <li>get long {@link #getLong(Context, String, String)}, {@link #getLong(Context, String, String, long)}</li>
- * <li>get float {@link #getFloat(Context, String, String)}, {@link #getFloat(Context, String, String, float)}</li>
- * <li>get boolean {@link #getBoolean(Context, String, String)}, {@link #getBoolean(Context, String, String, boolean)}</li>
- * </ul>
  *
- * @author <a href="http://www.trinea.cn" target="_blank">Trinea</a> 2013-3-6
+ * **Preference Name**
+ *  * you can change preference name by [.]
+ *
+ *
+ * **Put Value**
+ *  * put string [.putString]
+ *  * put int [.putInt]
+ *  * put long [.putLong]
+ *  * put float [.putFloat]
+ *  * put boolean [.putBoolean]
+ *
+ *
+ * **Get Value**
+ *  * get string [.getString], [.getString]
+ *  * get int [.getInt], [.getInt]
+ *  * get long [.getLong], [.getLong]
+ *  * get float [.getFloat], [.getFloat]
+ *  * get boolean [.getBoolean], [.getBoolean]
+ *
+ *
+ * @author [Trinea](http://www.trinea.cn) 2013-3-6
  */
-public class PreferencesUtils {
+object PreferencesUtils {
     /**
      * put string preferences
      *
@@ -43,19 +39,19 @@ public class PreferencesUtils {
      * @param value   The new value for the preference
      * @return True if the new values were successfully written to persistent storage.
      */
-    public static boolean putString(Context context, String spName, String key, String value) {
-        SharedPreferences settings = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
-        SharedPreferences.Editor editor = settings.edit();
-        Log.e(key, value);
-        editor.putString(key, value);
-        return editor.commit();
+    fun putString(context: Context?, spName: String?, key: String?, value: String?): Boolean {
+        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val editor = settings.edit()
+        Log.e(key, value)
+        editor.putString(key, value)
+        return editor.commit()
     }
 
-    public static boolean remove(Context context, String spName, String key) {
-        SharedPreferences settings = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.remove(key);
-        return editor.commit();
+    fun remove(context: Context?, spName: String?, key: String?): Boolean {
+        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val editor = settings.edit()
+        editor.remove(key)
+        return editor.commit()
     }
 
     /**
@@ -65,10 +61,10 @@ public class PreferencesUtils {
      * @param key     The name of the preference to retrieve
      * @return The preference value if it exists, or null. Throws ClassCastException if there is a preference with this
      * name that is not a string
-     * @see #getString(Context, String, String)
+     * @see .getString
      */
-    public static String getString(Context context, String spName, String key) {
-        return getString(context, spName, key, null);
+    fun getString(context: Context?, spName: String?, key: String?): String {
+        return PreferencesUtils.getString(context, spName, key, null)
     }
 
     /**
@@ -80,9 +76,9 @@ public class PreferencesUtils {
      * @return The preference value if it exists, or defValue. Throws ClassCastException if there is a preference with
      * this name that is not a string
      */
-    public static String getString(Context context, String spName, String key, String defaultValue) {
-        SharedPreferences settings = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
-        return settings.getString(key, defaultValue);
+    fun getString(context: Context?, spName: String?, key: String?, defaultValue: String?): String? {
+        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        return settings.getString(key, defaultValue)
     }
 
     /**
@@ -93,11 +89,11 @@ public class PreferencesUtils {
      * @param value   The new value for the preference
      * @return True if the new values were successfully written to persistent storage.
      */
-    public static boolean putInt(Context context, String spName, String key, int value) {
-        SharedPreferences settings = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putInt(key, value);
-        return editor.commit();
+    fun putInt(context: Context?, spName: String?, key: String?, value: Int): Boolean {
+        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val editor = settings.edit()
+        editor.putInt(key, value)
+        return editor.commit()
     }
 
     /**
@@ -107,10 +103,10 @@ public class PreferencesUtils {
      * @param key     The name of the preference to retrieve
      * @return The preference value if it exists, or -1. Throws ClassCastException if there is a preference with this
      * name that is not a int
-     * @see #getInt(Context, String, String, int)
+     * @see .getInt
      */
-    public static int getInt(Context context, String spName, String key) {
-        return getInt(context, spName, key, -1);
+    fun getInt(context: Context?, spName: String?, key: String?): Int {
+        return PreferencesUtils.getInt(context, spName, key, -1)
     }
 
     /**
@@ -122,9 +118,9 @@ public class PreferencesUtils {
      * @return The preference value if it exists, or defValue. Throws ClassCastException if there is a preference with
      * this name that is not a int
      */
-    public static int getInt(Context context, String spName, String key, int defaultValue) {
-        SharedPreferences settings = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
-        return settings.getInt(key, defaultValue);
+    fun getInt(context: Context?, spName: String?, key: String?, defaultValue: Int): Int {
+        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        return settings.getInt(key, defaultValue)
     }
 
     /**
@@ -135,11 +131,11 @@ public class PreferencesUtils {
      * @param value   The new value for the preference
      * @return True if the new values were successfully written to persistent storage.
      */
-    public static boolean putLong(Context context, String spName, String key, long value) {
-        SharedPreferences settings = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putLong(key, value);
-        return editor.commit();
+    fun putLong(context: Context?, spName: String?, key: String?, value: Long): Boolean {
+        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val editor = settings.edit()
+        editor.putLong(key, value)
+        return editor.commit()
     }
 
     /**
@@ -149,10 +145,10 @@ public class PreferencesUtils {
      * @param key     The name of the preference to retrieve
      * @return The preference value if it exists, or -1. Throws ClassCastException if there is a preference with this
      * name that is not a long
-     * @see #getLong(Context, String, String, long)
+     * @see .getLong
      */
-    public static long getLong(Context context, String spName, String key) {
-        return getLong(context, spName, key, -1);
+    fun getLong(context: Context?, spName: String?, key: String?): Long {
+        return PreferencesUtils.getLong(context, spName, key, -1)
     }
 
     /**
@@ -164,9 +160,9 @@ public class PreferencesUtils {
      * @return The preference value if it exists, or defValue. Throws ClassCastException if there is a preference with
      * this name that is not a long
      */
-    public static long getLong(Context context, String spName, String key, long defaultValue) {
-        SharedPreferences settings = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
-        return settings.getLong(key, defaultValue);
+    fun getLong(context: Context?, spName: String?, key: String?, defaultValue: Long): Long {
+        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        return settings.getLong(key, defaultValue)
     }
 
     /**
@@ -177,11 +173,11 @@ public class PreferencesUtils {
      * @param value   The new value for the preference
      * @return True if the new values were successfully written to persistent storage.
      */
-    public static boolean putFloat(Context context, String spName, String key, float value) {
-        SharedPreferences settings = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putFloat(key, value);
-        return editor.commit();
+    fun putFloat(context: Context?, spName: String?, key: String?, value: Float): Boolean {
+        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val editor = settings.edit()
+        editor.putFloat(key, value)
+        return editor.commit()
     }
 
     /**
@@ -189,10 +185,9 @@ public class PreferencesUtils {
      * @param spName
      * @return
      */
-    public static SharedPreferences.Editor getEditor(Context context, String spName) {
-        SharedPreferences settings = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
-        SharedPreferences.Editor editor = settings.edit();
-        return editor;
+    fun getEditor(context: Context?, spName: String?): SharedPreferences.Editor {
+        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        return settings.edit()
     }
 
     /**
@@ -202,10 +197,10 @@ public class PreferencesUtils {
      * @param key     The name of the preference to retrieve
      * @return The preference value if it exists, or -1. Throws ClassCastException if there is a preference with this
      * name that is not a float
-     * @see #getFloat(Context, String, String, float)
+     * @see .getFloat
      */
-    public static float getFloat(Context context, String spName, String key) {
-        return getFloat(context, spName, key, -1);
+    fun getFloat(context: Context?, spName: String?, key: String?): Float {
+        return PreferencesUtils.getFloat(context, spName, key, -1f)
     }
 
     /**
@@ -217,9 +212,9 @@ public class PreferencesUtils {
      * @return The preference value if it exists, or defValue. Throws ClassCastException if there is a preference with
      * this name that is not a float
      */
-    public static float getFloat(Context context, String spName, String key, float defaultValue) {
-        SharedPreferences settings = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
-        return settings.getFloat(key, defaultValue);
+    fun getFloat(context: Context?, spName: String?, key: String?, defaultValue: Float): Float {
+        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        return settings.getFloat(key, defaultValue)
     }
 
     /**
@@ -230,11 +225,11 @@ public class PreferencesUtils {
      * @param value   The new value for the preference
      * @return True if the new values were successfully written to persistent storage.
      */
-    public static boolean putBoolean(Context context, String spName, String key, boolean value) {
-        SharedPreferences settings = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putBoolean(key, value);
-        return editor.commit();
+    fun putBoolean(context: Context?, spName: String?, key: String?, value: Boolean): Boolean {
+        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val editor = settings.edit()
+        editor.putBoolean(key, value)
+        return editor.commit()
     }
 
     /**
@@ -244,10 +239,10 @@ public class PreferencesUtils {
      * @param key     The name of the preference to retrieve
      * @return The preference value if it exists, or false. Throws ClassCastException if there is a preference with this
      * name that is not a boolean
-     * @see #getBoolean(Context, String, String, boolean)
+     * @see .getBoolean
      */
-    public static boolean getBoolean(Context context, String spName, String key) {
-        return getBoolean(context, spName, key, false);
+    fun getBoolean(context: Context?, spName: String?, key: String?): Boolean {
+        return PreferencesUtils.getBoolean(context, spName, key, false)
     }
 
     /**
@@ -259,9 +254,8 @@ public class PreferencesUtils {
      * @return The preference value if it exists, or defValue. Throws ClassCastException if there is a preference with
      * this name that is not a boolean
      */
-    public static boolean getBoolean(Context context, String spName, String key, boolean defaultValue) {
-        SharedPreferences settings = Utils.getMySharedPreferences(context, "/data/user_de/0/" + ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName);
-        return settings.getBoolean(key, defaultValue);
+    fun getBoolean(context: Context?, spName: String?, key: String?, defaultValue: Boolean): Boolean {
+        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        return settings.getBoolean(key, defaultValue)
     }
-
 }

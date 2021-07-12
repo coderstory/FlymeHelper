@@ -1,227 +1,195 @@
-package com.coderstory.flyme.fragment;
+package com.coderstory.flyme.fragment
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Looper;
+import android.annotation.SuppressLint
+import android.app.Dialog
+import android.app.ProgressDialog
+import android.content.Context
+import android.os.AsyncTask
+import android.os.Looper
+import android.view.View
+import androidx.appcompat.widget.SwitchCompat
+import com.coderstory.flyme.R
+import com.coderstory.flyme.fragment.base.BaseFragment
+import com.coderstory.flyme.tools.Misc
+import com.coderstory.flyme.tools.hostshelper.FileHelper
+import com.topjohnwu.superuser.Shell
+import java.io.*
 
-import com.coderstory.flyme.R;
-import com.coderstory.flyme.fragment.base.BaseFragment;
-import com.coderstory.flyme.tools.hostshelper.FileHelper;
-import com.topjohnwu.superuser.Shell;
-
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-
-import static com.coderstory.flyme.tools.Misc.HostFileTmpName;
-
-
-public class HostsFragment extends BaseFragment {
-
-    private Dialog dialog;
-
-    @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_hosts;
+class HostsFragment : BaseFragment() {
+    private var dialog: Dialog? = null
+    override fun setLayoutResourceID(): Int {
+        return R.layout.fragment_hosts
     }
 
-    @Override
-    protected void setUpView() {
-
-        $(R.id.enableHosts).setOnClickListener(v -> {
-            getEditor().putBoolean("enableHosts", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            getEditor().commit();
-            sudoFixPermissions();
-            setCheck(((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            new MyTask().execute();
-        });
-
-        $(R.id.enableMIUIHosts).setOnClickListener(v -> {
-            getEditor().putBoolean("enableMIUIHosts", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            getEditor().commit();
-            sudoFixPermissions();
-            new MyTask().execute();
-        });
-
-        $(R.id.enableBlockAdsHosts).setOnClickListener(v -> {
-            getEditor().putBoolean("enableBlockAdsHosts", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            getEditor().commit();
-            sudoFixPermissions();
-            new MyTask().execute();
-        });
-        $(R.id.enableGoogleHosts).setOnClickListener(v -> {
-            getEditor().putBoolean("enableGoogleHosts", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            getEditor().commit();
-            sudoFixPermissions();
-            new MyTask().execute();
-        });
-
-        $(R.id.enableStore).setOnClickListener(v -> {
-            getEditor().putBoolean("enableStore", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            getEditor().commit();
-            sudoFixPermissions();
-            new MyTask().execute();
-        });
-        $(R.id.enableupdater).setOnClickListener(v -> {
-            getEditor().putBoolean("enableUpdater", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            getEditor().commit();
-            sudoFixPermissions();
-            new MyTask().execute();
-        });
+    override fun setUpView() {
+        `$`<View>(R.id.enableHosts).setOnClickListener { v: View ->
+            editor.putBoolean("enableHosts", (v as SwitchCompat).isChecked)
+            editor.commit()
+            sudoFixPermissions()
+            setCheck(v.isChecked)
+            MyTask().execute()
+        }
+        `$`<View>(R.id.enableMIUIHosts).setOnClickListener { v: View ->
+            editor.putBoolean("enableMIUIHosts", (v as SwitchCompat).isChecked)
+            editor.commit()
+            sudoFixPermissions()
+            MyTask().execute()
+        }
+        `$`<View>(R.id.enableBlockAdsHosts).setOnClickListener { v: View ->
+            editor.putBoolean("enableBlockAdsHosts", (v as SwitchCompat).isChecked)
+            editor.commit()
+            sudoFixPermissions()
+            MyTask().execute()
+        }
+        `$`<View>(R.id.enableGoogleHosts).setOnClickListener { v: View ->
+            editor.putBoolean("enableGoogleHosts", (v as SwitchCompat).isChecked)
+            editor.commit()
+            sudoFixPermissions()
+            MyTask().execute()
+        }
+        `$`<View>(R.id.enableStore).setOnClickListener { v: View ->
+            editor.putBoolean("enableStore", (v as SwitchCompat).isChecked)
+            editor.commit()
+            sudoFixPermissions()
+            MyTask().execute()
+        }
+        `$`<View>(R.id.enableupdater).setOnClickListener { v: View ->
+            editor.putBoolean("enableUpdater", (v as SwitchCompat).isChecked)
+            editor.commit()
+            sudoFixPermissions()
+            MyTask().execute()
+        }
     }
 
-    @Override
-    protected void setUpData() {
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableHosts)).setChecked(getPrefs().getBoolean("enableHosts", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableMIUIHosts)).setChecked(getPrefs().getBoolean("enableMIUIHosts", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableBlockAdsHosts)).setChecked(getPrefs().getBoolean("enableBlockAdsHosts", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableGoogleHosts)).setChecked(getPrefs().getBoolean("enableGoogleHosts", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableStore)).setChecked(getPrefs().getBoolean("enableStore", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableupdater)).setChecked(getPrefs().getBoolean("enableUpdater", false));
-        setCheck(getPrefs().getBoolean("enableHosts", false));
+    override fun setUpData() {
+        (`$`<View>(R.id.enableHosts) as SwitchCompat).isChecked = prefs.getBoolean("enableHosts", false)
+        (`$`<View>(R.id.enableMIUIHosts) as SwitchCompat).isChecked = prefs.getBoolean("enableMIUIHosts", false)
+        (`$`<View>(R.id.enableBlockAdsHosts) as SwitchCompat).isChecked = prefs.getBoolean("enableBlockAdsHosts", false)
+        (`$`<View>(R.id.enableGoogleHosts) as SwitchCompat).isChecked = prefs.getBoolean("enableGoogleHosts", false)
+        (`$`<View>(R.id.enableStore) as SwitchCompat).isChecked = prefs.getBoolean("enableStore", false)
+        (`$`<View>(R.id.enableupdater) as SwitchCompat).isChecked = prefs.getBoolean("enableUpdater", false)
+        setCheck(prefs.getBoolean("enableHosts", false))
     }
 
     //因为hosts修改比较慢 所以改成异步的
     //更新hosts操作
-    private void UpdateHosts() throws UnsupportedEncodingException {
-        boolean enableHostsSet = getPrefs().getBoolean("enableHosts", false); //1
-        boolean enableMIUIHostsSet = getPrefs().getBoolean("enableMIUIHosts", false); //4
-        boolean enableBlockAdsHostsSet = getPrefs().getBoolean("enableBlockAdsHosts", false); //4
-        boolean enableGoogleHostsSet = getPrefs().getBoolean("enableGoogleHosts", false); //4
-        boolean enableStoreSet = getPrefs().getBoolean("enableStore", false); //4
-        boolean enableupdaterSet = getPrefs().getBoolean("enableUpdater", false); //4
-
+    @Throws(UnsupportedEncodingException::class)
+    private fun UpdateHosts() {
+        val enableHostsSet = prefs.getBoolean("enableHosts", false) //1
+        val enableMIUIHostsSet = prefs.getBoolean("enableMIUIHosts", false) //4
+        val enableBlockAdsHostsSet = prefs.getBoolean("enableBlockAdsHosts", false) //4
+        val enableGoogleHostsSet = prefs.getBoolean("enableGoogleHosts", false) //4
+        val enableStoreSet = prefs.getBoolean("enableStore", false) //4
+        val enableupdaterSet = prefs.getBoolean("enableUpdater", false) //4
         if (enableHostsSet) {
-            FileHelper fh = new FileHelper();
-            String HostsContext = fh.getFromAssets("hosts_default", getMContext());
-
-            if (getPrefs().getBoolean("enableHosts", false)) { //如果未启用hosts
+            val fh = FileHelper()
+            var HostsContext = fh.getFromAssets("hosts_default", mContext)
+            if (prefs.getBoolean("enableHosts", false)) { //如果未启用hosts
 
                 // 国内广告
                 if (enableBlockAdsHostsSet) {
-                    HostsContext += fh.getFromAssets("hosts_noad", getMContext());
+                    HostsContext += fh.getFromAssets("hosts_noad", mContext)
                 }
                 //  国外一些网站 不含google
                 if (enableGoogleHostsSet) {
-                    HostsContext += fh.getFromAssets("hosts_foreign", getMContext());
+                    HostsContext += fh.getFromAssets("hosts_foreign", mContext)
                 }
                 // 屏蔽在线更新
                 if (enableupdaterSet) {
-                    HostsContext += "\n127.0.0.1 update.miui.com\n";
+                    HostsContext += "\n127.0.0.1 update.miui.com\n"
                 }
                 // 屏蔽应用商店 游戏 等
                 if (enableStoreSet) {
-                    HostsContext += fh.getFromAssets("hosts_nostore", getMContext());
+                    HostsContext += fh.getFromAssets("hosts_nostore", mContext)
                 }
                 // 屏蔽miui广告
                 if (enableMIUIHostsSet) {
-                    HostsContext += fh.getFromAssets("hosts_miui", getMContext());
+                    HostsContext += fh.getFromAssets("hosts_miui", mContext)
                 }
             }
-            Shell.su(getCommandsToExecute(HostsContext)).exec();
-
+            Shell.su(*getCommandsToExecute(HostsContext)).exec()
         }
     }
 
-    protected String[] getCommandsToExecute(String context) throws UnsupportedEncodingException {
-        String[] list = new String[3];
-        list[0] = "mount -o rw,remount /system";
-
-        String path = getMContext().getFilesDir().getPath() + HostFileTmpName;
-
-        FileOutputStream out = null;
-        BufferedWriter writer;
+    @Throws(UnsupportedEncodingException::class)
+    protected fun getCommandsToExecute(context: String?): Array<String?> {
+        val list = arrayOfNulls<String>(3)
+        list[0] = "mount -o rw,remount /system"
+        val path = mContext.filesDir.path + Misc.HostFileTmpName
+        var out: FileOutputStream? = null
+        val writer: BufferedWriter
         try {
-            out = getMContext().openFileOutput("hosts", Context.MODE_PRIVATE);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            out = mContext.openFileOutput("hosts", Context.MODE_PRIVATE)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
         }
         if (out != null) {
-            writer = new BufferedWriter(new OutputStreamWriter(out));
+            writer = BufferedWriter(OutputStreamWriter(out))
             try {
-                writer.write(context);
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+                writer.write(context)
+                writer.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
         }
-        list[1] = String.format("mv %s %s", path, "/etc/hosts");
-        list[2] = String.format("chmod 755 %s", "/system/etc/hosts");
-
-        return list;
+        list[1] = String.format("mv %s %s", path, "/etc/hosts")
+        list[2] = String.format("chmod 755 %s", "/system/etc/hosts")
+        return list
     }
 
-    private void showProgress() {
-        if (dialog == null || !dialog.isShowing()) { //dialog未实例化 或者实例化了但没显示
-            dialog = ProgressDialog.show(getActivity(), getString(R.string.Working), getString(R.string.Waiting));
-            dialog.show();
+    private fun showProgress() {
+        if (dialog == null || !dialog!!.isShowing) { //dialog未实例化 或者实例化了但没显示
+            dialog = ProgressDialog.show(activity, getString(R.string.Working), getString(R.string.Waiting))
+            dialog.show()
         }
     }
 
-    private void closeProgress() {
-        if (getActivity() != null && !getActivity().isFinishing()) {
-            dialog.cancel();
+    private fun closeProgress() {
+        if (activity != null && !activity!!.isFinishing) {
+            dialog!!.cancel()
         }
     }
 
-    private void setCheck(boolean type) {
-
+    private fun setCheck(type: Boolean) {
         if (type) {
-            $(R.id.enableMIUIHosts).setEnabled(true);
-            $(R.id.enableBlockAdsHosts).setEnabled(true);
-            $(R.id.enableGoogleHosts).setEnabled(true);
-            $(R.id.enableStore).setEnabled(true);
-            $(R.id.enableupdater).setEnabled(true);
+            `$`<View>(R.id.enableMIUIHosts).isEnabled = true
+            `$`<View>(R.id.enableBlockAdsHosts).isEnabled = true
+            `$`<View>(R.id.enableGoogleHosts).isEnabled = true
+            `$`<View>(R.id.enableStore).isEnabled = true
+            `$`<View>(R.id.enableupdater).isEnabled = true
         } else {
-            $(R.id.enableMIUIHosts).setEnabled(false);
-            $(R.id.enableBlockAdsHosts).setEnabled(false);
-            $(R.id.enableGoogleHosts).setEnabled(false);
-            $(R.id.enableStore).setEnabled(false);
-            $(R.id.enableupdater).setEnabled(false);
+            `$`<View>(R.id.enableMIUIHosts).isEnabled = false
+            `$`<View>(R.id.enableBlockAdsHosts).isEnabled = false
+            `$`<View>(R.id.enableGoogleHosts).isEnabled = false
+            `$`<View>(R.id.enableStore).isEnabled = false
+            `$`<View>(R.id.enableupdater).isEnabled = false
         }
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class MyTask extends AsyncTask<String, Integer, String> {
-        @Override
-        protected void onPreExecute() {
-            showProgress();
+    private inner class MyTask : AsyncTask<String?, Int?, String?>() {
+        override fun onPreExecute() {
+            showProgress()
         }
 
-        @Override
-        protected void onPostExecute(String param) {
-            closeProgress();
+        override fun onPostExecute(param: String?) {
+            closeProgress()
         }
 
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
+        protected override fun onProgressUpdate(vararg values: Int) {
+            super.onProgressUpdate(*values)
         }
 
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
+        protected override fun doInBackground(vararg params: String): String? {
             if (Looper.myLooper() == null) {
-                Looper.prepare();
+                Looper.prepare()
             }
             try {
-                UpdateHosts();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+                UpdateHosts()
+            } catch (e: UnsupportedEncodingException) {
+                e.printStackTrace()
             }
-            return null;
+            return null
         }
     }
-
 }
-

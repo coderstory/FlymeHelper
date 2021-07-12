@@ -1,40 +1,31 @@
-package com.coderstory.flyme.tools;
+package com.coderstory.flyme.tools
 
-import android.content.Context;
+import android.content.*
+import com.coderstory.flyme.preferences.PreferencesProviderUtils
 
-import com.coderstory.flyme.preferences.PreferencesProviderUtils;
-
-public class SharedHelper {
-    private final Context context;
-    String spName = "UserSettings";
-
-    public SharedHelper(Context context) {
-        this.context = context;
-    }
-
-    public boolean put(String key, Object object) {
-
-        if (object instanceof String) {
-            return PreferencesProviderUtils.putString(context, spName, key, (String) object);
-        } else if (object instanceof Integer) {
-            return PreferencesProviderUtils.putInt(context, spName, key, (Integer) object);
-        } else if (object instanceof Boolean) {
-            return PreferencesProviderUtils.putBoolean(context, spName, key, (Boolean) object);
-        } else if (object instanceof Float) {
-            return PreferencesProviderUtils.putFloat(context, spName, key, (Float) object);
-        } else if (object instanceof Long) {
-            return PreferencesProviderUtils.putLong(context, spName, key, (Long) object);
+class SharedHelper(private val context: Context) {
+    var spName = "UserSettings"
+    fun put(key: String?, `object`: Any): Boolean {
+        return if (`object` is String) {
+            PreferencesProviderUtils.putString(context, spName, key, `object`)
+        } else if (`object` is Int) {
+            PreferencesProviderUtils.putInt(context, spName, key, `object`)
+        } else if (`object` is Boolean) {
+            PreferencesProviderUtils.putBoolean(context, spName, key, `object`)
+        } else if (`object` is Float) {
+            PreferencesProviderUtils.putFloat(context, spName, key, `object`)
+        } else if (`object` is Long) {
+            PreferencesProviderUtils.putLong(context, spName, key, `object`)
         } else {
-            return PreferencesProviderUtils.putString(context, spName, key, object.toString());
+            PreferencesProviderUtils.putString(context, spName, key, `object`.toString())
         }
     }
 
-
-    public boolean getBoolean(String key, boolean defaultObject) {
-        return PreferencesProviderUtils.getBoolean(context, spName, key, defaultObject);
+    fun getBoolean(key: String?, defaultObject: Boolean): Boolean {
+        return PreferencesProviderUtils.getBoolean(context, spName, key, defaultObject)
     }
 
-    public String getString(String key, String defaultObject) {
-        return PreferencesProviderUtils.getString(context, spName, key, defaultObject);
+    fun getString(key: String?, defaultObject: String?): String {
+        return PreferencesProviderUtils.getString(context, spName, key, defaultObject)
     }
 }

@@ -1,121 +1,101 @@
-package com.coderstory.flyme.tools;
+package com.coderstory.flyme.tools
 
-import android.text.TextUtils;
-import android.util.Log;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import android.text.TextUtils
+import android.util.Log
+import java.io.*
 
 /**
  * Created by _SOLID
  * Date:2016/4/20
  * Time:15:01
  */
-public class FileUtils {
-
-    public static String readFile(String _sFileName, String _sEncoding) throws Exception {
-        StringBuffer buffContent = null;
-        String sLine;
-
-        FileInputStream fis = null;
-        BufferedReader buffReader = null;
-        if (_sEncoding == null || "".equals(_sEncoding)) {
-            _sEncoding = "UTF-8";
+object FileUtils {
+    @Throws(Exception::class)
+    fun readFile(_sFileName: String?, _sEncoding: String?): String {
+        var _sEncoding = _sEncoding
+        var buffContent: StringBuffer? = null
+        var sLine: String?
+        var fis: FileInputStream? = null
+        var buffReader: BufferedReader? = null
+        if (_sEncoding == null || "" == _sEncoding) {
+            _sEncoding = "UTF-8"
         }
-
-        try {
-            fis = new FileInputStream(_sFileName);
-            buffReader = new BufferedReader(new InputStreamReader(fis,
-                    _sEncoding));
-            boolean zFirstLine = "UTF-8".equalsIgnoreCase(_sEncoding);
-            while ((sLine = buffReader.readLine()) != null) {
-                if (buffContent == null) {
-                    buffContent = new StringBuffer();
-                } else {
-                    buffContent.append("\n");
-                }
+        return try {
+            fis = FileInputStream(_sFileName)
+            buffReader = BufferedReader(InputStreamReader(fis,
+                    _sEncoding))
+            var zFirstLine = "UTF-8".equals(_sEncoding, ignoreCase = true)
+            while (buffReader.readLine().also { sLine = it } != null) {
+                buffContent?.append("\n") ?: (buffContent = StringBuffer())
                 if (zFirstLine) {
-                    sLine = removeBomHeaderIfExists(sLine);
-                    zFirstLine = false;
+                    sLine = removeBomHeaderIfExists(sLine)
+                    zFirstLine = false
                 }
-                buffContent.append(sLine);
-            }// end while
-            return (buffContent == null ? "" : buffContent.toString());
-        } catch (FileNotFoundException ex) {
-            throw new Exception("要读取的文件没有找到!", ex);
-        } catch (IOException ex) {
-            throw new Exception("读取文件时错误!", ex);
+                buffContent.append(sLine)
+            } // end while
+            buffContent?.toString() ?: ""
+        } catch (ex: FileNotFoundException) {
+            throw Exception("要读取的文件没有找到!", ex)
+        } catch (ex: IOException) {
+            throw Exception("读取文件时错误!", ex)
         } finally {
             // 增加异常时资源的释放
             try {
-                if (buffReader != null)
-                    buffReader.close();
-                if (fis != null)
-                    fis.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+                buffReader?.close()
+                fis?.close()
+            } catch (ex: Exception) {
+                ex.printStackTrace()
             }
         }
     }
 
-    public static File writeFile(String path, String content, String encoding, boolean isOverride) throws Exception {
+    @Throws(Exception::class)
+    fun writeFile(path: String, content: String, encoding: String?, isOverride: Boolean): File {
+        var encoding = encoding
         if (TextUtils.isEmpty(encoding)) {
-            encoding = "UTF-8";
+            encoding = "UTF-8"
         }
-        InputStream is = new ByteArrayInputStream(content.getBytes(encoding));
-        return writeFile(is, path, isOverride);
+        val `is`: InputStream = ByteArrayInputStream(content.toByteArray(charset(encoding!!)))
+        return writeFile(`is`, path, isOverride)
     }
 
-    public static File writeFile(InputStream is, String path, boolean isOverride) throws Exception {
-        String sPath = extractFilePath(path);
+    @Throws(Exception::class)
+    fun writeFile(`is`: InputStream?, path: String, isOverride: Boolean): File {
+        var path = path
+        val sPath = extractFilePath(path)
         if (!pathExists(sPath)) {
-            makeDir(sPath, true);
+            makeDir(sPath, true)
         }
-
         if (!isOverride && fileExists(path)) {
-            if (path.contains(".")) {
-                String suffix = path.substring(path.lastIndexOf("."));
-                String pre = path.substring(0, path.lastIndexOf("."));
-                path = pre + "_" + System.currentTimeMillis() + suffix;
+            path = if (path.contains(".")) {
+                val suffix = path.substring(path.lastIndexOf("."))
+                val pre = path.substring(0, path.lastIndexOf("."))
+                pre + "_" + System.currentTimeMillis() + suffix
             } else {
-                path = path + "_" + System.currentTimeMillis();
+                path + "_" + System.currentTimeMillis()
             }
         }
-
-        FileOutputStream os = null;
-        File file;
-
-        try {
-            file = new File(path);
-            os = new FileOutputStream(file);
-            int byteCount = 0;
-            byte[] bytes = new byte[1024];
-
-            while ((byteCount = is.read(bytes)) != -1) {
-                os.write(bytes, 0, byteCount);
+        var os: FileOutputStream? = null
+        val file: File
+        return try {
+            file = File(path)
+            os = FileOutputStream(file)
+            var byteCount = 0
+            val bytes = ByteArray(1024)
+            while (`is`!!.read(bytes).also { byteCount = it } != -1) {
+                os.write(bytes, 0, byteCount)
             }
-            os.flush();
-
-            return file;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("写文件错误", e);
+            os.flush()
+            file
+        } catch (e: Exception) {
+            e.printStackTrace()
+            throw Exception("写文件错误", e)
         } finally {
             try {
-                if (os != null)
-                    os.close();
-                if (is != null)
-                    is.close();
-            } catch (Exception e) {
-                e.printStackTrace();
+                os?.close()
+                `is`?.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
@@ -125,23 +105,21 @@ public class FileUtils {
      *
      * @param fileName SD下的文件路径+文件名，如:a/b.txt
      */
-    public static String readFile(String fileName) {
-        StringBuilder stringBuffer = new StringBuilder();
+    fun readFile(fileName: String?): String {
+        val stringBuffer = StringBuilder()
         try {
-            String line;
-            File file = new File(fileName);
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuffer.append(line);
+            var line: String?
+            val file = File(fileName)
+            val bufferedReader = BufferedReader(FileReader(file))
+            while (bufferedReader.readLine().also { line = it } != null) {
+                stringBuffer.append(line)
             }
-            bufferedReader.close();
-        } catch (IOException e) {
-            Log.e("Xposed", Log.getStackTraceString(e));
+            bufferedReader.close()
+        } catch (e: IOException) {
+            Log.e("Xposed", Log.getStackTraceString(e))
         }
-
-        return stringBuffer.toString();
+        return stringBuffer.toString()
     }
-
 
     /**
      * 移除字符串中的BOM前缀
@@ -149,24 +127,24 @@ public class FileUtils {
      * @param _sLine 需要处理的字符串
      * @return 移除BOM后的字符串.
      */
-    private static String removeBomHeaderIfExists(String _sLine) {
+    private fun removeBomHeaderIfExists(_sLine: String?): String? {
         if (_sLine == null) {
-            return null;
+            return null
         }
-        String line = _sLine;
-        if (line.length() > 0) {
-            char ch = line.charAt(0);
+        var line: String = _sLine
+        if (line.length > 0) {
+            var ch = line[0]
             // 使用while是因为用一些工具看到过某些文件前几个字节都是0xfffe.
             // 0xfeff,0xfffe是字节序的不同处理.JVM中,一般是0xfeff
-            while ((ch == 0xfeff || ch == 0xfffe)) {
-                line = line.substring(1);
-                if (line.length() == 0) {
-                    break;
+            while (ch.code == 0xfeff || ch.code == 0xfffe) {
+                line = line.substring(1)
+                if (line.length == 0) {
+                    break
                 }
-                ch = line.charAt(0);
+                ch = line[0]
             }
         }
-        return line;
+        return line
     }
 
     /**
@@ -175,13 +153,12 @@ public class FileUtils {
      * @param _sFilePathName
      * @return
      */
-    public static String extractFilePath(String _sFilePathName) {
-        int nPos = _sFilePathName.lastIndexOf('/');
+    fun extractFilePath(_sFilePathName: String): String {
+        var nPos = _sFilePathName.lastIndexOf('/')
         if (nPos < 0) {
-            nPos = _sFilePathName.lastIndexOf('\\');
+            nPos = _sFilePathName.lastIndexOf('\\')
         }
-
-        return (nPos >= 0 ? _sFilePathName.substring(0, nPos + 1) : "");
+        return if (nPos >= 0) _sFilePathName.substring(0, nPos + 1) else ""
     }
 
     /**
@@ -190,14 +167,14 @@ public class FileUtils {
      * @param _sPathFileName 文件名称(含路径）
      * @return 若存在，则返回true；否则，返回false
      */
-    public static boolean pathExists(String _sPathFileName) {
-        String sPath = extractFilePath(_sPathFileName);
-        return fileExists(sPath);
+    fun pathExists(_sPathFileName: String): Boolean {
+        val sPath = extractFilePath(_sPathFileName)
+        return fileExists(sPath)
     }
 
-    public static boolean fileExists(String _sPathFileName) {
-        File file = new File(_sPathFileName);
-        return file.exists();
+    fun fileExists(_sPathFileName: String?): Boolean {
+        val file = File(_sPathFileName)
+        return file.exists()
     }
 
     /**
@@ -206,17 +183,14 @@ public class FileUtils {
      * @param _sDir             目录名称
      * @param _bCreateParentDir 如果父目录不存在，是否创建父目录
      */
-    public static void makeDir(String _sDir, boolean _bCreateParentDir) {
-        File file = new File(_sDir);
-        if (_bCreateParentDir)
-            file.mkdirs(); // 如果父目录不存在，则创建所有必需的父目录
-        else
-            file.mkdir(); // 如果父目录不存在，不做处理
+    fun makeDir(_sDir: String?, _bCreateParentDir: Boolean) {
+        val file = File(_sDir)
+        if (_bCreateParentDir) file.mkdirs() // 如果父目录不存在，则创建所有必需的父目录
+        else file.mkdir() // 如果父目录不存在，不做处理
     }
 
-    public static String getFileName(String path) {
-        int index = path.lastIndexOf('/');
-        return path.substring(index + 1);
+    fun getFileName(path: String): String {
+        val index = path.lastIndexOf('/')
+        return path.substring(index + 1)
     }
-
 }

@@ -1,91 +1,37 @@
-package com.coderstory.flyme.adapter;
+package com.coderstory.flyme.adapter
 
-import android.graphics.drawable.Drawable;
 
-public class AppInfo {
+import android.graphics.drawable.Drawable
 
-    private String name;
-    private Drawable imageId;
-    private boolean isDisable = false;
-    private String packageName = "";
-    private String Version = "";
-    private String AppDir;
-    private int VersionCode = 0;
-    private String fileSize = "";
-    private String releaseDate;
+class AppInfo {
+    var name: String? = null
+        private set
+    var imageId: Drawable? = null
+        private set
+    var disable = false
+    var packageName = ""
+        private set
+    var version = ""
+        private set
+    var appDir: String? = null
+    var versionCode = 0
+        private set
+    var fileSize = ""
+    var releaseDate: String? = null
 
-    public AppInfo() {
-
+    constructor()
+    constructor(name: String, version: String, fileSize: String, releaseDate: String?) {
+        this.name = if (name.length > 25) name.substring(0, 25) + "..." else name
+        this.version = version
+        this.fileSize = fileSize
+        this.releaseDate = releaseDate
     }
 
-    public AppInfo(String name, String version, String fileSize, String releaseDate) {
-        this.name = name.length() > 25 ? name.substring(0, 25) + "..." : name;
-        this.Version = version;
-        this.fileSize = fileSize;
-        this.releaseDate = releaseDate;
-    }
-
-    public AppInfo(String name, Drawable imageId, String packageName, boolean Disable, String version) {
-        this.name = name.length() > 25 ? name.substring(0, 25) + "..." : name;
-        this.imageId = imageId;
-        this.packageName = packageName;
-        this.isDisable = Disable;
-        this.Version = version;
-    }
-
-    Drawable getImageId() {
-        return this.imageId;
-    }
-
-    public String getVersion() {
-        return this.Version;
-    }
-
-    public String getPackageName() {
-        return packageName;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public boolean getDisable() {
-        return isDisable;
-    }
-
-    public void setDisable(boolean disable) {
-        this.isDisable = disable;
-    }
-
-    public String getAppDir() {
-        return AppDir;
-    }
-
-    public void setAppDir(String appDir) {
-        AppDir = appDir;
-    }
-
-    public int getVersionCode() {
-        return VersionCode;
-    }
-
-    private void setVersionCode(int versionCode) {
-        VersionCode = versionCode;
-    }
-
-    public String getFileSize() {
-        return fileSize;
-    }
-
-    public void setFileSize(String fileSize) {
-        this.fileSize = fileSize;
-    }
-
-    public String getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
+    constructor(name: String, imageId: Drawable?, packageName: String, Disable: Boolean, version: String) {
+        this.name = if (name.length > 25) name.substring(0, 25) + "..." else name
+        this.imageId = imageId
+        this.packageName = packageName
+        disable = Disable
+        this.version = version
     }
 }

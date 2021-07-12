@@ -1,14 +1,10 @@
-package com.coderstory.flyme.tools;
+package com.coderstory.flyme.tools
 
-import com.coderstory.flyme.fragment.base.BaseFragment;
+import com.coderstory.flyme.fragment.base.BaseFragment
+import java.util.*
 
-import java.util.HashMap;
-import java.util.Map;
-
-
-public class ViewUtils {
-
-    private static final Map<String, BaseFragment> fragmentList = new HashMap<>();
+object ViewUtils {
+    private val fragmentList: MutableMap<String, BaseFragment?> = HashMap()
 
     /**
      * 根据Class创建Fragment
@@ -16,30 +12,29 @@ public class ViewUtils {
      * @param clazz the Fragment of create
      * @return
      */
-    private static BaseFragment createFragment(Class<?> clazz, boolean isObtain) {
-        BaseFragment resultFragment = null;
-        String className = clazz.getName();
+    private fun createFragment(clazz: Class<*>, isObtain: Boolean): BaseFragment? {
+        var resultFragment: BaseFragment? = null
+        val className = clazz.name
         if (fragmentList.containsKey(className)) {
-            resultFragment = fragmentList.get(className);
+            resultFragment = fragmentList[className]
         } else {
             try {
                 try {
-                    resultFragment = (BaseFragment) Class.forName(className).newInstance();
-                } catch (InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
+                    resultFragment = Class.forName(className).newInstance() as BaseFragment
+                } catch (e: InstantiationException) {
+                    e.printStackTrace()
+                } catch (e: IllegalAccessException) {
+                    e.printStackTrace()
                 }
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+            } catch (e: ClassNotFoundException) {
+                e.printStackTrace()
             }
-            if (isObtain)
-                fragmentList.put(className, resultFragment);
+            if (isObtain) fragmentList[className] = resultFragment
         }
-
-        return resultFragment;
+        return resultFragment
     }
 
-    public static BaseFragment createFragment(Class<?> clazz) {
-        return createFragment(clazz, true);
+    fun createFragment(clazz: Class<*>): BaseFragment? {
+        return createFragment(clazz, true)
     }
-
 }

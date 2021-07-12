@@ -1,254 +1,213 @@
-package com.coderstory.flyme.fragment;
+package com.coderstory.flyme.fragment
 
+import android.annotation.SuppressLint
+import android.app.Dialog
+import android.app.ProgressDialog
+import android.content.pm.PackageInfo
+import android.os.AsyncTask
+import android.os.Build
+import android.os.Looper
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.widget.*
+import android.widget.AdapterView.OnItemClickListener
+import androidx.cardview.widget.CardView
+import com.coderstory.flyme.R
+import com.coderstory.flyme.adapter.AppInfo
+import com.coderstory.flyme.adapter.AppInfoAdapter
+import com.coderstory.flyme.fragment.base.BaseFragment
+import com.coderstory.flyme.view.PullToRefreshView
+import com.topjohnwu.superuser.Shell
+import per.goweii.anylayer.AnyLayer
+import per.goweii.anylayer.DialogLayer
+import per.goweii.anylayer.Layer
+import java.util.*
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Looper;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.cardview.widget.CardView;
-
-import com.coderstory.flyme.R;
-import com.coderstory.flyme.adapter.AppInfo;
-import com.coderstory.flyme.adapter.AppInfoAdapter;
-import com.coderstory.flyme.fragment.base.BaseFragment;
-import com.coderstory.flyme.view.PullToRefreshView;
-import com.topjohnwu.superuser.Shell;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.DialogLayer;
-import per.goweii.anylayer.Layer;
-
-
-public class HideAppFragment extends BaseFragment {
-    private final List<AppInfo> appInfoList = new ArrayList<>();
-    private final List<AppInfo> appInfoList2 = new ArrayList<>();
-    private List<PackageInfo> packages = new ArrayList<>();
-    private AppInfoAdapter adapter = null;
-    private AppInfo appInfo = null;
-    private int mPosition = 0;
-    private View mView = null;
-    private PullToRefreshView mPullToRefreshView;
-    private List<String> hideAppList;
-    private Dialog dialog;
-
-    private void initData() {
-        String list = getPrefs().getString("Hide_App_List", "");
-        hideAppList = new ArrayList<>();
-        hideAppList.addAll(java.util.Arrays.asList(list.split(":")));
-        packages = new ArrayList<>();
-        if (getContext() != null) {
-            packages = getContext().getPackageManager().getInstalledPackages(0);
-            initFruit();
+class HideAppFragment : BaseFragment() {
+    private val appInfoList: MutableList<AppInfo?> = ArrayList()
+    private val appInfoList2: MutableList<AppInfo?> = ArrayList()
+    private var packages: List<PackageInfo> = ArrayList()
+    private var adapter: AppInfoAdapter? = null
+    private var appInfo: AppInfo? = null
+    private var mPosition = 0
+    private var mView: View? = null
+    private var mPullToRefreshView: PullToRefreshView? = null
+    private var hideAppList: MutableList<String>? = null
+    private var dialog: Dialog? = null
+    private fun initData() {
+        val list = prefs.getString("Hide_App_List", "")
+        hideAppList = ArrayList()
+        hideAppList.addAll(Arrays.asList(*list!!.split(":").toTypedArray()))
+        packages = ArrayList()
+        if (context != null) {
+            packages = context!!.packageManager.getInstalledPackages(0)
+            initFruit()
         }
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_hideapp_toolbar, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_hideapp_toolbar, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
-    private void initFruit() {
-        appInfoList.clear();
-        appInfoList2.clear();
-        for (int i = 0; i < packages.size(); i++) {
-            PackageInfo packageInfo = packages.get(i);
-            if (getContext() != null) {
-                Intent intent = getContext().getPackageManager().getLaunchIntentForPackage(packageInfo.packageName);
+    private fun initFruit() {
+        appInfoList.clear()
+        appInfoList2.clear()
+        for (i in packages.indices) {
+            val packageInfo = packages[i]
+            if (context != null) {
+                val intent = context!!.packageManager.getLaunchIntentForPackage(packageInfo.packageName)
                 // 过来掉没启动器图标的app
-                if (intent != null && !"com.coderstory.flyme".equals(packageInfo.packageName)) {
-                    if (!hideAppList.contains(packageInfo.applicationInfo.packageName)) {
-                        AppInfo appInfo = new AppInfo(packageInfo.applicationInfo.loadLabel(getContext().getPackageManager()).toString(), packageInfo.applicationInfo.loadIcon(getContext().getPackageManager()), packageInfo.packageName, false, String.valueOf(packageInfo.versionName));
-                        appInfoList.add(appInfo);
+                if (intent != null && "com.coderstory.flyme" != packageInfo.packageName) {
+                    if (!hideAppList!!.contains(packageInfo.applicationInfo.packageName)) {
+                        val appInfo = AppInfo(packageInfo.applicationInfo.loadLabel(context!!.packageManager).toString(), packageInfo.applicationInfo.loadIcon(context!!.packageManager), packageInfo.packageName, false, packageInfo.versionName.toString())
+                        appInfoList.add(appInfo)
                     } else {
-                        AppInfo appInfo = new AppInfo(packageInfo.applicationInfo.loadLabel(getContext().getPackageManager()).toString(), packageInfo.applicationInfo.loadIcon(getContext().getPackageManager()), packageInfo.packageName, true, String.valueOf(packageInfo.versionName));
-                        appInfoList2.add(appInfo);
+                        val appInfo = AppInfo(packageInfo.applicationInfo.loadLabel(context!!.packageManager).toString(), packageInfo.applicationInfo.loadIcon(context!!.packageManager), packageInfo.packageName, true, packageInfo.versionName.toString())
+                        appInfoList2.add(appInfo)
                     }
                 }
             }
         }
-        appInfoList.addAll(appInfoList2);
+        appInfoList.addAll(appInfoList2)
     }
 
-    private void showData() {
-        adapter = new AppInfoAdapter(getContext(), R.layout.app_info_item, appInfoList);
-        ListView listView = getContentView().findViewById(R.id.listView);
-        assert listView != null;
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            mPosition = position;
-            mView = view;
-            appInfo = appInfoList.get(mPosition);
-            Layer anyLayer = AnyLayer.dialog(getContext())
+    private fun showData() {
+        adapter = AppInfoAdapter(context, R.layout.app_info_item, appInfoList)
+        val listView = contentView.findViewById<ListView>(R.id.listView)!!
+        listView.adapter = adapter
+        listView.onItemClickListener = OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+            mPosition = position
+            mView = view
+            appInfo = appInfoList[mPosition]
+            val anyLayer = AnyLayer.dialog(context)
                     .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
-                    .onClick((AnyLayer, v) -> {
-                        AnyLayer.dismiss();
-                    }, R.id.fl_dialog_no)
-                    .onClick((AnyLayer, v) -> {
-                        if (appInfo.getDisable()) {
+                    .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
+                    .onClick({ AnyLayer: Layer, v: View? ->
+                        if (appInfo!!.disable) {
                             // 解除隐藏
-                            String tmp = "";
-                            for (String s : hideAppList) {
-                                if (s.equals(appInfo.getPackageName())) {
-                                    tmp = s;
+                            var tmp = ""
+                            for (s in hideAppList!!) {
+                                if (s == appInfo!!.packageName) {
+                                    tmp = s
                                 }
                             }
-                            hideAppList.remove(tmp);
+                            hideAppList!!.remove(tmp)
                         } else {
                             // 隐藏
-                            hideAppList.add(appInfo.getPackageName());
+                            hideAppList!!.add(appInfo!!.packageName)
                         }
-                        StringBuilder value = new StringBuilder();
-                        for (String s : hideAppList) {
-                            value.append(s).append(":");
+                        var value = StringBuilder()
+                        for (s in hideAppList!!) {
+                            value.append(s).append(":")
                         }
-                        value = new StringBuilder(value.substring(0, value.length() - 1));
-
-                        getEditor().putString("Hide_App_List", value.toString());
-                        fix();
-                        if (appInfo.getDisable()) {
-                            appInfo.setDisable(false);
-                            appInfoList.set(mPosition, appInfo);
-                            mView.setBackgroundColor(getResources().getColor(R.color.colorPrimary, null)); //正常的颜色
+                        value = StringBuilder(value.substring(0, value.length - 1))
+                        editor.putString("Hide_App_List", value.toString())
+                        fix()
+                        if (appInfo!!.disable) {
+                            appInfo!!.disable = false
+                            appInfoList[mPosition] = appInfo
+                            mView!!.setBackgroundColor(resources.getColor(R.color.colorPrimary, null)) //正常的颜色
                         } else {
-                            appInfo.setDisable(true);
-                            appInfoList.set(mPosition, appInfo);
-                            mView.setBackgroundColor(getResources().getColor(R.color.disableApp, null)); //冻结的颜色
+                            appInfo!!.disable = true
+                            appInfoList[mPosition] = appInfo
+                            mView!!.setBackgroundColor(resources.getColor(R.color.disableApp, null)) //冻结的颜色
                         }
-                        AnyLayer.dismiss();
-                    }, R.id.fl_dialog_yes);
-            anyLayer.show();
-            CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
-
-            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-            TextView textView = (TextView) linearLayout.getChildAt(1);
-            if (appInfo.getDisable()) {
-                textView.setText(getString(R.string.sureAntiDisable) + appInfo.getName() + "的隐藏状态吗");
-
+                        AnyLayer.dismiss()
+                    }, R.id.fl_dialog_yes)
+            anyLayer.show()
+            val cardView = (anyLayer as DialogLayer).contentView as CardView
+            val linearLayout = cardView.getChildAt(0) as LinearLayout
+            val textView = linearLayout.getChildAt(1) as TextView
+            if (appInfo!!.disable) {
+                textView.text = getString(R.string.sureAntiDisable) + appInfo!!.name + "的隐藏状态吗"
             } else {
-                textView.setText("你确定要隐藏" + appInfo.getName() + getString(R.string.sureDisableAfter));
+                textView.text = "你确定要隐藏" + appInfo!!.name + getString(R.string.sureDisableAfter)
             }
-
-
-        });
-    }
-
-    @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_app_list;
-    }
-
-    @Override
-    protected void init() {
-        super.init();
-
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            Toast.makeText(getActivity(), "本功能在Android 10及以上系统上暂时无效", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getActivity(), "点击应用切换 隐藏/显示 状态 【重启桌面生效】", Toast.LENGTH_LONG).show();
         }
-
-        new MyTask().execute();
-
-        mPullToRefreshView = getContentView().findViewById(R.id.pull_to_refresh);
-
-        mPullToRefreshView.setOnRefreshListener(() -> mPullToRefreshView.postDelayed(() -> {
-            initData();
-            showData();
-            adapter.notifyDataSetChanged();
-            mPullToRefreshView.setRefreshing(false);
-        }, 2000));
     }
 
-    protected void showProgress() {
+    override fun setLayoutResourceID(): Int {
+        return R.layout.fragment_app_list
+    }
+
+    override fun init() {
+        super.init()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            Toast.makeText(activity, "本功能在Android 10及以上系统上暂时无效", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(activity, "点击应用切换 隐藏/显示 状态 【重启桌面生效】", Toast.LENGTH_LONG).show()
+        }
+        MyTask().execute()
+        mPullToRefreshView = contentView.findViewById(R.id.pull_to_refresh)
+        mPullToRefreshView!!.setOnRefreshListener {
+            mPullToRefreshView!!.postDelayed({
+                initData()
+                showData()
+                adapter!!.notifyDataSetChanged()
+                mPullToRefreshView!!.setRefreshing(false)
+            }, 2000)
+        }
+    }
+
+    protected fun showProgress() {
         if (dialog == null) {
-            dialog = ProgressDialog.show(getContext(), getString(R.string.Tips_Title), getString(R.string.loadappinfo));
-            dialog.show();
+            dialog = ProgressDialog.show(context, getString(R.string.Tips_Title), getString(R.string.loadappinfo))
+            dialog.show()
         }
     }
 
     //
-    protected void closeProgress() {
-
+    protected fun closeProgress() {
         if (dialog != null) {
-            dialog.cancel();
-            dialog = null;
+            dialog!!.cancel()
+            dialog = null
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_restrathome) {
-            Layer anyLayer = AnyLayer.dialog(getContext())
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_restrathome) {
+            val anyLayer = AnyLayer.dialog(context)
                     .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
-                    .onClick((AnyLayer, v) -> {
-                        AnyLayer.dismiss();
-                    }, R.id.fl_dialog_no)
-                    .onClick((AnyLayer, v) -> {
-                        Shell.su("killall com.android.systemui").exec();
-                        Shell.su("am force-stop com.meizu.flyme.launcher").exec();
-                        System.exit(0);
-                    }, R.id.fl_dialog_yes);
-            anyLayer.show();
-            CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
-            LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-            TextView textView = (TextView) linearLayout.getChildAt(1);
-            textView.setText("是否重启Flyme桌面应用当前设置?");
-
+                    .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
+                    .onClick({ AnyLayer: Layer?, v: View? ->
+                        Shell.su("killall com.android.systemui").exec()
+                        Shell.su("am force-stop com.meizu.flyme.launcher").exec()
+                        System.exit(0)
+                    }, R.id.fl_dialog_yes)
+            anyLayer.show()
+            val cardView = (anyLayer as DialogLayer).contentView as CardView
+            val linearLayout = cardView.getChildAt(0) as LinearLayout
+            val textView = linearLayout.getChildAt(1) as TextView
+            textView.text = "是否重启Flyme桌面应用当前设置?"
         }
-
-        return false;
+        return false
     }
 
     @SuppressLint("StaticFieldLeak")
-    class MyTask extends AsyncTask<String, Integer, String> {
-
-        @Override
-        protected void onPreExecute() {
-
-            showProgress();
+    internal inner class MyTask : AsyncTask<String?, Int?, String?>() {
+        override fun onPreExecute() {
+            showProgress()
         }
 
-        @Override
-        protected void onPostExecute(String param) {
-            showData();
-
-            adapter.notifyDataSetChanged();
-            closeProgress();
+        override fun onPostExecute(param: String?) {
+            showData()
+            adapter!!.notifyDataSetChanged()
+            closeProgress()
         }
 
-
-        @Override
-        protected String doInBackground(String... params) {
-
+        protected override fun doInBackground(vararg params: String): String? {
             if (Looper.myLooper() == null) {
-                Looper.prepare();
+                Looper.prepare()
             }
-            initData();
-            return null;
+            initData()
+            return null
         }
     }
-
 }
-

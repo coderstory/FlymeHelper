@@ -1,278 +1,242 @@
-package com.coderstory.flyme.fragment;
+package com.coderstory.flyme.fragment
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.NumberPicker;
-import android.widget.TextView;
+import android.app.Activity
+import android.app.ProgressDialog
+import android.content.res.Resources.NotFoundException
+import android.graphics.*
+import android.graphics.drawable.ColorDrawable
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.*
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.NumberPicker
+import android.widget.TextView
+import androidx.appcompat.widget.SwitchCompat
+import androidx.cardview.widget.CardView
+import com.coderstory.flyme.R
+import com.coderstory.flyme.fragment.base.BaseFragment
+import com.coderstory.flyme.tools.*
+import com.topjohnwu.superuser.Shell
+import per.goweii.anylayer.AnyLayer
+import per.goweii.anylayer.DialogLayer
+import per.goweii.anylayer.Layer
 
-import androidx.cardview.widget.CardView;
-
-import com.coderstory.flyme.R;
-import com.coderstory.flyme.fragment.base.BaseFragment;
-import com.coderstory.flyme.tools.AppSignCheck;
-import com.coderstory.flyme.tools.Misc;
-import com.coderstory.flyme.tools.SharedHelper;
-import com.coderstory.flyme.tools.Utils;
-import com.topjohnwu.superuser.Shell;
-
-import java.lang.reflect.Field;
-import java.util.List;
-
-import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.DialogLayer;
-import per.goweii.anylayer.Layer;
-
-
-public class OthersFragment extends BaseFragment {
-    ProgressDialog dialog;
-
-    public OthersFragment() {
+class OthersFragment : BaseFragment() {
+    var dialog: ProgressDialog? = null
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_upgrade_toolbar, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_upgrade_toolbar, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Layer anyLayer = AnyLayer.dialog(getMContext())
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val anyLayer = AnyLayer.dialog(mContext)
                 .contentView(R.layout.dialog_tdisable_app)
                 .cancelableOnTouchOutside(true)
                 .cancelableOnClickKeyBack(true)
-                .onClick((AnyLayer, v) -> AnyLayer.dismiss(), R.id.fl_dialog_no)
-                .onClick((AnyLayer, v) -> {
-                    Shell.su("killall com.android.systemui").exec();
-                    Shell.su("am force-stop com.meizu.flyme.launcher").exec();
-                    System.exit(0);
-
-                }, R.id.fl_dialog_yes);
-        anyLayer.show();
-
-        CardView cardView = (CardView) ((DialogLayer) anyLayer).getContentView();
-        LinearLayout linearLayout = (LinearLayout) cardView.getChildAt(0);
-        TextView textView = (TextView) linearLayout.getChildAt(1);
-        textView.setText("一键重启桌面状态栏包管理器等app");
-        return false;
+                .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
+                .onClick({ AnyLayer: Layer?, v: View? ->
+                    Shell.su("killall com.android.systemui").exec()
+                    Shell.su("am force-stop com.meizu.flyme.launcher").exec()
+                    System.exit(0)
+                }, R.id.fl_dialog_yes)
+        anyLayer.show()
+        val cardView = (anyLayer as DialogLayer).contentView as CardView
+        val linearLayout = cardView.getChildAt(0) as LinearLayout
+        val textView = linearLayout.getChildAt(1) as TextView
+        textView.text = "一键重启桌面状态栏包管理器等app"
+        return false
     }
 
-    @Override
-    protected void setUpView() {
-        setDatePickerDividerColor($(R.id.home_icon_num_column), 7, 4);
-        setDatePickerDividerColor($(R.id.home_icon_num_rows), 7, 4);
-        setDatePickerDividerColor($(R.id.home_icon_num_hot_seat_icons), 5, 1);
-
-        $(R.id.enableBlockAD).setOnClickListener(v -> {
-            getEditor().putBoolean("EnableBlockAD", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-            if (((androidx.appcompat.widget.SwitchCompat) v).isChecked()) {
-                dialog = ProgressDialog.show(getMContext(), "分析应用中...", "", true, false, null);
-                new Thread(() -> {
-                    List<String> paths = Shell.su("cd /data/data;find -name com.meizu.advertise.plugin   -type dir").exec().getOut();
-                    String[] command = new String[paths.size()];
-                    if (paths.size() == 0) {
-                        ((Activity) getMContext()).runOnUiThread(() -> {
-                            dialog.setMessage("处理失败,请重试");
-                            getEditor().putBoolean("EnableBlockAD", false);
-                            ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableBlockAD)).isChecked();
-                        });
-                        return;
-                    }
-                    for (int i = 0; i < paths.size(); i++) {
-                        String path = paths.get(i).substring(1);
-                        ((Activity) getMContext()).runOnUiThread(() -> dialog.setMessage("正在处理\n" + path.split("/file")[0].replace("/", "")));
-                        try {
-                            Thread.sleep(150);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+    override fun setUpView() {
+        setDatePickerDividerColor(`$`(R.id.home_icon_num_column), 7, 4)
+        setDatePickerDividerColor(`$`(R.id.home_icon_num_rows), 7, 4)
+        setDatePickerDividerColor(`$`(R.id.home_icon_num_hot_seat_icons), 5, 1)
+        `$`<View>(R.id.enableBlockAD).setOnClickListener { v: View ->
+            editor.putBoolean("EnableBlockAD", (v as SwitchCompat).isChecked)
+            fix()
+            if (v.isChecked) {
+                dialog = ProgressDialog.show(mContext, "分析应用中...", "", true, false, null)
+                Thread(label@ Runnable {
+                    val paths = Shell.su("cd /data/data;find -name com.meizu.advertise.plugin   -type dir").exec().out
+                    val command = arrayOfNulls<String>(paths.size)
+                    if (paths.size == 0) {
+                        (mContext as Activity).runOnUiThread {
+                            dialog.setMessage("处理失败,请重试")
+                            editor.putBoolean("EnableBlockAD", false)
+                            (`$`<View>(R.id.enableBlockAD) as SwitchCompat).isChecked
                         }
-                        command[i] = "rm -rf  /data/data" + path + "/*" + ";" + "chmod 0000 " + "/data/data" + path;
-                        Shell.su(command[i]).exec();
+                        return@label
                     }
-                    ((Activity) getMContext()).runOnUiThread(() -> dialog.dismiss());
-                }).start();
+                    var i = 0
+                    while (i < paths.size) {
+                        val path = paths[i].substring(1)
+                        (mContext as Activity).runOnUiThread {
+                            dialog.setMessage("""
+    正在处理
+    ${path.split("/file").toTypedArray()[0].replace("/", "")}
+    """.trimIndent())
+                        }
+                        try {
+                            Thread.sleep(150)
+                        } catch (e: InterruptedException) {
+                            e.printStackTrace()
+                        }
+                        command[i] = "rm -rf  /data/data$path/*;chmod 0000 /data/data$path"
+                        Shell.su(command[i]).exec()
+                        i++
+                    }
+                    (mContext as Activity).runOnUiThread { dialog.dismiss() }
+                }).start()
             }
-        });
-
-
-        $(R.id.enabletheme).setOnClickListener(v -> {
-            getEditor().putBoolean("enabletheme", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-
-            AppSignCheck a = new AppSignCheck(getMContext(), Misc.key);
+        }
+        `$`<View>(R.id.enabletheme).setOnClickListener { v: View ->
+            editor.putBoolean("enabletheme", (v as SwitchCompat).isChecked)
+            val a = AppSignCheck(mContext, Misc.key)
             if (!a.check()) {
-                getEditor().putString("isCore", "1");
+                editor.putString("isCore", "1")
             }
-            fix();
-        });
-        $(R.id.HideRootWithPay).setOnClickListener(v -> {
-            getEditor().putBoolean("HideRootWithPay", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-        $(R.id.HideRootWithUpgrade).setOnClickListener(v -> {
-            getEditor().putBoolean("HideRootWithUpgrade", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-        $(R.id.hide_icon_label).setOnClickListener(v -> {
-            getEditor().putBoolean("hide_icon_label", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-        $(R.id.hide_icon_45).setOnClickListener(v -> {
-            getEditor().putBoolean("hide_icon_4", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-        $(R.id.hide_icon_5).setOnClickListener(v -> {
-            getEditor().putBoolean("hide_icon_5", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-        $(R.id.hide_icon_6).setOnClickListener(v -> {
-            getEditor().putBoolean("hide_icon_6", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-
-        $(R.id.enableCTS).setOnClickListener(v -> {
-            getEditor().putBoolean("enableCTS", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-        $(R.id.enableCheckInstaller).setOnClickListener(v -> {
-            getEditor().putBoolean("enableCheckInstaller", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-
-        $(R.id.hideDepWarn).setOnClickListener(v -> {
-            getEditor().putBoolean("hideDepWarn", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-
-
-        $(R.id.removeStore).setOnClickListener(v -> {
-            getEditor().putBoolean("removeStore", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-
-        $(R.id.autoInstall).setOnClickListener(v -> {
-            getEditor().putBoolean("autoInstall", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-        $(R.id.HideRootGlobal).setOnClickListener(v -> {
-            getEditor().putBoolean("HideRootGlobal", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-
-        ((NumberPicker) $(R.id.home_icon_num_column)).setOnValueChangedListener((v, oldValue, newValue) -> {
-            getEditor().putInt("home_icon_num_column", newValue);
-            fix();
-        });
-        ((NumberPicker) $(R.id.home_icon_num_rows)).setOnValueChangedListener((v, oldValue, newValue) -> {
-            getEditor().putInt("home_icon_num_rows", newValue);
-            fix();
-        });
-
-        $(R.id.disableSearch).setOnClickListener(v -> {
-            getEditor().putBoolean("disableSearch", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-        $(R.id.mms).setOnClickListener(v -> {
-            getEditor().putBoolean("mms", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-
-        $(R.id.disable_charge_animation).setOnClickListener(v -> {
-            getEditor().putBoolean("disable_charge_animation", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
-        });
-
-        EditText carrierName = $(R.id.enable_back_vibrator);
-        carrierName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            fix()
+        }
+        `$`<View>(R.id.HideRootWithPay).setOnClickListener { v: View ->
+            editor.putBoolean("HideRootWithPay", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.HideRootWithUpgrade).setOnClickListener { v: View ->
+            editor.putBoolean("HideRootWithUpgrade", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hide_icon_label).setOnClickListener { v: View ->
+            editor.putBoolean("hide_icon_label", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hide_icon_45).setOnClickListener { v: View ->
+            editor.putBoolean("hide_icon_4", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hide_icon_5).setOnClickListener { v: View ->
+            editor.putBoolean("hide_icon_5", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hide_icon_6).setOnClickListener { v: View ->
+            editor.putBoolean("hide_icon_6", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.enableCTS).setOnClickListener { v: View ->
+            editor.putBoolean("enableCTS", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.enableCheckInstaller).setOnClickListener { v: View ->
+            editor.putBoolean("enableCheckInstaller", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hideDepWarn).setOnClickListener { v: View ->
+            editor.putBoolean("hideDepWarn", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.removeStore).setOnClickListener { v: View ->
+            editor.putBoolean("removeStore", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.autoInstall).setOnClickListener { v: View ->
+            editor.putBoolean("autoInstall", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.HideRootGlobal).setOnClickListener { v: View ->
+            editor.putBoolean("HideRootGlobal", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        (`$`<View>(R.id.home_icon_num_column) as NumberPicker).setOnValueChangedListener { v: NumberPicker?, oldValue: Int, newValue: Int ->
+            editor.putInt("home_icon_num_column", newValue)
+            fix()
+        }
+        (`$`<View>(R.id.home_icon_num_rows) as NumberPicker).setOnValueChangedListener { v: NumberPicker?, oldValue: Int, newValue: Int ->
+            editor.putInt("home_icon_num_rows", newValue)
+            fix()
+        }
+        `$`<View>(R.id.disableSearch).setOnClickListener { v: View ->
+            editor.putBoolean("disableSearch", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.mms).setOnClickListener { v: View ->
+            editor.putBoolean("mms", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.disable_charge_animation).setOnClickListener { v: View ->
+            editor.putBoolean("disable_charge_animation", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        val carrierName = `$`<EditText>(R.id.enable_back_vibrator)
+        carrierName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun afterTextChanged(editable: Editable) {
+                editor.putString("enable_back_vibrator_value", editable.toString())
+                fix()
             }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                getEditor().putString("enable_back_vibrator_value", editable.toString());
-                fix();
-            }
-        });
+        })
     }
 
-    @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_others;
+    override fun setLayoutResourceID(): Int {
+        return R.layout.fragment_others
     }
 
-    @Override
-    protected void setUpData() {
-        ((EditText) $(R.id.enable_back_vibrator)).setText(getPrefs().getString("enable_back_vibrator_value", ""));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.disable_charge_animation)).setChecked(getPrefs().getBoolean("disable_charge_animation", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.hide_icon_label)).setChecked(getPrefs().getBoolean("hide_icon_label", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableBlockAD)).setChecked(getPrefs().getBoolean("EnableBlockAD", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enabletheme)).setChecked(getPrefs().getBoolean("enabletheme", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.HideRootWithPay)).setChecked(getPrefs().getBoolean("HideRootWithPay", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.HideRootWithUpgrade)).setChecked(getPrefs().getBoolean("HideRootWithUpgrade", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.hide_icon_45)).setChecked(getPrefs().getBoolean("hide_icon_4", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.hide_icon_5)).setChecked(getPrefs().getBoolean("hide_icon_5", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.hide_icon_6)).setChecked(getPrefs().getBoolean("hide_icon_6", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableCheckInstaller)).setChecked(getPrefs().getBoolean("enableCheckInstaller", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableCTS)).setChecked(getPrefs().getBoolean("enableCTS", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.hideDepWarn)).setChecked(getPrefs().getBoolean("hideDepWarn", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.removeStore)).setChecked(getPrefs().getBoolean("removeStore", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.autoInstall)).setChecked(getPrefs().getBoolean("autoInstall", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.HideRootGlobal)).setChecked(getPrefs().getBoolean("HideRootGlobal", false));
-        ((NumberPicker) $(R.id.home_icon_num_column)).setValue(getPrefs().getInt("home_icon_num_column", 4));
-        ((NumberPicker) $(R.id.home_icon_num_rows)).setValue(getPrefs().getInt("home_icon_num_rows", 5));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.disableSearch)).setChecked(getPrefs().getBoolean("disableSearch", false));
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.mms)).setChecked(getPrefs().getBoolean("mms", false));
-
-        if (!Utils.check(new SharedHelper(getMContext()))) {
-            $(R.id.removeStore).setEnabled(false);
-            $(R.id.autoInstall).setEnabled(false);
-            $(R.id.home_icon_num_column).setEnabled(false);
-            $(R.id.home_icon_num_rows).setEnabled(false);
-
-            ((TextView) $(R.id.test1)).setTextColor(Color.parseColor("#A9A9A9"));
-            ((TextView) $(R.id.test2)).setTextColor(Color.parseColor("#A9A9A9"));
+    override fun setUpData() {
+        (`$`<View>(R.id.enable_back_vibrator) as EditText).setText(prefs.getString("enable_back_vibrator_value", ""))
+        (`$`<View>(R.id.disable_charge_animation) as SwitchCompat).isChecked = prefs.getBoolean("disable_charge_animation", false)
+        (`$`<View>(R.id.hide_icon_label) as SwitchCompat).isChecked = prefs.getBoolean("hide_icon_label", false)
+        (`$`<View>(R.id.enableBlockAD) as SwitchCompat).isChecked = prefs.getBoolean("EnableBlockAD", false)
+        (`$`<View>(R.id.enabletheme) as SwitchCompat).isChecked = prefs.getBoolean("enabletheme", false)
+        (`$`<View>(R.id.HideRootWithPay) as SwitchCompat).isChecked = prefs.getBoolean("HideRootWithPay", false)
+        (`$`<View>(R.id.HideRootWithUpgrade) as SwitchCompat).isChecked = prefs.getBoolean("HideRootWithUpgrade", false)
+        (`$`<View>(R.id.hide_icon_45) as SwitchCompat).isChecked = prefs.getBoolean("hide_icon_4", false)
+        (`$`<View>(R.id.hide_icon_5) as SwitchCompat).isChecked = prefs.getBoolean("hide_icon_5", false)
+        (`$`<View>(R.id.hide_icon_6) as SwitchCompat).isChecked = prefs.getBoolean("hide_icon_6", false)
+        (`$`<View>(R.id.enableCheckInstaller) as SwitchCompat).isChecked = prefs.getBoolean("enableCheckInstaller", false)
+        (`$`<View>(R.id.enableCTS) as SwitchCompat).isChecked = prefs.getBoolean("enableCTS", false)
+        (`$`<View>(R.id.hideDepWarn) as SwitchCompat).isChecked = prefs.getBoolean("hideDepWarn", false)
+        (`$`<View>(R.id.removeStore) as SwitchCompat).isChecked = prefs.getBoolean("removeStore", false)
+        (`$`<View>(R.id.autoInstall) as SwitchCompat).isChecked = prefs.getBoolean("autoInstall", false)
+        (`$`<View>(R.id.HideRootGlobal) as SwitchCompat).isChecked = prefs.getBoolean("HideRootGlobal", false)
+        (`$`<View>(R.id.home_icon_num_column) as NumberPicker).value = prefs.getInt("home_icon_num_column", 4)
+        (`$`<View>(R.id.home_icon_num_rows) as NumberPicker).value = prefs.getInt("home_icon_num_rows", 5)
+        (`$`<View>(R.id.disableSearch) as SwitchCompat).isChecked = prefs.getBoolean("disableSearch", false)
+        (`$`<View>(R.id.mms) as SwitchCompat).isChecked = prefs.getBoolean("mms", false)
+        if (!Utils.Companion.check(SharedHelper(mContext))) {
+            `$`<View>(R.id.removeStore).isEnabled = false
+            `$`<View>(R.id.autoInstall).isEnabled = false
+            `$`<View>(R.id.home_icon_num_column).isEnabled = false
+            `$`<View>(R.id.home_icon_num_rows).isEnabled = false
+            (`$`<View>(R.id.test1) as TextView).setTextColor(Color.parseColor("#A9A9A9"))
+            (`$`<View>(R.id.test2) as TextView).setTextColor(Color.parseColor("#A9A9A9"))
         }
     }
 
-    private void setDatePickerDividerColor(NumberPicker picker, int max, int min) {
+    private fun setDatePickerDividerColor(picker: NumberPicker?, max: Int, min: Int) {
         //设置最大值
-        picker.setMaxValue(max);
+        picker!!.maxValue = max
         //设置最小值
-        picker.setMinValue(min);
-        Field[] pickerFields = NumberPicker.class.getDeclaredFields();
-        for (Field pf : pickerFields) {
-            if (pf.getName().equals("mSelectionDivider")) {
-                pf.setAccessible(true);
+        picker.minValue = min
+        val pickerFields = NumberPicker::class.java.declaredFields
+        for (pf in pickerFields) {
+            if (pf.name == "mSelectionDivider") {
+                pf.isAccessible = true
                 try {
-                    pf.set(picker, new ColorDrawable(Color.alpha(256)));
-                } catch (IllegalArgumentException | Resources.NotFoundException | IllegalAccessException e) {
-                    e.printStackTrace();
+                    pf[picker] = ColorDrawable(Color.alpha(256))
+                } catch (e: IllegalArgumentException) {
+                    e.printStackTrace()
+                } catch (e: NotFoundException) {
+                    e.printStackTrace()
+                } catch (e: IllegalAccessException) {
+                    e.printStackTrace()
                 }
-                break;
+                break
             }
         }
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        setUpData();
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        setUpData()
     }
 }

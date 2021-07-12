@@ -1,101 +1,87 @@
-package com.coderstory.flyme.tools;
+package com.coderstory.flyme.tools
 
-import android.view.View;
+import com.google.android.material.snackbar.Snackbar
 
-import com.google.android.material.snackbar.Snackbar;
-
+android.view.*
 /**
  * Created by _SOLID
  * Date:2016/5/9
  * Time:11:30
  */
-public class SnackBarUtils {
-    private static final int color_danger = 0XFFA94442;
-    private static final int color_success = 0XFF3C763D;
-    private static final int color_info = 0XFF29B6F6;
-    private static final int color_warning = 0XFF8A6D3B;
-
-    private static final int color_action = 0XFFCDC5BF;
-
-    private final Snackbar mSnackbar;
-
-    private SnackBarUtils(Snackbar snackbar) {
-        mSnackbar = snackbar;
+class SnackBarUtils private constructor(private val mSnackbar: Snackbar) {
+    private fun getSnackBarLayout(snackbar: Snackbar?): View? {
+        return snackbar?.view
     }
 
-    public static SnackBarUtils makeShort(View view, String text) {
-        Snackbar snackbar = Snackbar.make(view, text, Snackbar.LENGTH_SHORT);
-        return new SnackBarUtils(snackbar);
+    private fun setSnackBarBackColor(colorId: Int): Snackbar {
+        val snackBarView = getSnackBarLayout(mSnackbar)
+        snackBarView?.setBackgroundColor(colorId)
+        return mSnackbar
     }
 
-    public static SnackBarUtils makeLong(View view, String text) {
-        Snackbar snackbar = Snackbar.make(view, text, Snackbar.LENGTH_LONG);
-        return new SnackBarUtils(snackbar);
+    fun info() {
+        setSnackBarBackColor(color_info)
+        show()
     }
 
-    private View getSnackBarLayout(Snackbar snackbar) {
-        if (snackbar != null) {
-            return snackbar.getView();
+    fun info(actionText: String?, listener: View.OnClickListener?) {
+        setSnackBarBackColor(color_info)
+        show(actionText, listener)
+    }
+
+    fun warning() {
+        setSnackBarBackColor(color_warning)
+        show()
+    }
+
+    fun warning(actionText: String?, listener: View.OnClickListener?) {
+        setSnackBarBackColor(color_warning)
+        show(actionText, listener)
+    }
+
+    fun danger() {
+        setSnackBarBackColor(color_danger)
+        show()
+    }
+
+    fun danger(actionText: String?, listener: View.OnClickListener?) {
+        setSnackBarBackColor(color_danger)
+        show(actionText, listener)
+    }
+
+    fun success() {
+        setSnackBarBackColor(color_success)
+        show()
+    }
+
+    fun success(actionText: String?, listener: View.OnClickListener?) {
+        setSnackBarBackColor(color_success)
+        show(actionText, listener)
+    }
+
+    fun show() {
+        mSnackbar.show()
+    }
+
+    fun show(actionText: String?, listener: View.OnClickListener?) {
+        mSnackbar.setActionTextColor(color_action)
+        mSnackbar.setAction(actionText, listener).show()
+    }
+
+    companion object {
+        private const val color_danger = -0x56bbbe
+        private const val color_success = -0xc389c3
+        private const val color_info = -0xd6490a
+        private const val color_warning = -0x7592c5
+        private const val color_action = -0x323a41
+        fun makeShort(view: View?, text: String?): SnackBarUtils {
+            val snackbar = Snackbar.make(view!!, text!!, Snackbar.LENGTH_SHORT)
+            return SnackBarUtils(snackbar)
         }
-        return null;
 
-    }
-
-
-    private Snackbar setSnackBarBackColor(int colorId) {
-        View snackBarView = getSnackBarLayout(mSnackbar);
-        if (snackBarView != null) {
-            snackBarView.setBackgroundColor(colorId);
+        fun makeLong(view: View?, text: String?): SnackBarUtils {
+            val snackbar = Snackbar.make(view!!, text!!, Snackbar.LENGTH_LONG)
+            return SnackBarUtils(snackbar)
         }
-        return mSnackbar;
-    }
-
-    public void info() {
-        setSnackBarBackColor(color_info);
-        show();
-    }
-
-    public void info(String actionText, View.OnClickListener listener) {
-        setSnackBarBackColor(color_info);
-        show(actionText, listener);
-    }
-
-    public void warning() {
-        setSnackBarBackColor(color_warning);
-        show();
-    }
-
-    public void warning(String actionText, View.OnClickListener listener) {
-        setSnackBarBackColor(color_warning);
-        show(actionText, listener);
-    }
-
-    public void danger() {
-        setSnackBarBackColor(color_danger);
-        show();
-    }
-
-    public void danger(String actionText, View.OnClickListener listener) {
-        setSnackBarBackColor(color_danger);
-        show(actionText, listener);
-    }
-
-    public void success() {
-        setSnackBarBackColor(color_success);
-        show();
-    }
-
-    public void success(String actionText, View.OnClickListener listener) {
-        setSnackBarBackColor(color_success);
-        show(actionText, listener);
-    }
-
-    public void show() {
-        mSnackbar.show();
-    }
-
-    public void show(String actionText, View.OnClickListener listener) {
-        mSnackbar.setActionTextColor(color_action);
-        mSnackbar.setAction(actionText, listener).show();
     }
 }

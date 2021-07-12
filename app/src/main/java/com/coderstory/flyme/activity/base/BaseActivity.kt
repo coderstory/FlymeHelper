@@ -1,66 +1,54 @@
-package com.coderstory.flyme.activity.base;
+package com.coderstory.flyme.activity.base
 
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.os.Bundle;
-import android.view.View;
+import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
+import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 
-import androidx.appcompat.app.AppCompatActivity;
-
-
-public abstract class BaseActivity extends AppCompatActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        init();
-        setContentView(setLayoutResourceID());
-        setUpView();
-        setUpData();
+abstract class BaseActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        init()
+        setContentView(setLayoutResourceID())
+        setUpView()
+        setUpData()
     }
 
-    protected void setUpData() {
-    }
+    protected open fun setUpData() {}
 
     /***
      * 用于在初始化View之前做一些事
      */
-    protected void init() {
-
+    protected open fun init() {}
+    protected abstract fun setUpView()
+    protected abstract fun setLayoutResourceID(): Int
+    protected fun <T : View?> `$`(id: Int): T {
+        return super.findViewById<View>(id) as T
     }
 
-    protected abstract void setUpView();
-
-    protected abstract int setLayoutResourceID();
-
-    protected <T extends View> T $(int id) {
-        return (T) super.findViewById(id);
+    protected fun startActivityWithoutExtras(clazz: Class<*>?) {
+        val intent = Intent(this, clazz)
+        startActivity(intent)
     }
 
-    protected void startActivityWithoutExtras(Class<?> clazz) {
-        Intent intent = new Intent(this, clazz);
-        startActivity(intent);
+    public override fun onResume() {
+        super.onResume()
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    public override fun onPause() {
+        super.onPause()
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public Resources getResources() {//还原字体大小
-        Resources res = super.getResources();
+    override fun getResources(): Resources { //还原字体大小
+        val res = super.getResources()
         //非默认值
-        if (res.getConfiguration().fontScale != 1) {
-            Configuration newConfig = new Configuration();
-            newConfig.setToDefaults();//设置默认
-            res.updateConfiguration(newConfig, res.getDisplayMetrics());
+        if (res.configuration.fontScale != 1f) {
+            val newConfig = Configuration()
+            newConfig.setToDefaults() //设置默认
+            res.updateConfiguration(newConfig, res.displayMetrics)
         }
-        return res;
+        return res
     }
 }

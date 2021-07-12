@@ -1,96 +1,92 @@
-package com.coderstory.flyme.tools;
+package com.coderstory.flyme.tools
 
-import android.util.Log;
+import android.util.Log
+import java.io.*
+import java.util.*
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.List;
-
-public class RuntimeUtil {
-
+object RuntimeUtil {
     /**
      * 通过执行命令的方式判断手机是否root, 会有申请root权限的对话框出现
      */
-    public static boolean hasRooted() {
-        return execSilent("echo test");
+    fun hasRooted(): Boolean {
+        return RuntimeUtil.execSilent("echo test")
     }
 
     /**
      * 执行命令获取结果集
      */
-    public static List<String> exec(String cmd) {
-        List<String> dataList = null;
-        BufferedWriter writer = null;
-        BufferedReader reader = null;
-        Process process = null;
+    fun exec(cmd: String?): List<String?>? {
+        var dataList: MutableList<String?>? = null
+        var writer: BufferedWriter? = null
+        var reader: BufferedReader? = null
+        var process: Process? = null
         try {
-            process = Runtime.getRuntime().exec("su");
-            writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
-            reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            runCmd(writer, cmd);
-            process.waitFor();
-            dataList = new ArrayList<>();
-            String content;
-            while (null != (content = reader.readLine())) {
-                dataList.add(content);
+            process = Runtime.getRuntime().exec("su")
+            writer = BufferedWriter(OutputStreamWriter(process.outputStream))
+            reader = BufferedReader(InputStreamReader(process.inputStream))
+            RuntimeUtil.runCmd(writer, cmd)
+            process.waitFor()
+            dataList = ArrayList()
+            var content: String?
+            while (null != reader.readLine().also { content = it }) {
+                dataList.add(content)
             }
-        } catch (Exception e) {
+        } catch (e: Exception) {
             //e.printStackTrace();
         } finally {
-            closeCloseable(reader, writer);
-            if (process != null) process.destroy();
+            RuntimeUtil.closeCloseable(reader, writer)
+            process?.destroy()
         }
-        return dataList;
+        return dataList
     }
 
     /**
      * 判断是否成功执行
      */
-    public static boolean execSilent(String cmd) {
-        boolean result = false;
-        BufferedWriter writer = null;
-        Process process = null;
+    fun execSilent(cmd: String?): Boolean {
+        var result = false
+        var writer: BufferedWriter? = null
+        var process: Process? = null
         try {
-            process = Runtime.getRuntime().exec("su");
-            writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
-            runCmd(writer, cmd);
-            process.waitFor();
-            Log.d("runtime", "onCreate: process.exitValue()  " + process.exitValue());
-            result = process.exitValue() == 0;
-        } catch (Exception e) {
+            process = Runtime.getRuntime().exec("su")
+            writer = BufferedWriter(OutputStreamWriter(process.outputStream))
+            RuntimeUtil.runCmd(writer, cmd)
+            process.waitFor()
+            Log.d("runtime", "onCreate: process.exitValue()  " + process.exitValue())
+            result = process.exitValue() == 0
+        } catch (e: Exception) {
             // e.printStackTrace();
         } finally {
-            closeCloseable(writer);
-            if (process != null) process.destroy();
+            RuntimeUtil.closeCloseable(writer)
+            process?.destroy()
         }
-        return result;
+        return result
     }
 
     // 关闭流文件
-    private static void closeCloseable(Closeable... closeable) {
-        for (int i = 0; i < closeable.length; i++) {
+    private fun closeCloseable(vararg closeable: Closeable?) {
+        for (i in 0 until closeable.size) {
             if (null != closeable[i]) {
                 try {
-                    closeable[i].close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    closeable[i]!!.close()
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
             }
         }
     }
 
     // 执行命令
-    private static void runCmd(BufferedWriter writer, String... cmd) throws IOException {
-        for (int i = 0; i < cmd.length; i++) {
-            writer.write(cmd[i] + "\n");
-            writer.flush();
+    @Throws(IOException::class)
+    private fun runCmd(writer: BufferedWriter, vararg cmd: String) {
+        for (i in 0 until cmd.size) {
+            writer.write("""
+    ${cmd[i]}
+    
+    """.trimIndent())
+            writer.flush()
         }
-        writer.write("exit \n");
-        writer.flush();
+        writer.write("exit \n")
+        writer.flush()
     }
 }

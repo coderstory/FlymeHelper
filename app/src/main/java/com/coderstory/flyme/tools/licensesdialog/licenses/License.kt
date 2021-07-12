@@ -13,82 +13,73 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package com.coderstory.flyme.tools.licensesdialog.licenses
 
-package com.coderstory.flyme.tools.licensesdialog.licenses;
+import android.content.Context
+import com.coderstory.flyme.tools.licensesdialog.licenses.License
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
+import java.io.Serializable
 
-import android.content.Context;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Serializable;
-
-public abstract class License implements Serializable {
-
-    private static final long serialVersionUID = 3100331505738956523L;
-    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-
-    private String mCachedSummaryText = null;
-    private String mCachedFullText = null;
-
-    public abstract String getName();
-
-    public abstract String readSummaryTextFromResources(final Context context);
-
-    public abstract String readFullTextFromResources(final Context context);
-
-    public abstract String getVersion();
-
-    public abstract String getUrl();
+abstract class License : Serializable {
+    private var mCachedSummaryText: String? = null
+    private var mCachedFullText: String? = null
+    abstract val name: String
+    abstract fun readSummaryTextFromResources(context: Context?): String?
+    abstract fun readFullTextFromResources(context: Context?): String?
+    abstract val version: String
+    abstract val url: String
 
     //
-
-    public final String getSummaryText(final Context context) {
+    fun getSummaryText(context: Context?): String? {
         if (mCachedSummaryText == null) {
-            mCachedSummaryText = readSummaryTextFromResources(context);
+            mCachedSummaryText = readSummaryTextFromResources(context)
         }
-
-        return mCachedSummaryText;
+        return mCachedSummaryText
     }
 
-    public final String getFullText(final Context context) {
+    fun getFullText(context: Context?): String? {
         if (mCachedFullText == null) {
-            mCachedFullText = readFullTextFromResources(context);
+            mCachedFullText = readFullTextFromResources(context)
         }
-
-        return mCachedFullText;
+        return mCachedFullText
     }
 
-    protected String getContent(final Context context, final int contentResourceId) {
-        BufferedReader reader = null;
+    protected fun getContent(context: Context, contentResourceId: Int): String {
+        var reader: BufferedReader? = null
         try {
-            final InputStream inputStream = context.getResources().openRawResource(contentResourceId);
+            val inputStream = context.resources.openRawResource(contentResourceId)
             if (inputStream != null) {
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-                return toString(reader);
+                reader = BufferedReader(InputStreamReader(inputStream))
+                return toString(reader)
             }
-            throw new IOException("Error opening license file.");
-        } catch (final IOException e) {
-            throw new IllegalStateException(e);
+            throw IOException("Error opening license file.")
+        } catch (e: IOException) {
+            throw IllegalStateException(e)
         } finally {
             if (reader != null) {
                 try {
-                    reader.close();
-                } catch (final IOException e) {
+                    reader.close()
+                } catch (e: IOException) {
                     // Don't care.
                 }
             }
         }
     }
 
-    private String toString(final BufferedReader reader) throws IOException {
-        final StringBuilder builder = new StringBuilder();
-        String line = null;
-        while ((line = reader.readLine()) != null) {
-            builder.append(line).append(LINE_SEPARATOR);
+    @Throws(IOException::class)
+    private fun toString(reader: BufferedReader): String {
+        val builder = StringBuilder()
+        var line: String? = null
+        while (reader.readLine().also { line = it } != null) {
+            builder.append(line).append(License.Companion.LINE_SEPARATOR)
         }
-        return builder.toString();
+        return builder.toString()
     }
 
+    companion object {
+        private const val serialVersionUID = 3100331505738956523L
+        private val LINE_SEPARATOR = System.getProperty("line.separator")
+    }
 }

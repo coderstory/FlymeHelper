@@ -13,95 +13,59 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package com.coderstory.flyme.tools.licensesdialog.model
 
-package com.coderstory.flyme.tools.licensesdialog.model;
+import android.os.Parcel
+import android.os.Parcelable
+import android.os.Parcelable.Creator
+import com.coderstory.flyme.tools.licensesdialog.licenses.License
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.coderstory.flyme.tools.licensesdialog.licenses.License;
-
-public class Notice implements Parcelable {
-
-    public static Creator<Notice> CREATOR = new Creator<Notice>() {
-        public Notice createFromParcel(final Parcel source) {
-            return new Notice(source);
-        }
-
-        public Notice[] newArray(final int size) {
-            return new Notice[size];
-        }
-    };
-    private String mName;
-    private String mUrl;
-    private String mCopyright;
-
-    //
-    private License mLicense;
-
-    public Notice() {
-    }
-
-    // Setter / Getter
-
-    public Notice(final String name, final String url, final String copyright, final License license) {
-        mName = name;
-        mUrl = url;
-        mCopyright = copyright;
-        mLicense = license;
-    }
-
-    private Notice(final Parcel in) {
-        mName = in.readString();
-        mUrl = in.readString();
-        mCopyright = in.readString();
-        mLicense = (License) in.readSerializable();
-    }
-
-    public String getName() {
-        return mName;
-    }
-
-    public void setName(final String name) {
-        mName = name;
-    }
-
-    public String getUrl() {
-        return mUrl;
-    }
-
-    public void setUrl(final String url) {
-        mUrl = url;
-    }
-
-    public String getCopyright() {
-        return mCopyright;
-    }
-
-    public void setCopyright(final String copyright) {
-        mCopyright = copyright;
-    }
+class Notice : Parcelable {
+    var name: String? = null
+    var url: String? = null
+    var copyright: String? = null
 
     // Parcelable
+    //
+    var license: License? = null
 
-    public License getLicense() {
-        return mLicense;
+    constructor()
+
+    // Setter / Getter
+    constructor(name: String?, url: String?, copyright: String?, license: License?) {
+        this.name = name
+        this.url = url
+        this.copyright = copyright
+        this.license = license
     }
 
-    public void setLicense(final License license) {
-        mLicense = license;
+    private constructor(`in`: Parcel) {
+        name = `in`.readString()
+        url = `in`.readString()
+        copyright = `in`.readString()
+        license = `in`.readSerializable() as License?
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    override fun describeContents(): Int {
+        return 0
     }
 
-    @Override
-    public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeString(mName);
-        dest.writeString(mUrl);
-        dest.writeString(mCopyright);
-        dest.writeSerializable(mLicense);
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(name)
+        dest.writeString(url)
+        dest.writeString(copyright)
+        dest.writeSerializable(license)
+    }
+
+    companion object {
+        var CREATOR: Creator<Notice> = object : Creator<Notice?> {
+            override fun createFromParcel(source: Parcel): Notice? {
+                return Notice(source)
+            }
+
+            override fun newArray(size: Int): Array<Notice?> {
+                return arrayOfNulls(size)
+            }
+        }
     }
 }

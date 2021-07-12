@@ -1,10 +1,9 @@
-package com.coderstory.flyme;
+package com.coderstory.flyme
 
-import com.coderstory.flyme.preferences.PreferencesProvider;
+import com.coderstory.flyme.preferences.PreferencesProvider
 
-public class preferencesProvider extends PreferencesProvider {
-    @Override
-    public String getAuthorities() {
-        return "com.coderstory.flyme.preferencesProvider";
+class preferencesProvider : PreferencesProvider() {
+    override fun getAuthorities(): String {
+        return "com.coderstory.flyme.preferencesProvider"
     }
 }

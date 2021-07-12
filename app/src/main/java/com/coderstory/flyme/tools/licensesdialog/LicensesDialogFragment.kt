@@ -13,313 +13,270 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+package com.coderstory.flyme.tools.licensesdialog
 
-package com.coderstory.flyme.tools.licensesdialog;
+import android.app.Dialog
+import android.content.*
+import android.os.Build
+import android.os.Bundle
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.RawRes
+import androidx.annotation.StyleRes
+import androidx.fragment.app.DialogFragment
+import com.coderstory.flyme.R
+import com.coderstory.flyme.tools.licensesdialog.LicensesDialog
+import com.coderstory.flyme.tools.licensesdialog.LicensesDialogFragment
+import com.coderstory.flyme.tools.licensesdialog.NoticesHtmlBuilder
+import com.coderstory.flyme.tools.licensesdialog.model.Notice
+import com.coderstory.flyme.tools.licensesdialog.model.Notices
 
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.os.Build;
-import android.os.Bundle;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.ColorRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.RawRes;
-import androidx.annotation.StyleRes;
-import androidx.fragment.app.DialogFragment;
-
-import com.coderstory.flyme.R;
-import com.coderstory.flyme.tools.licensesdialog.model.Notice;
-import com.coderstory.flyme.tools.licensesdialog.model.Notices;
-
-public class LicensesDialogFragment extends DialogFragment {
-
-    private static final String ARGUMENT_NOTICES = "ARGUMENT_NOTICES";
-    private static final String ARGUMENT_NOTICES_XML_ID = "ARGUMENT_NOTICES_XML_ID";
-    private static final String ARGUMENT_INCLUDE_OWN_LICENSE = "ARGUMENT_INCLUDE_OWN_LICENSE";
-    private static final String ARGUMENT_FULL_LICENSE_TEXT = "ARGUMENT_FULL_LICENSE_TEXT";
-    private static final String ARGUMENT_THEME_XML_ID = "ARGUMENT_THEME_XML_ID";
-    private static final String ARGUMENT_DIVIDER_COLOR = "ARGUMENT_DIVIDER_COLOR";
-    private static final String ARGUMENT_USE_APPCOMPAT = "ARGUMENT_USE_APPCOMPAT";
-    private static final String STATE_TITLE_TEXT = "title_text";
-    private static final String STATE_LICENSES_TEXT = "licenses_text";
-    private static final String STATE_CLOSE_TEXT = "close_text";
-    private static final String STATE_THEME_XML_ID = "theme_xml_id";
-    private static final String STATE_DIVIDER_COLOR = "divider_color";
-
+class LicensesDialogFragment  // ==========================================================================================================================
+// Factory
+// ==========================================================================================================================
+    : DialogFragment() {
     //
-    private String mTitleText;
-    private String mCloseButtonText;
-    private String mLicensesText;
-    private int mThemeResourceId;
-    private int mDividerColor;
-
-    private DialogInterface.OnDismissListener mOnDismissListener;
-
-    // ==========================================================================================================================
-    // Factory
-    // ==========================================================================================================================
-
-    public LicensesDialogFragment() {
-    }
-
-    private static LicensesDialogFragment newInstance(final Notices notices,
-                                                      final boolean showFullLicenseText,
-                                                      final boolean includeOwnLicense,
-                                                      final int themeResourceId,
-                                                      final int dividerColor,
-                                                      final boolean useAppCompat) {
-        final LicensesDialogFragment licensesDialogFragment = new LicensesDialogFragment();
-        final Bundle args = new Bundle();
-        args.putParcelable(ARGUMENT_NOTICES, notices);
-        args.putBoolean(ARGUMENT_FULL_LICENSE_TEXT, showFullLicenseText);
-        args.putBoolean(ARGUMENT_INCLUDE_OWN_LICENSE, includeOwnLicense);
-        args.putInt(ARGUMENT_THEME_XML_ID, themeResourceId);
-        args.putInt(ARGUMENT_DIVIDER_COLOR, dividerColor);
-        args.putBoolean(ARGUMENT_USE_APPCOMPAT, useAppCompat);
-        licensesDialogFragment.setArguments(args);
-        return licensesDialogFragment;
-    }
-
-    // ==========================================================================================================================
-    // Constructor
-    // ==========================================================================================================================
-
-    private static LicensesDialogFragment newInstance(final int rawNoticesResourceId,
-                                                      final boolean showFullLicenseText,
-                                                      final boolean includeOwnLicense,
-                                                      final int themeResourceId,
-                                                      final int dividerColor,
-                                                      final boolean useAppCompat) {
-        final LicensesDialogFragment licensesDialogFragment = new LicensesDialogFragment();
-        final Bundle args = new Bundle();
-        args.putInt(ARGUMENT_NOTICES_XML_ID, rawNoticesResourceId);
-        args.putBoolean(ARGUMENT_FULL_LICENSE_TEXT, showFullLicenseText);
-        args.putBoolean(ARGUMENT_INCLUDE_OWN_LICENSE, includeOwnLicense);
-        args.putInt(ARGUMENT_THEME_XML_ID, themeResourceId);
-        args.putInt(ARGUMENT_DIVIDER_COLOR, dividerColor);
-        args.putBoolean(ARGUMENT_USE_APPCOMPAT, useAppCompat);
-        licensesDialogFragment.setArguments(args);
-        return licensesDialogFragment;
-    }
-
-    // ==========================================================================================================================
-    // Android Lifecycle
-    // ==========================================================================================================================
-
-    @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        final Resources resources = getResources();
-
-        if (savedInstanceState != null) {
-            mTitleText = savedInstanceState.getString(STATE_TITLE_TEXT);
-            mLicensesText = savedInstanceState.getString(STATE_LICENSES_TEXT);
-            mCloseButtonText = savedInstanceState.getString(STATE_CLOSE_TEXT);
-            if (savedInstanceState.containsKey(STATE_THEME_XML_ID)) {
-                mThemeResourceId = savedInstanceState.getInt(STATE_THEME_XML_ID);
-            }
-            if (savedInstanceState.containsKey(STATE_DIVIDER_COLOR)) {
-                mDividerColor = savedInstanceState.getInt(STATE_DIVIDER_COLOR);
-            }
-        } else {
-            mTitleText = resources.getString(R.string.notices_title);
-            mCloseButtonText = resources.getString(R.string.notices_close);
-            try {
-                final Notices notices;
-                final Bundle arguments = getArguments();
-                if (arguments != null) {
-                    if (arguments.containsKey(ARGUMENT_NOTICES_XML_ID)) {
-                        notices = NoticesXmlParser.parse(resources.openRawResource(getNoticesXmlResourceId()));
-                    } else if (arguments.containsKey(ARGUMENT_NOTICES)) {
-                        notices = arguments.getParcelable(ARGUMENT_NOTICES);
-                    } else {
-                        throw new IllegalStateException("Missing ARGUMENT_NOTICES_XML_ID / ARGUMENT_NOTICES");
-                    }
-                    if (arguments.getBoolean(ARGUMENT_INCLUDE_OWN_LICENSE, false)) {
-                        notices.getNotices().add(LicensesDialog.LICENSES_DIALOG_NOTICE);
-                    }
-                    final boolean showFullLicenseText = arguments.getBoolean(ARGUMENT_FULL_LICENSE_TEXT, false);
-                    if (arguments.containsKey(ARGUMENT_THEME_XML_ID)) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                            mThemeResourceId = arguments.getInt(ARGUMENT_THEME_XML_ID, android.R.style.Theme_DeviceDefault_Light_Dialog);
-                        } else {
-                            mThemeResourceId = arguments.getInt(ARGUMENT_THEME_XML_ID);
-                        }
-                    }
-                    if (arguments.containsKey(ARGUMENT_DIVIDER_COLOR)) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                            mDividerColor = arguments.getInt(ARGUMENT_DIVIDER_COLOR, android.R.color.holo_blue_light);
-                        } else {
-                            mDividerColor = arguments.getInt(ARGUMENT_DIVIDER_COLOR);
-                        }
-                    }
-                    mLicensesText = NoticesHtmlBuilder.create(getActivity()).setNotices(notices).setShowFullLicenseText(showFullLicenseText).build();
-                } else {
-                    throw new IllegalStateException("Missing arguments");
-                }
-            } catch (final Exception e) {
-                throw new IllegalStateException(e);
-            }
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(final Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(STATE_TITLE_TEXT, mTitleText);
-        outState.putString(STATE_LICENSES_TEXT, mLicensesText);
-        outState.putString(STATE_CLOSE_TEXT, mCloseButtonText);
-        if (mThemeResourceId != 0) {
-            outState.putInt(STATE_THEME_XML_ID, mThemeResourceId);
-        }
-        if (mDividerColor != 0) {
-            outState.putInt(STATE_DIVIDER_COLOR, mDividerColor);
-        }
-    }
-
-    @Override
-    public Dialog onCreateDialog(final Bundle savedInstanceState) {
-        final LicensesDialog.Builder builder = new LicensesDialog.Builder(getActivity())
-                .setNotices(mLicensesText)
-                .setTitle(mTitleText).setCloseText(mCloseButtonText)
-                .setThemeResourceId(mThemeResourceId).setDividerColor(mDividerColor);
-        final LicensesDialog licensesDialog = builder.build();
-        if (getArguments().getBoolean(ARGUMENT_USE_APPCOMPAT, false)) {
-            return licensesDialog.createAppCompat();
-        } else {
-            return licensesDialog.create();
-        }
-    }
-
-    @Override
-    public void onDismiss(final DialogInterface dialog) {
-        super.onDismiss(dialog);
-        if (mOnDismissListener != null) {
-            mOnDismissListener.onDismiss(dialog);
-        }
-    }
+    private var mTitleText: String? = null
+    private var mCloseButtonText: String? = null
+    private var mLicensesText: String? = null
+    private var mThemeResourceId = 0
+    private var mDividerColor = 0
 
     // ==========================================================================================================================
     // Public API
     // ==========================================================================================================================
+    var onDismissListener: DialogInterface.OnDismissListener? = null
 
-    public DialogInterface.OnDismissListener getOnDismissListener() {
-        return mOnDismissListener;
+    // ==========================================================================================================================
+    // Android Lifecycle
+    // ==========================================================================================================================
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val resources = resources
+        if (savedInstanceState != null) {
+            mTitleText = savedInstanceState.getString(LicensesDialogFragment.Companion.STATE_TITLE_TEXT)
+            mLicensesText = savedInstanceState.getString(LicensesDialogFragment.Companion.STATE_LICENSES_TEXT)
+            mCloseButtonText = savedInstanceState.getString(LicensesDialogFragment.Companion.STATE_CLOSE_TEXT)
+            if (savedInstanceState.containsKey(LicensesDialogFragment.Companion.STATE_THEME_XML_ID)) {
+                mThemeResourceId = savedInstanceState.getInt(LicensesDialogFragment.Companion.STATE_THEME_XML_ID)
+            }
+            if (savedInstanceState.containsKey(LicensesDialogFragment.Companion.STATE_DIVIDER_COLOR)) {
+                mDividerColor = savedInstanceState.getInt(LicensesDialogFragment.Companion.STATE_DIVIDER_COLOR)
+            }
+        } else {
+            mTitleText = resources.getString(R.string.notices_title)
+            mCloseButtonText = resources.getString(R.string.notices_close)
+            try {
+                val notices: Notices?
+                val arguments = arguments
+                if (arguments != null) {
+                    notices = if (arguments.containsKey(LicensesDialogFragment.Companion.ARGUMENT_NOTICES_XML_ID)) {
+                        NoticesXmlParser.parse(resources.openRawResource(noticesXmlResourceId))
+                    } else if (arguments.containsKey(LicensesDialogFragment.Companion.ARGUMENT_NOTICES)) {
+                        arguments.getParcelable(LicensesDialogFragment.Companion.ARGUMENT_NOTICES)
+                    } else {
+                        throw IllegalStateException("Missing ARGUMENT_NOTICES_XML_ID / ARGUMENT_NOTICES")
+                    }
+                    if (arguments.getBoolean(LicensesDialogFragment.Companion.ARGUMENT_INCLUDE_OWN_LICENSE, false)) {
+                        notices!!.notices.add(LicensesDialog.Companion.LICENSES_DIALOG_NOTICE)
+                    }
+                    val showFullLicenseText = arguments.getBoolean(LicensesDialogFragment.Companion.ARGUMENT_FULL_LICENSE_TEXT, false)
+                    if (arguments.containsKey(LicensesDialogFragment.Companion.ARGUMENT_THEME_XML_ID)) {
+                        mThemeResourceId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                            arguments.getInt(LicensesDialogFragment.Companion.ARGUMENT_THEME_XML_ID, android.R.style.Theme_DeviceDefault_Light_Dialog)
+                        } else {
+                            arguments.getInt(LicensesDialogFragment.Companion.ARGUMENT_THEME_XML_ID)
+                        }
+                    }
+                    if (arguments.containsKey(LicensesDialogFragment.Companion.ARGUMENT_DIVIDER_COLOR)) {
+                        mDividerColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                            arguments.getInt(LicensesDialogFragment.Companion.ARGUMENT_DIVIDER_COLOR, android.R.color.holo_blue_light)
+                        } else {
+                            arguments.getInt(LicensesDialogFragment.Companion.ARGUMENT_DIVIDER_COLOR)
+                        }
+                    }
+                    mLicensesText = NoticesHtmlBuilder.Companion.create(activity).setNotices(notices).setShowFullLicenseText(showFullLicenseText).build()
+                } else {
+                    throw IllegalStateException("Missing arguments")
+                }
+            } catch (e: Exception) {
+                throw IllegalStateException(e)
+            }
+        }
     }
 
-    public void setOnDismissListener(final DialogInterface.OnDismissListener onDismissListener) {
-        mOnDismissListener = onDismissListener;
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(LicensesDialogFragment.Companion.STATE_TITLE_TEXT, mTitleText)
+        outState.putString(LicensesDialogFragment.Companion.STATE_LICENSES_TEXT, mLicensesText)
+        outState.putString(LicensesDialogFragment.Companion.STATE_CLOSE_TEXT, mCloseButtonText)
+        if (mThemeResourceId != 0) {
+            outState.putInt(LicensesDialogFragment.Companion.STATE_THEME_XML_ID, mThemeResourceId)
+        }
+        if (mDividerColor != 0) {
+            outState.putInt(LicensesDialogFragment.Companion.STATE_DIVIDER_COLOR, mDividerColor)
+        }
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val builder = LicensesDialog.Builder(activity)
+                .setNotices(mLicensesText)
+                .setTitle(mTitleText).setCloseText(mCloseButtonText)
+                .setThemeResourceId(mThemeResourceId).setDividerColor(mDividerColor)
+        val licensesDialog = builder.build()
+        return if (arguments!!.getBoolean(LicensesDialogFragment.Companion.ARGUMENT_USE_APPCOMPAT, false)) {
+            licensesDialog.createAppCompat()
+        } else {
+            licensesDialog.create()
+        }
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        if (onDismissListener != null) {
+            onDismissListener!!.onDismiss(dialog)
+        }
     }
 
     // ==========================================================================================================================
     // Private API
     // ==========================================================================================================================
-
-    private int getNoticesXmlResourceId() {
-        int resourceId = R.raw.notices;
-        final Bundle arguments = getArguments();
-        if (arguments != null && arguments.containsKey(ARGUMENT_NOTICES_XML_ID)) {
-            resourceId = arguments.getInt(ARGUMENT_NOTICES_XML_ID);
-            if (!"raw".equalsIgnoreCase(getResources().getResourceTypeName(resourceId))) {
-                throw new IllegalStateException("not a raw resource");
+    private val noticesXmlResourceId: Int
+        private get() {
+            var resourceId = R.raw.notices
+            val arguments = arguments
+            if (arguments != null && arguments.containsKey(LicensesDialogFragment.Companion.ARGUMENT_NOTICES_XML_ID)) {
+                resourceId = arguments.getInt(LicensesDialogFragment.Companion.ARGUMENT_NOTICES_XML_ID)
+                check("raw".equals(resources.getResourceTypeName(resourceId), ignoreCase = true)) { "not a raw resource" }
             }
+            return resourceId
         }
-
-        return resourceId;
-    }
 
     // ==========================================================================================================================
     // Inner classes
     // ==========================================================================================================================
-
-    public static class Builder {
-
-        private final Context mContext;
-        private Notices mNotices;
-        private Integer mRawNoticesResourceId;
-        private boolean mShowFullLicenseText;
-        private boolean mIncludeOwnLicense;
-        private int mThemeResourceId;
-        private int mDividerColor;
-        private boolean mUseAppCompat;
-
-        // ==========================================================================================================================
-        // Constructor
-        // ==========================================================================================================================
-
-        public Builder(@NonNull final Context context) {
-            mContext = context;
-            // Set default values
-            mShowFullLicenseText = false;
-            mIncludeOwnLicense = true;
-            mThemeResourceId = 0;
-            mDividerColor = 0;
-            mUseAppCompat = false;
-        }
+    class Builder// Set default values     // ==========================================================================================================================
+    // Constructor
+    // ==========================================================================================================================
+    (private val mContext: Context) {
+        private var mNotices: Notices? = null
+        private var mRawNoticesResourceId: Int? = null
+        private var mShowFullLicenseText = false
+        private var mIncludeOwnLicense = true
+        private var mThemeResourceId = 0
+        private var mDividerColor = 0
+        private var mUseAppCompat = false
 
         // ==========================================================================================================================
         // Public API
         // ==========================================================================================================================
-
-        public Builder setNotice(final Notice notice) {
-            mNotices = new Notices();
-            mNotices.addNotice(notice);
-            return this;
+        fun setNotice(notice: Notice?): LicensesDialogFragment.Builder {
+            mNotices = Notices()
+            mNotices!!.addNotice(notice)
+            return this
         }
 
-        public Builder setNotices(final Notices notices) {
-            mNotices = notices;
-            return this;
+        fun setNotices(notices: Notices?): LicensesDialogFragment.Builder {
+            mNotices = notices
+            return this
         }
 
-        public Builder setNotices(@RawRes final int rawNoticesResourceId) {
-            mRawNoticesResourceId = rawNoticesResourceId;
-            return this;
+        fun setNotices(@RawRes rawNoticesResourceId: Int): LicensesDialogFragment.Builder {
+            mRawNoticesResourceId = rawNoticesResourceId
+            return this
         }
 
-        public Builder setShowFullLicenseText(final boolean showFullLicenseText) {
-            mShowFullLicenseText = showFullLicenseText;
-            return this;
+        fun setShowFullLicenseText(showFullLicenseText: Boolean): LicensesDialogFragment.Builder {
+            mShowFullLicenseText = showFullLicenseText
+            return this
         }
 
-        public Builder setIncludeOwnLicense(final boolean includeOwnLicense) {
-            mIncludeOwnLicense = includeOwnLicense;
-            return this;
+        fun setIncludeOwnLicense(includeOwnLicense: Boolean): LicensesDialogFragment.Builder {
+            mIncludeOwnLicense = includeOwnLicense
+            return this
         }
 
-        public Builder setThemeResourceId(@StyleRes final int themeResourceId) {
-            mThemeResourceId = themeResourceId;
-            return this;
+        fun setThemeResourceId(@StyleRes themeResourceId: Int): LicensesDialogFragment.Builder {
+            mThemeResourceId = themeResourceId
+            return this
         }
 
-        public Builder setDividerColorRes(@ColorRes final int dividerColor) {
-            mDividerColor = mContext.getResources().getColor(dividerColor);
-            return this;
+        fun setDividerColorRes(@ColorRes dividerColor: Int): LicensesDialogFragment.Builder {
+            mDividerColor = mContext.resources.getColor(dividerColor)
+            return this
         }
 
-        public Builder setDividerColor(@ColorInt final int dividerColor) {
-            mDividerColor = dividerColor;
-            return this;
+        fun setDividerColor(@ColorInt dividerColor: Int): LicensesDialogFragment.Builder {
+            mDividerColor = dividerColor
+            return this
         }
 
-        public Builder setUseAppCompat(final boolean useAppCompat) {
-            mUseAppCompat = useAppCompat;
-            return this;
+        fun setUseAppCompat(useAppCompat: Boolean): LicensesDialogFragment.Builder {
+            mUseAppCompat = useAppCompat
+            return this
         }
 
-        public LicensesDialogFragment build() {
-            if (mNotices != null) {
-                return newInstance(mNotices, mShowFullLicenseText, mIncludeOwnLicense, mThemeResourceId, mDividerColor, mUseAppCompat);
+        fun build(): LicensesDialogFragment {
+            return if (mNotices != null) {
+                LicensesDialogFragment.Companion.newInstance(mNotices, mShowFullLicenseText, mIncludeOwnLicense, mThemeResourceId, mDividerColor, mUseAppCompat)
             } else if (mRawNoticesResourceId != null) {
-                return newInstance(mRawNoticesResourceId, mShowFullLicenseText, mIncludeOwnLicense, mThemeResourceId, mDividerColor, mUseAppCompat);
+                LicensesDialogFragment.Companion.newInstance(mRawNoticesResourceId, mShowFullLicenseText, mIncludeOwnLicense, mThemeResourceId, mDividerColor, mUseAppCompat)
             } else {
-                throw new IllegalStateException("Required parameter not set. You need to call setNotices.");
+                throw IllegalStateException("Required parameter not set. You need to call setNotices.")
             }
         }
-
     }
 
+    companion object {
+        private const val ARGUMENT_NOTICES = "ARGUMENT_NOTICES"
+        private const val ARGUMENT_NOTICES_XML_ID = "ARGUMENT_NOTICES_XML_ID"
+        private const val ARGUMENT_INCLUDE_OWN_LICENSE = "ARGUMENT_INCLUDE_OWN_LICENSE"
+        private const val ARGUMENT_FULL_LICENSE_TEXT = "ARGUMENT_FULL_LICENSE_TEXT"
+        private const val ARGUMENT_THEME_XML_ID = "ARGUMENT_THEME_XML_ID"
+        private const val ARGUMENT_DIVIDER_COLOR = "ARGUMENT_DIVIDER_COLOR"
+        private const val ARGUMENT_USE_APPCOMPAT = "ARGUMENT_USE_APPCOMPAT"
+        private const val STATE_TITLE_TEXT = "title_text"
+        private const val STATE_LICENSES_TEXT = "licenses_text"
+        private const val STATE_CLOSE_TEXT = "close_text"
+        private const val STATE_THEME_XML_ID = "theme_xml_id"
+        private const val STATE_DIVIDER_COLOR = "divider_color"
+        private fun newInstance(notices: Notices,
+                                showFullLicenseText: Boolean,
+                                includeOwnLicense: Boolean,
+                                themeResourceId: Int,
+                                dividerColor: Int,
+                                useAppCompat: Boolean): LicensesDialogFragment {
+            val licensesDialogFragment = LicensesDialogFragment()
+            val args = Bundle()
+            args.putParcelable(LicensesDialogFragment.Companion.ARGUMENT_NOTICES, notices)
+            args.putBoolean(LicensesDialogFragment.Companion.ARGUMENT_FULL_LICENSE_TEXT, showFullLicenseText)
+            args.putBoolean(LicensesDialogFragment.Companion.ARGUMENT_INCLUDE_OWN_LICENSE, includeOwnLicense)
+            args.putInt(LicensesDialogFragment.Companion.ARGUMENT_THEME_XML_ID, themeResourceId)
+            args.putInt(LicensesDialogFragment.Companion.ARGUMENT_DIVIDER_COLOR, dividerColor)
+            args.putBoolean(LicensesDialogFragment.Companion.ARGUMENT_USE_APPCOMPAT, useAppCompat)
+            licensesDialogFragment.arguments = args
+            return licensesDialogFragment
+        }
+
+        // ==========================================================================================================================
+        // Constructor
+        // ==========================================================================================================================
+        private fun newInstance(rawNoticesResourceId: Int,
+                                showFullLicenseText: Boolean,
+                                includeOwnLicense: Boolean,
+                                themeResourceId: Int,
+                                dividerColor: Int,
+                                useAppCompat: Boolean): LicensesDialogFragment {
+            val licensesDialogFragment = LicensesDialogFragment()
+            val args = Bundle()
+            args.putInt(LicensesDialogFragment.Companion.ARGUMENT_NOTICES_XML_ID, rawNoticesResourceId)
+            args.putBoolean(LicensesDialogFragment.Companion.ARGUMENT_FULL_LICENSE_TEXT, showFullLicenseText)
+            args.putBoolean(LicensesDialogFragment.Companion.ARGUMENT_INCLUDE_OWN_LICENSE, includeOwnLicense)
+            args.putInt(LicensesDialogFragment.Companion.ARGUMENT_THEME_XML_ID, themeResourceId)
+            args.putInt(LicensesDialogFragment.Companion.ARGUMENT_DIVIDER_COLOR, dividerColor)
+            args.putBoolean(LicensesDialogFragment.Companion.ARGUMENT_USE_APPCOMPAT, useAppCompat)
+            licensesDialogFragment.arguments = args
+            return licensesDialogFragment
+        }
+    }
 }
