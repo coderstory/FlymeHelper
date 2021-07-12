@@ -1,5 +1,7 @@
 package com.coderstory.flyme.activity;
 
+import static com.coderstory.flyme.R.id.navigation_view;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -52,8 +54,6 @@ import java.util.Map;
 import per.goweii.anylayer.AnyLayer;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
-
-import static com.coderstory.flyme.R.id.navigation_view;
 
 public class MainActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
     public static final long MAX_DOUBLE_BACK_DURATION = 1500;
@@ -229,12 +229,8 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                 }
 
                 normalDialog.setPositiveButton("退出",
-                        (dialog, which) -> {
-                            System.exit(0);
-                        });
-                normalDialog.setCancelable(true
-
-                );
+                        (dialog, which) -> System.exit(0));
+                normalDialog.setCancelable(false);
                 normalDialog.show();
             }
         } catch (Exception e) {

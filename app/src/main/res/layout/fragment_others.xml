@@ -207,18 +207,55 @@
                 android:paddingBottom="4dp"
                 android:text="@string/disable_charge_animation" />
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/enable_back_vibrator"
+            <!--            <androidx.appcompat.widget.SwitchCompat-->
+            <!--                android:id="@+id/enable_back_vibrator"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="80dp"-->
+            <!--                android:layout_marginTop="4dp"-->
+            <!--                android:background="@color/switchBtn"-->
+            <!--                android:maxLines="10"-->
+            <!--                android:paddingStart="30dp"-->
+            <!--                android:paddingTop="4dp"-->
+            <!--                android:paddingEnd="30dp"-->
+            <!--                android:paddingBottom="4dp"-->
+            <!--                android:text="@string/enable_back_vibrator" />-->
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="4dp"
                 android:background="@color/switchBtn"
-                android:maxLines="10"
                 android:paddingStart="30dp"
                 android:paddingTop="4dp"
                 android:paddingEnd="30dp"
                 android:paddingBottom="4dp"
-                android:text="@string/enable_back_vibrator" />
+                android:textAlignment="viewStart">
+
+                <TextView
+                    android:id="@+id/enable_back_vibrator_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:width="200dp"
+                    android:background="@color/switchBtn"
+                    android:paddingTop="25dp"
+                    android:text="@string/enable_back_vibrator"
+                    android:textColor="#000" />
+
+                <EditText
+                    android:id="@+id/enable_back_vibrator"
+                    android:layout_width="22dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:layout_weight="2"
+                    android:digits="1234567890"
+                    android:gravity="center"
+                    android:hint="不填则禁用"
+                    android:inputType="number"
+                    android:maxLines="6"
+                    android:textColor="#000"
+                    android:textSize="15sp" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"

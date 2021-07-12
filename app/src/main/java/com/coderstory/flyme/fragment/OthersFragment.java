@@ -5,9 +5,12 @@ import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -188,9 +191,24 @@ public class OthersFragment extends BaseFragment {
             getEditor().putBoolean("disable_charge_animation", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
             fix();
         });
-        $(R.id.enable_back_vibrator).setOnClickListener(v -> {
-            getEditor().putBoolean("enable_back_vibrator", ((androidx.appcompat.widget.SwitchCompat) v).isChecked());
-            fix();
+
+        EditText carrierName = $(R.id.enable_back_vibrator);
+        carrierName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                getEditor().putString("enable_back_vibrator_value", editable.toString());
+                fix();
+            }
         });
     }
 
@@ -201,7 +219,7 @@ public class OthersFragment extends BaseFragment {
 
     @Override
     protected void setUpData() {
-        ((androidx.appcompat.widget.SwitchCompat) $(R.id.enable_back_vibrator)).setChecked(getPrefs().getBoolean("enable_back_vibrator", false));
+        ((EditText) $(R.id.enable_back_vibrator)).setText(getPrefs().getString("enable_back_vibrator_value", ""));
         ((androidx.appcompat.widget.SwitchCompat) $(R.id.disable_charge_animation)).setChecked(getPrefs().getBoolean("disable_charge_animation", false));
         ((androidx.appcompat.widget.SwitchCompat) $(R.id.hide_icon_label)).setChecked(getPrefs().getBoolean("hide_icon_label", false));
         ((androidx.appcompat.widget.SwitchCompat) $(R.id.enableBlockAD)).setChecked(getPrefs().getBoolean("EnableBlockAD", false));

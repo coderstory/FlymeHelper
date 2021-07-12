@@ -73,7 +73,7 @@ public class SystemUi extends XposedHelper implements IModule {
                 hookAllMethods("com.flyme.systemui.charge.ChargeAnimationController", loadPackageParam.classLoader, "updateBatteryState", XC_MethodReplacement.returnConstant(null));
             }
 
-            if (prefs.getBoolean("enable_back_vibrator", false)) {
+            if (!prefs.getString("enable_back_vibrator_value", "").equals("")) {
                 if (Build.VERSION.SDK_INT == 30) {
                     findAndHookMethod("com.android.systemui.statusbar.phone.EdgeBackGestureHandler$4", loadPackageParam.classLoader, "triggerBack", getNotifyBackAction());
                 } else if (Build.VERSION.SDK_INT == 29) {
@@ -336,7 +336,7 @@ public class SystemUi extends XposedHelper implements IModule {
                 XposedBridge.log("notifyBackAction");
                 XposedBridge.log("ggg" + param.thisObject.getClass().getName());
                 Vibrator vb = (Vibrator) AndroidAppHelper.currentApplication().getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
-                vb.vibrate(50);
+                vb.vibrate(Long.parseLong(prefs.getString("enable_back_vibrator_value", "30")));
             }
         };
     }
