@@ -5,7 +5,7 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResou
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 interface IModule {
-    fun handleInitPackageResources(resparam: InitPackageResourcesParam)
-    fun handleLoadPackage(lpparam: LoadPackageParam)
+    fun handleInitPackageResources(respray: InitPackageResourcesParam)
+    fun handleLoadPackage(param: LoadPackageParam)
     fun initZygote(startupParam: StartupParam?)
 }

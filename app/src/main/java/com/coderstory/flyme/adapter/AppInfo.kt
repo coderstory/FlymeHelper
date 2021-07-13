@@ -19,7 +19,6 @@ class AppInfo {
     var fileSize = ""
     var releaseDate: String? = null
 
-    constructor()
     constructor(name: String, version: String, fileSize: String, releaseDate: String?) {
         this.name = if (name.length > 25) name.substring(0, 25) + "..." else name
         this.version = version

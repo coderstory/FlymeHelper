@@ -12,18 +12,18 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResou
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 class ThemePatcher : XposedHelper(), IModule {
-    override fun handleInitPackageResources(resparam: InitPackageResourcesParam) {}
-    override fun handleLoadPackage(lpparam: LoadPackageParam) {
+    override fun handleInitPackageResources(respray: InitPackageResourcesParam) {}
+    override fun handleLoadPackage(param: LoadPackageParam) {
 
         // 主题和谐
-        if (lpparam.packageName == "com.meizu.customizecenter" && prefs.getBoolean("enabletheme", false)) {
-            if (lpparam.packageName == "com.meizu.customizecenter") {
+        if (param.packageName == "com.meizu.customizecenter" && prefs.getBoolean("enabletheme", false)) {
+            if (param.packageName == "com.meizu.customizecenter") {
                 // 拦截开机自启广播
-                XposedHelper.Companion.findAndHookMethod("com.meizu.customizecenter.admin.receiver.BootBroadcastReceiver", lpparam.classLoader, "onReceive", Context::class.java, Intent::class.java, XC_MethodReplacement.returnConstant(null))
+                findAndHookMethod("com.meizu.customizecenter.admin.receiver.BootBroadcastReceiver", param.classLoader, "onReceive", Context::class.java, Intent::class.java, XC_MethodReplacement.returnConstant(null))
 
                 // 拦截试用服务
-                XposedHelper.Companion.findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.FontTrialService", lpparam.classLoader, "onStartCommand", Intent::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(2))
-                XposedHelper.Companion.findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.ThemeTrialService", lpparam.classLoader, "onStartCommand", Intent::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, object : XC_MethodReplacement() {
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.FontTrialService", param.classLoader, "onStartCommand", Intent::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(2))
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.ThemeTrialService", param.classLoader, "onStartCommand", Intent::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, object : XC_MethodReplacement() {
                     @Throws(Throwable::class)
                     override fun replaceHookedMethod(param: MethodHookParam): Any {
                         return 2
@@ -32,14 +32,14 @@ class ThemePatcher : XposedHelper(), IModule {
 
                 //device_states | doCheckState
                 // 8.0.23
-                XposedHelper.Companion.findAndHookMethod("com.meizu.customizecenter.k.c.a.c", lpparam.classLoader, "w", Context::class.java, XC_MethodReplacement.returnConstant(2))
-                XposedHelper.Companion.findAndHookMethod("com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility", lpparam.classLoader, "isRoot", Context::class.java, XC_MethodReplacement.returnConstant(false))
-                XposedHelper.Companion.findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.f.b", lpparam.classLoader, "n", Context::class.java, XC_MethodReplacement.returnConstant(false))
+                findAndHookMethod("com.meizu.customizecenter.k.c.a.c", param.classLoader, "w", Context::class.java, XC_MethodReplacement.returnConstant(2))
+                findAndHookMethod("com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility", param.classLoader, "isRoot", Context::class.java, XC_MethodReplacement.returnConstant(false))
+                findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.f.b", param.classLoader, "n", Context::class.java, XC_MethodReplacement.returnConstant(false))
 
                 //resetToSystemTheme
                 // findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true));
                 // 8.0.23
-                XposedHelper.Companion.findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.j.b", lpparam.classLoader, "e", XC_MethodReplacement.returnConstant(true))
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.j.b", param.classLoader, "e", XC_MethodReplacement.returnConstant(true))
                 /**
                  *
                  * public void a(boolean arg4, boolean arg5) {
@@ -52,7 +52,7 @@ class ThemePatcher : XposedHelper(), IModule {
                  * }
                  */
                 // 7.5
-                XposedHelper.Companion.findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "a", Context::class.java, String::class.java, Long::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(null))
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", param.classLoader, "a", Context::class.java, String::class.java, Long::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(null))
                 /**
                  * public void k() {
                  * long v0 = SystemClock.elapsedRealtime() - this.n();
@@ -62,16 +62,16 @@ class ThemePatcher : XposedHelper(), IModule {
                  * }
                  * }
                  */
-                XposedHelper.Companion.findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.g", lpparam.classLoader, "k", XC_MethodReplacement.returnConstant(null))
-                XposedHelper.Companion.findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "k", XC_MethodReplacement.returnConstant(null))
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.g", param.classLoader, "k", XC_MethodReplacement.returnConstant(null))
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", param.classLoader, "k", XC_MethodReplacement.returnConstant(null))
                 // 8.0.23
-                XposedHelper.Companion.findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "b", XC_MethodReplacement.returnConstant(null))
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", param.classLoader, "b", XC_MethodReplacement.returnConstant(null))
 
                 //"checkTrialFont:!isUsingTrialFont() Context context, String str, long j
-                XposedHelper.Companion.findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", lpparam.classLoader, "a", Context::class.java, String::class.java, Long::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(null))
-                val themeContentProvider: Class<*> = findClass("com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider", lpparam.classLoader)
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", param.classLoader, "a", Context::class.java, String::class.java, Long::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(null))
+                val themeContentProvider: Class<*> = findClass("com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider", param.classLoader)
                 //主题混搭 ThemeContentProvider query Unknown URI
-                XposedHelper.Companion.findAndHookMethod(themeContentProvider, "query", Uri::class.java, Array<String>::class.java, String::class.java, Array<String>::class.java, String::class.java, object : XC_MethodHook() {
+                findAndHookMethod(themeContentProvider, "query", Uri::class.java, Array<String>::class.java, String::class.java, Array<String>::class.java, String::class.java, object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         val objs = param.args
@@ -102,9 +102,9 @@ class ThemePatcher : XposedHelper(), IModule {
                 })
 
                 // android 11 8.30.2
-                XposedHelper.Companion.findAndHookMethod("com.meizu.customizecenter.manager.utilshelper.restorehelper.ThemeRestoreService", lpparam.classLoader, "onStartCommand", Intent::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(0))
-                XposedHelper.Companion.findAndHookMethod("com.meizu.customizecenter.manager.utilshelper.restorehelper.FontRestoreService", lpparam.classLoader, "onStartCommand", Intent::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(0))
-                XposedHelper.Companion.findAndHookMethod("com.meizu.customizecenter.manager.utilshelper.scannerhelper.CustomizeScannerService", lpparam.classLoader, "onStartCommand", Intent::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(0))
+                findAndHookMethod("com.meizu.customizecenter.manager.utilshelper.restorehelper.ThemeRestoreService", param.classLoader, "onStartCommand", Intent::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(0))
+                findAndHookMethod("com.meizu.customizecenter.manager.utilshelper.restorehelper.FontRestoreService", param.classLoader, "onStartCommand", Intent::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(0))
+                findAndHookMethod("com.meizu.customizecenter.manager.utilshelper.scannerhelper.CustomizeScannerService", param.classLoader, "onStartCommand", Intent::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(0))
             }
         }
     }

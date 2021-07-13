@@ -16,7 +16,7 @@ import java.util.*
 import java.util.stream.Collectors
 
 class HideApp : XposedHelper(), IModule {
-    override fun handleInitPackageResources(resparam: InitPackageResourcesParam) {}
+    override fun handleInitPackageResources(respray: InitPackageResourcesParam) {}
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         if (loadPackageParam.packageName == "com.meizu.flyme.launcher") {
             // bl.add(new ComponentName("com.android.vending", "com.android.vending.MarketWidgetProvider"));

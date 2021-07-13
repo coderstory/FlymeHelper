@@ -1,7 +1,7 @@
 package com.coderstory.flyme.tools
 
 import com.coderstory.flyme.fragment.base.BaseFragment
-import java.util.*
+
 
 object ViewUtils {
     private val fragmentList: MutableMap<String, BaseFragment?> = HashMap()
@@ -12,7 +12,7 @@ object ViewUtils {
      * @param clazz the Fragment of create
      * @return
      */
-    private fun createFragment(clazz: Class<*>, isObtain: Boolean): BaseFragment? {
+    private fun createFragment(clazz: Class<*>, isObtain: Boolean): BaseFragment {
         var resultFragment: BaseFragment? = null
         val className = clazz.name
         if (fragmentList.containsKey(className)) {
@@ -31,10 +31,10 @@ object ViewUtils {
             }
             if (isObtain) fragmentList[className] = resultFragment
         }
-        return resultFragment
+        return resultFragment!!
     }
 
-    fun createFragment(clazz: Class<*>): BaseFragment? {
+    fun createFragment(clazz: Class<*>): BaseFragment {
         return createFragment(clazz, true)
     }
 }

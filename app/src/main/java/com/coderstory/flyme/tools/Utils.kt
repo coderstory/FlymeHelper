@@ -20,6 +20,8 @@ import java.net.URL
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
+import kotlin.system.exitProcess
 
 class Utils {
     fun getSerialNumber(mContext: Context?): String? {
@@ -32,7 +34,7 @@ class Utils {
             normalDialog.setTitle("!!致命错误!!")
             normalDialog.setMessage("检测到您手机自带的ROOT已失效!")
             normalDialog.setPositiveButton("确定"
-            ) { dialog: DialogInterface?, which: Int -> System.exit(0) }
+            ) { _: DialogInterface?, _: Int -> exitProcess(0) }
             normalDialog.setCancelable(true)
             normalDialog.show()
         }
@@ -40,10 +42,10 @@ class Utils {
     }
 
     inner class Check : Runnable {
-        var mark: String
-        var sn: String?
-        var myHandler: Handler
-        var isLogin: Int
+        private var mark: String
+        private var sn: String?
+        private var myHandler: Handler
+        private var isLogin: Int
         var mContext: Context?
 
         constructor(helper: SharedHelper, myHandler: Handler, mContext: Context?) {
@@ -111,7 +113,7 @@ class Utils {
             }
         }
 
-        fun dealResponseResult(inputStream: InputStream): String {
+        private fun dealResponseResult(inputStream: InputStream): String {
             val resultData: String //存储处理结果
             val byteArrayOutputStream = ByteArrayOutputStream()
             val data = ByteArray(1024)
@@ -129,17 +131,16 @@ class Utils {
     }
 
     companion object {
-        private const val TAG = "Utils"
         fun convertDpToPixel(context: Context, dp: Int): Int {
             val density = context.resources.displayMetrics.density
-            return Math.round(dp.toFloat() * density)
+            return (dp.toFloat() * density).roundToInt()
         }
 
         private fun compareDay(day1: String, day2: String): Long {
             return try {
-                val d1 = SimpleDateFormat("yyyy-MM-dd").parse(day1)
-                val d2 = SimpleDateFormat("yyyy-MM-dd").parse(day2)
-                (d2.time - d1.time) / 1000 / 60 / 60 / 24
+                val d1 = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(day1)
+                val d2 = SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(day2)
+                (d2!!.time - d1!!.time) / 1000 / 60 / 60 / 24
             } catch (e: ParseException) {
                 e.printStackTrace()
                 0
@@ -151,7 +152,7 @@ class Utils {
         }
 
         private fun vp(): Long {
-            return compareDay(SimpleDateFormat("yyyy-MM-dd").format(Date()), Misc.endTime)
+            return compareDay(SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(Date()), Misc.endTime)
         }
 
         fun getMySharedPreferences(context: Context?, dir: String?, fileName: String?): SharedPreferences {

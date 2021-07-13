@@ -17,15 +17,15 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResou
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 class FlymeHome : XposedHelper(), IModule {
-    override fun handleInitPackageResources(resparam: InitPackageResourcesParam) {}
-    override fun handleLoadPackage(lpparam: LoadPackageParam) {
-        if (lpparam.packageName == "com.meizu.flyme.launcher") {
+    override fun handleInitPackageResources(respray: InitPackageResourcesParam) {}
+    override fun handleLoadPackage(param: LoadPackageParam) {
+        if (param.packageName == "com.meizu.flyme.launcher") {
             XposedBridge.log("开始hook桌面")
-            XposedBridge.log("获取到的参数个数" + prefs!!.all.size)
+            XposedBridge.log("获取到的参数个数" + prefs.all.size)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                if (prefs!!.getBoolean("hide_icon_label", false)) {
+                if (prefs.getBoolean("hide_icon_label", false)) {
                     // android 10
-                    XposedHelper.Companion.hookAllMethods("com.android.launcher3.BubbleTextView", lpparam.classLoader, "setText", object : XC_MethodHook() {
+                    XposedHelper.Companion.hookAllMethods("com.android.launcher3.BubbleTextView", param.classLoader, "setText", object : XC_MethodHook() {
                         @Throws(Throwable::class)
                         override fun beforeHookedMethod(param: MethodHookParam) {
                             super.beforeHookedMethod(param)
@@ -37,15 +37,15 @@ class FlymeHome : XposedHelper(), IModule {
                         }
                     })
                 }
-                meizu17(lpparam)
+                meizu17(param)
             } else {
-                hook55(XposedHelper.Companion.findClass("com.meizu.flyme.launcher.u", lpparam.classLoader), lpparam.classLoader)
-                hook55(XposedHelper.Companion.findClass("com.meizu.flyme.launcher.v", lpparam.classLoader), lpparam.classLoader)
-                hook55(XposedHelper.Companion.findClass("com.meizu.flyme.launcher.w", lpparam.classLoader), lpparam.classLoader)
-                if (prefs!!.getBoolean("hide_icon_label", false)) {
+                hook55(XposedHelper.Companion.findClass("com.meizu.flyme.launcher.u", param.classLoader), param.classLoader)
+                hook55(XposedHelper.Companion.findClass("com.meizu.flyme.launcher.v", param.classLoader), param.classLoader)
+                hook55(XposedHelper.Companion.findClass("com.meizu.flyme.launcher.w", param.classLoader), param.classLoader)
+                if (prefs.getBoolean("hide_icon_label", false)) {
                     //XposedBridge.log("开启隐藏标签");
                     // 隐藏图标标签
-                    XposedHelper.Companion.hookAllMethods(XposedHelper.Companion.findClass("com.meizu.flyme.launcher.ShortcutIcon", lpparam.classLoader), "a", object : XC_MethodHook() {
+                    XposedHelper.Companion.hookAllMethods(XposedHelper.Companion.findClass("com.meizu.flyme.launcher.ShortcutIcon", param.classLoader), "a", object : XC_MethodHook() {
                         @Throws(Throwable::class)
                         override fun afterHookedMethod(param: MethodHookParam) {
                             super.beforeHookedMethod(param)
@@ -56,7 +56,7 @@ class FlymeHome : XposedHelper(), IModule {
                         }
                     })
                     // 隐藏文件夹标签
-                    XposedHelper.Companion.findAndHookMethod("com.meizu.flyme.launcher.FolderIcon", lpparam.classLoader, "setTextVisible", Boolean::class.javaPrimitiveType, object : XC_MethodHook() {
+                    XposedHelper.Companion.findAndHookMethod("com.meizu.flyme.launcher.FolderIcon", param.classLoader, "setTextVisible", Boolean::class.javaPrimitiveType, object : XC_MethodHook() {
                         @Throws(Throwable::class)
                         override fun beforeHookedMethod(param: MethodHookParam) {
                             super.beforeHookedMethod(param)
@@ -65,7 +65,7 @@ class FlymeHome : XposedHelper(), IModule {
                     })
                 }
             }
-            if (prefs!!.getBoolean("disableSearch", false)) {
+            if (prefs.getBoolean("disableSearch", false)) {
                 /**
                  * private void startSearchActivity() {
                  * Intent actUp = new Intent("com.meizu.net.search.main");
@@ -74,10 +74,10 @@ class FlymeHome : XposedHelper(), IModule {
                  * this.mLauncher.startActivity(actUp);
                  * }
                  */
-                if (findClassWithoutLog("com.meizu.flyme.g.a", lpparam.classLoader) != null) {
-                    XposedHelper.Companion.findAndHookMethod("com.meizu.flyme.g.a", lpparam.classLoader, "a", XC_MethodReplacement.returnConstant(null))
-                } else if (findClassWithoutLog("com.meizu.launcher3.controller.CommonTouchController", lpparam.classLoader) != null) {
-                    XposedHelper.Companion.findAndHookMethod("com.meizu.launcher3.controller.CommonTouchController", lpparam.classLoader, "startSearchActivity", XC_MethodReplacement.returnConstant(null))
+                if (findClassWithoutLog("com.meizu.flyme.g.a", param.classLoader) != null) {
+                    XposedHelper.Companion.findAndHookMethod("com.meizu.flyme.g.a", param.classLoader, "a", XC_MethodReplacement.returnConstant(null))
+                } else if (findClassWithoutLog("com.meizu.launcher3.controller.CommonTouchController", param.classLoader) != null) {
+                    XposedHelper.Companion.findAndHookMethod("com.meizu.launcher3.controller.CommonTouchController", param.classLoader, "startSearchActivity", XC_MethodReplacement.returnConstant(null))
                 }
             }
         }
@@ -85,9 +85,9 @@ class FlymeHome : XposedHelper(), IModule {
 
     private fun meizu17(lpparam: LoadPackageParam) {
         val config: JSONObject = XposedHelper.Companion.json.getJSONObject("custom_launcher_icon_number")
-        val numRows = prefs!!.getInt("home_icon_num_rows", 0)
-        val numColumns = prefs!!.getInt("home_icon_num_column", 0)
-        val numHotseatIcons = prefs!!.getInt("home_icon_num_hot_seat_icons", 0)
+        val numRows = prefs.getInt("home_icon_num_rows", 0)
+        val numColumns = prefs.getInt("home_icon_num_column", 0)
+        val numHotseatIcons = prefs.getInt("home_icon_num_hot_seat_icons", 0)
         if (numColumns + numRows + numHotseatIcons != 0) {
             // 解决桌面widget长度问题
             XposedHelpers.findAndHookMethod(XposedHelpers.findClass("android.appwidget.AppWidgetHostView", lpparam.classLoader),
@@ -148,11 +148,11 @@ class FlymeHome : XposedHelper(), IModule {
         // deviceProfiles.add(new DeviceProfile("Flyme5", 359f, 518f, ((float)FlymeDeviceConfig.row), ((float)FlymeDeviceConfig.column), 55f, 13f, 4f, 55f));
         // (String str, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
         var type = ""
-        if (prefs!!.getBoolean("hide_icon_5", false)) {
+        if (prefs.getBoolean("hide_icon_5", false)) {
             type = "hide_icon_5"
-        } else if (prefs!!.getBoolean("hide_icon_6", false)) {
+        } else if (prefs.getBoolean("hide_icon_6", false)) {
             type = "hide_icon_6"
-        } else if (prefs!!.getBoolean("hide_icon_4", false)) {
+        } else if (prefs.getBoolean("hide_icon_4", false)) {
             type = "hide_icon_4"
         }
         if ("" != type) {

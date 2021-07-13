@@ -20,7 +20,7 @@ import com.coderstory.flyme.R.id
 import com.coderstory.flyme.activity.base.BaseActivity
 import com.coderstory.flyme.fragment.*
 import com.coderstory.flyme.tools.*
-import com.coderstory.flyme.update.UpdgradeService
+import com.coderstory.flyme.update.UpgradeService
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import per.goweii.anylayer.AnyLayer
@@ -137,7 +137,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
             Thread(Utils().Check(helper, myHandler, this)).start()
         }
         if (helper.getBoolean("enableUpdate", true)) {
-            UpdgradeService(this).checkUpgrade()
+            UpgradeService(this).checkUpgrade()
         }
     }
 
@@ -184,7 +184,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
             normalDialog.setCancelable(true)
             normalDialog.show()
         }
-        if (!Utils.Companion.vi()) {
+        if (!Utils.vi()) {
             val normalDialog = android.app.AlertDialog.Builder(this@MainActivity)
             normalDialog.setTitle("过期提示")
             normalDialog.setMessage("当前flyme助手版本已过期，请加入交流群下载最新版本")

@@ -16,7 +16,7 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResou
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 class Others : XposedHelper(), IModule {
-    override fun handleInitPackageResources(resparam: InitPackageResourcesParam) {}
+    override fun handleInitPackageResources(respray: InitPackageResourcesParam) {}
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         // 禁止安装app时候的安全检验
         if (loadPackageParam.packageName == "com.android.packageinstaller") {

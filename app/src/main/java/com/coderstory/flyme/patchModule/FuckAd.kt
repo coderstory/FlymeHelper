@@ -13,7 +13,7 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResou
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 class FuckAd : XposedHelper(), IModule {
-    override fun handleInitPackageResources(resparam: InitPackageResourcesParam) {}
+    override fun handleInitPackageResources(respray: InitPackageResourcesParam) {}
     override fun initZygote(startupParam: StartupParam?) {}
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         if ((loadPackageParam.packageName.contains("meizu") ||

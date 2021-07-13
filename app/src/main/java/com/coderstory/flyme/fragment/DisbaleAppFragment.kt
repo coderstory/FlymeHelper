@@ -39,12 +39,12 @@ import java.util.*
 class DisbaleAppFragment : BaseFragment() {
     private val appInfoList: MutableList<AppInfo?> = ArrayList()
     private val appInfoList2: MutableList<AppInfo?> = ArrayList()
-    var packages: List<PackageInfo> = ArrayList()
+    private var packages: List<PackageInfo> = ArrayList()
     var adapter: AppInfoAdapter? = null
-    var listView: ListView? = null
-    var appInfo: AppInfo? = null
-    var mposition = 0
-    var mview: View? = null
+    private var listView: ListView? = null
+    private var appInfo: AppInfo? = null
+    private var mposition = 0
+    private var mview: View? = null
     var mPullToRefreshView: PullToRefreshView? = null
     private var dialog: Dialog? = null
 
@@ -229,7 +229,7 @@ class DisbaleAppFragment : BaseFragment() {
         val fileName = "userList"
         var content: String? = ""
         if (!dir.exists()) {
-            SnackBarUtils.Companion.makeShort(`$`<View>(R.id.listView), getString(R.string.not_fond_backup_list_file)).danger()
+            SnackBarUtils.makeShort(`$`<View>(R.id.listView), getString(R.string.not_fond_backup_list_file)).danger()
             return
         }
         try {
@@ -238,7 +238,7 @@ class DisbaleAppFragment : BaseFragment() {
             e.printStackTrace()
         }
         if (content!!.isEmpty()) {
-            SnackBarUtils.Companion.makeShort(`$`<View>(R.id.listView), getString(R.string.not_fond_backup_list)).danger()
+            SnackBarUtils.makeShort(`$`<View>(R.id.listView), getString(R.string.not_fond_backup_list)).danger()
             return
         }
         val list = content.split("\n").toTypedArray()
@@ -263,7 +263,7 @@ class DisbaleAppFragment : BaseFragment() {
         val fileName = "userList"
         if (!dir.exists()) {
             if (!dir.mkdirs()) {
-                SnackBarUtils.Companion.makeShort(`$`<View>(R.id.listView), getString(R.string.tips_backup_error)).show()
+                SnackBarUtils.makeShort(`$`<View>(R.id.listView), getString(R.string.tips_backup_error)).show()
                 return
             }
         }

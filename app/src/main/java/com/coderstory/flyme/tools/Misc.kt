@@ -5,10 +5,8 @@ object Misc {
     const val ApplicationName = "com.coderstory.flyme"
     const val SharedPreferencesName = "UserSettings"
     const val HostFileTmpName = "/hosts"
-    const val endTime = "2099-11-1"
-    const val token = "5ee5d80f978eea081640e210"
-    const val channel = "qq_group"
-    const val isTestVersion = false
+    const val endTime = "2021-11-1"
+    const val isTestVersion = true
     val searchApi: String = Utils.Companion.decode(Cpp.helloWorld())
     private const val BasePath = "/storage/emulated/0/Flyme_Purify"
     const val BackPath = Misc.BasePath + "/Backup/"

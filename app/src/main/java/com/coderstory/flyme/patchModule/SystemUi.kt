@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.coderstory.flyme.patchModule.SystemUi
 import com.coderstory.flyme.tools.XposedHelper
 import com.coderstory.flyme.xposed.IModule
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
@@ -26,10 +25,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class SystemUi : XposedHelper(), IModule {
-    override fun handleInitPackageResources(resparam: InitPackageResourcesParam) {
-        if (resparam.packageName == "com.android.systemui") {
+    override fun handleInitPackageResources(respray: InitPackageResourcesParam) {
+        if (respray.packageName == "com.android.systemui") {
             if (prefs.getBoolean("show_icon_battery_percentage", false)) {
-                resparam.res.setReplacement(resparam.packageName, "string", "status_bar_settings_battery_meter_format_simple", "%d%%")
+                respray.res.setReplacement(respray.packageName, "string", "status_bar_settings_battery_meter_format_simple", "%d%%")
             }
         }
     }

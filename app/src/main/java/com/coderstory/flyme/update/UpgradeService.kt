@@ -12,11 +12,11 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class UpdgradeService(private val mActivity: Activity) {
+class UpgradeService(private val mActivity: Activity) {
     private val helper: SharedHelper = SharedHelper(mActivity)
     fun checkUpgrade() {
         val time = helper.getString("last_update_check_time", "")
-        val now = Base64.encodeToString(SimpleDateFormat("yyyyMMddHH").format(Date()).toByteArray(), Base64.DEFAULT)
+        val now = Base64.encodeToString(SimpleDateFormat("yyyyMMddHH", Locale.CHINA).format(Date()).toByteArray(), Base64.DEFAULT)
         if (time != "" && now == Base64.encodeToString(time.toByteArray(), Base64.DEFAULT)) {
             return
         } else {

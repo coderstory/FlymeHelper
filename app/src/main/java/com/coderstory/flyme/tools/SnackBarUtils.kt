@@ -3,15 +3,15 @@ package com.coderstory.flyme.tools
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 
-class SnackBarUtils private constructor(private val mSnackbar: Snackbar) {
+class SnackBarUtils private constructor(private val mSnack: Snackbar) {
     private fun getSnackBarLayout(snackbar: Snackbar?): View? {
         return snackbar?.view
     }
 
     private fun setSnackBarBackColor(colorId: Int): Snackbar {
-        val snackBarView = getSnackBarLayout(mSnackbar)
+        val snackBarView = getSnackBarLayout(mSnack)
         snackBarView?.setBackgroundColor(colorId)
-        return mSnackbar
+        return mSnack
     }
 
     fun info() {
@@ -55,12 +55,12 @@ class SnackBarUtils private constructor(private val mSnackbar: Snackbar) {
     }
 
     fun show() {
-        mSnackbar.show()
+        mSnack.show()
     }
 
     fun show(actionText: String?, listener: View.OnClickListener?) {
-        mSnackbar.setActionTextColor(color_action)
-        mSnackbar.setAction(actionText, listener).show()
+        mSnack.setActionTextColor(color_action)
+        mSnack.setAction(actionText, listener).show()
     }
 
     companion object {
