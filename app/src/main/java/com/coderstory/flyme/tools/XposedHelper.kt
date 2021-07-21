@@ -159,7 +159,7 @@ open class XposedHelper {
             }
         }
 
-        fun hookAllMethods(p1: String, classLoader: ClassLoader, methodName: String, parameterTypesAndCallback: XC_MethodHook): Int {
+        fun hookAllMethods(p1: String, classLoader: ClassLoader?, methodName: String, parameterTypesAndCallback: XC_MethodHook): Int {
             return try {
                 val packageParser = XposedHelpers.findClass(p1, classLoader)
                 val count = XposedBridge.hookAllMethods(packageParser, methodName, parameterTypesAndCallback).size
