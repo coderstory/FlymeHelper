@@ -143,7 +143,7 @@ class FlymeHome : XposedHelper(), IModule {
         }
     }
 
-    private fun hook55(clazz: Class<*>?, classLoader: ClassLoader) {
+    private fun hook55(clazz: Class<*>, classLoader: ClassLoader) {
         // 开启自定义布局
         // deviceProfiles.add(new DeviceProfile("Flyme5", 359f, 518f, ((float)FlymeDeviceConfig.row), ((float)FlymeDeviceConfig.column), 55f, 13f, 4f, 55f));
         // (String str, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
