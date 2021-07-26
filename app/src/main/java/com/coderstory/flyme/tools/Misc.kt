@@ -6,8 +6,8 @@ object Misc {
     const val SharedPreferencesName = "UserSettings"
     const val HostFileTmpName = "/hosts"
     const val endTime = "2021-11-1"
-    const val isTestVersion = true
-    val searchApi: String = Utils.Companion.decode(Cpp.helloWorld())
+    const val isTestVersion = false
+    val searchApi: String = Utils.decode(Cpp.helloWorld())
     private const val BasePath = "/storage/emulated/0/Flyme_Purify"
     const val BackPath = Misc.BasePath + "/Backup/"
     const val CrashFilePath = Misc.BasePath + "/CrashLog/"

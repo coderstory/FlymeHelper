@@ -28,6 +28,7 @@ import per.goweii.anylayer.Layer
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
+import kotlin.system.exitProcess
 
 class MainActivity : BaseActivity(), PermissionCallbacks {
     private val helper = SharedHelper(this)
@@ -51,7 +52,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
                     normalDialog.setTitle("提示")
                     normalDialog.setMessage("请先授权应用ROOT权限")
                     normalDialog.setPositiveButton("确定"
-                    ) { dialog: DialogInterface?, which: Int -> System.exit(0) }
+                    ) { _: DialogInterface?, _: Int -> exitProcess(0) }
                     normalDialog.show()
                     super.handleMessage(msg)
                 }
@@ -64,7 +65,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
                     helper.put("isRooted", true)
                 }
                 4 -> if (msg.data["value"] != "{\"error\":\"0\"}") {
-                    Toast.makeText(this@MainActivity, Utils.Companion.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" +
+                    Toast.makeText(this@MainActivity, Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" +
                             Gson().fromJson<Map<String, String>>(msg.data["value"].toString(), MutableMap::class.java).getOrDefault("error", msg.data["value"].toString()), Toast.LENGTH_LONG).show()
                     helper.put(Utils.decode("bWFyaw=="), "")
                 }
@@ -133,7 +134,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
         }.start()
         checkEnable()
         checkDialog()
-        if (Utils.Companion.check(helper)) {
+        if (Utils.check(helper)) {
             Thread(Utils().Check(helper, myHandler, this)).start()
         }
         if (helper.getBoolean("enableUpdate", true)) {
@@ -150,7 +151,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
                 normalDialog.setTitle("配置设置失败警告")
                 normalDialog.setMessage("请在LSPosed Manager或者EdXposed Manager中启用本插件后再打开本插件")
                 normalDialog.setPositiveButton("确定"
-                ) { dialog: DialogInterface?, which: Int -> System.exit(0) }
+                ) { _: DialogInterface?, _: Int -> exitProcess(0) }
                 normalDialog.show()
             }
         }
@@ -162,7 +163,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
             if ("9" != value) {
                 val normalDialog = android.app.AlertDialog.Builder(this@MainActivity)
                 normalDialog.setTitle("不兼容的操作系统")
-                if (value == null || "" == value) {
+                if ("" == value) {
                     normalDialog.setMessage("当前助手适配的是Flyme9系统,而当前系统不是FLyme")
                 } else {
                     normalDialog.setMessage("当前助手适配的是Flyme9系统,而当前系统是flyme$value,请选择合适的版本")
@@ -189,7 +190,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
             normalDialog.setTitle("过期提示")
             normalDialog.setMessage("当前flyme助手版本已过期，请加入交流群下载最新版本")
             normalDialog.setPositiveButton("确定"
-            ) { dialog: DialogInterface?, which: Int -> }
+            ) { _: DialogInterface?, _: Int -> }
             normalDialog.setCancelable(true)
             normalDialog.show()
         }
@@ -198,7 +199,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
             normalDialog.setTitle("FBI Warning")
             normalDialog.setMessage("当前版本为测试版本,不适合长期使用")
             normalDialog.setPositiveButton("确定"
-            ) { dialog: DialogInterface?, which: Int -> }
+            ) { _: DialogInterface?, _: Int -> }
             normalDialog.setCancelable(true)
             normalDialog.show()
         }
@@ -211,7 +212,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
                     .contentView(R.layout.dialog_xposed_disabled)
                     .cancelableOnTouchOutside(false)
                     .cancelableOnClickKeyBack(false)
-                    .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, id.fl_dialog_yes)
+                    .onClick({ AnyLayer: Layer, _: View? -> AnyLayer.dismiss() }, id.fl_dialog_yes)
                     .show()
         }
     }
@@ -233,7 +234,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
                 mPreMenuItem!!.isChecked = false
             }
             if (Misc.isProcessing) {
-                SnackBarUtils.Companion.makeShort(mDrawerLayout, getString(R.string.isWorkingTips)).danger()
+                SnackBarUtils.makeShort(mDrawerLayout, getString(R.string.isWorkingTips)).danger()
                 return@setNavigationItemSelectedListener false
             }
             val itemId = item.itemId
@@ -267,7 +268,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
                 mToolbar!!.setTitle(R.string.hosts)
                 switchFragment(HostsFragment::class.java)
             } else if (itemId == id.navigation_item_about_me) {
-                mToolbar!!.title = Utils.Companion.decode("5Lya5ZGY5r+A5rS7")
+                mToolbar!!.title = Utils.decode("5Lya5ZGY5r+A5rS7")
                 switchFragment(AccountFragment::class.java)
             } else if (itemId == id.navigation_item_xposed_install) {
                 mToolbar!!.title = "xposed框架安装"
@@ -285,8 +286,8 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
 
     //切换Fragment
     private fun switchFragment(clazz: Class<*>) {
-        val to: Fragment? = ViewUtils.createFragment(clazz)
-        if (to!!.isAdded) {
+        val to: Fragment = ViewUtils.createFragment(clazz)
+        if (to.isAdded) {
             mFragmentManager!!.beginTransaction().replace(mCurrentFragment!!.id, to).commit()
         } else {
             mFragmentManager!!.beginTransaction().replace(mCurrentFragment!!.id, to).commit()
@@ -310,11 +311,11 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
         }
         val currentTick = System.currentTimeMillis()
         if (currentTick - lastBackKeyDownTick > MAX_DOUBLE_BACK_DURATION) {
-            SnackBarUtils.Companion.makeShort(mDrawerLayout, "再按一次退出").info()
+            SnackBarUtils.makeShort(mDrawerLayout, "再按一次退出").info()
             lastBackKeyDownTick = currentTick
         } else {
             finish()
-            System.exit(0)
+            exitProcess(0)
         }
     }
 

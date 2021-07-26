@@ -18,7 +18,7 @@ class CorePatchForQ : XposedHelper(), IXposedHookLoadPackage, IXposedHookZygoteI
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         // 允许降级
         val packageClazz = XposedHelpers.findClass("android.content.pm.PackageParser.Package", loadPackageParam.classLoader)
-        XposedHelper.Companion.hookAllMethods("com.android.server.pm.PackageManagerService", loadPackageParam.classLoader, "checkDowngrade", object : XC_MethodHook() {
+        hookAllMethods("com.android.server.pm.PackageManagerService", loadPackageParam.classLoader, "checkDowngrade", object : XC_MethodHook() {
             @Throws(Throwable::class)
             public override fun beforeHookedMethod(methodHookParam: MethodHookParam) {
                 super.beforeHookedMethod(methodHookParam)
@@ -35,13 +35,13 @@ class CorePatchForQ : XposedHelper(), IXposedHookLoadPackage, IXposedHookZygoteI
                 }
             }
         })
-        XposedHelper.Companion.hookAllMethods("android.util.jar.StrictJarVerifier", loadPackageParam.classLoader, "verifyMessageDigest",
+        hookAllMethods("android.util.jar.StrictJarVerifier", loadPackageParam.classLoader, "verifyMessageDigest",
                 ReturnConstant(prefs, "authcreak", true))
-        XposedHelper.Companion.hookAllMethods("android.util.jar.StrictJarVerifier", loadPackageParam.classLoader, "verify",
+        hookAllMethods("android.util.jar.StrictJarVerifier", loadPackageParam.classLoader, "verify",
                 ReturnConstant(prefs, "authcreak", true))
-        XposedHelper.Companion.hookAllMethods("java.security.MessageDigest", loadPackageParam.classLoader, "isEqual",
+        hookAllMethods("java.security.MessageDigest", loadPackageParam.classLoader, "isEqual",
                 ReturnConstant(prefs, "authcreak", true))
-        XposedHelper.Companion.hookAllMethods("com.android.server.pm.PackageManagerServiceUtils", loadPackageParam.classLoader, "verifySignatures",
+        hookAllMethods("com.android.server.pm.PackageManagerServiceUtils", loadPackageParam.classLoader, "verifySignatures",
                 ReturnConstant(prefs, "authcreak", false))
         val signingDetails = XposedHelpers.findClass("android.content.pm.PackageParser.SigningDetails", loadPackageParam.classLoader)
         val findConstructorExact = XposedHelpers.findConstructorExact(signingDetails, Array<Signature>::class.java, Integer.TYPE)
@@ -53,7 +53,7 @@ class CorePatchForQ : XposedHelper(), IXposedHookLoadPackage, IXposedHookZygoteI
         signingDetailsArgs[0] = arrayOf(Signature(SIGNATURE))
         signingDetailsArgs[1] = 1
         val newInstance = findConstructorExact.newInstance(*signingDetailsArgs)
-        XposedHelper.Companion.hookAllMethods("android.util.apk.ApkSignatureVerifier", loadPackageParam.classLoader, "verifyV1Signature", object : XC_MethodHook() {
+        hookAllMethods("android.util.apk.ApkSignatureVerifier", loadPackageParam.classLoader, "verifyV1Signature", object : XC_MethodHook() {
             @Throws(Throwable::class)
             public override fun afterHookedMethod(methodHookParam: MethodHookParam) {
                 super.afterHookedMethod(methodHookParam)
@@ -78,7 +78,7 @@ class CorePatchForQ : XposedHelper(), IXposedHookLoadPackage, IXposedHookZygoteI
 
         //New package has a different signature
         //处理覆盖安装但签名不一致
-        XposedHelper.Companion.hookAllMethods(signingDetails, "checkCapability", object : XC_MethodHook() {
+        hookAllMethods(signingDetails, "checkCapability", object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: MethodHookParam) {
                 super.beforeHookedMethod(param)
@@ -89,7 +89,7 @@ class CorePatchForQ : XposedHelper(), IXposedHookLoadPackage, IXposedHookZygoteI
                 }
             }
         })
-        XposedHelper.Companion.hookAllMethods(signingDetails, "checkCapabilityRecover",
+        hookAllMethods(signingDetails, "checkCapabilityRecover",
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
@@ -103,7 +103,7 @@ class CorePatchForQ : XposedHelper(), IXposedHookLoadPackage, IXposedHookZygoteI
                 })
 
         // if app is system app, allow to use hidden api, even if app not using a system signature
-        XposedHelper.Companion.findAndHookMethod("android.content.pm.ApplicationInfo", loadPackageParam.classLoader, "isPackageWhitelistedForHiddenApis", object : XC_MethodHook() {
+        findAndHookMethod("android.content.pm.ApplicationInfo", loadPackageParam.classLoader, "isPackageWhitelistedForHiddenApis", object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: MethodHookParam) {
                 super.beforeHookedMethod(param)
@@ -119,7 +119,7 @@ class CorePatchForQ : XposedHelper(), IXposedHookLoadPackage, IXposedHookZygoteI
     }
 
     override fun initZygote(startupParam: StartupParam) {
-        XposedHelper.Companion.hookAllMethods("android.content.pm.PackageParser", null, "getApkSigningVersion", XC_MethodReplacement.returnConstant(1))
+        hookAllMethods("android.content.pm.PackageParser", null, "getApkSigningVersion", XC_MethodReplacement.returnConstant(1))
         hookAllConstructors("android.util.jar.StrictJarVerifier", object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: MethodHookParam) {

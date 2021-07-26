@@ -4,6 +4,7 @@ package com.coderstory.flyme.patchModule
 import android.app.AndroidAppHelper
 import android.app.Service
 import android.os.Build
+import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.format.DateFormat
 import android.view.Gravity
@@ -33,39 +34,39 @@ class SystemUi : XposedHelper(), IModule {
         }
     }
 
-    override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
-        if (loadPackageParam.packageName == "com.android.systemui") {
-            val status_bar_custom_carrier_name = prefs.getString("status_bar_custom_carrier_name", "")
-            if (status_bar_custom_carrier_name != "") {
-                XposedHelper.Companion.hookAllMethods("com.flyme.systemui.statusbar.ext.FlymeStatusBarPluginImpl\$FlymeNetWorkName", loadPackageParam.classLoader, "mergeNetWorkNames", XC_MethodReplacement.returnConstant(status_bar_custom_carrier_name))
+    override fun handleLoadPackage(param: LoadPackageParam) {
+        if (param.packageName == "com.android.systemui") {
+            val statusBarCustomCarrierName = prefs.getString("status_bar_custom_carrier_name", "")
+            if (statusBarCustomCarrierName != "") {
+                hookAllMethods("com.flyme.systemui.statusbar.ext.FlymeStatusBarPluginImpl\$FlymeNetWorkName", param.classLoader, "mergeNetWorkNames", XC_MethodReplacement.returnConstant(statusBarCustomCarrierName))
             }
 
             //coord: (0,198,28) | addr: Lcom/flyme/systemui/charge/ChargeAnimationController;->loadCharingView(Z)V | loc: ?
             if (prefs.getBoolean("disable_charge_animation", false)) {
-                XposedHelper.Companion.findAndHookMethod("com.flyme.systemui.charge.ChargeAnimationController", loadPackageParam.classLoader, "loadCharingView", Boolean::class.javaPrimitiveType, object : XC_MethodHook() {
+                findAndHookMethod("com.flyme.systemui.charge.ChargeAnimationController", param.classLoader, "loadCharingView", Boolean::class.javaPrimitiveType, object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         super.beforeHookedMethod(param)
                         param.args[0] = false
                     }
                 })
-                XposedHelper.Companion.hookAllConstructors("com.flyme.systemui.charge.ChargeAnimationController", loadPackageParam.classLoader, object : XC_MethodHook() {
+                hookAllConstructors("com.flyme.systemui.charge.ChargeAnimationController", param.classLoader, object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: MethodHookParam) {
                         super.afterHookedMethod(param)
                         XposedHelpers.setObjectField(param.thisObject, "mStartAnimation", Runnable {})
                     }
                 })
-                XposedHelper.Companion.hookAllMethods("com.flyme.systemui.charge.ChargeAnimationController", loadPackageParam.classLoader, "updateBatteryState", XC_MethodReplacement.returnConstant(null))
+                hookAllMethods("com.flyme.systemui.charge.ChargeAnimationController", param.classLoader, "updateBatteryState", XC_MethodReplacement.returnConstant(null))
             }
             if (prefs.getString("enable_back_vibrator_value", "") != "") {
                 if (Build.VERSION.SDK_INT == 30) {
-                    XposedHelper.Companion.findAndHookMethod("com.android.systemui.statusbar.phone.EdgeBackGestureHandler$4", loadPackageParam.classLoader, "triggerBack", notifyBackAction)
+                    findAndHookMethod("com.android.systemui.statusbar.phone.EdgeBackGestureHandler$4", param.classLoader, "triggerBack", notifyBackAction)
                 } else if (Build.VERSION.SDK_INT == 29) {
-                    XposedHelper.Companion.hookAllMethods("com.android.systemui.recents.OverviewProxyService", loadPackageParam.classLoader, "notifyBackAction", notifyBackAction)
+                    hookAllMethods("com.android.systemui.recents.OverviewProxyService", param.classLoader, "notifyBackAction", notifyBackAction)
                 }
             }
-            XposedHelper.Companion.hookAllMethods("com.android.systemui.statusbar.StatusBarIconView", loadPackageParam.classLoader, "set", object : XC_MethodHook() {
+            hookAllMethods("com.android.systemui.statusbar.StatusBarIconView", param.classLoader, "set", object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     super.afterHookedMethod(param)
@@ -83,13 +84,12 @@ class SystemUi : XposedHelper(), IModule {
                     }
                 }
             })
-            val className: String
-            className = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val className: String = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 "com.android.systemui.statusbar.phone.StatusBarIconControllerImpl"
             } else {
                 "com.android.systemui.statusbar.phone.StatusBarIconController"
             }
-            XposedHelper.Companion.findAndHookMethod(className, loadPackageParam.classLoader, "setIconVisibility", String::class.java, Boolean::class.javaPrimitiveType, object : XC_MethodHook() {
+            findAndHookMethod(className, param.classLoader, "setIconVisibility", String::class.java, Boolean::class.javaPrimitiveType, object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     super.beforeHookedMethod(param)
@@ -100,7 +100,7 @@ class SystemUi : XposedHelper(), IModule {
             })
             if (prefs.getBoolean("hide_icon_volte", false)) {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                    XposedHelper.Companion.hookAllMethods("com.android.systemui.statusbar.SignalClusterView", loadPackageParam.classLoader, "setMobileDataIndicators", object : XC_MethodHook() {
+                    hookAllMethods("com.android.systemui.statusbar.SignalClusterView", param.classLoader, "setMobileDataIndicators", object : XC_MethodHook() {
                         @Throws(Throwable::class)
                         override fun beforeHookedMethod(param: MethodHookParam) {
                             super.beforeHookedMethod(param)
@@ -111,19 +111,19 @@ class SystemUi : XposedHelper(), IModule {
                 //XposedBridge.log("SDK版本号: " + android.os.Build.VERSION.SDK_INT);
                 // android 10
                 if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-                    XposedHelper.Companion.hookAllMethods("com.android.systemui.statusbar.policy.MobileSignalController", loadPackageParam.classLoader, "isVolteSwitchOn", XC_MethodReplacement.returnConstant(false))
+                    hookAllMethods("com.android.systemui.statusbar.policy.MobileSignalController", param.classLoader, "isVolteSwitchOn", XC_MethodReplacement.returnConstant(false))
                 }
             }
             // com.android.systemui.power.PowerUI playBatterySound start 低电量 电量空
             if (prefs.getBoolean("hideDepWarn", false)) {
-                XposedHelper.Companion.hookAllMethods("com.flyme.systemui.developer.DeveloperSettingsController", loadPackageParam.classLoader, "updateDeveloperNotification", XC_MethodReplacement.returnConstant(null))
+                hookAllMethods("com.flyme.systemui.developer.DeveloperSettingsController", param.classLoader, "updateDeveloperNotification", XC_MethodReplacement.returnConstant(null))
             }
             //隐藏 空sim卡图标
             if (prefs.getBoolean("hide_status_bar_no_sim_icon", false)) {
-                XposedHelper.Companion.findAndHookMethod("com.android.systemui.statusbar.policy.NetworkControllerImpl", loadPackageParam.classLoader, "updateNoSims", XC_MethodReplacement.returnConstant(null))
+                findAndHookMethod("com.android.systemui.statusbar.policy.NetworkControllerImpl", param.classLoader, "updateNoSims", XC_MethodReplacement.returnConstant(null))
             }
             if (prefs.getBoolean("hide_status_bar_slow_rate_icon", false)) {
-                XposedHelper.Companion.hookAllMethods("com.flyme.systemui.statusbar.ConnectionRateView", loadPackageParam.classLoader, "updateConnectionRate", object : XC_MethodHook() {
+                hookAllMethods("com.flyme.systemui.statusbar.ConnectionRateView", param.classLoader, "updateConnectionRate", object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: MethodHookParam) {
                         super.afterHookedMethod(param)
@@ -136,7 +136,7 @@ class SystemUi : XposedHelper(), IModule {
             }
 
             //XposedBridge.log("外部读取值" + prefs.getBoolean("show_status_bar_time_second_icon", false));
-            XposedHelper.Companion.hookAllMethods("com.android.systemui.statusbar.policy.Clock", loadPackageParam.classLoader, "getSmallTime", object : XC_MethodHook() {
+            hookAllMethods("com.android.systemui.statusbar.policy.Clock", param.classLoader, "getSmallTime", object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     // XposedBridge.log("内部读取值" + prefs.getBoolean("show_status_bar_time_second_icon", false));
@@ -164,25 +164,25 @@ class SystemUi : XposedHelper(), IModule {
 
             //XposedBridge.log("开启隐藏热点图标" + prefs.getBoolean("hide_icon_hotspot", false));
             if (prefs.getBoolean("hide_icon_hotspot", false)) {
-                XposedHelper.Companion.findAndHookMethod("com.android.systemui.statusbar.policy.HotspotControllerImpl", loadPackageParam.classLoader, "setHotspotEnabled", Boolean::class.javaPrimitiveType, object : XC_MethodHook() {
+                findAndHookMethod("com.android.systemui.statusbar.policy.HotspotControllerImpl", param.classLoader, "setHotspotEnabled", Boolean::class.javaPrimitiveType, object : XC_MethodHook() {
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         param.args[0] = false
                     }
                 })
-                XposedHelper.Companion.findAndHookMethod("com.android.systemui.statusbar.policy.HotspotControllerImpl", loadPackageParam.classLoader, "enableHotspot", Boolean::class.javaPrimitiveType, object : XC_MethodHook() {
+                findAndHookMethod("com.android.systemui.statusbar.policy.HotspotControllerImpl", param.classLoader, "enableHotspot", Boolean::class.javaPrimitiveType, object : XC_MethodHook() {
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         param.args[0] = false
                     }
                 })
             }
             if (prefs.getBoolean("hide_icon_bluetooth", false)) {
-                XposedHelper.Companion.hookAllMethods("com.android.settingslib.bluetooth.BluetoothEventManager", loadPackageParam.classLoader, "dispatchActiveDeviceChanged", XC_MethodReplacement.returnConstant(null))
-                XposedHelper.Companion.hookAllMethods("com.android.settingslib.bluetooth.BluetoothEventManager", loadPackageParam.classLoader, "dispatchConnectionStateChanged", XC_MethodReplacement.returnConstant(null))
+                hookAllMethods("com.android.settingslib.bluetooth.BluetoothEventManager", param.classLoader, "dispatchActiveDeviceChanged", XC_MethodReplacement.returnConstant(null))
+                hookAllMethods("com.android.settingslib.bluetooth.BluetoothEventManager", param.classLoader, "dispatchConnectionStateChanged", XC_MethodReplacement.returnConstant(null))
             }
 
             //隐藏 vpn图标
             if (prefs.getBoolean("hide_status_bar_vpn_icon", false)) {
-                XposedHelper.Companion.hookAllMethods("com.android.systemui.statusbar.StatusBarIconView", loadPackageParam.classLoader, "setVisibility", object : XC_MethodHook() {
+                hookAllMethods("com.android.systemui.statusbar.StatusBarIconView", param.classLoader, "setVisibility", object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         super.beforeHookedMethod(param)
@@ -199,7 +199,7 @@ class SystemUi : XposedHelper(), IModule {
 
             //隐藏app图标
             if (prefs.getBoolean("hide_status_bar_app_icon", false)) {
-                XposedHelper.Companion.hookAllMethods("com.android.systemui.statusbar.StatusBarIconView", loadPackageParam.classLoader, "setVisibility", object : XC_MethodHook() {
+                hookAllMethods("com.android.systemui.statusbar.StatusBarIconView", param.classLoader, "setVisibility", object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         super.beforeHookedMethod(param)
@@ -210,7 +210,7 @@ class SystemUi : XposedHelper(), IModule {
 
             //时间居中
             if (prefs.getBoolean("status_text_view_clock_center", false)) {
-                XposedHelper.Companion.findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarView", loadPackageParam.classLoader, "setBar", "com.android.systemui.statusbar.phone.StatusBar",
+                findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarView", param.classLoader, "setBar", "com.android.systemui.statusbar.phone.StatusBar",
                         object : XC_MethodHook() {
                             @Throws(Throwable::class)
                             public override fun afterHookedMethod(param: MethodHookParam) {
@@ -219,7 +219,7 @@ class SystemUi : XposedHelper(), IModule {
                                 val res = context.resources
                                 val clock = phoneStatusBarView.findViewById<TextView>(
                                         res.getIdentifier("clock", "id", "com.android.systemui"))
-                                //SystemUi.Companion.mClock.get(0) = clock
+                                //SystemUi.mClock.get(0) = clock
                                 mClock[0] = clock
                                 (clock.parent as ViewGroup).removeView(clock)
                                 val mCenterLayout = LinearLayout(context)
@@ -232,43 +232,43 @@ class SystemUi : XposedHelper(), IModule {
                                 mCenterLayout.addView(clock)
                             }
                         })
-                XposedHelper.Companion.hookAllMethods("com.flyme.systemui.statusbar.phone.FlymeMarqueeTicker", loadPackageParam.classLoader, "tickerDone", object : XC_MethodHook() {
+                hookAllMethods("com.flyme.systemui.statusbar.phone.FlymeMarqueeTicker", param.classLoader, "tickerDone", object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: MethodHookParam) {
                         super.afterHookedMethod(param)
-                        SystemUi.Companion.mClock.get(0)?.visibility = View.VISIBLE
+                        mClock[0]?.visibility = View.VISIBLE
                     }
                 })
-                XposedHelper.Companion.hookAllMethods("com.flyme.systemui.statusbar.phone.MarqueeTextView", loadPackageParam.classLoader, "setText", object : XC_MethodHook() {
+                hookAllMethods("com.flyme.systemui.statusbar.phone.MarqueeTextView", param.classLoader, "setText", object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: MethodHookParam) {
                         super.afterHookedMethod(param)
-                        if (SystemUi.Companion.mClock.get(0) != null && param.args[0] != null) {
-                            SystemUi.Companion.mClock.get(0)!!.visibility = View.INVISIBLE
+                        if (mClock[0] != null && param.args[0] != null) {
+                            mClock[0]!!.visibility = View.INVISIBLE
                         }
                     }
                 })
-                XposedHelper.Companion.hookAllMethods("com.flyme.systemui.statusbar.phone.FlymeMarqueeTicker", loadPackageParam.classLoader, "tickerHalting", object : XC_MethodHook() {
+                hookAllMethods("com.flyme.systemui.statusbar.phone.FlymeMarqueeTicker", param.classLoader, "tickerHalting", object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: MethodHookParam) {
                         super.afterHookedMethod(param)
 
-                        SystemUi.Companion.mClock.get(0)?.visibility = View.VISIBLE
+                        mClock[0]?.visibility = View.VISIBLE
 
                     }
                 })
-                XposedHelper.Companion.hookAllMethods("com.flyme.systemui.statusbar.phone.FlymeMarqueeTicker", loadPackageParam.classLoader, "tickerStarting", object : XC_MethodHook() {
+                hookAllMethods("com.flyme.systemui.statusbar.phone.FlymeMarqueeTicker", param.classLoader, "tickerStarting", object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: MethodHookParam) {
                         super.afterHookedMethod(param)
 
-                        SystemUi.Companion.mClock.get(0)?.visibility = View.INVISIBLE
+                        mClock[0]?.visibility = View.INVISIBLE
 
                     }
                 })
             }
             //coord: (200179,10,46) | addr: Lcom/android/systemui/statusbar/phone/StatusBarSignalPolicy$WifiIconState;->toString()Ljava/lang/String;+28h | loc: ?
-            XposedHelper.Companion.hookAllMethods("com.android.systemui.statusbar.phone.StatusBarSignalPolicy", loadPackageParam.classLoader, "setMobileDataIndicators", object : XC_MethodHook() {
+            hookAllMethods("com.android.systemui.statusbar.phone.StatusBarSignalPolicy", param.classLoader, "setMobileDataIndicators", object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     super.beforeHookedMethod(param)
@@ -282,7 +282,7 @@ class SystemUi : XposedHelper(), IModule {
                 }
             })
             if (prefs.getString("isCore", "0") == "1") {
-                XposedHelper.Companion.hookAllConstructors("com.android.systemui.statusbar.phone.StatusBarSignalPolicy", loadPackageParam.classLoader, object : XC_MethodReplacement() {
+                hookAllConstructors("com.android.systemui.statusbar.phone.StatusBarSignalPolicy", param.classLoader, object : XC_MethodReplacement() {
                     override fun replaceHookedMethod(param: MethodHookParam) {
                     }
                 })
@@ -291,39 +291,41 @@ class SystemUi : XposedHelper(), IModule {
     }
 
     private val notifyBackAction: XC_MethodHook
-        private get() = object : XC_MethodHook() {
+        get() = object : XC_MethodHook() {
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: MethodHookParam) {
                 super.beforeHookedMethod(param)
                 XposedBridge.log("notifyBackAction")
                 XposedBridge.log("ggg" + param.thisObject.javaClass.name)
                 val vb = AndroidAppHelper.currentApplication().applicationContext.getSystemService(Service.VIBRATOR_SERVICE) as Vibrator
-                vb.vibrate(prefs.getString("enable_back_vibrator_value", "30")!!.toLong())
+
+                vb.vibrate(VibrationEffect.createOneShot(prefs.getString("enable_back_vibrator_value", "30")!!.toLong(), -1))
+                // view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         }
     val timeType: String
         get() {
             var type = ""
             val date = Date()
-            val df = SimpleDateFormat("HH")
+            val df = SimpleDateFormat("HH", Locale.CHINA)
             val str = df.format(date)
             val a = str.toInt()
-            if (a >= 0 && a < 6) {
+            if (a in 0..5) {
                 type = "深夜"
             }
-            if (a >= 6 && a < 11) {
+            if (a in 6..10) {
                 type = "上午"
             }
-            if (a >= 11 && a < 13) {
+            if (a in 11..12) {
                 type = "中午"
             }
-            if (a >= 13 && a < 17) {
+            if (a in 13..16) {
                 type = "下午"
             }
-            if (a >= 17 && a < 19) {
+            if (a in 17..18) {
                 type = "傍晚"
             }
-            if (a >= 19 && a <= 24) {
+            if (a in 19..24) {
                 type = "晚上"
             }
             return type
