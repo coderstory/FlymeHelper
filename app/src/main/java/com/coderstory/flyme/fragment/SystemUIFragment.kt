@@ -116,6 +116,11 @@ class SystemUIFragment : BaseFragment() {
             editor.putBoolean("show_status_bar_time_am_pm", (v as SwitchCompat).isChecked)
             fix()
         }
+        `$`<View>(R.id.status_text_view_lyric_center).setOnClickListener { v: View ->
+            editor.putBoolean("status_text_view_lyric_center", (v as SwitchCompat).isChecked)
+            fix()
+        }
+
         val carrierName = `$`<EditText>(R.id.status_bar_custom_carrier_name)
         carrierName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
@@ -156,7 +161,8 @@ class SystemUIFragment : BaseFragment() {
         (`$`<View>(R.id.hide_status_bar_battery_icon) as SwitchCompat).isChecked = prefs.getBoolean("hide_status_bar_battery_icon", false)
         (`$`<View>(R.id.hide_status_bar_app_icon) as SwitchCompat).isChecked = prefs.getBoolean("hide_status_bar_app_icon", false)
         (`$`<View>(R.id.show_status_bar_time_am_pm) as SwitchCompat).isChecked = prefs.getBoolean("show_status_bar_time_am_pm", false)
-        if (!Utils.Companion.check(SharedHelper(mContext))) {
+        (`$`<View>(R.id.status_text_view_lyric_center) as SwitchCompat).isChecked = prefs.getBoolean("status_text_view_lyric_center", false)
+        if (!Utils.check(SharedHelper(mContext))) {
             `$`<View>(R.id.hide_status_bar_slow_rate_icon).isEnabled = false
             `$`<View>(R.id.hide_status_bar_time_week_icon).isEnabled = false
             `$`<View>(R.id.hide_status_bar_time_chinese_icon).isEnabled = false
