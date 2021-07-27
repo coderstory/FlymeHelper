@@ -141,7 +141,7 @@ class SystemUIFragment : BaseFragment() {
     }
 
     override fun setUpData() {
-        (`$`<View>(R.id.hide_status_bar_time_eng_icon) as EditText).setText(prefs.getString("hide_status_bar_time_eng_icon", ""))
+        (`$`<View>(R.id.hide_status_bar_time_eng_icon) as SwitchCompat).isChecked = prefs.getBoolean("hide_status_bar_time_eng_icon", false)
         (`$`<View>(R.id.status_bar_custom_carrier_name) as EditText).setText(prefs.getString("status_bar_custom_carrier_name", ""))
         (`$`<View>(R.id.hide_icon_bluetooth) as SwitchCompat).isChecked = prefs.getBoolean("hide_icon_bluetooth", false)
         (`$`<View>(R.id.hide_icon_hotspot) as SwitchCompat).isChecked = prefs.getBoolean("hide_icon_hotspot", false)
