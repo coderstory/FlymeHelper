@@ -23,6 +23,7 @@
         <item
             android:id="@+id/navigation_item_xposed_install"
             android:icon="@drawable/ic_telegram"
+            android:visible="false"
             android:title="@string/install_xposed" />
 
         <item
