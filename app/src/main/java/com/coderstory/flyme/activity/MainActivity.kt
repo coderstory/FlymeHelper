@@ -143,18 +143,18 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
     }
 
     private fun checkDialog() {
-        if (Build.VERSION.SDK_INT == 30) {
-            try {
-                getSharedPreferences("test", MODE_WORLD_READABLE)
-            } catch (e: SecurityException) {
-                val normalDialog = AlertDialog.Builder(this@MainActivity)
-                normalDialog.setTitle("配置设置失败警告")
-                normalDialog.setMessage("请在LSPosed Manager或者EdXposed Manager中启用本插件后再打开本插件")
-                normalDialog.setPositiveButton("确定"
-                ) { _: DialogInterface?, _: Int -> exitProcess(0) }
-                normalDialog.show()
-            }
+        try {
+            getSharedPreferences("test", MODE_WORLD_READABLE)
+        } catch (e: SecurityException) {
+            val normalDialog = AlertDialog.Builder(this@MainActivity)
+            normalDialog.setCancelable(false)
+            normalDialog.setTitle("插件配置初始化失败")
+            normalDialog.setMessage("请使用最新版本的LSPosed或者EdXposed，且勾选本插件后再试")
+            normalDialog.setPositiveButton("确定"
+            ) { _: DialogInterface?, _: Int -> exitProcess(0) }
+            normalDialog.show()
         }
+
         try {
             val classType = Class.forName("android.os.SystemProperties")
             val getMethod = classType.getDeclaredMethod("get", String::class.java)
