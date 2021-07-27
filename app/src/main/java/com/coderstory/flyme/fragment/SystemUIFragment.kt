@@ -120,6 +120,10 @@ class SystemUIFragment : BaseFragment() {
             editor.putBoolean("status_text_view_lyric_center", (v as SwitchCompat).isChecked)
             fix()
         }
+        `$`<View>(R.id.hide_status_bar_time_eng_icon).setOnClickListener { v: View ->
+            editor.putBoolean("hide_status_bar_time_eng_icon", (v as SwitchCompat).isChecked)
+            fix()
+        }
 
         val carrierName = `$`<EditText>(R.id.status_bar_custom_carrier_name)
         carrierName.addTextChangedListener(object : TextWatcher {
@@ -137,6 +141,7 @@ class SystemUIFragment : BaseFragment() {
     }
 
     override fun setUpData() {
+        (`$`<View>(R.id.hide_status_bar_time_eng_icon) as EditText).setText(prefs.getString("hide_status_bar_time_eng_icon", ""))
         (`$`<View>(R.id.status_bar_custom_carrier_name) as EditText).setText(prefs.getString("status_bar_custom_carrier_name", ""))
         (`$`<View>(R.id.hide_icon_bluetooth) as SwitchCompat).isChecked = prefs.getBoolean("hide_icon_bluetooth", false)
         (`$`<View>(R.id.hide_icon_hotspot) as SwitchCompat).isChecked = prefs.getBoolean("hide_icon_hotspot", false)
@@ -168,6 +173,7 @@ class SystemUIFragment : BaseFragment() {
             `$`<View>(R.id.hide_status_bar_time_chinese_icon).isEnabled = false
             `$`<View>(R.id.status_text_view_clock_center).isEnabled = false
             `$`<View>(R.id.hide_status_bar_app_icon).isEnabled = false
+            `$`<View>(R.id.hide_status_bar_time_eng_icon).isEnabled = false
         }
     }
 

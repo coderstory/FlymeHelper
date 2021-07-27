@@ -43,9 +43,10 @@
     <string name="hide_status_bar_slow_rate_icon"><b>低速隐藏</b>  <font color='#FFC0CB'>vip</font>\n在系统设置里开启显示状态栏网速后，当实时网速低于100K/s则自隐藏状态栏上的网速图标</string>
     <string name="hide_status_bar_time_week_icon"><b>状态栏时间-星期</b>  <font color='#FFC0CB'>vip</font>\n在状态栏时间后面追加星期 \n比如 [18:20 周一]</string>
     <string name="hide_status_bar_time_chinese_icon"><b>状态栏时间-修饰</b>  <font color='#FFC0CB'>vip</font>\n在状态栏时间前面追加上午下午凌晨等词缀 比如 [傍晚 18:20]</string>
+    <string name="hide_status_bar_time_eng_icon"><b>状态栏星期-英文</b>  <font color='#FFC0CB'>vip</font>\n在状态栏显示英文的日期[需开启 状态栏时间-星期] \n比如 [AM 18:20 Mon]</string>
     <string name="HideRootGlobal"><b>全局隐藏root</b>\n针对所有的flyme自带软件,隐藏自带的ROOT,开启后设置里会显示ROOT未开启</string>
     <string name="status_text_view_clock_center"><b>状态栏时间居中</b> <font color='#FFC0CB'>vip</font>\n状态栏时间居中显示,与状态栏其他东西重叠时自动隐藏。</string>
-    <string name="status_text_view_lyric_center"><b>状态栏歌词居中</b> <font color='#FFC0CB'>vip</font>\n状态栏歌词居中显示,时间居左。\n本功能由MZXPT作者提供</string>
+    <string name="status_text_view_lyric_center"><b>状态栏歌词居中</b>\n状态栏歌词居中显示,时间居左。\n本功能由MZXPT作者提供</string>
     <string name="home_icon_num_rows"><b>自定义布局-行</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面有多少行app图标</string>
     <string name="home_icon_num_column"><b>自定义布局-列</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面有多少列app图标</string>
     <string name="home_icon_num_hot_seat_icons"><b>自定义布局-Dock</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面Dock栏的app数量</string>

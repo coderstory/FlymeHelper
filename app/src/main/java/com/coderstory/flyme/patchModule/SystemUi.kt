@@ -154,7 +154,7 @@ class SystemUi : XposedHelper(), IModule {
                         formatStr = "$timeType $formatStr"
                     }
                     // XposedBridge.log("时间格式" + formatStr);
-                    var time = SimpleDateFormat(formatStr, Locale.SIMPLIFIED_CHINESE).format(System.currentTimeMillis())
+                    var time = SimpleDateFormat(formatStr, (if (prefs.getBoolean("hide_status_bar_time_eng_icon", false)) Locale.ENGLISH else Locale.SIMPLIFIED_CHINESE)).format(System.currentTimeMillis())
                     if (prefs.getBoolean("show_status_bar_time_am_pm", false)) {
                         time = SimpleDateFormat("a", Locale.ENGLISH).format(System.currentTimeMillis()) + " " + time
                     }
