@@ -1,15 +1,10 @@
 package com.coderstory.flyme.fragment
 
 
-import android.annotation.SuppressLint
-import android.app.Dialog
-import android.app.ProgressDialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageInfo
-import android.os.AsyncTask
-import android.os.Looper
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -32,7 +27,6 @@ class UpgradeFragment : BaseFragment() {
     private var packages: List<PackageInfo> = ArrayList()
     private var adapter: AppInfoAdapter? = null
     private var mPullToRefreshView: PullToRefreshView? = null
-    private var dialog: Dialog? = null
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_upgrade_toolbar, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -61,17 +55,15 @@ class UpgradeFragment : BaseFragment() {
 
     private fun initData() {
         packages = ArrayList()
-        if (context != null) {
-            packages = requireContext().packageManager.getInstalledPackages(0)
-            initFruit()
-        }
+        packages = mContext.packageManager.getInstalledPackages(0)
+        initFruit()
     }
 
     private fun initFruit() {
         appInfos.clear()
         val str = prefs.getString("updateList", "")
         if ("" == str) {
-            Toast.makeText(context, "未找到任何更新包记录，请打开系统更新检测到更新后再试", Toast.LENGTH_LONG).show()
+            Toast.makeText(mContext, "未找到任何更新包记录，请打开系统更新检测到更新后再试", Toast.LENGTH_LONG).show()
         } else {
             try {
                 for (log in str!!.split(";").toTypedArray()) {
@@ -80,25 +72,25 @@ class UpgradeFragment : BaseFragment() {
                 }
             } catch (e: Exception) {
                 editor.putString("updateList", "")
-                Toast.makeText(context, "检测到数据异常，已重置", Toast.LENGTH_LONG).show()
+                Toast.makeText(mContext, "检测到数据异常，已重置", Toast.LENGTH_LONG).show()
                 fix()
             }
         }
     }
 
     private fun showData() {
-        adapter = AppInfoAdapter(context, R.layout.app_upgrade_item, appInfos)
+        adapter = AppInfoAdapter(mContext, R.layout.app_upgrade_item, appInfos)
         val listView = contentView!!.findViewById<ListView>(R.id.listView)
         listView.adapter = adapter
         listView.onItemClickListener = OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
             val appInfo = appInfos[position]
-            val anyLayer = AnyLayer.dialog(context)
+            val anyLayer = AnyLayer.dialog(mContext)
                     .contentView(R.layout.dialog_xposed_copyurl)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick({ AnyLayer: Layer, v: View? ->
                         val myClipboard: ClipboardManager
-                        myClipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        myClipboard = mContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         val myClip: ClipData
                         val text = appInfo!!.version
                         myClip = ClipData.newPlainText("text", text)
@@ -113,12 +105,11 @@ class UpgradeFragment : BaseFragment() {
         return R.layout.fragment_app_upgrade
     }
 
-    override fun init() {
+    override fun setUpData() {
         super.init()
         // Toast.makeText(getActivity(), "系统更新检测到的更新包地址", Toast.LENGTH_LONG).show();
-        UpgradeFragment().MyTask().execute()
         mPullToRefreshView = contentView!!.findViewById(R.id.pull_to_refresh)
-        mPullToRefreshView!!.setOnRefreshListener(object : PullToRefreshView.OnRefreshListener{
+        mPullToRefreshView!!.setOnRefreshListener(object : PullToRefreshView.OnRefreshListener {
             override fun onRefresh() {
                 mPullToRefreshView!!.postDelayed({
                     initData()
@@ -129,22 +120,11 @@ class UpgradeFragment : BaseFragment() {
             }
 
         })
+        initData()
+        showData()
+        adapter!!.notifyDataSetChanged()
     }
 
-    protected fun showProgress() {
-        if (dialog == null) {
-            dialog = ProgressDialog.show(context, getString(R.string.Tips_Title), "正在读取。。。")
-            dialog!!.show()
-        }
-    }
-
-    //
-    protected fun closeProgress() {
-        if (dialog != null) {
-            dialog!!.cancel()
-            dialog = null
-        }
-    }
 
     override fun onResume() {
         super.onResume()
@@ -154,28 +134,4 @@ class UpgradeFragment : BaseFragment() {
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
-    internal inner class MyTask : AsyncTask<String?, Int?, String?>() {
-        override fun onPreExecute() {
-            showProgress()
-        }
-
-        override fun onPostExecute(param: String?) {
-            showData()
-            adapter!!.notifyDataSetChanged()
-            closeProgress()
-        }
-
-        override fun onProgressUpdate(vararg values: Int?) {
-            super.onProgressUpdate(*values)
-        }
-
-        override fun doInBackground(vararg params: String?): String? {
-            if (Looper.myLooper() == null) {
-                Looper.prepare()
-            }
-            initData()
-            return null
-        }
-    }
 }
