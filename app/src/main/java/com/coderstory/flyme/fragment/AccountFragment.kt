@@ -187,7 +187,11 @@ class AccountFragment : BaseFragment() {
                             Thread(Utils().Check(_sign, myHandler, mContext)).start()
                         }
                     } else {
-                        Toast.makeText(mContext, Utils.Companion.decode("UVHlj7fkuI3og73kuLrnqbo="), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            mContext,
+                            Utils.decode("UVHlj7fkuI3og73kuLrnqbo="),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     layer.dismiss()
                 }, R.id.dialog_ok)
@@ -195,6 +199,7 @@ class AccountFragment : BaseFragment() {
         val cardView = (anyLayer as DialogLayer).contentView as CardView
         val linearLayout = cardView.getChildAt(0) as LinearLayout
         val textView = linearLayout.getChildAt(1) as TextView
-        textView.text = Utils.Companion.decode("5LuY6LS55LiU57uR5a6a5L2g55qEUVHlkI4NCuWcqOatpOi+k+WFpeS9oOeahFFR5bm254K55Ye76Kej6ZSBISE=")
+        textView.text =
+            Utils.decode("5LuY6LS55LiU57uR5a6a5L2g55qEUVHlkI4NCuWcqOatpOi+k+WFpeS9oOeahFFR5bm254K55Ye76Kej6ZSBISE=")
     }
 }

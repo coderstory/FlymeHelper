@@ -329,6 +329,43 @@
                 android:paddingBottom="4dp"
                 android:text="@string/status_text_view_clock_center" />
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:textAlignment="viewStart">
+
+                <TextView
+                    android:id="@+id/status_bar_custom_time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:width="180dp"
+                    android:background="@color/switchBtn"
+                    android:paddingTop="25dp"
+                    android:text="@string/status_bar_custom_time_text"
+                    android:textColor="#000" />
+
+                <TextView
+                    android:id="@+id/status_bar_custom_time"
+                    android:layout_width="28dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:layout_weight="2"
+                    android:clickable="true"
+                    android:hint="不填则默认"
+                    android:maxLines="12"
+                    android:onClick="click"
+                    android:textColor="#000"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/status_text_view_lyric_center"
                 android:layout_width="match_parent"

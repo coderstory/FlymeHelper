@@ -140,25 +140,43 @@ class SystemUi : XposedHelper(), IModule {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     // XposedBridge.log("内部读取值" + prefs.getBoolean("show_status_bar_time_second_icon", false));
-                    val view = param.thisObject as TextView
-                    val is24HourFormat = DateFormat.is24HourFormat(view.context)
-                    // HH:mm:ss EE 星期
-                    var formatStr = if (is24HourFormat) "HH:mm" else "hh:mm"
-                    if (prefs.getBoolean("show_status_bar_time_second_icon", false)) {
-                        formatStr += ":ss"
+                    if ("" != prefs.getString("status_bar_custom_time", "")) {
+                        param.result = SimpleDateFormat(
+                            prefs.getString("status_bar_custom_time", ""),
+                            Locale.ENGLISH
+                        ).format(System.currentTimeMillis())
+                    } else {
+                        val view = param.thisObject as TextView
+                        val is24HourFormat = DateFormat.is24HourFormat(view.context)
+                        // HH:mm:ss EE 星期
+                        var formatStr = if (is24HourFormat) "HH:mm" else "hh:mm"
+                        if (prefs.getBoolean("show_status_bar_time_second_icon", false)) {
+                            formatStr += ":ss"
+                        }
+                        if (prefs.getBoolean("hide_status_bar_time_week_icon", false)) {
+                            formatStr += " EE"
+                        }
+                        if (prefs.getBoolean("hide_status_bar_time_chinese_icon", false)) {
+                            formatStr = "$timeType $formatStr"
+                        }
+                        // XposedBridge.log("时间格式" + formatStr);
+                        var time = SimpleDateFormat(
+                            formatStr,
+                            (if (prefs.getBoolean(
+                                    "hide_status_bar_time_eng_icon",
+                                    false
+                                )
+                            ) Locale.ENGLISH else Locale.SIMPLIFIED_CHINESE)
+                        ).format(System.currentTimeMillis())
+                        if (prefs.getBoolean("show_status_bar_time_am_pm", false)) {
+                            time = SimpleDateFormat(
+                                "a",
+                                Locale.ENGLISH
+                            ).format(System.currentTimeMillis()) + " " + time
+                        }
+                        param.result = time
                     }
-                    if (prefs.getBoolean("hide_status_bar_time_week_icon", false)) {
-                        formatStr += " EE"
-                    }
-                    if (prefs.getBoolean("hide_status_bar_time_chinese_icon", false)) {
-                        formatStr = "$timeType $formatStr"
-                    }
-                    // XposedBridge.log("时间格式" + formatStr);
-                    var time = SimpleDateFormat(formatStr, (if (prefs.getBoolean("hide_status_bar_time_eng_icon", false)) Locale.ENGLISH else Locale.SIMPLIFIED_CHINESE)).format(System.currentTimeMillis())
-                    if (prefs.getBoolean("show_status_bar_time_am_pm", false)) {
-                        time = SimpleDateFormat("a", Locale.ENGLISH).format(System.currentTimeMillis()) + " " + time
-                    }
-                    param.result = time
+
                 }
             })
 
