@@ -37,8 +37,8 @@ class UpgradeFragment : BaseFragment() {
                 .contentView(R.layout.dialog_tdisable_app)
                 .cancelableOnTouchOutside(true)
                 .cancelableOnClickKeyBack(true)
-                .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
-                .onClick({ AnyLayer: Layer, v: View? ->
+                .onClick({ AnyLayer: Layer, _: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
+                .onClick({ AnyLayer: Layer, _: View? ->
                     editor.putString("updateList", "")
                     fix()
                     initData()
@@ -67,8 +67,10 @@ class UpgradeFragment : BaseFragment() {
         } else {
             try {
                 for (log in str!!.split(";").toTypedArray()) {
-                    val info = log.split("@").toTypedArray()
-                    appInfos.add(0, AppInfo("     " + info[0], info[1], "  " + info[2], "  " + info[3]))
+                    if (log != "") {
+                        val info = log.split("@").toTypedArray()
+                        appInfos.add(0, AppInfo("     " + info[0], info[1], "  " + info[2], "  " + info[3]))
+                    }
                 }
             } catch (e: Exception) {
                 editor.putString("updateList", "")
@@ -82,15 +84,14 @@ class UpgradeFragment : BaseFragment() {
         adapter = AppInfoAdapter(mContext, R.layout.app_upgrade_item, appInfos)
         val listView = contentView!!.findViewById<ListView>(R.id.listView)
         listView.adapter = adapter
-        listView.onItemClickListener = OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+        listView.onItemClickListener = OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
             val appInfo = appInfos[position]
             val anyLayer = AnyLayer.dialog(mContext)
                     .contentView(R.layout.dialog_xposed_copyurl)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
-                    .onClick({ AnyLayer: Layer, v: View? ->
-                        val myClipboard: ClipboardManager
-                        myClipboard = mContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    .onClick({ AnyLayer: Layer, _: View? ->
+                        val myClipboard: ClipboardManager = mContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         val myClip: ClipData
                         val text = appInfo!!.version
                         myClip = ClipData.newPlainText("text", text)
