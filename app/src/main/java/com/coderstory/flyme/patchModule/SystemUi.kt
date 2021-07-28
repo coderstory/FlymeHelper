@@ -144,7 +144,9 @@ class SystemUi : XposedHelper(), IModule {
                         param.result = SimpleDateFormat(
                             prefs.getString("status_bar_custom_time", ""),
                             Locale.ENGLISH
-                        ).format(System.currentTimeMillis())
+                        ).format(Date())
+
+                        XposedBridge.log(param.result.toString())
                     } else {
                         val view = param.thisObject as TextView
                         val is24HourFormat = DateFormat.is24HourFormat(view.context)

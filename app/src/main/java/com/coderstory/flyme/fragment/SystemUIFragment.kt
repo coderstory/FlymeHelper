@@ -157,6 +157,7 @@ class SystemUIFragment : BaseFragment() {
                             Toast.LENGTH_LONG
                         ).show()
                         editor.putString("status_bar_custom_time", value)
+                        customTime.text = value
                         fix()
                         layer.dismiss()
                     } catch (e: Exception) {
@@ -176,10 +177,6 @@ class SystemUIFragment : BaseFragment() {
     }
 
     override fun setUpData() {
-        (`$`<View>(R.id.status_bar_custom_time) as TextView).text = prefs.getString(
-            "status_bar_custom_time",
-            ""
-        )
         (`$`<View>(R.id.hide_status_bar_time_eng_icon) as SwitchCompat).isChecked =
             prefs.getBoolean("hide_status_bar_time_eng_icon", false)
         (`$`<View>(R.id.status_bar_custom_carrier_name) as EditText).setText(
@@ -224,12 +221,18 @@ class SystemUIFragment : BaseFragment() {
             prefs.getBoolean("hide_status_bar_sim1_icon", false)
         (`$`<View>(R.id.hide_status_bar_sim2_icon) as SwitchCompat).isChecked =
             prefs.getBoolean("hide_status_bar_sim2_icon", false)
-        (`$`<View>(R.id.hide_status_bar_location_icon) as SwitchCompat).isChecked = prefs.getBoolean("hide_status_bar_location_icon", false)
-        (`$`<View>(R.id.hide_status_bar_clock_icon) as SwitchCompat).isChecked = prefs.getBoolean("hide_status_bar_clock_icon", false)
-        (`$`<View>(R.id.hide_status_bar_battery_icon) as SwitchCompat).isChecked = prefs.getBoolean("hide_status_bar_battery_icon", false)
-        (`$`<View>(R.id.hide_status_bar_app_icon) as SwitchCompat).isChecked = prefs.getBoolean("hide_status_bar_app_icon", false)
-        (`$`<View>(R.id.show_status_bar_time_am_pm) as SwitchCompat).isChecked = prefs.getBoolean("show_status_bar_time_am_pm", false)
-        (`$`<View>(R.id.status_text_view_lyric_center) as SwitchCompat).isChecked = prefs.getBoolean("status_text_view_lyric_center", false)
+        (`$`<View>(R.id.hide_status_bar_location_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_location_icon", false)
+        (`$`<View>(R.id.hide_status_bar_clock_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_clock_icon", false)
+        (`$`<View>(R.id.hide_status_bar_battery_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_battery_icon", false)
+        (`$`<View>(R.id.hide_status_bar_app_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_app_icon", false)
+        (`$`<View>(R.id.show_status_bar_time_am_pm) as SwitchCompat).isChecked =
+            prefs.getBoolean("show_status_bar_time_am_pm", false)
+        (`$`<View>(R.id.status_text_view_lyric_center) as SwitchCompat).isChecked =
+            prefs.getBoolean("status_text_view_lyric_center", false)
         if (!Utils.check(SharedHelper(mContext))) {
             //`$`<View>(R.id.status_bar_custom_time).isEnabled = false
             `$`<View>(R.id.hide_status_bar_slow_rate_icon).isEnabled = false
@@ -239,6 +242,10 @@ class SystemUIFragment : BaseFragment() {
             `$`<View>(R.id.hide_status_bar_app_icon).isEnabled = false
             `$`<View>(R.id.hide_status_bar_time_eng_icon).isEnabled = false
         }
+        (`$`<View>(R.id.status_bar_custom_time) as TextView).text = prefs.getString(
+            "status_bar_custom_time",
+            ""
+        )
     }
 
     override fun onHiddenChanged(hidden: Boolean) {

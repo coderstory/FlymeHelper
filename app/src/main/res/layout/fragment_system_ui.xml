@@ -358,10 +358,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
                     android:layout_weight="2"
-                    android:clickable="true"
                     android:hint="不填则默认"
+                    android:gravity="right"
                     android:maxLines="12"
-                    android:onClick="click"
                     android:textColor="#000"
                     android:textSize="15sp" />
             </LinearLayout>
