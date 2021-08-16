@@ -90,7 +90,7 @@ dependencies {
     implementation 'com.github.itsnows:android-upgrade:1.2.4'
     implementation "com.github.topjohnwu.libsu:core:3.0.2"
     implementation 'com.google.code.gson:gson:2.8.7'
-    implementation 'com.alibaba:fastjson:1.2.76'
+    implementation 'com.alibaba:fastjson:1.2.78'
     implementation "androidx.core:core-ktx:1.6.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
