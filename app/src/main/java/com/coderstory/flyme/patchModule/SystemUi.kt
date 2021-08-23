@@ -3,6 +3,7 @@ package com.coderstory.flyme.patchModule
 
 import android.app.AndroidAppHelper
 import android.app.Service
+import android.content.res.XModuleResources
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -13,24 +14,44 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.coderstory.flyme.R
 import com.coderstory.flyme.tools.XposedHelper
 import com.coderstory.flyme.xposed.IModule
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
-import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class SystemUi : XposedHelper(), IModule {
+    companion object {
+        private var MODULE_PATH: String? = null
+        private val mClock = arrayOfNulls<TextView>(1)
+    }
+
     override fun handleInitPackageResources(respray: InitPackageResourcesParam) {
         if (respray.packageName == "com.android.systemui") {
             if (prefs.getBoolean("show_icon_battery_percentage", false)) {
-                respray.res.setReplacement(respray.packageName, "string", "status_bar_settings_battery_meter_format_simple", "%d%%")
+                respray.res.setReplacement(
+                    respray.packageName,
+                    "string",
+                    "status_bar_settings_battery_meter_format_simple",
+                    "%d%%"
+                )
             }
+            if (prefs.getBoolean("status_bar_blur", false)) {
+                val modRes = XModuleResources.createInstance(MODULE_PATH, respray.res)
+                respray.res.setReplacement(
+                    "com.android.systemui",
+                    "drawable",
+                    "panel_background", modRes.fwd(R.drawable.panel_background)
+                )
+            }
+
         }
     }
 
@@ -146,7 +167,7 @@ class SystemUi : XposedHelper(), IModule {
                             Locale.ENGLISH
                         ).format(Date())
 
-                        XposedBridge.log(param.result.toString())
+                        //XposedBridge.log(param.result.toString())
                     } else {
                         val view = param.thisObject as TextView
                         val is24HourFormat = DateFormat.is24HourFormat(view.context)
@@ -329,10 +350,13 @@ class SystemUi : XposedHelper(), IModule {
                 }
             })
             if (prefs.getString("isCore", "0") == "1") {
-                hookAllConstructors("com.android.systemui.statusbar.phone.StatusBarSignalPolicy", param.classLoader, object : XC_MethodReplacement() {
-                    override fun replaceHookedMethod(param: MethodHookParam) {
-                    }
-                })
+                hookAllConstructors(
+                    "com.android.systemui.statusbar.phone.StatusBarSignalPolicy",
+                    param.classLoader,
+                    object : XC_MethodReplacement() {
+                        override fun replaceHookedMethod(param: MethodHookParam) {
+                        }
+                    })
             }
         }
     }
@@ -342,11 +366,20 @@ class SystemUi : XposedHelper(), IModule {
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: MethodHookParam) {
                 super.beforeHookedMethod(param)
-                XposedBridge.log("notifyBackAction")
-                XposedBridge.log("ggg" + param.thisObject.javaClass.name)
-                val vb = AndroidAppHelper.currentApplication().applicationContext.getSystemService(Service.VIBRATOR_SERVICE) as Vibrator
+                //XposedBridge.log("notifyBackAction")
+                //XposedBridge.log("ggg" + param.thisObject.javaClass.name)
+                val vb = AndroidAppHelper.currentApplication().applicationContext.getSystemService(
+                    Service.VIBRATOR_SERVICE
+                ) as Vibrator
 
-                vb.vibrate(VibrationEffect.createOneShot(prefs.getString("enable_back_vibrator_value", "30")!!.toLong(), -1))
+                vb.vibrate(
+                    VibrationEffect.createOneShot(
+                        prefs.getString(
+                            "enable_back_vibrator_value",
+                            "30"
+                        )!!.toLong(), -1
+                    )
+                )
                 // view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         }
@@ -381,9 +414,7 @@ class SystemUi : XposedHelper(), IModule {
             return type
         }
 
-    override fun initZygote(startupParam: StartupParam?) {}
-
-    companion object {
-        private val mClock = arrayOfNulls<TextView>(1)
+    override fun initZygote(startupParam: StartupParam?) {
+        MODULE_PATH = startupParam!!.modulePath
     }
 }

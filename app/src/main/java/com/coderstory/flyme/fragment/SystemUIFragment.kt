@@ -129,7 +129,10 @@ class SystemUIFragment : BaseFragment() {
             editor.putBoolean("hide_status_bar_time_eng_icon", (v as SwitchCompat).isChecked)
             fix()
         }
-
+        `$`<View>(R.id.status_bar_blur).setOnClickListener { v: View ->
+            editor.putBoolean("status_bar_blur", (v as SwitchCompat).isChecked)
+            fix()
+        }
         val carrierName = `$`<EditText>(R.id.status_bar_custom_carrier_name)
         carrierName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
@@ -185,6 +188,8 @@ class SystemUIFragment : BaseFragment() {
                 ""
             )
         )
+        (`$`<View>(R.id.status_bar_blur) as SwitchCompat).isChecked =
+            prefs.getBoolean("status_bar_blur", false)
         (`$`<View>(R.id.hide_icon_bluetooth) as SwitchCompat).isChecked =
             prefs.getBoolean("hide_icon_bluetooth", false)
         (`$`<View>(R.id.hide_icon_hotspot) as SwitchCompat).isChecked =

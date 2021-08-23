@@ -51,6 +51,7 @@ class start : XposedHelper(), IXposedHookZygoteInit, IXposedHookLoadPackage, IXp
 
     override fun initZygote(startupParam: StartupParam) {
         XposedBridge.log("Flyme助手已加载")
+        SystemUi().initZygote(startupParam)
         if (startupParam.startsSystemServer) {
             if (Build.VERSION.SDK_INT == 30) {
                 CorePatchForR().initZygote(startupParam)

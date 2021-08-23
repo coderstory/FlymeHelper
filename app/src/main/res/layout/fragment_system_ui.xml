@@ -255,6 +255,17 @@
                 android:paddingBottom="4dp"
                 android:text="@string/show_status_bar_time_second_icon" />
 
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/status_bar_blur"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:text="@string/status_bar_blur" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/show_icon_battery_percentage"
