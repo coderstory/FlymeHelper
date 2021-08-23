@@ -357,10 +357,13 @@ class SystemUi : XposedHelper(), IModule {
             val df = SimpleDateFormat("HH", Locale.CHINA)
             val str = df.format(date)
             val a = str.toInt()
-            if (a in 0..5) {
+            if (a in 0..4) {
                 type = "深夜"
             }
-            if (a in 6..10) {
+            if (a in 5..8) {
+                type = "清晨"
+            }
+            if (a in 9..10) {
                 type = "上午"
             }
             if (a in 11..12) {
