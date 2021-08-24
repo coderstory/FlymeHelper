@@ -26,7 +26,8 @@ import per.goweii.anylayer.Layer
 import kotlin.system.exitProcess
 
 class MainActivity : BaseActivity() {
-    private val isEnable = false
+    private val isEnable: Boolean
+        get() = false
     private val helper = SharedHelper(this)
     private var mDrawerLayout //侧边菜单视图
             : DrawerLayout? = null

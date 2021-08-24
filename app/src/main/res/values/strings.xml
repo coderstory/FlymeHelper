@@ -5,7 +5,7 @@
     <string name="about_msg"><b>免费/付费版区别</b>\n软件分免费版和付费版，区别在于部分功能只有付费版才能使用。免费版不可用的功能会在功能上会有[vip]字样，且功能灰色无法点击。</string>
     <string name="authorization_agreement"><b>声明</b>\n软件授权协议</string>
     <string name="buy_way"><b>购买方式</b>\n扫码支付8.6元,点击[加入交流群]按钮加入交流群,截图给群主处理</string>
-    <string name="pay_explain"><b>付费版说明</b>\n付费版本需支付<font color='#FFC0CB'>8.6元</font>,可以授权激活一台设备,不可解绑但支持在同一台设备上重复激活。</string>
+    <string name="pay_explain"><b>付费版说明</b>\n付费版本需支付<font color='#FFC0CB'>8.6元</font>,仅授权激活一台设备,不可换绑但支持在同一台设备上重复激活。</string>
     <string name="enableBlockADS"><b>基础功能</b>\n删除和屏蔽魅族自家的广告插件,可以屏蔽一部分App的广告</string>
     <string name="mms"><b>短信</b>\n去除短信信息界面上的充值话费,申请信用卡等广告,但会无法快捷复制验证码</string>
     <string name="enableHosts"><b>启用模块</b>\n开启Hosts支持模块</string>
