@@ -35,22 +35,22 @@ class FuckAd : XposedHelper(), IModule {
             // 禁止app加载魅族的广告插件 com.meizu.advertisef,..plugin.apk
             clazz = findClassWithoutLog("com.meizu.advertise.api.AdManager", loadPackageParam.classLoader)
             if (clazz != null) {
-                XposedHelper.Companion.findAndHookMethod(clazz, "installPlugin", XC_MethodReplacement.returnConstant(null))
-                XposedHelper.Companion.findAndHookMethod(clazz, "install", XC_MethodReplacement.returnConstant(null))
+                findAndHookMethod(clazz, "installPlugin", XC_MethodReplacement.returnConstant(null))
+                findAndHookMethod(clazz, "install", XC_MethodReplacement.returnConstant(null))
             }
             clazz = findClassWithoutLog("com.meizu.dynamic.PluginManager", loadPackageParam.classLoader)
             if (clazz != null) {
-                XposedHelper.Companion.hookAllMethods(clazz, "install", XC_MethodReplacement.returnConstant(null))
-                XposedHelper.Companion.hookAllMethods(clazz, "installFromDownload", XC_MethodReplacement.returnConstant(null))
-                XposedHelper.Companion.hookAllMethods(clazz, "newContext", XC_MethodReplacement.returnConstant(true))
-                XposedHelper.Companion.hookAllMethods(clazz, "isFirstInstalled", XC_MethodReplacement.returnConstant(true))
+                hookAllMethods(clazz, "install", XC_MethodReplacement.returnConstant(null))
+                hookAllMethods(clazz, "installFromDownload", XC_MethodReplacement.returnConstant(null))
+                hookAllMethods(clazz, "newContext", XC_MethodReplacement.returnConstant(true))
+                hookAllMethods(clazz, "isFirstInstalled", XC_MethodReplacement.returnConstant(true))
             }
             clazz = findClassWithoutLog("com.meizu.advertise.update.PluginManager", loadPackageParam.classLoader)
             if (clazz != null) {
-                XposedHelper.Companion.hookAllMethods(clazz, "install", XC_MethodReplacement.returnConstant(null))
-                XposedHelper.Companion.hookAllMethods(clazz, "isFirstInstalled", XC_MethodReplacement.returnConstant(true))
-                XposedHelper.Companion.hookAllMethods(clazz, "newContext", XC_MethodReplacement.returnConstant(true))
-                XposedHelper.Companion.hookAllMethods(clazz, "installFromDownload", XC_MethodReplacement.returnConstant(null))
+                hookAllMethods(clazz, "install", XC_MethodReplacement.returnConstant(null))
+                hookAllMethods(clazz, "isFirstInstalled", XC_MethodReplacement.returnConstant(true))
+                hookAllMethods(clazz, "newContext", XC_MethodReplacement.returnConstant(true))
+                hookAllMethods(clazz, "installFromDownload", XC_MethodReplacement.returnConstant(null))
             }
             clazz = findClassWithoutLog("com.meizu.advertise.api.SimpleJsAdBridge", loadPackageParam.classLoader)
             if (clazz != null) {
@@ -69,7 +69,7 @@ class FuckAd : XposedHelper(), IModule {
         }
         if (loadPackageParam.packageName == "com.android.packageinstaller") {
             if (prefs.getBoolean("removeStore", false)) {
-                XposedHelper.Companion.hookAllMethods("com.meizu.safe.security.net.HttpMethods", loadPackageParam.classLoader, "queryPackageInfoFromMzStoreV2", object : XC_MethodHook() {
+                hookAllMethods("com.meizu.safe.security.net.HttpMethods", loadPackageParam.classLoader, "queryPackageInfoFromMzStoreV2", object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         super.beforeHookedMethod(param)
@@ -81,7 +81,7 @@ class FuckAd : XposedHelper(), IModule {
             }
             if (prefs.getBoolean("autoInstall", false)) {
                 // 开启会自动安装apk
-                XposedHelper.Companion.hookAllMethods("com.meizu.permissioncommon.AppInfoUtil", loadPackageParam.classLoader, "isSystemApp", XC_MethodReplacement.returnConstant(true))
+                hookAllMethods("com.meizu.permissioncommon.AppInfoUtil", loadPackageParam.classLoader, "isSystemApp", XC_MethodReplacement.returnConstant(true))
             }
         }
         /**
@@ -100,7 +100,7 @@ class FuckAd : XposedHelper(), IModule {
          */
         if (loadPackageParam.packageName == "com.android.mms") {
             if (prefs.getBoolean("mms", false)) {
-                XposedHelper.Companion.hookAllMethods("com.xy.smartsms.pluginxy.XYSmsPlugin", loadPackageParam.classLoader, "init", XC_MethodReplacement.returnConstant(null))
+                hookAllMethods("com.xy.smartsms.pluginxy.XYSmsPlugin", loadPackageParam.classLoader, "init", XC_MethodReplacement.returnConstant(null))
             }
         }
     }

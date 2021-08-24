@@ -13,20 +13,20 @@ class FlymeRoot : XposedHelper(), IModule {
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         if (loadPackageParam.packageName == "com.meizu.mznfcpay" && prefs.getBoolean("HideRootWithPay", false)) {
             // 6.0.7
-            XposedHelper.Companion.findAndHookMethod("com.meizu.cloud.a.a.a", loadPackageParam.classLoader, "b", Context::class.java, XC_MethodReplacement.returnConstant(false))
+            findAndHookMethod("com.meizu.cloud.a.a.a", loadPackageParam.classLoader, "b", Context::class.java, XC_MethodReplacement.returnConstant(false))
         }
         if (loadPackageParam.packageName == "com.meizu.flyme.update" && prefs.getBoolean("HideRootWithUpgrade", false)) {
             // DEVICE_STATE_SERVICE
             if (findClassWithoutLog("com.meizu.cloud.a.a.a", loadPackageParam.classLoader) != null) {
-                XposedHelper.Companion.findAndHookMethod("com.meizu.cloud.a.a.a", loadPackageParam.classLoader, "b", Context::class.java, XC_MethodReplacement.returnConstant(false))
+                findAndHookMethod("com.meizu.cloud.a.a.a", loadPackageParam.classLoader, "b", Context::class.java, XC_MethodReplacement.returnConstant(false))
             } else {
-                XposedHelper.Companion.findAndHookMethod("com.meizu.cloud.a.b.a", loadPackageParam.classLoader, "c", Context::class.java, XC_MethodReplacement.returnConstant(false))
+                findAndHookMethod("com.meizu.cloud.a.b.a", loadPackageParam.classLoader, "c", Context::class.java, XC_MethodReplacement.returnConstant(false))
             }
         }
 
         // hook 框架层的root检测
         if ("android" == loadPackageParam.packageName) {
-            XposedHelper.Companion.hookAllMethods("com.android.server.DeviceStateService", loadPackageParam.classLoader, "doCheckState", object : XC_MethodHook() {
+            hookAllMethods("com.android.server.DeviceStateService", loadPackageParam.classLoader, "doCheckState", object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     super.afterHookedMethod(param)
@@ -42,5 +42,5 @@ class FlymeRoot : XposedHelper(), IModule {
     }
 
     override fun initZygote(startupParam: StartupParam?) {}
-    override fun handleInitPackageResources(initPackageResourcesParam: InitPackageResourcesParam) {}
+    override fun handleInitPackageResources(respray: InitPackageResourcesParam) {}
 }

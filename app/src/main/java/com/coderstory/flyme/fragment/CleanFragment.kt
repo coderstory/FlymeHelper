@@ -21,7 +21,7 @@ class CleanFragment : BaseFragment() {
             super.handleMessage(msg)
             (`$`<View>(R.id.button) as Button).setText(R.string.starting_clean)
             `$`<View>(R.id.button).isEnabled = true
-            SnackBarUtils.Companion.makeShort(`$`<View>(R.id.button), getString(R.string.clean_success)).info()
+            SnackBarUtils.makeShort(`$`<View>(R.id.button), getString(R.string.clean_success)).info()
         }
     }
     var th: Thread? = null
@@ -49,7 +49,7 @@ class CleanFragment : BaseFragment() {
         hInfo.sendMessage(msg)
     }
 
-    fun threadClean() {
+    private fun threadClean() {
         tvClean = `$`(R.id.tvClean)
         tvClean!!.movementMethod = ScrollingMovementMethod.getInstance()
         (`$`<View>(R.id.button) as Button).setText(R.string.cleaning)
@@ -73,7 +73,7 @@ class CleanFragment : BaseFragment() {
             deleteAnrLog()
             sendMessageStr(getString(R.string.view_clean_anr, anrSize.sizeReadable))
             totalSize += anrSize.size
-            sendMessageStr(getString(R.string.view_clean_complete, FileHelper.Companion.getReadableFileSize(totalSize)))
+            sendMessageStr(getString(R.string.view_clean_complete, FileHelper.getReadableFileSize(totalSize)))
             hComplete.sendEmptyMessage(0)
             Misc.isProcessing = false
         }
@@ -84,8 +84,7 @@ class CleanFragment : BaseFragment() {
         return try {
             val result = Shell.su(String.format("du -s -k \"%s\"", path)).exec().out[0]
             val sizeStr = result.substring(0, result.indexOf('\t')).trim { it <= ' ' }
-            val size: Long
-            size = sizeStr.toLong()
+            val size: Long = sizeStr.toLong()
             CacheSize(sizeStr + "K", size)
         } catch (e: Exception) {
             CacheSize(0.toString() + "K", 0)

@@ -14,10 +14,6 @@ class SettingsFragment : BaseFragment() {
             editor.putBoolean("enableCheck", (v as SwitchCompat).isChecked)
             fix()
         }
-        `$`<View>(R.id.enableUpdate).setOnClickListener { v: View ->
-            editor.putBoolean("enableUpdate", (v as SwitchCompat).isChecked)
-            fix()
-        }
         `$`<View>(R.id.hideicon).setOnClickListener { v: View ->
             editor.putBoolean("hideIcon", (v as SwitchCompat).isChecked)
             fix()
@@ -43,6 +39,5 @@ class SettingsFragment : BaseFragment() {
     override fun setUpData() {
         (`$`<View>(R.id.enableCheck) as SwitchCompat).isChecked = prefs.getBoolean("enableCheck", true)
         (`$`<View>(R.id.hideicon) as SwitchCompat).isChecked = prefs.getBoolean("hideIcon", false)
-        (`$`<View>(R.id.enableUpdate) as SwitchCompat).isChecked = prefs.getBoolean("enableUpdate", true)
     }
 }

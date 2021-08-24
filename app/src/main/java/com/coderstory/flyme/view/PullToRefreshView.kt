@@ -50,7 +50,7 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
             val offset = targetTop - mTarget!!.top
             mCurrentDragPercent = mFromDragPercent - (mFromDragPercent - 1.0f) * interpolatedTime
             mBaseRefreshView!!.setPercent(mCurrentDragPercent, false)
-            setTargetOffsetTop(offset, false /* requires update */)
+            setTargetOffsetTop(offset /* requires update */)
         }
     }
     private var mNotify = false
@@ -114,7 +114,7 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
         val action = MotionEventCompat.getActionMasked(ev)
         when (action) {
             MotionEvent.ACTION_DOWN -> {
-                setTargetOffsetTop(0, true)
+                setTargetOffsetTop(0)
                 mActivePointerId = MotionEventCompat.getPointerId(ev, 0)
                 mIsBeingDragged = false
                 val initialMotionY = getMotionEventY(ev, mActivePointerId)
@@ -173,7 +173,7 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
                 val extraMove = slingshotDist * tensionPercent / 2
                 val targetY = (slingshotDist * boundedDragPercent + extraMove).toInt()
                 mBaseRefreshView!!.setPercent(mCurrentDragPercent, true)
-                setTargetOffsetTop(targetY - mCurrentOffsetTop, true)
+                setTargetOffsetTop(targetY - mCurrentOffsetTop)
             }
             MotionEventCompat.ACTION_POINTER_DOWN -> {
                 val index = MotionEventCompat.getActionIndex(ev)
@@ -243,7 +243,7 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
         mCurrentDragPercent = targetPercent
         mBaseRefreshView!!.setPercent(mCurrentDragPercent, true)
         mTarget!!.setPadding(mTargetPaddingLeft, mTargetPaddingTop, mTargetPaddingRight, mTargetPaddingBottom + targetTop)
-        setTargetOffsetTop(offset, false)
+        setTargetOffsetTop(offset)
     }
 
     fun setRefreshing(refreshing: Boolean) {
@@ -282,7 +282,7 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
         } else MotionEventCompat.getY(ev, index)
     }
 
-    private fun setTargetOffsetTop(offset: Int, requiresUpdate: Boolean) {
+    private fun setTargetOffsetTop(offset: Int) {
         mTarget!!.offsetTopAndBottom(offset)
         mBaseRefreshView!!.offsetTopAndBottom(offset)
         mCurrentOffsetTop = mTarget!!.top

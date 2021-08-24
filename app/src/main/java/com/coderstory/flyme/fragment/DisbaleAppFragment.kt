@@ -92,6 +92,7 @@ class DisbaleAppFragment : BaseFragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showData() {
         adapter = AppInfoAdapter(context, R.layout.app_info_item, appInfoList)
         listView = contentView?.findViewById(R.id.listView)
@@ -195,8 +196,8 @@ class DisbaleAppFragment : BaseFragment() {
                     .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
-                    .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
-                    .onClick({ AnyLayer: Layer, v: View? ->
+                    .onClick({ AnyLayer: Layer, _: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
+                    .onClick({ AnyLayer: Layer, _: View? ->
                         satrtBackuop()
                         AnyLayer.dismiss()
                     }, R.id.fl_dialog_yes)
@@ -210,8 +211,8 @@ class DisbaleAppFragment : BaseFragment() {
                     .contentView(R.layout.dialog_tdisable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
-                    .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
-                    .onClick({ AnyLayer: Layer, v: View? ->
+                    .onClick({ AnyLayer: Layer, _: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
+                    .onClick({ AnyLayer: Layer, _: View? ->
                         restoreList()
                         AnyLayer.dismiss()
                     }, R.id.fl_dialog_yes)

@@ -1,12 +1,10 @@
 package com.coderstory.flyme.tools.hostshelper
 
 import android.content.Context
-import android.util.Log
-import android.widget.Toast
-import java.io.*
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 import java.text.DecimalFormat
-import java.util.zip.ZipInputStream
 
 class FileHelper {
     /**
@@ -31,7 +29,6 @@ class FileHelper {
     }
 
     companion object {
-        private const val TAG = "FileHelper"
         fun getReadableFileSize(size: Long): String {
             val units = arrayOf("K", "M", "G", "T", "P")
             var nSize = (size * 1L * 1.0f).toDouble()
@@ -45,59 +42,5 @@ class FileHelper {
             return String.format("%s %s", df.format(nSize), units[i])
         }
 
-        fun UnZipAssetsFolder(context: Context?, zipFileString: String?, outPathString: String) {
-            try {
-                val inZip = ZipInputStream(context!!.assets.open(zipFileString!!))
-                while (true) {
-                    val zipEntry = inZip.nextEntry
-                    if (zipEntry != null) {
-                        val szName = zipEntry.name
-                        if (zipEntry.isDirectory) {
-                            File(outPathString + File.separator + szName.substring(0, szName.length - 1)).mkdirs()
-                        } else {
-                            Log.e(TAG, outPathString + File.separator + szName)
-                            val file = File(outPathString + File.separator + szName)
-                            if (!file.exists()) {
-                                Log.e(TAG, "Create the file:" + outPathString + File.separator + szName)
-                                file.parentFile.mkdirs()
-                                file.createNewFile()
-                            }
-                            val out = FileOutputStream(file)
-                            val buffer = ByteArray(1024)
-                            while (true) {
-                                val len = inZip.read(buffer)
-                                if (len == -1) {
-                                    break
-                                }
-                                out.write(buffer, 0, len)
-                                out.flush()
-                            }
-                            out.close()
-                        }
-                    } else {
-                        inZip.close()
-                        return
-                    }
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
-                Toast.makeText(context, "框架资源释放失败", Toast.LENGTH_LONG).show()
-            }
-        }
-
-        fun saveAssets(context: Context, zipFileString: String, outPathString: String) {
-            try {
-                val stream = context.assets.open(zipFileString)
-                val fos = FileOutputStream("$outPathString/$zipFileString")
-                val b = ByteArray(1024)
-                while (stream.read(b) != -1) {
-                    fos.write(b) // 写入数据
-                }
-                stream.close()
-                fos.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
     }
 }

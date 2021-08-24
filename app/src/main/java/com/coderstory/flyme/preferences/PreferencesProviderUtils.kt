@@ -5,7 +5,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 import android.util.Base64
-import com.coderstory.flyme.preferences.PreferencesProvider
 
 /**
  * @Description: PreferencesProviderUtils
@@ -22,7 +21,7 @@ object PreferencesProviderUtils {
      * @return True if the new values were successfully written to persistent storage.
      */
     fun putString(context: Context, spName: String, key: String, value: String?): Boolean {
-        val uri = PreferencesProviderUtils.buildUri(PreferencesProvider.Companion.STRING_CONTENT_URI_CODE, spName, key, value)
+        val uri = buildUri(PreferencesProvider.STRING_CONTENT_URI_CODE, spName, key, value)
         val cr = context.contentResolver
         try {
             val values = ContentValues()
@@ -45,7 +44,7 @@ object PreferencesProviderUtils {
      */
     fun remove(context: Context, spName: String, key: String): Boolean {
         try {
-            val uri = PreferencesProviderUtils.buildUri(PreferencesProvider.Companion.DELETE_CONTENT_URI_CODE, spName, key, null)
+            val uri = buildUri(PreferencesProvider.DELETE_CONTENT_URI_CODE, spName, key, null)
             val cr = context.contentResolver
             cr.delete(uri, null, null)
             return true
@@ -65,7 +64,7 @@ object PreferencesProviderUtils {
      * @see .getString
      */
     fun getString(context: Context, spName: String, key: String): String {
-        return PreferencesProviderUtils.getString(context, spName, key, "")
+        return getString(context, spName, key, "")
     }
 
     /**
@@ -79,12 +78,13 @@ object PreferencesProviderUtils {
      */
     fun getString(context: Context, spName: String, key: String, defaultValue: String): String {
         var result = defaultValue
-        val uri = PreferencesProviderUtils.buildUri(PreferencesProvider.Companion.STRING_CONTENT_URI_CODE, spName, key, defaultValue)
+        val uri = buildUri(PreferencesProvider.STRING_CONTENT_URI_CODE, spName, key, defaultValue)
         val cr = context.contentResolver
         val cursor = cr.query(uri, null, null, null, null) ?: return result
         if (cursor.moveToNext()) {
-            result = String(Base64.decode(cursor.getString(cursor.getColumnIndex(PreferencesProvider.Companion.COLUMNNAME)).toByteArray(), Base64.DEFAULT))
+            result = String(Base64.decode(cursor.getString(cursor.getColumnIndex(PreferencesProvider.COLUMNNAME)).toByteArray(), Base64.DEFAULT))
         }
+        cursor.close()
         return result
     }
 
@@ -97,7 +97,7 @@ object PreferencesProviderUtils {
      * @return True if the new values were successfully written to persistent storage.
      */
     fun putInt(context: Context, spName: String, key: String, value: Int): Boolean {
-        val uri = PreferencesProviderUtils.buildUri(PreferencesProvider.Companion.INTEGER_CONTENT_URI_CODE, spName, key, value)
+        val uri = buildUri(PreferencesProvider.INTEGER_CONTENT_URI_CODE, spName, key, value)
         val cr = context.contentResolver
         try {
             val values = ContentValues()
@@ -120,7 +120,7 @@ object PreferencesProviderUtils {
      * @see .getInt
      */
     fun getInt(context: Context, spName: String, key: String): Int {
-        return PreferencesProviderUtils.getInt(context, spName, key, -1)
+        return getInt(context, spName, key, -1)
     }
 
     /**
@@ -134,12 +134,13 @@ object PreferencesProviderUtils {
      */
     fun getInt(context: Context, spName: String, key: String, defaultValue: Int): Int {
         var result = defaultValue
-        val uri = PreferencesProviderUtils.buildUri(PreferencesProvider.Companion.INTEGER_CONTENT_URI_CODE, spName, key, defaultValue)
+        val uri = buildUri(PreferencesProvider.INTEGER_CONTENT_URI_CODE, spName, key, defaultValue)
         val cr = context.contentResolver
         val cursor = cr.query(uri, null, null, null, null) ?: return result
         if (cursor.moveToNext()) {
-            result = cursor.getInt(cursor.getColumnIndex(PreferencesProvider.Companion.COLUMNNAME))
+            result = cursor.getInt(cursor.getColumnIndex(PreferencesProvider.COLUMNNAME))
         }
+        cursor.close()
         return result
     }
 
@@ -152,7 +153,7 @@ object PreferencesProviderUtils {
      * @return True if the new values were successfully written to persistent storage.
      */
     fun putLong(context: Context, spName: String, key: String, value: Long): Boolean {
-        val uri = PreferencesProviderUtils.buildUri(PreferencesProvider.Companion.LONG_CONTENT_URI_CODE, spName, key, value)
+        val uri = buildUri(PreferencesProvider.LONG_CONTENT_URI_CODE, spName, key, value)
         val cr = context.contentResolver
         try {
             val values = ContentValues()
@@ -175,7 +176,7 @@ object PreferencesProviderUtils {
      * @see .getLong
      */
     fun getLong(context: Context, spName: String, key: String): Long {
-        return PreferencesProviderUtils.getLong(context, spName, key, -1)
+        return getLong(context, spName, key, -1)
     }
 
     /**
@@ -189,12 +190,13 @@ object PreferencesProviderUtils {
      */
     fun getLong(context: Context, spName: String, key: String, defaultValue: Long): Long {
         var result = defaultValue
-        val uri = PreferencesProviderUtils.buildUri(PreferencesProvider.Companion.LONG_CONTENT_URI_CODE, spName, key, defaultValue)
+        val uri = buildUri(PreferencesProvider.LONG_CONTENT_URI_CODE, spName, key, defaultValue)
         val cr = context.contentResolver
         val cursor = cr.query(uri, null, null, null, null) ?: return result
         if (cursor.moveToNext()) {
-            result = cursor.getLong(cursor.getColumnIndex(PreferencesProvider.Companion.COLUMNNAME))
+            result = cursor.getLong(cursor.getColumnIndex(PreferencesProvider.COLUMNNAME))
         }
+        cursor.close()
         return result
     }
 
@@ -207,7 +209,7 @@ object PreferencesProviderUtils {
      * @return True if the new values were successfully written to persistent storage.
      */
     fun putFloat(context: Context, spName: String, key: String, value: Float): Boolean {
-        val uri = PreferencesProviderUtils.buildUri(PreferencesProvider.Companion.FLOAT_CONTENT_URI_CODE, spName, key, value)
+        val uri = buildUri(PreferencesProvider.FLOAT_CONTENT_URI_CODE, spName, key, value)
         val cr = context.contentResolver
         try {
             val values = ContentValues()
@@ -230,7 +232,7 @@ object PreferencesProviderUtils {
      * @see .getFloat
      */
     fun getFloat(context: Context, spName: String, key: String): Float {
-        return PreferencesProviderUtils.getFloat(context, spName, key, -1f)
+        return getFloat(context, spName, key, -1f)
     }
 
     /**
@@ -244,12 +246,13 @@ object PreferencesProviderUtils {
      */
     fun getFloat(context: Context, spName: String, key: String, defaultValue: Float): Float {
         var result = defaultValue
-        val uri = PreferencesProviderUtils.buildUri(PreferencesProvider.Companion.FLOAT_CONTENT_URI_CODE, spName, key, defaultValue)
+        val uri = buildUri(PreferencesProvider.FLOAT_CONTENT_URI_CODE, spName, key, defaultValue)
         val cr = context.contentResolver
         val cursor = cr.query(uri, null, null, null, null) ?: return result
         if (cursor.moveToNext()) {
-            result = cursor.getFloat(cursor.getColumnIndex(PreferencesProvider.Companion.COLUMNNAME))
+            result = cursor.getFloat(cursor.getColumnIndex(PreferencesProvider.COLUMNNAME))
         }
+        cursor.close()
         return result
     }
 
@@ -262,7 +265,7 @@ object PreferencesProviderUtils {
      * @return True if the new values were successfully written to persistent storage.
      */
     fun putBoolean(context: Context, spName: String, key: String, value: Boolean): Boolean {
-        val uri = PreferencesProviderUtils.buildUri(PreferencesProvider.Companion.BOOLEAN_CONTENT_URI_CODE, spName, key, value)
+        val uri = buildUri(PreferencesProvider.BOOLEAN_CONTENT_URI_CODE, spName, key, value)
         val cr = context.contentResolver
         try {
             val values = ContentValues()
@@ -285,7 +288,7 @@ object PreferencesProviderUtils {
      * @see .getBoolean
      */
     fun getBoolean(context: Context, spName: String, key: String): Boolean {
-        return PreferencesProviderUtils.getBoolean(context, spName, key, false)
+        return getBoolean(context, spName, key, false)
     }
 
     /**
@@ -299,12 +302,13 @@ object PreferencesProviderUtils {
      */
     fun getBoolean(context: Context, spName: String, key: String, defaultValue: Boolean): Boolean {
         var result = defaultValue
-        val uri = PreferencesProviderUtils.buildUri(PreferencesProvider.Companion.BOOLEAN_CONTENT_URI_CODE, spName, key, defaultValue)
+        val uri = buildUri(PreferencesProvider.BOOLEAN_CONTENT_URI_CODE, spName, key, defaultValue)
         val cr = context.contentResolver
         val cursor = cr.query(uri, null, null, null, null) ?: return result
         if (cursor.moveToNext()) {
-            result = String(Base64.decode(cursor.getString(cursor.getColumnIndex(PreferencesProvider.Companion.COLUMNNAME)).toByteArray(), Base64.DEFAULT)) == "true"
+            result = String(Base64.decode(cursor.getString(cursor.getColumnIndex(PreferencesProvider.COLUMNNAME)).toByteArray(), Base64.DEFAULT)) == "true"
         }
+        cursor.close()
         return result
     }
 
@@ -315,7 +319,7 @@ object PreferencesProviderUtils {
      * @return
      */
     fun put(context: Context, spName: String, datas: ContentValues?): Boolean {
-        val uri = PreferencesProviderUtils.buildUri(PreferencesProvider.Companion.PUTS_CONTENT_URI_CODE, spName, null, null)
+        val uri = buildUri(PreferencesProvider.PUTS_CONTENT_URI_CODE, spName, null, null)
         val cr = context.contentResolver
         try {
             cr.insert(uri, datas)
@@ -336,19 +340,19 @@ object PreferencesProviderUtils {
         val authorities = "com.coderstory.flyme.PreferencesProvider"
         var uri: Uri? = null
         when (code) {
-            PreferencesProvider.Companion.STRING_CONTENT_URI_CODE -> uri = Uri
+            PreferencesProvider.STRING_CONTENT_URI_CODE -> uri = Uri
                     .parse("content://$authorities/string/$spName/$key/$value")
-            PreferencesProvider.Companion.INTEGER_CONTENT_URI_CODE -> uri = Uri
+            PreferencesProvider.INTEGER_CONTENT_URI_CODE -> uri = Uri
                     .parse("content://$authorities/integer/$spName/$key/$value")
-            PreferencesProvider.Companion.LONG_CONTENT_URI_CODE -> uri = Uri
+            PreferencesProvider.LONG_CONTENT_URI_CODE -> uri = Uri
                     .parse("content://$authorities/long/$spName/$key/$value")
-            PreferencesProvider.Companion.FLOAT_CONTENT_URI_CODE -> uri = Uri
+            PreferencesProvider.FLOAT_CONTENT_URI_CODE -> uri = Uri
                     .parse("content://$authorities/float/$spName/$key/$value")
-            PreferencesProvider.Companion.BOOLEAN_CONTENT_URI_CODE -> uri = Uri
+            PreferencesProvider.BOOLEAN_CONTENT_URI_CODE -> uri = Uri
                     .parse("content://$authorities/boolean/$spName/$key/$value")
-            PreferencesProvider.Companion.DELETE_CONTENT_URI_CODE -> uri = Uri
+            PreferencesProvider.DELETE_CONTENT_URI_CODE -> uri = Uri
                     .parse("content://$authorities/delete/$spName/$key")
-            PreferencesProvider.Companion.PUTS_CONTENT_URI_CODE -> uri = Uri
+            PreferencesProvider.PUTS_CONTENT_URI_CODE -> uri = Uri
                     .parse("content://$authorities/puts")
             else -> {
             }

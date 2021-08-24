@@ -15,7 +15,7 @@ import com.coderstory.flyme.tools.hostshelper.FileHelper
 import com.topjohnwu.superuser.Shell
 import java.io.*
 
-class HostsFragment : BaseFragment() {
+open class HostsFragment : BaseFragment() {
     private var dialog: Dialog? = null
     override fun setLayoutResourceID(): Int {
         return R.layout.fragment_hosts
@@ -74,13 +74,13 @@ class HostsFragment : BaseFragment() {
     //因为hosts修改比较慢 所以改成异步的
     //更新hosts操作
     @Throws(UnsupportedEncodingException::class)
-    private fun UpdateHosts() {
+    private fun updateHosts() {
         val enableHostsSet = prefs.getBoolean("enableHosts", false) //1
         val enableMIUIHostsSet = prefs.getBoolean("enableMIUIHosts", false) //4
         val enableBlockAdsHostsSet = prefs.getBoolean("enableBlockAdsHosts", false) //4
         val enableGoogleHostsSet = prefs.getBoolean("enableGoogleHosts", false) //4
         val enableStoreSet = prefs.getBoolean("enableStore", false) //4
-        val enableupdaterSet = prefs.getBoolean("enableUpdater", false) //4
+        val enableUpdaterSet = prefs.getBoolean("enableUpdater", false) //4
         if (enableHostsSet) {
             val fh = FileHelper()
             var HostsContext = fh.getFromAssets("hosts_default", mContext)
@@ -95,7 +95,7 @@ class HostsFragment : BaseFragment() {
                     HostsContext += fh.getFromAssets("hosts_foreign", mContext)
                 }
                 // 屏蔽在线更新
-                if (enableupdaterSet) {
+                if (enableUpdaterSet) {
                     HostsContext += "\n127.0.0.1 update.miui.com\n"
                 }
                 // 屏蔽应用商店 游戏 等
@@ -112,7 +112,7 @@ class HostsFragment : BaseFragment() {
     }
 
     @Throws(UnsupportedEncodingException::class)
-    protected fun getCommandsToExecute(context: String?): Array<String?> {
+    private fun getCommandsToExecute(context: String?): Array<String?> {
         val list = arrayOfNulls<String>(3)
         list[0] = "mount -o rw,remount /system"
         val path = mContext.filesDir.path + Misc.HostFileTmpName
@@ -185,7 +185,7 @@ class HostsFragment : BaseFragment() {
                 Looper.prepare()
             }
             try {
-                UpdateHosts()
+                updateHosts()
             } catch (e: UnsupportedEncodingException) {
                 e.printStackTrace()
             }

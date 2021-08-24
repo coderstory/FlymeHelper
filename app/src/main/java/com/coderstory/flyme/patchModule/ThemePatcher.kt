@@ -75,12 +75,12 @@ class ThemePatcher : XposedHelper(), IModule {
                     @Throws(Throwable::class)
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         val objs = param.args
-                        val Tag = "(ITEMS LIKE"
-                        val Tag2 = "%zklockscreen;%"
-                        val Tag3 = "%com.meizu.flyme.weather;%"
+                        val tag = "(ITEMS LIKE"
+                        val tag2 = "%zklockscreen;%"
+                        val tag3 = "%com.meizu.flyme.weather;%"
                         var result = false
                         for (obj in objs) {
-                            if (obj is String && (obj.contains(Tag) || obj == Tag2 || obj == Tag3)) {
+                            if (obj is String && (obj.contains(tag) || obj == tag2 || obj == tag3)) {
                                 result = true
                             }
                         }

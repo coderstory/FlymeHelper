@@ -24,10 +24,9 @@ class HideApp : XposedHelper(), IModule {
             XposedBridge.log("load config$value")
             if (value != "") {
                 val hideAppList = Arrays.asList(*value!!.split(":").toTypedArray())
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                } else {
-                    val clazz: Class<*> = XposedHelper.Companion.findClass("com.meizu.flyme.launcher.co", loadPackageParam.classLoader)
-                    XposedHelper.Companion.findAndHookMethod("com.meizu.flyme.launcher.MzWidgetGroupView", loadPackageParam.classLoader, "a", clazz, object : XC_MethodHook() {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                    val clazz: Class<*> = findClass("com.meizu.flyme.launcher.co", loadPackageParam.classLoader)
+                    findAndHookMethod("com.meizu.flyme.launcher.MzWidgetGroupView", loadPackageParam.classLoader, "a", clazz, object : XC_MethodHook() {
                         @Throws(Throwable::class)
                         override fun beforeHookedMethod(param: MethodHookParam) {
                             super.beforeHookedMethod(param)
@@ -39,7 +38,7 @@ class HideApp : XposedHelper(), IModule {
                             //XposedBridge.log("个数2" + list.size());
                         }
                     })
-                    XposedHelper.Companion.findAndHookMethod("com.meizu.flyme.launcher.cm", loadPackageParam.classLoader, "b", ComponentName::class.java, object : XC_MethodHook() {
+                    findAndHookMethod("com.meizu.flyme.launcher.cm", loadPackageParam.classLoader, "b", ComponentName::class.java, object : XC_MethodHook() {
                         override fun beforeHookedMethod(param: MethodHookParam) {
                             val componentName = param.args[0] as ComponentName
                             if (hideAppList.contains(componentName.packageName)) {

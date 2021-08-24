@@ -1,5 +1,6 @@
 package com.coderstory.flyme.fragment.base
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.SharedPreferences
@@ -58,6 +59,7 @@ abstract class BaseFragment : Fragment() {
         sudoFixPermissions()
     }
 
+    @SuppressLint("SetWorldReadable")
     protected fun sudoFixPermissions() {
         if (Build.VERSION.SDK_INT < 30) {
             Thread {
@@ -66,9 +68,9 @@ abstract class BaseFragment : Fragment() {
                     pkgFolder.setExecutable(true, false)
                     pkgFolder.setReadable(true, false)
                 }
-                Shell.su("chmod  755 " + PREFS_FOLDER).exec()
+                Shell.su("chmod  755 $PREFS_FOLDER").exec()
                 // Set preferences file permissions to be world readable
-                Shell.su("chmod  644 " + PREFS_FILE).exec()
+                Shell.su("chmod  644 $PREFS_FILE").exec()
             }.start()
         }
     }
@@ -82,7 +84,6 @@ abstract class BaseFragment : Fragment() {
     companion object {
         const val PREFS_FOLDER = " /data/user_de/0/" + Misc.ApplicationName + "/shared_prefs\n"
         const val PREFS_FILE = " /data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml\n"
-        private const val TAG = "BaseFragment"
         private lateinit var prefs: SharedPreferences
         private var editor: SharedPreferences.Editor? = null
     }

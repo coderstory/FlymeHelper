@@ -77,7 +77,7 @@ object FileUtils {
         return try {
             file = File(path)
             os = FileOutputStream(file)
-            var byteCount = 0
+            var byteCount: Int
             val bytes = ByteArray(1024)
             while (`is`!!.read(bytes).also { byteCount = it } != -1) {
                 os.write(bytes, 0, byteCount)
@@ -102,16 +102,18 @@ object FileUtils {
      *
      * @param fileName SD下的文件路径+文件名，如:a/b.txt
      */
-    fun readFile(fileName: String?): String {
+    fun readFile(fileName: String): String {
         val stringBuffer = StringBuilder()
         try {
-            var line: String?
+            var line = ""
             val file = File(fileName)
             val bufferedReader = BufferedReader(FileReader(file))
-            while (bufferedReader.readLine().also { line = it } != null) {
-                stringBuffer.append(line)
-            }
-            bufferedReader.close()
+            while (bufferedReader.readLine().also {
+                        if (it != null) {
+                            stringBuffer.append(line)
+                        }
+                    } != null)
+                bufferedReader.close()
         } catch (e: IOException) {
             Log.e("Xposed", Log.getStackTraceString(e))
         }

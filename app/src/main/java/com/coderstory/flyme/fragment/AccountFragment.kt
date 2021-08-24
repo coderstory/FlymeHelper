@@ -7,11 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Handler
 import android.os.Message
-import android.text.InputFilter
-import android.text.InputFilter.LengthFilter
-import android.text.method.DigitsKeyListener
 import android.view.View
-import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -61,13 +57,13 @@ class AccountFragment : BaseFragment() {
                     dialog.show()
                 }
                 4 -> if (msg.data["value"] == "{\"error\":\"0\"}") {
-                    editor.putString(Utils.Companion.decode("bWFyaw=="), Utils.Companion.encodeStr(msg.data["mark"].toString())).commit()
+                    editor.putString(Utils.decode("bWFyaw=="), Utils.encodeStr(msg.data["mark"].toString())).commit()
                     sudoFixPermissions()
                     //getEditor().putString("sn", msg.getData().get("sn").toString()).apply();
                     Toast.makeText(mContext, "绑定成功,重启应用生效", Toast.LENGTH_SHORT).show()
                     refresh()
                 } else {
-                    Toast.makeText(mContext, Utils.Companion.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" +
+                    Toast.makeText(mContext, Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" +
                             Gson().fromJson<Map<String, String>>(msg.data["value"].toString(), MutableMap::class.java).getOrDefault("error", msg.data["value"].toString()), Toast.LENGTH_LONG).show()
                 }
                 5 ->                     // 接口调用失败
@@ -75,10 +71,10 @@ class AccountFragment : BaseFragment() {
             }
         }
     }
-    val serialNumber: String?
+    private val serialNumber: String?
         get() {
-            val result: List<String> = Shell.su(Utils.Companion.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " ")).exec().out
-            if (result.size == 0) {
+            val result: List<String> = Shell.su(Utils.decode("Z2V0cHJvcCUyMHJvLnNlcmlhbG5v").replace("%20", " ")).exec().out
+            if (result.isEmpty()) {
                 return null
             }
             if (result[0].contains("start command")) {
@@ -86,7 +82,7 @@ class AccountFragment : BaseFragment() {
                 normalDialog.setTitle("!!致命错误!!")
                 normalDialog.setMessage("你手机的ROOT已爆炸,请刷机后重试!")
                 normalDialog.setPositiveButton("确定"
-                ) { dialog: DialogInterface?, which: Int -> System.exit(0) }
+                ) { _: DialogInterface?, which: Int -> System.exit(0) }
                 normalDialog.setCancelable(true)
                 normalDialog.show()
             }
@@ -105,7 +101,7 @@ class AccountFragment : BaseFragment() {
             }
         }
         refresh()
-        `$`<View>(R.id.activation).setOnClickListener { v: View? -> ababa() }
+        `$`<View>(R.id.activation).setOnClickListener { v: View? -> dialog() }
         `$`<View>(R.id.join_vip_group).setOnClickListener { v: View? ->
             if (!joinQQGroup("dNIW3xRJ8YKTdsFcJBak3_cZ0AwTBdEn")) {
                 Toast.makeText(mContext, "拉起手Q失败", Toast.LENGTH_LONG).show()
@@ -114,8 +110,8 @@ class AccountFragment : BaseFragment() {
     }
 
     fun refresh() {
-        (`$`<View>(R.id.vip_version) as TextView).text = Utils.Companion.decode("5b2T5YmN54mI5pys57G75Z6L") + ": " + if (!Utils.Companion.check(helper)) Utils.Companion.decode("5YWN6LS554mI") else Utils.Companion.decode("5LuY6LS554mI")
-        (`$`<View>(R.id.bound_qq) as TextView).text = Utils.Companion.decode("57uR5a6aUVE=") + ": " + Utils.Companion.decodeStr(helper!!.getString(Utils.Companion.decode("bWFyaw=="), "瘡"))
+        (`$`<View>(R.id.vip_version) as TextView).text = Utils.decode("5b2T5YmN54mI5pys57G75Z6L") + ": " + if (!Utils.check(helper)) Utils.decode("5YWN6LS554mI") else Utils.Companion.decode("5LuY6LS554mI")
+        (`$`<View>(R.id.bound_qq) as TextView).text = Utils.decode("57uR5a6aUVE=") + ": " + Utils.decodeStr(helper!!.getString(Utils.decode("bWFyaw=="), "瘡"))
     }
 
     /****************
@@ -139,42 +135,15 @@ class AccountFragment : BaseFragment() {
         }
     }
 
-    private fun openInputDialog() {
-        val inputServer = EditText(mContext)
-        inputServer.filters = arrayOf<InputFilter>(LengthFilter(17))
-        inputServer.keyListener = DigitsKeyListener.getInstance("0123456789")
-        val builder = android.app.AlertDialog.Builder(mContext)
-        builder.setTitle(Utils.Companion.decode("5LuY6LS55LiU57uR5a6a5L2g55qEUVHlkI4NCuWcqOatpOi+k+WFpeS9oOeahFFR5bm254K55Ye76Kej6ZSBISE=")).setView(inputServer)
-        builder.setPositiveButton(Utils.Companion.decode("5r+A5rS7"), DialogInterface.OnClickListener { dialog: DialogInterface?, which: Int ->
-            val _sign = inputServer.text.toString()
-            if (!_sign.isEmpty()) {
-                val sn = serialNumber
-                if (sn == null) {
-                    val normalDialog = AlertDialog.Builder(mContext)
-                    normalDialog.setTitle("提示")
-                    normalDialog.setMessage("请先授权应用ROOT权限")
-                    normalDialog.setPositiveButton("确定"
-                    ) { dialog1: DialogInterface?, which1: Int -> System.exit(0) }
-                    normalDialog.show()
-                } else {
-                    Thread(Utils().Check(_sign, myHandler, mContext)).start()
-                }
-            } else {
-                Toast.makeText(mContext, Utils.Companion.decode("UVHlj7fkuI3og73kuLrnqbo="), Toast.LENGTH_SHORT).show()
-            }
-        })
-        builder.show()
-    }
-
-    private fun ababa() {
+    private fun dialog() {
         val anyLayer = AnyLayer.dialog(context)
                 .contentView(R.layout.dialog_input_qq)
                 .cancelableOnTouchOutside(true)
                 .cancelableOnClickKeyBack(true)
-                .onClick({ layer: Layer, v: View? ->
+                .onClick({ layer: Layer, _: View? ->
                     val textView = layer.getView<TextView>(R.id.input_qq)
                     val _sign = textView.text.toString()
-                    if (!_sign.isEmpty()) {
+                    if (_sign.isNotEmpty()) {
                         val sn = serialNumber
                         if (sn == null) {
                             val normalDialog = AlertDialog.Builder(mContext)

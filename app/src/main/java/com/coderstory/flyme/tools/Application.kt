@@ -8,7 +8,7 @@ class Application : Application() {
         super.onCreate()
         mInstance = this
         System.loadLibrary("Utils")
-        Cpp.firstCpp(com.coderstory.flyme.tools.Application.Companion.mInstance)
+        Cpp.firstCpp(mInstance)
     }
 
     companion object {

@@ -152,11 +152,11 @@ class OthersFragment : BaseFragment() {
             editor.putBoolean("HideRootGlobal", (v as SwitchCompat).isChecked)
             fix()
         }
-        (`$`<View>(R.id.home_icon_num_column) as NumberPicker).setOnValueChangedListener { v: NumberPicker?, oldValue: Int, newValue: Int ->
+        (`$`<View>(R.id.home_icon_num_column) as NumberPicker).setOnValueChangedListener { _: NumberPicker?, oldValue: Int, newValue: Int ->
             editor.putInt("home_icon_num_column", newValue)
             fix()
         }
-        (`$`<View>(R.id.home_icon_num_rows) as NumberPicker).setOnValueChangedListener { v: NumberPicker?, oldValue: Int, newValue: Int ->
+        (`$`<View>(R.id.home_icon_num_rows) as NumberPicker).setOnValueChangedListener { _: NumberPicker?, oldValue: Int, newValue: Int ->
             editor.putInt("home_icon_num_rows", newValue)
             fix()
         }
@@ -208,7 +208,7 @@ class OthersFragment : BaseFragment() {
         (`$`<View>(R.id.home_icon_num_rows) as NumberPicker).value = prefs.getInt("home_icon_num_rows", 5)
         (`$`<View>(R.id.disableSearch) as SwitchCompat).isChecked = prefs.getBoolean("disableSearch", false)
         (`$`<View>(R.id.mms) as SwitchCompat).isChecked = prefs.getBoolean("mms", false)
-        if (!Utils.Companion.check(SharedHelper(mContext))) {
+        if (!Utils.check(SharedHelper(mContext))) {
             `$`<View>(R.id.removeStore).isEnabled = false
             `$`<View>(R.id.autoInstall).isEnabled = false
             `$`<View>(R.id.home_icon_num_column).isEnabled = false

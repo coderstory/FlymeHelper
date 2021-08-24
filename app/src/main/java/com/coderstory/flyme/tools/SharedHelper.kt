@@ -6,18 +6,25 @@ import com.coderstory.flyme.preferences.PreferencesProviderUtils
 class SharedHelper(private val context: Context) {
     var spName = "UserSettings"
     fun put(key: String, value: Any): Boolean {
-        return if (value is String) {
-            PreferencesProviderUtils.putString(context, spName, key, value)
-        } else if (value is Int) {
-            PreferencesProviderUtils.putInt(context, spName, key, value)
-        } else if (value is Boolean) {
-            PreferencesProviderUtils.putBoolean(context, spName, key, value)
-        } else if (value is Float) {
-            PreferencesProviderUtils.putFloat(context, spName, key, value)
-        } else if (value is Long) {
-            PreferencesProviderUtils.putLong(context, spName, key, value)
-        } else {
-            PreferencesProviderUtils.putString(context, spName, key, value.toString())
+        return when (value) {
+            is String -> {
+                PreferencesProviderUtils.putString(context, spName, key, value)
+            }
+            is Int -> {
+                PreferencesProviderUtils.putInt(context, spName, key, value)
+            }
+            is Boolean -> {
+                PreferencesProviderUtils.putBoolean(context, spName, key, value)
+            }
+            is Float -> {
+                PreferencesProviderUtils.putFloat(context, spName, key, value)
+            }
+            is Long -> {
+                PreferencesProviderUtils.putLong(context, spName, key, value)
+            }
+            else -> {
+                PreferencesProviderUtils.putString(context, spName, key, value.toString())
+            }
         }
     }
 

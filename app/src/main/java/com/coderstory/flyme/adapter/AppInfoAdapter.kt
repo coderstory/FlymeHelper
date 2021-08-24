@@ -17,6 +17,7 @@ class AppInfoAdapter(context: Context?, private val resourceId: Int, objects: Li
         val appInfo = getItem(position) as AppInfo?
         val view: View
         val vh: ViewHolder
+
         if (convertView != null) { //查询布局是否已经缓存
             view = convertView
             vh = view.tag as ViewHolder //重新获取ViewHolder
@@ -27,6 +28,7 @@ class AppInfoAdapter(context: Context?, private val resourceId: Int, objects: Li
             vh.myText = view.findViewById(id.app_name) //查找items实例中的mytext
             view.tag = vh //保存到view中
         }
+
         vh.myText!!.tag = appInfo!!.packageName
         if (appInfo.imageId != null) {
             vh.myImage!!.setImageDrawable(appInfo.imageId)
@@ -35,11 +37,13 @@ class AppInfoAdapter(context: Context?, private val resourceId: Int, objects: Li
             vh.myText!!.text = String.format(context.getString(R.string.app_info), appInfo.name, appInfo.fileSize, appInfo.releaseDate)
             vh.myImage!!.visibility = View.GONE
         }
+
         if (appInfo.disable) {
             view.setBackgroundColor(Color.parseColor("#d0d7d7d7")) //冻结的颜色
         } else {
             view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary)) //正常的的颜色
         }
+
         return view
     }
 

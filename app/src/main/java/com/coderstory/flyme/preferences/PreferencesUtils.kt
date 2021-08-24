@@ -39,14 +39,14 @@ object PreferencesUtils {
      * @return True if the new values were successfully written to persistent storage.
      */
     fun putString(context: Context?, spName: String?, key: String?, value: String?): Boolean {
-        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val settings: SharedPreferences = Utils.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
         val editor = settings.edit()
         editor.putString(key, value)
         return editor.commit()
     }
 
     fun remove(context: Context?, spName: String?, key: String?): Boolean {
-        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val settings: SharedPreferences = Utils.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
         val editor = settings.edit()
         editor.remove(key)
         return editor.commit()
@@ -88,7 +88,7 @@ object PreferencesUtils {
      * @return True if the new values were successfully written to persistent storage.
      */
     fun putInt(context: Context?, spName: String?, key: String?, value: Int): Boolean {
-        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val settings: SharedPreferences = Utils.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
         val editor = settings.edit()
         editor.putInt(key, value)
         return editor.commit()
@@ -104,7 +104,7 @@ object PreferencesUtils {
      * @see .getInt
      */
     fun getInt(context: Context?, spName: String?, key: String?): Int {
-        return PreferencesUtils.getInt(context, spName, key, -1)
+        return getInt(context, spName, key, -1)
     }
 
     /**
@@ -117,7 +117,7 @@ object PreferencesUtils {
      * this name that is not a int
      */
     fun getInt(context: Context?, spName: String?, key: String?, defaultValue: Int): Int {
-        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val settings: SharedPreferences = Utils.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
         return settings.getInt(key, defaultValue)
     }
 
@@ -130,7 +130,7 @@ object PreferencesUtils {
      * @return True if the new values were successfully written to persistent storage.
      */
     fun putLong(context: Context?, spName: String?, key: String?, value: Long): Boolean {
-        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val settings: SharedPreferences = Utils.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
         val editor = settings.edit()
         editor.putLong(key, value)
         return editor.commit()
@@ -146,7 +146,7 @@ object PreferencesUtils {
      * @see .getLong
      */
     fun getLong(context: Context?, spName: String?, key: String?): Long {
-        return PreferencesUtils.getLong(context, spName, key, -1)
+        return getLong(context, spName, key, -1)
     }
 
     /**
@@ -159,7 +159,7 @@ object PreferencesUtils {
      * this name that is not a long
      */
     fun getLong(context: Context?, spName: String?, key: String?, defaultValue: Long): Long {
-        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val settings: SharedPreferences = Utils.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
         return settings.getLong(key, defaultValue)
     }
 
@@ -172,7 +172,7 @@ object PreferencesUtils {
      * @return True if the new values were successfully written to persistent storage.
      */
     fun putFloat(context: Context?, spName: String?, key: String?, value: Float): Boolean {
-        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val settings: SharedPreferences = Utils.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
         val editor = settings.edit()
         editor.putFloat(key, value)
         return editor.commit()
@@ -184,7 +184,7 @@ object PreferencesUtils {
      * @return
      */
     fun getEditor(context: Context?, spName: String?): SharedPreferences.Editor {
-        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val settings: SharedPreferences = Utils.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
         return settings.edit()
     }
 
@@ -198,7 +198,7 @@ object PreferencesUtils {
      * @see .getFloat
      */
     fun getFloat(context: Context?, spName: String?, key: String?): Float {
-        return PreferencesUtils.getFloat(context, spName, key, -1f)
+        return getFloat(context, spName, key, -1f)
     }
 
     /**
@@ -211,7 +211,7 @@ object PreferencesUtils {
      * this name that is not a float
      */
     fun getFloat(context: Context?, spName: String?, key: String?, defaultValue: Float): Float {
-        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val settings: SharedPreferences = Utils.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
         return settings.getFloat(key, defaultValue)
     }
 
@@ -224,7 +224,7 @@ object PreferencesUtils {
      * @return True if the new values were successfully written to persistent storage.
      */
     fun putBoolean(context: Context?, spName: String?, key: String?, value: Boolean): Boolean {
-        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val settings: SharedPreferences = Utils.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
         val editor = settings.edit()
         editor.putBoolean(key, value)
         return editor.commit()
@@ -240,7 +240,7 @@ object PreferencesUtils {
      * @see .getBoolean
      */
     fun getBoolean(context: Context?, spName: String?, key: String?): Boolean {
-        return PreferencesUtils.getBoolean(context, spName, key, false)
+        return getBoolean(context, spName, key, false)
     }
 
     /**
@@ -253,7 +253,7 @@ object PreferencesUtils {
      * this name that is not a boolean
      */
     fun getBoolean(context: Context?, spName: String?, key: String?, defaultValue: Boolean): Boolean {
-        val settings: SharedPreferences = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+        val settings: SharedPreferences = Utils.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
         return settings.getBoolean(key, defaultValue)
     }
 }

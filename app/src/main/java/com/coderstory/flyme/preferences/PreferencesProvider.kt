@@ -6,7 +6,6 @@ import android.database.MatrixCursor
 import android.net.Uri
 import android.text.TextUtils
 import android.util.Base64
-import com.coderstory.flyme.preferences.PreferencesProvider
 import com.coderstory.flyme.tools.Misc
 import com.coderstory.flyme.tools.Utils
 
@@ -55,20 +54,20 @@ abstract class PreferencesProvider : ContentProvider() {
     override fun onCreate(): Boolean {
         val authorities = authorities
         //保存authorities
-        PreferencesUtils.putString(context, PreferencesProvider.Companion.AUTHORITIES_SPNAME, PreferencesProvider.Companion.AUTHORITIES_KEY, authorities)
+        PreferencesUtils.putString(context, AUTHORITIES_SPNAME, AUTHORITIES_KEY, authorities)
         mUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
-        mUriMatcher!!.addURI(authorities, mStringPath, PreferencesProvider.Companion.STRING_CONTENT_URI_CODE)
-        mUriMatcher!!.addURI(authorities, "$mStringPath*/", PreferencesProvider.Companion.STRING_CONTENT_URI_CODE)
-        mUriMatcher!!.addURI(authorities, mIntegerPath, PreferencesProvider.Companion.INTEGER_CONTENT_URI_CODE)
-        mUriMatcher!!.addURI(authorities, "$mIntegerPath*/", PreferencesProvider.Companion.INTEGER_CONTENT_URI_CODE)
-        mUriMatcher!!.addURI(authorities, mLongPath, PreferencesProvider.Companion.LONG_CONTENT_URI_CODE)
-        mUriMatcher!!.addURI(authorities, "$mLongPath*/", PreferencesProvider.Companion.LONG_CONTENT_URI_CODE)
-        mUriMatcher!!.addURI(authorities, mFloatPath, PreferencesProvider.Companion.FLOAT_CONTENT_URI_CODE)
-        mUriMatcher!!.addURI(authorities, "$mFloatPath*/", PreferencesProvider.Companion.FLOAT_CONTENT_URI_CODE)
-        mUriMatcher!!.addURI(authorities, mBooleanPath, PreferencesProvider.Companion.BOOLEAN_CONTENT_URI_CODE)
-        mUriMatcher!!.addURI(authorities, "$mBooleanPath*/", PreferencesProvider.Companion.BOOLEAN_CONTENT_URI_CODE)
-        mUriMatcher!!.addURI(authorities, mDeletePath, PreferencesProvider.Companion.DELETE_CONTENT_URI_CODE)
-        mUriMatcher!!.addURI(authorities, mPutsPath, PreferencesProvider.Companion.PUTS_CONTENT_URI_CODE)
+        mUriMatcher!!.addURI(authorities, mStringPath, STRING_CONTENT_URI_CODE)
+        mUriMatcher!!.addURI(authorities, "$mStringPath*/", STRING_CONTENT_URI_CODE)
+        mUriMatcher!!.addURI(authorities, mIntegerPath, INTEGER_CONTENT_URI_CODE)
+        mUriMatcher!!.addURI(authorities, "$mIntegerPath*/", INTEGER_CONTENT_URI_CODE)
+        mUriMatcher!!.addURI(authorities, mLongPath, LONG_CONTENT_URI_CODE)
+        mUriMatcher!!.addURI(authorities, "$mLongPath*/", LONG_CONTENT_URI_CODE)
+        mUriMatcher!!.addURI(authorities, mFloatPath, FLOAT_CONTENT_URI_CODE)
+        mUriMatcher!!.addURI(authorities, "$mFloatPath*/", FLOAT_CONTENT_URI_CODE)
+        mUriMatcher!!.addURI(authorities, mBooleanPath, BOOLEAN_CONTENT_URI_CODE)
+        mUriMatcher!!.addURI(authorities, "$mBooleanPath*/", BOOLEAN_CONTENT_URI_CODE)
+        mUriMatcher!!.addURI(authorities, mDeletePath, DELETE_CONTENT_URI_CODE)
+        mUriMatcher!!.addURI(authorities, mPutsPath, PUTS_CONTENT_URI_CODE)
         return false
     }
 
@@ -83,10 +82,10 @@ abstract class PreferencesProvider : ContentProvider() {
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
-        val model = getModel(uri) ?: return null
+        getModel(uri) ?: return null
         val code = mUriMatcher!!.match(uri)
-        if (code == PreferencesProvider.Companion.STRING_CONTENT_URI_CODE || code == PreferencesProvider.Companion.INTEGER_CONTENT_URI_CODE || code == PreferencesProvider.Companion.LONG_CONTENT_URI_CODE || code == PreferencesProvider.Companion.FLOAT_CONTENT_URI_CODE || code == PreferencesProvider.Companion.BOOLEAN_CONTENT_URI_CODE || code == PreferencesProvider.Companion.PUTS_CONTENT_URI_CODE) {
-            insert(context, values, model)
+        if (code == STRING_CONTENT_URI_CODE || code == INTEGER_CONTENT_URI_CODE || code == LONG_CONTENT_URI_CODE || code == FLOAT_CONTENT_URI_CODE || code == BOOLEAN_CONTENT_URI_CODE || code == PUTS_CONTENT_URI_CODE) {
+            insert(context, values)
         }
         return uri
     }
@@ -94,17 +93,17 @@ abstract class PreferencesProvider : ContentProvider() {
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
         val model = getModel(uri) ?: return -1
         val code = mUriMatcher!!.match(uri)
-        if (code == PreferencesProvider.Companion.STRING_CONTENT_URI_CODE || code == PreferencesProvider.Companion.INTEGER_CONTENT_URI_CODE || code == PreferencesProvider.Companion.LONG_CONTENT_URI_CODE || code == PreferencesProvider.Companion.FLOAT_CONTENT_URI_CODE || code == PreferencesProvider.Companion.BOOLEAN_CONTENT_URI_CODE) {
+        if (code == STRING_CONTENT_URI_CODE || code == INTEGER_CONTENT_URI_CODE || code == LONG_CONTENT_URI_CODE || code == FLOAT_CONTENT_URI_CODE || code == BOOLEAN_CONTENT_URI_CODE) {
             delete(context, model)
         }
         return 0
     }
 
     override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<String>?): Int {
-        val model = getModel(uri) ?: return -1
+        getModel(uri) ?: return -1
         val code = mUriMatcher!!.match(uri)
-        if (code == PreferencesProvider.Companion.STRING_CONTENT_URI_CODE || code == PreferencesProvider.Companion.INTEGER_CONTENT_URI_CODE || code == PreferencesProvider.Companion.LONG_CONTENT_URI_CODE || code == PreferencesProvider.Companion.FLOAT_CONTENT_URI_CODE || code == PreferencesProvider.Companion.BOOLEAN_CONTENT_URI_CODE) {
-            insert(context, values, model)
+        if (code == STRING_CONTENT_URI_CODE || code == INTEGER_CONTENT_URI_CODE || code == LONG_CONTENT_URI_CODE || code == FLOAT_CONTENT_URI_CODE || code == BOOLEAN_CONTENT_URI_CODE) {
+            insert(context, values)
         }
         return 0
     }
@@ -115,7 +114,7 @@ abstract class PreferencesProvider : ContentProvider() {
      * @param context
      * @param model
      */
-    private fun delete(context: Context?, model: PreferencesProvider.Model) {
+    private fun delete(context: Context?, model: Model) {
         val editor = PreferencesUtils.getEditor(context, model.spName)
         editor.remove(model.key)
         editor.commit()
@@ -126,12 +125,11 @@ abstract class PreferencesProvider : ContentProvider() {
      *
      * @param context
      * @param values
-     * @param model
      */
-    private fun insert(context: Context?, values: ContentValues?, model: PreferencesProvider.Model) {
+    private fun insert(context: Context?, values: ContentValues?) {
         //Log.e("Xposed", "Model " + JSON.toJSONString(model));
         //Log.e("Xposed", "ContentValues " + JSON.toJSONString(values));
-        val editor: SharedPreferences.Editor = Utils.Companion.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName).edit()
+        val editor: SharedPreferences.Editor = Utils.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName).edit()
         val keys = values!!.keySet()
         for (key in keys) {
             val value = values[key]
@@ -147,7 +145,7 @@ abstract class PreferencesProvider : ContentProvider() {
                 editor.putString(key, if (value == null) "" else String(Base64.decode(value as String, Base64.DEFAULT)))
             }
         }
-        editor.commit()
+        editor.apply()
     }
 
     /**
@@ -155,41 +153,27 @@ abstract class PreferencesProvider : ContentProvider() {
      *
      * @return
      */
-    private fun buildCursor(context: Context, model: PreferencesProvider.Model, code: Int): Cursor? {
+    private fun buildCursor(context: Context, model: Model, code: Int): Cursor? {
         var value: Any? = null
         var defValue = model.defValue
         when (code) {
-            PreferencesProvider.Companion.STRING_CONTENT_URI_CODE -> value = if (defValue == null) {
-                PreferencesUtils.getString(context, model.spName, model.key)
-            } else {
-                PreferencesUtils.getString(context, model.spName, model.key, defValue.toString())
-            }
-            PreferencesProvider.Companion.INTEGER_CONTENT_URI_CODE -> if (defValue == null) {
-                value = PreferencesUtils.getInt(context, model.spName, model.key)
-            } else {
+            STRING_CONTENT_URI_CODE -> value = PreferencesUtils.getString(context, model.spName, model.key, defValue.toString())
+            INTEGER_CONTENT_URI_CODE -> {
                 if (!TextUtils.isDigitsOnly(defValue.toString() + "")) {
                     defValue = -1
                 }
                 value = PreferencesUtils.getInt(context, model.spName, model.key, (defValue.toString() + "").toInt())
             }
-            PreferencesProvider.Companion.LONG_CONTENT_URI_CODE -> if (defValue == null) {
-                value = PreferencesUtils.getLong(context, model.spName, model.key)
-            } else {
+            LONG_CONTENT_URI_CODE -> {
                 if (!TextUtils.isDigitsOnly(defValue.toString() + "")) {
                     defValue = -1
                 }
                 value = PreferencesUtils.getLong(context, model.spName, model.key, (defValue.toString() + "").toLong())
             }
-            PreferencesProvider.Companion.FLOAT_CONTENT_URI_CODE -> value = if (defValue == null) {
-                PreferencesUtils.getFloat(context, model.spName, model.key)
-            } else {
-                PreferencesUtils.getFloat(context, model.spName, model.key, (defValue.toString() + "").toFloat())
+            FLOAT_CONTENT_URI_CODE -> {
+                value = PreferencesUtils.getFloat(context, model.spName, model.key, (defValue.toString() + "").toFloat())
             }
-            PreferencesProvider.Companion.BOOLEAN_CONTENT_URI_CODE -> value = if (defValue == null) {
-                PreferencesUtils.getBoolean(context, model.spName, model.key).toString() + ""
-            } else {
-                PreferencesUtils.getBoolean(context, model.spName, model.key, java.lang.Boolean.valueOf(defValue.toString() + "")).toString() + ""
-            }
+            BOOLEAN_CONTENT_URI_CODE -> value = PreferencesUtils.getBoolean(context, model.spName, model.key, java.lang.Boolean.valueOf(defValue.toString() + "")).toString() + ""
             else -> {
             }
         }
@@ -198,9 +182,9 @@ abstract class PreferencesProvider : ContentProvider() {
         if (value is String) {
             value = Base64.encodeToString(value.toByteArray(), Base64.DEFAULT)
         }
-        val columnNames = arrayOf<String>(PreferencesProvider.Companion.COLUMNNAME)
+        val columnNames = arrayOf(COLUMNNAME)
         val cursor = MatrixCursor(columnNames)
-        val values = arrayOf<Any?>(value)
+        val values = arrayOf(value)
         cursor.addRow(values)
         return cursor
     }
@@ -211,9 +195,9 @@ abstract class PreferencesProvider : ContentProvider() {
      * @param uri
      * @return
      */
-    private fun getModel(uri: Uri): PreferencesProvider.Model? {
+    private fun getModel(uri: Uri): Model? {
         try {
-            val model: PreferencesProvider.Model = PreferencesProvider.Model()
+            val model = Model()
             model.spName = (uri.pathSegments[1])
             if (uri.pathSegments.size > 2) {
                 model.key = (uri.pathSegments[2])

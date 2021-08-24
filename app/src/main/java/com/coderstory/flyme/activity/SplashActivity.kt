@@ -42,7 +42,7 @@ class SplashActivity : Activity() {
                 finish()
             }
 
-            override fun doInBackground(vararg params: Void?): Int? {
+            override fun doInBackground(vararg params: Void?): Int {
                 try {
                     Thread.sleep(SHOW_TIME_MIN.toLong())
                 } catch (e: InterruptedException) {

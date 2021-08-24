@@ -1,6 +1,5 @@
 package com.coderstory.flyme.activity
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.DialogInterface
@@ -20,17 +19,14 @@ import com.coderstory.flyme.R.id
 import com.coderstory.flyme.activity.base.BaseActivity
 import com.coderstory.flyme.fragment.*
 import com.coderstory.flyme.tools.*
-import com.coderstory.flyme.update.UpgradeService
 import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import per.goweii.anylayer.AnyLayer
 import per.goweii.anylayer.Layer
-import pub.devrel.easypermissions.AppSettingsDialog
-import pub.devrel.easypermissions.EasyPermissions
-import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import kotlin.system.exitProcess
 
-class MainActivity : BaseActivity(), PermissionCallbacks {
+class MainActivity : BaseActivity() {
+    private val isEnable = false
     private val helper = SharedHelper(this)
     private var mDrawerLayout //侧边菜单视图
             : DrawerLayout? = null
@@ -88,17 +84,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
         mFragmentManager = supportFragmentManager
     }
 
-    private fun requestCameraPermission() {
-        requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), READ_EXTERNAL_STORAGE_CODE)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
-    }
-
     override fun setUpView() {
-        requestCameraPermission()
         mToolbar = `$`(id.toolbar)
         mDrawerLayout = `$`(id.drawer_layout)
         mNavigationView = `$`(id.navigation_view)
@@ -137,9 +123,6 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
         if (Utils.check(helper)) {
             Thread(Utils().Check(helper, myHandler, this)).start()
         }
-        if (helper.getBoolean("enableUpdate", true)) {
-            UpgradeService(this).checkUpgrade()
-        }
     }
 
     private fun checkDialog() {
@@ -158,30 +141,30 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
         try {
             val classType = Class.forName("android.os.SystemProperties")
             val getMethod = classType.getDeclaredMethod("get", String::class.java)
-            val value = getMethod.invoke(classType, *arrayOf<Any>("ro.build.flyme.version")) as String
+            val value = getMethod.invoke(classType, "ro.build.flyme.version") as String
             Log.e("xposed", "当前flyme版本$value")
             if ("9" != value) {
                 val normalDialog = android.app.AlertDialog.Builder(this@MainActivity)
                 normalDialog.setTitle("不兼容的操作系统")
                 if ("" == value) {
-                    normalDialog.setMessage("当前助手适配的是Flyme9系统,而当前系统不是FLyme")
+                    normalDialog.setMessage("当前助手适配的是flyme9系统,而当前系统不是flyme")
                 } else {
-                    normalDialog.setMessage("当前助手适配的是Flyme9系统,而当前系统是flyme$value,请选择合适的版本")
+                    normalDialog.setMessage("当前助手适配的是flyme9系统,而当前系统是flyme$value,请选择合适的版本")
                 }
                 normalDialog.setPositiveButton("退出"
-                ) { dialog: DialogInterface?, which: Int -> System.exit(0) }
+                ) { _: DialogInterface?, _: Int -> exitProcess(0) }
                 normalDialog.setCancelable(false)
                 normalDialog.show()
             }
         } catch (e: Exception) {
-            Log.e("", e.message, e)
+            Log.e("flyme9helper", e.message, e)
         }
         if (helper.getBoolean("firstOpenD", true) && Build.VERSION.SDK_INT <= 28) {
             val normalDialog = android.app.AlertDialog.Builder(this@MainActivity)
             normalDialog.setTitle("提示")
             normalDialog.setMessage("部分涉及系统UI的功能在低版本安卓系统[7.0-9.0]上不可以用")
             normalDialog.setPositiveButton("确定"
-            ) { dialog: DialogInterface?, which: Int -> helper.put("firstOpenD", false) }
+            ) { _: DialogInterface?, _: Int -> helper.put("firstOpenD", false) }
             normalDialog.setCancelable(true)
             normalDialog.show()
         }
@@ -225,8 +208,6 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
         mPreMenuItem?.isChecked = true
     }
 
-    val isEnable: Boolean
-        get() = false
 
     private fun setNavigationViewItemClickListener() {
         mNavigationView!!.setNavigationItemSelectedListener { item: MenuItem ->
@@ -237,45 +218,50 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
                 SnackBarUtils.makeShort(mDrawerLayout, getString(R.string.isWorkingTips)).danger()
                 return@setNavigationItemSelectedListener false
             }
-            val itemId = item.itemId
-            if (itemId == id.navigation_item_settings) {
-                mToolbar!!.setTitle(R.string.others_appsettings)
-                switchFragment(SettingsFragment::class.java)
-            } else if (itemId == id.navigation_item_Clean) {
-                mToolbar!!.setTitle(R.string.appclean)
-                switchFragment(CleanFragment::class.java)
-            } else if (itemId == id.navigation_item_disableapps) {
-                mToolbar!!.setTitle(R.string.disableapp)
-                switchFragment(DisbaleAppFragment::class.java)
-            } else if (itemId == id.navigation_item_about) {
-                startActivityWithoutExtras(AboutActivity::class.java)
-            } else if (itemId == id.navigation_item_hide_app) {
-                mToolbar!!.setTitle(R.string.hide_app_icon)
-                switchFragment(HideAppFragment::class.java)
-            } else if (itemId == id.navigation_item_otherssettings) {
-                mToolbar!!.setTitle(R.string.othersettings)
-                switchFragment(OthersFragment::class.java)
-            } else if (itemId == id.navigation_item_Blog) {
-                mToolbar!!.setTitle(R.string.blog)
-                switchFragment(BlogFragment::class.java)
-            } else if (itemId == id.navigation_item_updateList) {
-                mToolbar!!.setTitle(R.string.updateList)
-                switchFragment(UpgradeFragment::class.java)
-            } else if (itemId == id.navigation_item_system_ui_settings) {
-                mToolbar!!.setTitle(R.string.systemui_settings)
-                switchFragment(SystemUIFragment::class.java)
-            } else if (itemId == id.navigation_item_hosts) {
-                mToolbar!!.setTitle(R.string.hosts)
-                switchFragment(HostsFragment::class.java)
-            } else if (itemId == id.navigation_item_about_me) {
-                mToolbar!!.title = Utils.decode("5Lya5ZGY5r+A5rS7")
-                switchFragment(AccountFragment::class.java)
-            } else if (itemId == id.navigation_item_xposed_install) {
-                mToolbar!!.title = "xposed框架安装"
-                switchFragment(XposedFragment::class.java)
-            } else if (itemId == id.navigation_item_core_patch_settings) {
-                mToolbar!!.title = "核心破解"
-                switchFragment(CorePatchFragment::class.java)
+            when (item.itemId) {
+                id.navigation_item_settings -> {
+                    mToolbar!!.setTitle(R.string.others_appsettings)
+                    switchFragment(SettingsFragment::class.java)
+                }
+                id.navigation_item_Clean -> {
+                    mToolbar!!.setTitle(R.string.appclean)
+                    switchFragment(CleanFragment::class.java)
+                }
+                id.navigation_item_disableapps -> {
+                    mToolbar!!.setTitle(R.string.disableapp)
+                    switchFragment(DisbaleAppFragment::class.java)
+                }
+                id.navigation_item_about -> {
+                    startActivityWithoutExtras(AboutActivity::class.java)
+                }
+                id.navigation_item_otherssettings -> {
+                    mToolbar!!.setTitle(R.string.othersettings)
+                    switchFragment(OthersFragment::class.java)
+                }
+                id.navigation_item_Blog -> {
+                    mToolbar!!.setTitle(R.string.blog)
+                    switchFragment(BlogFragment::class.java)
+                }
+                id.navigation_item_updateList -> {
+                    mToolbar!!.setTitle(R.string.updateList)
+                    switchFragment(UpgradeFragment::class.java)
+                }
+                id.navigation_item_system_ui_settings -> {
+                    mToolbar!!.setTitle(R.string.systemui_settings)
+                    switchFragment(SystemUIFragment::class.java)
+                }
+                id.navigation_item_hosts -> {
+                    mToolbar!!.setTitle(R.string.hosts)
+                    switchFragment(HostsFragment::class.java)
+                }
+                id.navigation_item_about_me -> {
+                    mToolbar!!.title = Utils.decode("5Lya5ZGY5r+A5rS7")
+                    switchFragment(AccountFragment::class.java)
+                }
+                id.navigation_item_core_patch_settings -> {
+                    mToolbar!!.title = "核心破解"
+                    switchFragment(CorePatchFragment::class.java)
+                }
             }
             item.isChecked = true
             mDrawerLayout!!.closeDrawer(GravityCompat.START)
@@ -319,20 +305,7 @@ class MainActivity : BaseActivity(), PermissionCallbacks {
         }
     }
 
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-
-    }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            AppSettingsDialog.Builder(this).setTitle("提示").setRationale("为了能正常使用应用,请授权读写存储权限！").setPositiveButton("去设置").setNegativeButton("取消").setRequestCode(1).build().show()
-        } else {
-            Toast.makeText(this, "你拒绝了本权限，将无法使用部分功能", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     companion object {
         const val MAX_DOUBLE_BACK_DURATION: Long = 1500
-        private const val READ_EXTERNAL_STORAGE_CODE = 1
     }
 }

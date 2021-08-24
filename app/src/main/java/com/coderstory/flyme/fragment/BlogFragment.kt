@@ -29,7 +29,7 @@ class BlogFragment : WebViewFragment() {
                 val text = mWebView?.url ?: ""
                 myClip = ClipData.newPlainText("text", text)
                 myClipboard.setPrimaryClip(myClip)
-                SnackBarUtils.Companion.makeLong(view, getString(R.string.cp_url_success)).show()
+                SnackBarUtils.makeLong(view, getString(R.string.cp_url_success)).show()
             }
         } else if (item.itemId == R.id.action_share) {
             shareMsg(getString(R.string.share_url), mWebView!!.title, mWebView!!.url)
@@ -37,7 +37,7 @@ class BlogFragment : WebViewFragment() {
         return false
     }
 
-    fun shareMsg(activityTitle: String?, msgTitle: String?, msgText: String?) {
+    private fun shareMsg(activityTitle: String?, msgTitle: String?, msgText: String?) {
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "text/plain" // 纯文本
         intent.putExtra(Intent.EXTRA_SUBJECT, msgTitle)

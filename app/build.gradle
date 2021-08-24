@@ -86,8 +86,6 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.goweii:AnyLayer:3.4.3-support'
-    implementation 'pub.devrel:easypermissions:3.0.0'
-    implementation 'com.github.itsnows:android-upgrade:1.2.4'
     implementation "com.github.topjohnwu.libsu:core:3.0.2"
     implementation 'com.google.code.gson:gson:2.8.7'
     implementation 'com.alibaba:fastjson:1.2.78'

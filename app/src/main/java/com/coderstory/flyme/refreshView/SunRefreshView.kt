@@ -45,7 +45,7 @@ class SunRefreshView(private val mParent: PullToRefreshView) : BaseRefreshView(m
         mTownHeight = (TOWN_RATIO * mScreenWidth).toInt()
         mTownInitialTopOffset = mParent.totalDragDistance - mTownHeight * SunRefreshView.Companion.TOWN_INITIAL_SCALE
         mTownFinalTopOffset = mParent.totalDragDistance - mTownHeight * SunRefreshView.Companion.TOWN_FINAL_SCALE
-        mTownMoveOffset = Utils.Companion.convertDpToPixel(context, 10).toFloat()
+        mTownMoveOffset = Utils.convertDpToPixel(context, 10).toFloat()
         mSunLeftOffset = 0.3f * mScreenWidth.toFloat()
         mSunTopOffset = mParent.totalDragDistance * 0.1f
         mTop = -mParent.totalDragDistance

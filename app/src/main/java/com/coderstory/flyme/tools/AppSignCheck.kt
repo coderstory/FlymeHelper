@@ -1,6 +1,6 @@
 package com.coderstory.flyme.tools
 
-import android.content.*
+import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import java.io.ByteArrayInputStream
@@ -20,22 +20,8 @@ class AppSignCheck {
     /**
      * 设置正确的签名
      *
-     * @param realCer
      */
     var realCer: String? = null
-
-    constructor(context: Context?) {
-        this.context = context
-        try {
-            cer = certificateSHA1Fingerprint
-        } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
-        } catch (e: CertificateException) {
-            e.printStackTrace()
-        }
-    }
 
     constructor(context: Context?, realCer: String?) {
         this.context = context
@@ -81,7 +67,7 @@ class AppSignCheck {
      * @return
      */
     @get:Throws(PackageManager.NameNotFoundException::class, CertificateException::class, NoSuchAlgorithmException::class)
-    val certificateSHA1Fingerprint: String?
+    val certificateSHA1Fingerprint: String
         get() {
             //获取包管理器
             val pm = context!!.packageManager
@@ -92,11 +78,7 @@ class AppSignCheck {
 
             //返回包括在包中的签名信息
             val flags = PackageManager.GET_SIGNATURES
-            var packageInfo: PackageInfo? = null
-
-
-            //获得包的所有内容信息类
-            packageInfo = pm.getPackageInfo(packageName, flags)
+            var packageInfo: PackageInfo = pm.getPackageInfo(packageName, flags)
 
 
             //签名信息
@@ -107,18 +89,16 @@ class AppSignCheck {
             val input: InputStream = ByteArrayInputStream(cert)
 
             //证书工厂类，这个类实现了出厂合格证算法的功能
-            var cf: CertificateFactory? = null
-            cf = CertificateFactory.getInstance(Utils.Companion.decode("WDUwOQ=="))
+            val cf: CertificateFactory = CertificateFactory.getInstance(Utils.decode("WDUwOQ=="))
 
 
             //X509 证书，X.509 是一种非常通用的证书格式
-            var c: X509Certificate? = null
-            c = cf.generateCertificate(input) as X509Certificate
-            var hexString: String? = null
+            val c: X509Certificate = cf.generateCertificate(input) as X509Certificate
+            val hexString: String?
 
 
             //加密算法的类，这里的参数可以使 MD4,MD5 等加密算法
-            val md = MessageDigest.getInstance(Utils.Companion.decode("U0hBMQ=="))
+            val md = MessageDigest.getInstance(Utils.decode("U0hBMQ=="))
 
             //获得公钥
             val publicKey = md.digest(c.encoded)
@@ -160,11 +140,10 @@ class AppSignCheck {
     companion object {
         private const val slat = "&%5123***JKO&%%$$#@"
         fun encrypt(dataStr: String): String {
-            var dataStr = dataStr
             try {
-                dataStr = dataStr + slat
+                val str = dataStr + slat
                 val m = MessageDigest.getInstance("MD5")
-                m.update(dataStr.toByteArray(StandardCharsets.UTF_8))
+                m.update(str.toByteArray(StandardCharsets.UTF_8))
                 val s = m.digest()
                 val result = StringBuilder()
                 for (i in s.indices) {

@@ -25,7 +25,7 @@ class FlymeHome : XposedHelper(), IModule {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 if (prefs.getBoolean("hide_icon_label", false)) {
                     // android 10
-                    XposedHelper.Companion.hookAllMethods("com.android.launcher3.BubbleTextView", param.classLoader, "setText", object : XC_MethodHook() {
+                    hookAllMethods("com.android.launcher3.BubbleTextView", param.classLoader, "setText", object : XC_MethodHook() {
                         @Throws(Throwable::class)
                         override fun beforeHookedMethod(param: MethodHookParam) {
                             super.beforeHookedMethod(param)
@@ -39,24 +39,22 @@ class FlymeHome : XposedHelper(), IModule {
                 }
                 meizu17(param)
             } else {
-                hook55(XposedHelper.Companion.findClass("com.meizu.flyme.launcher.u", param.classLoader), param.classLoader)
-                hook55(XposedHelper.Companion.findClass("com.meizu.flyme.launcher.v", param.classLoader), param.classLoader)
-                hook55(XposedHelper.Companion.findClass("com.meizu.flyme.launcher.w", param.classLoader), param.classLoader)
+                hook55(findClass("com.meizu.flyme.launcher.u", param.classLoader), param.classLoader)
+                hook55(findClass("com.meizu.flyme.launcher.v", param.classLoader), param.classLoader)
+                hook55(findClass("com.meizu.flyme.launcher.w", param.classLoader), param.classLoader)
                 if (prefs.getBoolean("hide_icon_label", false)) {
                     //XposedBridge.log("开启隐藏标签");
                     // 隐藏图标标签
-                    XposedHelper.Companion.hookAllMethods(XposedHelper.Companion.findClass("com.meizu.flyme.launcher.ShortcutIcon", param.classLoader), "a", object : XC_MethodHook() {
+                    hookAllMethods(findClass("com.meizu.flyme.launcher.ShortcutIcon", param.classLoader), "a", object : XC_MethodHook() {
                         @Throws(Throwable::class)
                         override fun afterHookedMethod(param: MethodHookParam) {
                             super.beforeHookedMethod(param)
                             val textView = XposedHelpers.getObjectField(param.thisObject, "c") as TextView
-                            if (textView != null) {
-                                textView.visibility = View.INVISIBLE
-                            }
+                            textView.visibility = View.INVISIBLE
                         }
                     })
                     // 隐藏文件夹标签
-                    XposedHelper.Companion.findAndHookMethod("com.meizu.flyme.launcher.FolderIcon", param.classLoader, "setTextVisible", Boolean::class.javaPrimitiveType, object : XC_MethodHook() {
+                    findAndHookMethod("com.meizu.flyme.launcher.FolderIcon", param.classLoader, "setTextVisible", Boolean::class.javaPrimitiveType, object : XC_MethodHook() {
                         @Throws(Throwable::class)
                         override fun beforeHookedMethod(param: MethodHookParam) {
                             super.beforeHookedMethod(param)
@@ -75,16 +73,16 @@ class FlymeHome : XposedHelper(), IModule {
                  * }
                  */
                 if (findClassWithoutLog("com.meizu.flyme.g.a", param.classLoader) != null) {
-                    XposedHelper.Companion.findAndHookMethod("com.meizu.flyme.g.a", param.classLoader, "a", XC_MethodReplacement.returnConstant(null))
+                    findAndHookMethod("com.meizu.flyme.g.a", param.classLoader, "a", XC_MethodReplacement.returnConstant(null))
                 } else if (findClassWithoutLog("com.meizu.launcher3.controller.CommonTouchController", param.classLoader) != null) {
-                    XposedHelper.Companion.findAndHookMethod("com.meizu.launcher3.controller.CommonTouchController", param.classLoader, "startSearchActivity", XC_MethodReplacement.returnConstant(null))
+                    findAndHookMethod("com.meizu.launcher3.controller.CommonTouchController", param.classLoader, "startSearchActivity", XC_MethodReplacement.returnConstant(null))
                 }
             }
         }
     }
 
     private fun meizu17(lpparam: LoadPackageParam) {
-        val config: JSONObject = XposedHelper.Companion.json.getJSONObject("custom_launcher_icon_number")
+        val config: JSONObject = json.getJSONObject("custom_launcher_icon_number")
         val numRows = prefs.getInt("home_icon_num_rows", 0)
         val numColumns = prefs.getInt("home_icon_num_column", 0)
         val numHotseatIcons = prefs.getInt("home_icon_num_hot_seat_icons", 0)
@@ -101,7 +99,7 @@ class FlymeHome : XposedHelper(), IModule {
                     }
                 }
             })
-            hookAllConstructors(XposedHelper.Companion.findClass(config.getString("class1"), lpparam.classLoader), object : XC_MethodHook() {
+            hookAllConstructors(findClass(config.getString("class1"), lpparam.classLoader), object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     super.afterHookedMethod(param)
@@ -110,7 +108,7 @@ class FlymeHome : XposedHelper(), IModule {
                     if (numHotseatIcons != 0) XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons)
                 }
             })
-            hookAllConstructors(XposedHelper.Companion.findClass(config.getString("class2"), lpparam.classLoader), object : XC_MethodHook() {
+            hookAllConstructors(findClass(config.getString("class2"), lpparam.classLoader), object : XC_MethodHook() {
                 @Throws(Throwable::class)
                 override fun afterHookedMethod(param: MethodHookParam) {
                     super.afterHookedMethod(param)
@@ -119,7 +117,7 @@ class FlymeHome : XposedHelper(), IModule {
                     if (numHotseatIcons != 0) XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons)
                 }
             })
-            if (XposedHelper.Companion.findClass(config.getString("class3"), lpparam.classLoader) != null) {
+            if (findClass(config.getString("class3"), lpparam.classLoader) != null) {
                 hookAllConstructors(SQLiteOpenHelper::class.java, object : XC_MethodHook() {
                     override fun afterHookedMethod(hookParam: MethodHookParam) {
                         if ("launcher.db" == hookParam.args[1]) {
@@ -133,7 +131,12 @@ class FlymeHome : XposedHelper(), IModule {
                                     if (databasePath != null && databasePath.exists()) {
                                         return
                                     }
-                                    XposedHelper.Companion.writeFile(file, databasePath)
+                                    with(XposedHelper) {
+                                        if (databasePath != null && databasePath.exists()) {
+                                            return
+                                        }
+                                        writeFile(file, databasePath)
+                                    }
                                 }
                             }
                         }
@@ -148,12 +151,16 @@ class FlymeHome : XposedHelper(), IModule {
         // deviceProfiles.add(new DeviceProfile("Flyme5", 359f, 518f, ((float)FlymeDeviceConfig.row), ((float)FlymeDeviceConfig.column), 55f, 13f, 4f, 55f));
         // (String str, float f, float f2, float f3, float f4, float f5, float f6, float f7, float f8) {
         var type = ""
-        if (prefs.getBoolean("hide_icon_5", false)) {
-            type = "hide_icon_5"
-        } else if (prefs.getBoolean("hide_icon_6", false)) {
-            type = "hide_icon_6"
-        } else if (prefs.getBoolean("hide_icon_4", false)) {
-            type = "hide_icon_4"
+        when {
+            prefs.getBoolean("hide_icon_5", false) -> {
+                type = "hide_icon_5"
+            }
+            prefs.getBoolean("hide_icon_6", false) -> {
+                type = "hide_icon_6"
+            }
+            prefs.getBoolean("hide_icon_4", false) -> {
+                type = "hide_icon_4"
+            }
         }
         if ("" != type) {
             val finalType = type
@@ -181,7 +188,7 @@ class FlymeHome : XposedHelper(), IModule {
                     }
                 }
             })
-            if (XposedHelper.Companion.findClass("com.android.launcher3.InvariantDeviceProfile\$GridOption", classLoader) == null) {
+            if (findClass("com.android.launcher3.InvariantDeviceProfile\$GridOption", classLoader) == null) {
                 // 不同布局使用不同的db
                 hookAllConstructors(SQLiteOpenHelper::class.java, object : XC_MethodHook() {
                     override fun afterHookedMethod(hookParam: MethodHookParam) {
@@ -196,7 +203,12 @@ class FlymeHome : XposedHelper(), IModule {
                                     if (databasePath != null && databasePath.exists()) {
                                         return
                                     }
-                                    XposedHelper.Companion.writeFile(file, databasePath)
+                                    with(XposedHelper) {
+                                        if (databasePath != null && databasePath.exists()) {
+                                            return
+                                        }
+                                        writeFile(file, databasePath)
+                                    }
                                 }
                             }
                         }

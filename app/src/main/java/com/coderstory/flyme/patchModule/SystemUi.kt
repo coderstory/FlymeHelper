@@ -264,7 +264,7 @@ class SystemUi : XposedHelper(), IModule {
                                 val statusbaiview = context.resources.getIdentifier("status_bar_contents", "id", context.packageName)
                                 val myclock = phoneStatusBarView.findViewById<ViewGroup>(statusbaiview) //状态栏对象，左右两部分
 
-                                var mCenterLayout = LinearLayout(context)
+                                val mCenterLayout = LinearLayout(context)
                                 val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT)
                                 mCenterLayout.layoutParams = lp
                                 mCenterLayout.gravity = Gravity.CENTER_VERTICAL
