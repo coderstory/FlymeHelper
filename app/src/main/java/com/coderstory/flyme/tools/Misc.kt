@@ -5,12 +5,12 @@ object Misc {
     const val ApplicationName = "com.coderstory.flyme"
     const val SharedPreferencesName = "UserSettings"
     const val HostFileTmpName = "/hosts"
-    const val endTime = "2021-11-1"
-    const val isTestVersion = true
+    const val endTime = "2022-03-1"
+    const val isTestVersion = false
     val searchApi: String = Utils.decode(Cpp.helloWorld())
     private const val BasePath = "/storage/emulated/0/Flyme_Purify"
-    const val BackPath = Misc.BasePath + "/Backup/"
-    const val CrashFilePath = Misc.BasePath + "/CrashLog/"
+    const val BackPath = BasePath + "/Backup/"
+    const val CrashFilePath = BasePath + "/CrashLog/"
     var isProcessing = false
 
     // 家里的电脑1
