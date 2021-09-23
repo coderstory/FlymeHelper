@@ -1,6 +1,7 @@
 package com.coderstory.flyme.xposed
 
 import android.os.Build
+import com.coderstory.flyme.BuildConfig
 import com.coderstory.flyme.patchModule.*
 import com.coderstory.flyme.patchModule.corepatch.CorePatchForQ
 import com.coderstory.flyme.patchModule.corepatch.CorePatchForR
@@ -14,7 +15,8 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
-class start : XposedHelper(), IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
+class start : XposedHelper(), IXposedHookZygoteInit, IXposedHookLoadPackage,
+    IXposedHookInitPackageResources {
     override fun handleInitPackageResources(resparam: InitPackageResourcesParam) {
         if (Utils.Companion.vi()) {
             FlymeRoot().handleInitPackageResources(resparam)
@@ -51,6 +53,7 @@ class start : XposedHelper(), IXposedHookZygoteInit, IXposedHookLoadPackage, IXp
 
     override fun initZygote(startupParam: StartupParam) {
         XposedBridge.log("Flyme助手已加载")
+        XposedBridge.log("version${BuildConfig.VERSION_NAME}")
         SystemUi().initZygote(startupParam)
         if (startupParam.startsSystemServer) {
             if (Build.VERSION.SDK_INT == 30) {
