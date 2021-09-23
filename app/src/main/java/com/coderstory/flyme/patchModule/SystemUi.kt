@@ -20,7 +20,6 @@ import com.coderstory.flyme.xposed.IModule
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
-import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -501,7 +500,7 @@ class SystemUi : XposedHelper(), IModule {
                     override fun beforeHookedMethod(param: MethodHookParam) {
                         super.beforeHookedMethod(param)
                         // XposedBridge.log(JSON.toJSONString(param.args));
-                        XposedBridge.log("进入方法")
+                        // XposedBridge.log("进入方法")
                         var subId = param.args[11] as Int
 
                         var iconState =
@@ -514,16 +513,16 @@ class SystemUi : XposedHelper(), IModule {
 
                         val slotId = XposedHelpers.getIntField(iconState, "slotId") + 1;
 
-                        XposedBridge.log("当前卡槽$slotId")
+                        // XposedBridge.log("当前卡槽$slotId")
                         if (prefs.getBoolean("hide_status_bar_sim1_icon", false) && slotId == 1) {
-                            XposedBridge.log("开启隐藏sim1")
+                            // XposedBridge.log("开启隐藏sim1")
                             XposedHelpers.setBooleanField(param.args[0], "visible", false)
                         }
                         if (prefs.getBoolean("hide_status_bar_sim2_icon", false) && slotId == 2) {
-                            XposedBridge.log("开启隐藏sim2")
+                            // XposedBridge.log("开启隐藏sim2")
                             XposedHelpers.setBooleanField(param.args[0], "visible", false)
                         }
-                        XposedBridge.log("处理完毕")
+                        // XposedBridge.log("处理完毕")
                     }
                 })
             if (prefs.getString("isCore", "0") == "1") {
