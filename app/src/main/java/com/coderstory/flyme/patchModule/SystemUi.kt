@@ -510,9 +510,9 @@ class SystemUi : XposedHelper(), IModule {
                                 "mzGetState",
                                 "subId",
                                 subId
-                            );
+                            )
 
-                        val slotId = XposedHelpers.getIntField(iconState, "slotId");
+                        val slotId = XposedHelpers.getIntField(iconState, "slotId") + 1;
 
                         XposedBridge.log("当前卡槽$slotId")
                         if (prefs.getBoolean("hide_status_bar_sim1_icon", false) && slotId == 1) {
