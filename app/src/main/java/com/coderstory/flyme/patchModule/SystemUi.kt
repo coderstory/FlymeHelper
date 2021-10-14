@@ -109,6 +109,12 @@ class SystemUi : XposedHelper(), IModule {
                         "triggerBack",
                         notifyBackAction
                     )
+                    findAndHookMethod(
+                        "com.android.systemui.statusbar.phone.EdgeBackGestureHandler$5",
+                        param.classLoader,
+                        "triggerBack",
+                        notifyBackAction
+                    )
                 } else if (Build.VERSION.SDK_INT == 29) {
                     hookAllMethods(
                         "com.android.systemui.recents.OverviewProxyService",
