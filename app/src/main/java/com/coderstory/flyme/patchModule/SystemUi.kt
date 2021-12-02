@@ -9,6 +9,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.format.DateFormat
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -124,6 +125,18 @@ class SystemUi : XposedHelper(), IModule {
                     )
                 }
             }
+
+            if (prefs.getBoolean("disable_edge_back", false)) {
+                findAndHookMethod("com.android.systemui.statusbar.phone.EdgeBackView",
+                    param.classLoader,
+                    "onMotionEvent",
+                    MotionEvent::class.java,
+                    object : XC_MethodReplacement() {
+                        override fun replaceHookedMethod(p0: MethodHookParam): Any? = null
+                    }
+                )
+            }
+
             hookAllMethods(
                 "com.android.systemui.statusbar.StatusBarIconView",
                 param.classLoader,

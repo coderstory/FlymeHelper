@@ -181,6 +181,10 @@ class OthersFragment : BaseFragment() {
                 fix()
             }
         })
+        `$`<View>(R.id.disable_edge_back).setOnClickListener { v: View ->
+            editor.putBoolean("disable_edge_back", (v as SwitchCompat).isChecked)
+            fix()
+        }
     }
 
     override fun setLayoutResourceID(): Int {
@@ -188,31 +192,56 @@ class OthersFragment : BaseFragment() {
     }
 
     override fun setUpData() {
-        (`$`<View>(R.id.enable_back_vibrator) as EditText).setText(prefs.getString("enable_back_vibrator_value", ""))
-        (`$`<View>(R.id.disable_charge_animation) as SwitchCompat).isChecked = prefs.getBoolean("disable_charge_animation", false)
-        (`$`<View>(R.id.hide_icon_label) as SwitchCompat).isChecked = prefs.getBoolean("hide_icon_label", false)
-        (`$`<View>(R.id.enableBlockAD) as SwitchCompat).isChecked = prefs.getBoolean("EnableBlockAD", false)
-        (`$`<View>(R.id.enabletheme) as SwitchCompat).isChecked = prefs.getBoolean("enabletheme", false)
-        (`$`<View>(R.id.HideRootWithPay) as SwitchCompat).isChecked = prefs.getBoolean("HideRootWithPay", false)
-        (`$`<View>(R.id.HideRootWithUpgrade) as SwitchCompat).isChecked = prefs.getBoolean("HideRootWithUpgrade", false)
-        (`$`<View>(R.id.hide_icon_45) as SwitchCompat).isChecked = prefs.getBoolean("hide_icon_4", false)
-        (`$`<View>(R.id.hide_icon_5) as SwitchCompat).isChecked = prefs.getBoolean("hide_icon_5", false)
-        (`$`<View>(R.id.hide_icon_6) as SwitchCompat).isChecked = prefs.getBoolean("hide_icon_6", false)
-        (`$`<View>(R.id.enableCheckInstaller) as SwitchCompat).isChecked = prefs.getBoolean("enableCheckInstaller", false)
+        (`$`<View>(R.id.enable_back_vibrator) as EditText).setText(
+            prefs.getString(
+                "enable_back_vibrator_value",
+                ""
+            )
+        )
+        (`$`<View>(R.id.disable_charge_animation) as SwitchCompat).isChecked =
+            prefs.getBoolean("disable_charge_animation", false)
+        (`$`<View>(R.id.hide_icon_label) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_icon_label", false)
+        (`$`<View>(R.id.enableBlockAD) as SwitchCompat).isChecked =
+            prefs.getBoolean("EnableBlockAD", false)
+        (`$`<View>(R.id.enabletheme) as SwitchCompat).isChecked =
+            prefs.getBoolean("enabletheme", false)
+        (`$`<View>(R.id.HideRootWithPay) as SwitchCompat).isChecked =
+            prefs.getBoolean("HideRootWithPay", false)
+        (`$`<View>(R.id.HideRootWithUpgrade) as SwitchCompat).isChecked =
+            prefs.getBoolean("HideRootWithUpgrade", false)
+        (`$`<View>(R.id.hide_icon_45) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_icon_4", false)
+        (`$`<View>(R.id.hide_icon_5) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_icon_5", false)
+        (`$`<View>(R.id.hide_icon_6) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_icon_6", false)
+        (`$`<View>(R.id.enableCheckInstaller) as SwitchCompat).isChecked =
+            prefs.getBoolean("enableCheckInstaller", false)
         (`$`<View>(R.id.enableCTS) as SwitchCompat).isChecked = prefs.getBoolean("enableCTS", false)
-        (`$`<View>(R.id.hideDepWarn) as SwitchCompat).isChecked = prefs.getBoolean("hideDepWarn", false)
-        (`$`<View>(R.id.removeStore) as SwitchCompat).isChecked = prefs.getBoolean("removeStore", false)
-        (`$`<View>(R.id.autoInstall) as SwitchCompat).isChecked = prefs.getBoolean("autoInstall", false)
-        (`$`<View>(R.id.HideRootGlobal) as SwitchCompat).isChecked = prefs.getBoolean("HideRootGlobal", false)
-        (`$`<View>(R.id.home_icon_num_column) as NumberPicker).value = prefs.getInt("home_icon_num_column", 4)
-        (`$`<View>(R.id.home_icon_num_rows) as NumberPicker).value = prefs.getInt("home_icon_num_rows", 5)
-        (`$`<View>(R.id.disableSearch) as SwitchCompat).isChecked = prefs.getBoolean("disableSearch", false)
+        (`$`<View>(R.id.hideDepWarn) as SwitchCompat).isChecked =
+            prefs.getBoolean("hideDepWarn", false)
+        (`$`<View>(R.id.removeStore) as SwitchCompat).isChecked =
+            prefs.getBoolean("removeStore", false)
+        (`$`<View>(R.id.autoInstall) as SwitchCompat).isChecked =
+            prefs.getBoolean("autoInstall", false)
+        (`$`<View>(R.id.HideRootGlobal) as SwitchCompat).isChecked =
+            prefs.getBoolean("HideRootGlobal", false)
+        (`$`<View>(R.id.home_icon_num_column) as NumberPicker).value =
+            prefs.getInt("home_icon_num_column", 4)
+        (`$`<View>(R.id.home_icon_num_rows) as NumberPicker).value =
+            prefs.getInt("home_icon_num_rows", 5)
+        (`$`<View>(R.id.disableSearch) as SwitchCompat).isChecked =
+            prefs.getBoolean("disableSearch", false)
         (`$`<View>(R.id.mms) as SwitchCompat).isChecked = prefs.getBoolean("mms", false)
+        (`$`<View>(R.id.disable_edge_back) as SwitchCompat).isChecked =
+            prefs.getBoolean("disable_edge_back", false)
         if (!Utils.check(SharedHelper(mContext))) {
             `$`<View>(R.id.removeStore).isEnabled = false
             `$`<View>(R.id.autoInstall).isEnabled = false
             `$`<View>(R.id.home_icon_num_column).isEnabled = false
             `$`<View>(R.id.home_icon_num_rows).isEnabled = false
+            `$`<View>(R.id.disable_edge_back).isEnabled = false
             (`$`<View>(R.id.test1) as TextView).setTextColor(Color.parseColor("#A9A9A9"))
             (`$`<View>(R.id.test2) as TextView).setTextColor(Color.parseColor("#A9A9A9"))
         }
