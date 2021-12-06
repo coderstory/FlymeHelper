@@ -25,42 +25,65 @@ class FlymeHome : XposedHelper(), IModule {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 if (prefs.getBoolean("hide_icon_label", false)) {
                     // android 10
-                    hookAllMethods("com.android.launcher3.BubbleTextView", param.classLoader, "setText", object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun beforeHookedMethod(param: MethodHookParam) {
-                            super.beforeHookedMethod(param)
+                    hookAllMethods(
+                        "com.android.launcher3.BubbleTextView",
+                        param.classLoader,
+                        "setText",
+                        object : XC_MethodHook() {
+                            @Throws(Throwable::class)
+                            override fun beforeHookedMethod(param: MethodHookParam) {
+                                super.beforeHookedMethod(param)
 
-                            // 魅族17 shortcut 80  普通应用 146  魅族18 116 普通app 208
-                            if (XposedHelpers.getIntField(param.thisObject, "mDisplay") != 4) {
-                                param.args[0] = ""
+                                // 魅族17 shortcut 80  普通应用 146  魅族18 116 普通app 208
+                                if (XposedHelpers.getIntField(param.thisObject, "mDisplay") != 4) {
+                                    param.args[0] = ""
+                                }
                             }
-                        }
-                    })
+                        })
                 }
                 meizu17(param)
             } else {
-                hook55(findClass("com.meizu.flyme.launcher.u", param.classLoader), param.classLoader)
-                hook55(findClass("com.meizu.flyme.launcher.v", param.classLoader), param.classLoader)
-                hook55(findClass("com.meizu.flyme.launcher.w", param.classLoader), param.classLoader)
+                hook55(
+                    findClass("com.meizu.flyme.launcher.u", param.classLoader),
+                    param.classLoader
+                )
+                hook55(
+                    findClass("com.meizu.flyme.launcher.v", param.classLoader),
+                    param.classLoader
+                )
+                hook55(
+                    findClass("com.meizu.flyme.launcher.w", param.classLoader),
+                    param.classLoader
+                )
                 if (prefs.getBoolean("hide_icon_label", false)) {
                     //XposedBridge.log("开启隐藏标签");
                     // 隐藏图标标签
-                    hookAllMethods(findClass("com.meizu.flyme.launcher.ShortcutIcon", param.classLoader), "a", object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun afterHookedMethod(param: MethodHookParam) {
-                            super.beforeHookedMethod(param)
-                            val textView = XposedHelpers.getObjectField(param.thisObject, "c") as TextView
-                            textView.visibility = View.INVISIBLE
-                        }
-                    })
+                    hookAllMethods(
+                        findClass(
+                            "com.meizu.flyme.launcher.ShortcutIcon",
+                            param.classLoader
+                        ), "a", object : XC_MethodHook() {
+                            @Throws(Throwable::class)
+                            override fun afterHookedMethod(param: MethodHookParam) {
+                                super.beforeHookedMethod(param)
+                                val textView =
+                                    XposedHelpers.getObjectField(param.thisObject, "c") as TextView
+                                textView.visibility = View.INVISIBLE
+                            }
+                        })
                     // 隐藏文件夹标签
-                    findAndHookMethod("com.meizu.flyme.launcher.FolderIcon", param.classLoader, "setTextVisible", Boolean::class.javaPrimitiveType, object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun beforeHookedMethod(param: MethodHookParam) {
-                            super.beforeHookedMethod(param)
-                            param.args[0] = false
-                        }
-                    })
+                    findAndHookMethod(
+                        "com.meizu.flyme.launcher.FolderIcon",
+                        param.classLoader,
+                        "setTextVisible",
+                        Boolean::class.javaPrimitiveType,
+                        object : XC_MethodHook() {
+                            @Throws(Throwable::class)
+                            override fun beforeHookedMethod(param: MethodHookParam) {
+                                super.beforeHookedMethod(param)
+                                param.args[0] = false
+                            }
+                        })
                 }
             }
             if (prefs.getBoolean("disableSearch", false)) {
@@ -73,9 +96,23 @@ class FlymeHome : XposedHelper(), IModule {
                  * }
                  */
                 if (findClassWithoutLog("com.meizu.flyme.g.a", param.classLoader) != null) {
-                    findAndHookMethod("com.meizu.flyme.g.a", param.classLoader, "a", XC_MethodReplacement.returnConstant(null))
-                } else if (findClassWithoutLog("com.meizu.launcher3.controller.CommonTouchController", param.classLoader) != null) {
-                    findAndHookMethod("com.meizu.launcher3.controller.CommonTouchController", param.classLoader, "startSearchActivity", XC_MethodReplacement.returnConstant(null))
+                    findAndHookMethod(
+                        "com.meizu.flyme.g.a",
+                        param.classLoader,
+                        "a",
+                        XC_MethodReplacement.returnConstant(null)
+                    )
+                } else if (findClassWithoutLog(
+                        "com.meizu.launcher3.controller.CommonTouchController",
+                        param.classLoader
+                    ) != null
+                ) {
+                    findAndHookMethod(
+                        "com.meizu.launcher3.controller.CommonTouchController",
+                        param.classLoader,
+                        "startSearchActivity",
+                        XC_MethodReplacement.returnConstant(null)
+                    )
                 }
             }
         }
@@ -83,47 +120,108 @@ class FlymeHome : XposedHelper(), IModule {
 
     private fun meizu17(lpparam: LoadPackageParam) {
         val config: JSONObject = json.getJSONObject("custom_launcher_icon_number")
-        val numRows = prefs.getInt("home_icon_num_rows", 0)
+        val numRows = prefs.getInt("home_icon_num_rows", 0) + 1
         val numColumns = prefs.getInt("home_icon_num_column", 0)
         val numHotseatIcons = prefs.getInt("home_icon_num_hot_seat_icons", 0)
         if (numColumns + numRows + numHotseatIcons != 0) {
             // 解决桌面widget长度问题
-            XposedHelpers.findAndHookMethod(XposedHelpers.findClass("android.appwidget.AppWidgetHostView", lpparam.classLoader),
-                    "getAppWidgetInfo", object : XC_MethodHook() {
-                override fun beforeHookedMethod(arg5: MethodHookParam) {
-                    val v0 = XposedHelpers.getObjectField(arg5.thisObject, "mInfo")
-                    if (v0 != null) {
-                        XposedHelpers.setIntField(v0, "resizeMode", 3)
-                        XposedHelpers.setIntField(v0, "minResizeWidth", 40)
-                        XposedHelpers.setIntField(v0, "minResizeHeight", 40)
+            XposedHelpers.findAndHookMethod(XposedHelpers.findClass(
+                "android.appwidget.AppWidgetHostView",
+                lpparam.classLoader
+            ),
+                "getAppWidgetInfo", object : XC_MethodHook() {
+                    override fun beforeHookedMethod(arg5: MethodHookParam) {
+                        val v0 = XposedHelpers.getObjectField(arg5.thisObject, "mInfo")
+                        if (v0 != null) {
+                            XposedHelpers.setIntField(v0, "resizeMode", 3)
+                            XposedHelpers.setIntField(v0, "minResizeWidth", 40)
+                            XposedHelpers.setIntField(v0, "minResizeHeight", 40)
+                        }
                     }
-                }
-            })
-            hookAllConstructors(findClass(config.getString("class1"), lpparam.classLoader), object : XC_MethodHook() {
-                @Throws(Throwable::class)
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    super.afterHookedMethod(param)
-                    if (numRows != 0) XposedHelpers.setIntField(param.thisObject, "numRows", numRows)
-                    if (numColumns != 0) XposedHelpers.setIntField(param.thisObject, "numColumns", numColumns)
-                    if (numHotseatIcons != 0) XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons)
-                }
-            })
-            hookAllConstructors(findClass(config.getString("class2"), lpparam.classLoader), object : XC_MethodHook() {
-                @Throws(Throwable::class)
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    super.afterHookedMethod(param)
-                    if (numRows != 0) XposedHelpers.setIntField(param.thisObject, "numRows", numRows)
-                    if (numColumns != 0) XposedHelpers.setIntField(param.thisObject, "numColumns", numColumns)
-                    if (numHotseatIcons != 0) XposedHelpers.setIntField(param.thisObject, "numHotseatIcons", numHotseatIcons)
-                }
-            })
+                })
+            hookAllConstructors(
+                findClass(config.getString("class1"), lpparam.classLoader),
+                object : XC_MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        super.afterHookedMethod(param)
+                        if (numRows != 0) XposedHelpers.setIntField(
+                            param.thisObject,
+                            "numRows",
+                            numRows
+                        )
+                        if (numColumns != 0) XposedHelpers.setIntField(
+                            param.thisObject,
+                            "numColumns",
+                            numColumns
+                        )
+                        if (numHotseatIcons != 0) XposedHelpers.setIntField(
+                            param.thisObject,
+                            "numHotseatIcons",
+                            numHotseatIcons
+                        )
+                    }
+                })
+            hookAllConstructors(
+                findClass(config.getString("class2"), lpparam.classLoader),
+                object : XC_MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        super.afterHookedMethod(param)
+                        if (numRows != 0) XposedHelpers.setIntField(
+                            param.thisObject,
+                            "numRows",
+                            numRows
+                        )
+                        if (numColumns != 0) XposedHelpers.setIntField(
+                            param.thisObject,
+                            "numColumns",
+                            numColumns
+                        )
+                        if (numHotseatIcons != 0) XposedHelpers.setIntField(
+                            param.thisObject,
+                            "numHotseatIcons",
+                            numHotseatIcons
+                        )
+                    }
+                })
+
+            // coord: (0,111,18) | addr: Lcom/android/launcher3/InvariantDeviceProfile$GridOption;-><init>(Landroid/content/Context;Landroid/util/AttributeSet;)V | loc: ?
+            hookAllConstructors(
+                findClass(
+                    config.getString("com.android.launcher3.InvariantDeviceProfile\$GridOption"),
+                    lpparam.classLoader
+                ),
+                object : XC_MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        super.afterHookedMethod(param)
+                        if (numRows != 0) XposedHelpers.setIntField(
+                            param.thisObject,
+                            "numRows",
+                            numRows
+                        )
+                        if (numColumns != 0) XposedHelpers.setIntField(
+                            param.thisObject,
+                            "numColumns",
+                            numColumns
+                        )
+                        if (numHotseatIcons != 0) XposedHelpers.setIntField(
+                            param.thisObject,
+                            "numHotseatIcons",
+                            numHotseatIcons
+                        )
+                    }
+                })
+
             if (findClass(config.getString("class3"), lpparam.classLoader) != null) {
                 hookAllConstructors(SQLiteOpenHelper::class.java, object : XC_MethodHook() {
                     override fun afterHookedMethod(hookParam: MethodHookParam) {
                         if ("launcher.db" == hookParam.args[1]) {
                             val arg = hookParam.args[0]
                             if (arg != null) {
-                                val dbName = "launcher_coderStory_" + (numColumns + numRows + numHotseatIcons) + ".db"
+                                val dbName =
+                                    "launcher_coderStory_" + (numColumns + numRows + numHotseatIcons) + ".db"
                                 XposedHelpers.setObjectField(hookParam.thisObject, "mName", dbName)
                                 val file = (arg as Context).getDatabasePath("launcher.db")
                                 if (file != null && file.exists()) {
@@ -188,7 +286,11 @@ class FlymeHome : XposedHelper(), IModule {
                     }
                 }
             })
-            if (findClass("com.android.launcher3.InvariantDeviceProfile\$GridOption", classLoader) == null) {
+            if (findClass(
+                    "com.android.launcher3.InvariantDeviceProfile\$GridOption",
+                    classLoader
+                ) == null
+            ) {
                 // 不同布局使用不同的db
                 hookAllConstructors(SQLiteOpenHelper::class.java, object : XC_MethodHook() {
                     override fun afterHookedMethod(hookParam: MethodHookParam) {

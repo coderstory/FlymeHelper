@@ -37,15 +37,15 @@ class OthersFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val anyLayer = AnyLayer.dialog(mContext)
-                .contentView(R.layout.dialog_tdisable_app)
-                .cancelableOnTouchOutside(true)
-                .cancelableOnClickKeyBack(true)
-                .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
-                .onClick({ AnyLayer: Layer?, v: View? ->
-                    Shell.su("killall com.android.systemui").exec()
-                    Shell.su("am force-stop com.meizu.flyme.launcher").exec()
-                    System.exit(0)
-                }, R.id.fl_dialog_yes)
+            .contentView(R.layout.dialog_tdisable_app)
+            .cancelableOnTouchOutside(true)
+            .cancelableOnClickKeyBack(true)
+            .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
+            .onClick({ AnyLayer: Layer?, v: View? ->
+                Shell.su("killall com.android.systemui").exec()
+                Shell.su("am force-stop com.meizu.flyme.launcher").exec()
+                System.exit(0)
+            }, R.id.fl_dialog_yes)
         anyLayer.show()
         val cardView = (anyLayer as DialogLayer).contentView as CardView
         val linearLayout = cardView.getChildAt(0) as LinearLayout
@@ -64,7 +64,9 @@ class OthersFragment : BaseFragment() {
             if (v.isChecked) {
                 dialog = ProgressDialog.show(mContext, "分析应用中...", "", true, false, null)
                 Thread {
-                    val paths = Shell.su("cd /data/data;find -name com.meizu.advertise.plugin   -type dir").exec().out
+                    val paths =
+                        Shell.su("cd /data/data;find -name com.meizu.advertise.plugin   -type dir")
+                            .exec().out
                     val command = arrayOfNulls<String>(paths.size)
                     if (paths.size == 0) {
                         (mContext as Activity).runOnUiThread {
@@ -77,10 +79,12 @@ class OthersFragment : BaseFragment() {
                         while (i < paths.size) {
                             val path = paths[i].substring(1)
                             (mContext as Activity).runOnUiThread {
-                                dialog!!.setMessage("""
+                                dialog!!.setMessage(
+                                    """
     正在处理
     ${path.split("/file").toTypedArray()[0].replace("/", "")}
-    """.trimIndent())
+    """.trimIndent()
+                                )
                             }
                             try {
                                 Thread.sleep(150)
