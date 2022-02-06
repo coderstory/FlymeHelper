@@ -10,9 +10,9 @@ android {
     defaultConfig {
         applicationId "com.coderstory.flyme"
         minSdkVersion 26
-        targetSdkVersion 28
+        targetSdk 28
         resConfigs "zh", "xxhdpi"
-        versionCode 507
+        versionCode 508
         versionName "4.4.8"
         resConfigs "cn"
         ndk {
@@ -45,7 +45,9 @@ android {
         }
     }
     applicationVariants.all { variant ->
-
+        variant.javaCompileProvider.get().doLast {
+            runAllatori(variant)
+        }
         variant.outputs.all { output ->
             outputFileName = "FlymeHelper-${defaultConfig.versionName}-${defaultConfig.versionCode}-${buildType.name}.apk"
         }
@@ -85,8 +87,8 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.goweii:AnyLayer:3.4.3-support'
     implementation "com.github.topjohnwu.libsu:core:3.0.2"
-    implementation 'com.google.code.gson:gson:2.8.7'
-    implementation 'com.alibaba:fastjson:1.2.78'
+    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.alibaba:fastjson:1.2.79'
     implementation "androidx.core:core-ktx:1.7.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
