@@ -31,7 +31,7 @@ class start : XposedHelper(), IXposedHookZygoteInit, IXposedHookLoadPackage,
             initJson(lpparam)
         }
         if (Utils.vi()) {
-            // FlymeHome().handleLoadPackage(lpparam)
+            FlymeHome().handleLoadPackage(lpparam)
             IsEnable().handleLoadPackage(lpparam)
             HideApp().handleLoadPackage(lpparam)
             Others().handleLoadPackage(lpparam)
