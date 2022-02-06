@@ -9,5 +9,6 @@
         <item>com.meizu.flyme.update</item>
         <item>com.meizu.flyme.launcher</item>
         <item>com.meizu.customizecenter</item>
+        <item>com.hy.weather.mz</item>
     </string-array>
 </resources>

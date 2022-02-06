@@ -55,9 +55,6 @@ class OthersFragment : BaseFragment() {
     }
 
     override fun setUpView() {
-        setDatePickerDividerColor(`$`(R.id.home_icon_num_column), 7, 4)
-        setDatePickerDividerColor(`$`(R.id.home_icon_num_rows), 7, 4)
-        setDatePickerDividerColor(`$`(R.id.home_icon_num_hot_seat_icons), 5, 1)
         `$`<View>(R.id.enableBlockAD).setOnClickListener { v: View ->
             editor.putBoolean("EnableBlockAD", (v as SwitchCompat).isChecked)
             fix()
@@ -95,6 +92,7 @@ class OthersFragment : BaseFragment() {
                             Shell.su(command[i]).exec()
                             i++
                         }
+                        Shell.su("chmod 0000 -R /data/data/com.hy.weather.mz/files/a").exec()
                     }
                     (mContext as Activity).runOnUiThread { dialog?.dismiss() }
                 }.start()
@@ -120,18 +118,6 @@ class OthersFragment : BaseFragment() {
             editor.putBoolean("hide_icon_label", (v as SwitchCompat).isChecked)
             fix()
         }
-        `$`<View>(R.id.hide_icon_45).setOnClickListener { v: View ->
-            editor.putBoolean("hide_icon_4", (v as SwitchCompat).isChecked)
-            fix()
-        }
-        `$`<View>(R.id.hide_icon_5).setOnClickListener { v: View ->
-            editor.putBoolean("hide_icon_5", (v as SwitchCompat).isChecked)
-            fix()
-        }
-        `$`<View>(R.id.hide_icon_6).setOnClickListener { v: View ->
-            editor.putBoolean("hide_icon_6", (v as SwitchCompat).isChecked)
-            fix()
-        }
         `$`<View>(R.id.enableCTS).setOnClickListener { v: View ->
             editor.putBoolean("enableCTS", (v as SwitchCompat).isChecked)
             fix()
@@ -154,14 +140,6 @@ class OthersFragment : BaseFragment() {
         }
         `$`<View>(R.id.HideRootGlobal).setOnClickListener { v: View ->
             editor.putBoolean("HideRootGlobal", (v as SwitchCompat).isChecked)
-            fix()
-        }
-        (`$`<View>(R.id.home_icon_num_column) as NumberPicker).setOnValueChangedListener { _: NumberPicker?, oldValue: Int, newValue: Int ->
-            editor.putInt("home_icon_num_column", newValue)
-            fix()
-        }
-        (`$`<View>(R.id.home_icon_num_rows) as NumberPicker).setOnValueChangedListener { _: NumberPicker?, oldValue: Int, newValue: Int ->
-            editor.putInt("home_icon_num_rows", newValue)
             fix()
         }
         `$`<View>(R.id.disableSearch).setOnClickListener { v: View ->
@@ -214,12 +192,6 @@ class OthersFragment : BaseFragment() {
             prefs.getBoolean("HideRootWithPay", false)
         (`$`<View>(R.id.HideRootWithUpgrade) as SwitchCompat).isChecked =
             prefs.getBoolean("HideRootWithUpgrade", false)
-        (`$`<View>(R.id.hide_icon_45) as SwitchCompat).isChecked =
-            prefs.getBoolean("hide_icon_4", false)
-        (`$`<View>(R.id.hide_icon_5) as SwitchCompat).isChecked =
-            prefs.getBoolean("hide_icon_5", false)
-        (`$`<View>(R.id.hide_icon_6) as SwitchCompat).isChecked =
-            prefs.getBoolean("hide_icon_6", false)
         (`$`<View>(R.id.enableCheckInstaller) as SwitchCompat).isChecked =
             prefs.getBoolean("enableCheckInstaller", false)
         (`$`<View>(R.id.enableCTS) as SwitchCompat).isChecked = prefs.getBoolean("enableCTS", false)
@@ -231,10 +203,6 @@ class OthersFragment : BaseFragment() {
             prefs.getBoolean("autoInstall", false)
         (`$`<View>(R.id.HideRootGlobal) as SwitchCompat).isChecked =
             prefs.getBoolean("HideRootGlobal", false)
-        (`$`<View>(R.id.home_icon_num_column) as NumberPicker).value =
-            prefs.getInt("home_icon_num_column", 4)
-        (`$`<View>(R.id.home_icon_num_rows) as NumberPicker).value =
-            prefs.getInt("home_icon_num_rows", 5)
         (`$`<View>(R.id.disableSearch) as SwitchCompat).isChecked =
             prefs.getBoolean("disableSearch", false)
         (`$`<View>(R.id.mms) as SwitchCompat).isChecked = prefs.getBoolean("mms", false)
@@ -243,11 +211,7 @@ class OthersFragment : BaseFragment() {
         if (!Utils.check(SharedHelper(mContext))) {
             `$`<View>(R.id.removeStore).isEnabled = false
             `$`<View>(R.id.autoInstall).isEnabled = false
-            `$`<View>(R.id.home_icon_num_column).isEnabled = false
-            `$`<View>(R.id.home_icon_num_rows).isEnabled = false
             `$`<View>(R.id.disable_edge_back).isEnabled = false
-            (`$`<View>(R.id.test1) as TextView).setTextColor(Color.parseColor("#A9A9A9"))
-            (`$`<View>(R.id.test2) as TextView).setTextColor(Color.parseColor("#A9A9A9"))
         }
     }
 

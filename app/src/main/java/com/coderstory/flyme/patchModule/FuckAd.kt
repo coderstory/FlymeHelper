@@ -17,8 +17,10 @@ class FuckAd : XposedHelper(), IModule {
     override fun initZygote(startupParam: StartupParam?) {}
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
         if ((loadPackageParam.packageName.contains("meizu") ||
-                        loadPackageParam.packageName.contains("flyme")) &&
-                prefs.getBoolean("EnableBlockAD", false)) {
+                    loadPackageParam.packageName.contains("flyme") || loadPackageParam.packageName.contains(
+                "mz"
+            )) &&
+            prefs.getBoolean("EnableBlockAD", false)) {
             // 处理内嵌网页上的广告  例如天气中的15日天气
             var clazz = findClassWithoutLog("com.meizu.advertise.api.JsAdBridge", loadPackageParam.classLoader)
             if (clazz != null) {
@@ -35,8 +37,9 @@ class FuckAd : XposedHelper(), IModule {
             // 禁止app加载魅族的广告插件 com.meizu.advertisef,..plugin.apk
             clazz = findClassWithoutLog("com.meizu.advertise.api.AdManager", loadPackageParam.classLoader)
             if (clazz != null) {
-                findAndHookMethod(clazz, "installPlugin", XC_MethodReplacement.returnConstant(null))
-                findAndHookMethod(clazz, "install", XC_MethodReplacement.returnConstant(null))
+                hookAllMethods(clazz, "installPlugin", XC_MethodReplacement.returnConstant(null))
+                hookAllMethods(clazz, "install", XC_MethodReplacement.returnConstant(null))
+                hookAllMethods(clazz, "init", XC_MethodReplacement.returnConstant(null))
             }
             clazz = findClassWithoutLog("com.meizu.dynamic.PluginManager", loadPackageParam.classLoader)
             if (clazz != null) {
@@ -52,6 +55,7 @@ class FuckAd : XposedHelper(), IModule {
                 hookAllMethods(clazz, "newContext", XC_MethodReplacement.returnConstant(true))
                 hookAllMethods(clazz, "installFromDownload", XC_MethodReplacement.returnConstant(null))
             }
+
             clazz = findClassWithoutLog("com.meizu.advertise.api.SimpleJsAdBridge", loadPackageParam.classLoader)
             if (clazz != null) {
                 XposedHelpers.findAndHookConstructor(clazz, Context::class.java, WebView::class.java, object : XC_MethodHook() {

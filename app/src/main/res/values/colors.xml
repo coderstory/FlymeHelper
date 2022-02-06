@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#03A9F4</color>
-    <color name="colorPrimaryDark">#03A9F4</color>
-    <color name="colorAccent">#03A9F4</color>
-    <color name="colorItem">#03A9F4</color>
-    <color name="enableApp">#03A9F4</color>
-    <color name="splash">#03A9F4</color>
+    <color name="colorPrimary">#E17D9E</color>
+    <color name="colorPrimaryDark">#E17D9E</color>
+    <color name="colorAccent">#E17D9E</color>
+    <color name="colorItem">#E17D9E</color>
+    <color name="enableApp">#E17D9E</color>
+    <color name="splash">#E17D9E</color>
     <color name="white">#ffffff</color>
     <color name="switchBtn">#fff</color>
     <color name="divider">#00f7f7f7</color>
@@ -13,8 +13,8 @@
     <color name="md_blue_50">#e7e9fd</color>
     <color name="md_blue_200">#afbfff</color>
     <color name="windowBackground">#fafafa</color>
-    <color name="md_red_100">#03A9F4</color>
-    <color name="listItem">#03A9F4</color>
-    <color name="header">#03A9F4</color>
+    <color name="md_red_100">#E17D9E</color>
+    <color name="listItem">#E17D9E</color>
+    <color name="header">#E17D9E</color>
     <color name="red">#C83A3A</color>
 </resources>
