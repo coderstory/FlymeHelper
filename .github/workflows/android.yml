@@ -22,7 +22,7 @@ jobs:
       if: steps.ndk-cache.outputs.cache-hit != 'true'
       run:  echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.1.6352462"
     - name: licenses
-      run: sudo ${ANDROID_HOME}/tools/bin/sdkmanager --licenses | echo "y"
+      run: yes | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --licenses
     - name: Build with Gradle
       run:   |
           echo 'org.gradle.caching=true' >> gradle.properties
