@@ -21,6 +21,7 @@ import com.coderstory.flyme.xposed.IModule
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
+import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -233,6 +234,7 @@ class SystemUi : XposedHelper(), IModule {
             }
             //隐藏 空sim卡图标
             if (prefs.getBoolean("hide_status_bar_no_sim_icon", false)) {
+                XposedBridge.log("开启隐藏空sim卡")
                 findAndHookMethod(
                     "com.android.systemui.statusbar.policy.NetworkControllerImpl",
                     param.classLoader,
