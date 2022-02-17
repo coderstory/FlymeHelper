@@ -123,12 +123,13 @@ class FlymeHome : XposedHelper(), IModule {
         val numRows = prefs.getInt("home_icon_num_rows", 0) + 1
         val numColumns = prefs.getInt("home_icon_num_column", 0)
         val numHotseatIcons = prefs.getInt("home_icon_num_hot_seat_icons", 0)
-        if (numColumns + numRows + numHotseatIcons != 0) {
+        if (numColumns + numRows + numHotseatIcons != 1) {
             // 解决桌面widget长度问题
-            XposedHelpers.findAndHookMethod(XposedHelpers.findClass(
-                "android.appwidget.AppWidgetHostView",
-                lpparam.classLoader
-            ),
+            XposedHelpers.findAndHookMethod(
+                XposedHelpers.findClass(
+                    "android.appwidget.AppWidgetHostView",
+                    lpparam.classLoader
+                ),
                 "getAppWidgetInfo", object : XC_MethodHook() {
                     override fun beforeHookedMethod(arg5: MethodHookParam) {
                         val v0 = XposedHelpers.getObjectField(arg5.thisObject, "mInfo")
