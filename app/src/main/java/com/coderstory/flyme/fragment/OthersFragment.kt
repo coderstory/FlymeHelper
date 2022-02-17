@@ -56,7 +56,7 @@ class OthersFragment : BaseFragment() {
 
     override fun setUpView() {
         setDatePickerDividerColor(`$`(R.id.home_icon_num_column), 7, 4)
-        setDatePickerDividerColor(`$`(R.id.home_icon_num_rows), 7, 4)
+        setDatePickerDividerColor(`$`(R.id.home_icon_num_rows), 6, 4)
         setDatePickerDividerColor(`$`(R.id.home_icon_num_hot_seat_icons), 5, 1)
         `$`<View>(R.id.enableBlockAD).setOnClickListener { v: View ->
             editor.putBoolean("EnableBlockAD", (v as SwitchCompat).isChecked)
@@ -235,7 +235,7 @@ class OthersFragment : BaseFragment() {
         (`$`<View>(R.id.home_icon_num_column) as NumberPicker).value =
             prefs.getInt("home_icon_num_column", 4)
         (`$`<View>(R.id.home_icon_num_rows) as NumberPicker).value =
-            prefs.getInt("home_icon_num_rows", 5)
+            prefs.getInt("home_icon_num_rows", 6)
         (`$`<View>(R.id.disableSearch) as SwitchCompat).isChecked =
             prefs.getBoolean("disableSearch", false)
         (`$`<View>(R.id.mms) as SwitchCompat).isChecked = prefs.getBoolean("mms", false)
