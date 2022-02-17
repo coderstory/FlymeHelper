@@ -120,10 +120,13 @@ class FlymeHome : XposedHelper(), IModule {
 
     private fun meizu17(lpparam: LoadPackageParam) {
         val config: JSONObject = json.getJSONObject("custom_launcher_icon_number")
-        val numRows = prefs.getInt("home_icon_num_rows", 0) + 1
-        val numColumns = prefs.getInt("home_icon_num_column", 0)
-        val numHotseatIcons = prefs.getInt("home_icon_num_hot_seat_icons", 0)
-        if (numColumns + numRows + numHotseatIcons != 1) {
+        var numRows = prefs.getInt("home_icon_num_rows", 0)
+        var numColumns = prefs.getInt("home_icon_num_column", 0)
+        var numHotseatIcons = prefs.getInt("home_icon_num_hot_seat_icons", 0)
+        if (numColumns + numRows + numHotseatIcons != 0) {
+            numRows = prefs.getInt("home_icon_num_rows", 4) + 1
+            numColumns = prefs.getInt("home_icon_num_column", 6)
+            numHotseatIcons = prefs.getInt("home_icon_num_hot_seat_icons", 4)
             // 解决桌面widget长度问题
             XposedHelpers.findAndHookMethod(
                 XposedHelpers.findClass(
