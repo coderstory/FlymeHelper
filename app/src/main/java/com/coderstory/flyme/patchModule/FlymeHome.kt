@@ -190,34 +190,6 @@ class FlymeHome : XposedHelper(), IModule {
                     }
                 })
 
-            // coord: (0,111,18) | addr: Lcom/android/launcher3/InvariantDeviceProfile$GridOption;-><init>(Landroid/content/Context;Landroid/util/AttributeSet;)V | loc: ?
-            hookAllConstructors(
-                findClass(
-                    config.getString("com.android.launcher3.InvariantDeviceProfile\$GridOption"),
-                    lpparam.classLoader
-                ),
-                object : XC_MethodHook() {
-                    @Throws(Throwable::class)
-                    override fun afterHookedMethod(param: MethodHookParam) {
-                        super.afterHookedMethod(param)
-                        if (numRows != 0) XposedHelpers.setIntField(
-                            param.thisObject,
-                            "numRows",
-                            numRows
-                        )
-                        if (numColumns != 0) XposedHelpers.setIntField(
-                            param.thisObject,
-                            "numColumns",
-                            numColumns
-                        )
-                        if (numHotseatIcons != 0) XposedHelpers.setIntField(
-                            param.thisObject,
-                            "numHotseatIcons",
-                            numHotseatIcons
-                        )
-                    }
-                })
-
             if (findClass(config.getString("class3"), lpparam.classLoader) != null) {
                 hookAllConstructors(SQLiteOpenHelper::class.java, object : XC_MethodHook() {
                     override fun afterHookedMethod(hookParam: MethodHookParam) {
