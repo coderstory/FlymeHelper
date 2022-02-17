@@ -124,8 +124,8 @@ class FlymeHome : XposedHelper(), IModule {
         var numColumns = prefs.getInt("home_icon_num_column", 0)
         var numHotseatIcons = prefs.getInt("home_icon_num_hot_seat_icons", 0)
         if (numColumns + numRows + numHotseatIcons != 0) {
-            numRows = prefs.getInt("home_icon_num_rows", 4) + 1
-            numColumns = prefs.getInt("home_icon_num_column", 6)
+            numRows = prefs.getInt("home_icon_num_rows", 6) + 1
+            numColumns = prefs.getInt("home_icon_num_column", 4)
             numHotseatIcons = prefs.getInt("home_icon_num_hot_seat_icons", 4)
             // 解决桌面widget长度问题
             XposedHelpers.findAndHookMethod(
