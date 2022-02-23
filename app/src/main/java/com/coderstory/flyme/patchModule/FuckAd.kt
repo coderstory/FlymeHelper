@@ -8,9 +8,11 @@ import com.coderstory.flyme.xposed.IModule
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
+import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+
 
 class FuckAd : XposedHelper(), IModule {
     override fun handleInitPackageResources(respray: InitPackageResourcesParam) {}
@@ -70,6 +72,17 @@ class FuckAd : XposedHelper(), IModule {
                     }
                 })
             }
+
+            hookAllMethods("com.meizu.flyme.media.news.lite.NewsFlowViewDelegate", loadPackageParam.classLoader, "initButton",  XC_MethodReplacement.returnConstant(null))
+            hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager",loadPackageParam.classLoader, "fetchAdData",   XC_MethodReplacement.returnConstant(null) )
+            hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "doFetchMeizuAdData", XC_MethodReplacement.returnConstant(null) )
+            hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "fetchArticlesWithRetry", XC_MethodReplacement.returnConstant(false) )
+            hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "fetchManualArticles", XC_MethodReplacement.returnConstant(false) )
+            hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "fetchTopics", XC_MethodReplacement.returnConstant(false) )
+            hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "getNormalArticlesFromCache", XC_MethodReplacement.returnConstant(ArrayList<String>()) )
+            hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "fetchTopics", XC_MethodReplacement.returnConstant(false) )
+            hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "fetchSpecialArticlesConcurrently", XC_MethodReplacement.returnConstant(false) )
+            hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "fetchArticles", XC_MethodReplacement.returnConstant(false) )
         }
         if (loadPackageParam.packageName == "com.android.packageinstaller") {
             if (prefs.getBoolean("removeStore", false)) {
