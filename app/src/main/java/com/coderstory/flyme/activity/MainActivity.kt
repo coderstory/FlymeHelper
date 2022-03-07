@@ -103,7 +103,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initData() {
-
         // 检测弹窗
         Thread {
             var msg = Message()

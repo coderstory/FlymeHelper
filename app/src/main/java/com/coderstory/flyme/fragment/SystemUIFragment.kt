@@ -13,6 +13,7 @@ import com.coderstory.flyme.fragment.base.BaseFragment
 import com.coderstory.flyme.tools.SharedHelper
 import com.coderstory.flyme.tools.Utils
 import com.topjohnwu.superuser.Shell
+import de.robv.android.xposed.XposedBridge
 import per.goweii.anylayer.AnyLayer
 import per.goweii.anylayer.Layer
 import java.text.SimpleDateFormat
@@ -290,6 +291,7 @@ class SystemUIFragment : BaseFragment() {
         } else {
             hiddenIcons.stream().collect(Collectors.joining(","))
         }
+        XposedBridge.log("settings put secure icon_blacklist $icons");
         Shell.su("settings put secure icon_blacklist $icons").exec()
     }
 }
