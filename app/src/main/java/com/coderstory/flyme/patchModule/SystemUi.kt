@@ -546,15 +546,6 @@ class SystemUi : XposedHelper(), IModule {
                         // XposedBridge.log("处理完毕")
                     }
                 })
-            if (prefs.getString("isCore", "0") == "1") {
-                hookAllConstructors(
-                    "com.android.systemui.statusbar.phone.StatusBarSignalPolicy",
-                    param.classLoader,
-                    object : XC_MethodReplacement() {
-                        override fun replaceHookedMethod(param: MethodHookParam) {
-                        }
-                    })
-            }
         }
     }
 

@@ -19,8 +19,6 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.cardview.widget.CardView
 import com.coderstory.flyme.R
 import com.coderstory.flyme.fragment.base.BaseFragment
-import com.coderstory.flyme.tools.AppSignCheck
-import com.coderstory.flyme.tools.Misc
 import com.coderstory.flyme.tools.SharedHelper
 import com.coderstory.flyme.tools.Utils
 import com.topjohnwu.superuser.Shell
@@ -103,10 +101,6 @@ class OthersFragment : BaseFragment() {
         }
         `$`<View>(R.id.enabletheme).setOnClickListener { v: View ->
             editor.putBoolean("enabletheme", (v as SwitchCompat).isChecked)
-            val a = AppSignCheck(mContext, Misc.key)
-            if (!a.check()) {
-                editor.putString("isCore", "1")
-            }
             fix()
         }
         `$`<View>(R.id.HideRootWithPay).setOnClickListener { v: View ->

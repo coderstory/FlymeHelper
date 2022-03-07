@@ -13,7 +13,6 @@ import com.coderstory.flyme.fragment.base.BaseFragment
 import com.coderstory.flyme.tools.SharedHelper
 import com.coderstory.flyme.tools.Utils
 import com.topjohnwu.superuser.Shell
-import de.robv.android.xposed.XposedBridge
 import per.goweii.anylayer.AnyLayer
 import per.goweii.anylayer.Layer
 import java.text.SimpleDateFormat
@@ -285,13 +284,11 @@ class SystemUIFragment : BaseFragment() {
         if (prefs.getBoolean("hide_status_bar_battery_icon", false)) hiddenIcons.add("battery")
         if (prefs.getBoolean("hide_icon_alarm_clock", false)) hiddenIcons.add("alarm_clock")
         if (prefs.getBoolean("hide_status_bar_clock_icon", false)) hiddenIcons.add("clock")
-        val icons: String
-        icons = if (hiddenIcons.size == 0) {
+        val icons: String = if (hiddenIcons.size == 0) {
             "null"
         } else {
             hiddenIcons.stream().collect(Collectors.joining(","))
         }
-        XposedBridge.log("settings put secure icon_blacklist $icons");
-        Shell.su("settings put secure icon_blacklist $icons").exec()
+        Shell.su("settings get secure icon_blacklist $icons").exec()
     }
 }
