@@ -73,16 +73,78 @@ class FuckAd : XposedHelper(), IModule {
                 })
             }
             if (findClassWithoutLog("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader) != null) {
-                hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "fetchAdData", XC_MethodReplacement.returnConstant(null))
-                hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "doFetchMeizuAdData", XC_MethodReplacement.returnConstant(null))
-                hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "fetchArticlesWithRetry", XC_MethodReplacement.returnConstant(false))
-                hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "fetchManualArticles", XC_MethodReplacement.returnConstant(false))
-                hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "fetchTopics", XC_MethodReplacement.returnConstant(false))
-                hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "getNormalArticlesFromCache", XC_MethodReplacement.returnConstant(ArrayList<String>()))
-                hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "fetchTopics", XC_MethodReplacement.returnConstant(false))
-                hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "fetchSpecialArticlesConcurrently", XC_MethodReplacement.returnConstant(false))
-                hookAllMethods("com.meizu.flyme.media.news.lite.NewsFullManager", loadPackageParam.classLoader, "fetchArticles", XC_MethodReplacement.returnConstant(false))
+                hookAllMethods(
+                    "com.meizu.flyme.media.news.lite.NewsFullManager",
+                    loadPackageParam.classLoader,
+                    "fetchAdData",
+                    XC_MethodReplacement.returnConstant(null)
+                )
+                hookAllMethods(
+                    "com.meizu.flyme.media.news.lite.NewsFullManager",
+                    loadPackageParam.classLoader,
+                    "doFetchMeizuAdData",
+                    XC_MethodReplacement.returnConstant(null)
+                )
+                hookAllMethods(
+                    "com.meizu.flyme.media.news.lite.NewsFullManager",
+                    loadPackageParam.classLoader,
+                    "fetchArticlesWithRetry",
+                    XC_MethodReplacement.returnConstant(false)
+                )
+                hookAllMethods(
+                    "com.meizu.flyme.media.news.lite.NewsFullManager",
+                    loadPackageParam.classLoader,
+                    "fetchManualArticles",
+                    XC_MethodReplacement.returnConstant(false)
+                )
+                hookAllMethods(
+                    "com.meizu.flyme.media.news.lite.NewsFullManager",
+                    loadPackageParam.classLoader,
+                    "fetchTopics",
+                    XC_MethodReplacement.returnConstant(false)
+                )
+                hookAllMethods(
+                    "com.meizu.flyme.media.news.lite.NewsFullManager",
+                    loadPackageParam.classLoader,
+                    "getNormalArticlesFromCache",
+                    XC_MethodReplacement.returnConstant(ArrayList<String>())
+                )
+                hookAllMethods(
+                    "com.meizu.flyme.media.news.lite.NewsFullManager",
+                    loadPackageParam.classLoader,
+                    "fetchTopics",
+                    XC_MethodReplacement.returnConstant(false)
+                )
+                hookAllMethods(
+                    "com.meizu.flyme.media.news.lite.NewsFullManager",
+                    loadPackageParam.classLoader,
+                    "fetchSpecialArticlesConcurrently",
+                    XC_MethodReplacement.returnConstant(false)
+                )
+                hookAllMethods(
+                    "com.meizu.flyme.media.news.lite.NewsFullManager",
+                    loadPackageParam.classLoader,
+                    "fetchArticles",
+                    XC_MethodReplacement.returnConstant(false)
+                )
             }
+
+            if (loadPackageParam.packageName == "com.hy.weather.mz") {
+                XposedBridge.log("wqeqwewqe")
+                hookAllMethods(
+                    "com.hy.weather.mz.cityWeather.WeatherInfoRepository",
+                    loadPackageParam.classLoader,
+                    "getForecastFromServer",
+                    XC_MethodReplacement.returnConstant(null)
+                )
+                hookAllMethods(
+                    "com.hy.weather.mz.cityWeather.WeatherInfoRepository",
+                    loadPackageParam.classLoader,
+                    "getForecastFromCache",
+                    XC_MethodReplacement.returnConstant(null)
+                )
+            }
+
         }
         if (loadPackageParam.packageName == "com.android.packageinstaller") {
             if (prefs.getBoolean("removeStore", false)) {
