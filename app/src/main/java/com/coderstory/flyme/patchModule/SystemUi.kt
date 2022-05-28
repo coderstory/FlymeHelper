@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -388,12 +389,27 @@ class SystemUi : XposedHelper(), IModule {
 //                            param.args[0] = View.GONE
 //                        }
 //                    })
+
+
                 findAndHookMethod("com.android.systemui.statusbar.phone.NotificationIconContainer\$IconState",
                     param.classLoader,
                     "applyToView",
                     View::class.java,
                     object : XC_MethodReplacement() {
                         override fun replaceHookedMethod(p0: MethodHookParam?): Any {
+                            Log.d("xposed", "replaceHookedMethod: xxx")
+                            return ""
+                        }
+
+                    })
+
+                findAndHookMethod("com.android.systemui.statusbar.phone.StatusIconContainer\$StatusIconState",
+                    param.classLoader,
+                    "applyToView",
+                    View::class.java,
+                    object : XC_MethodReplacement() {
+                        override fun replaceHookedMethod(p0: MethodHookParam?): Any {
+                            Log.d("xposed", "replaceHookedMethod: aaaa")
                             return ""
                         }
 
