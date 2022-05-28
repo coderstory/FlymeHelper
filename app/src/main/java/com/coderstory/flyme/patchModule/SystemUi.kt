@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.format.DateFormat
-import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -378,41 +377,23 @@ class SystemUi : XposedHelper(), IModule {
 
             //隐藏app图标
             if (prefs.getBoolean("hide_status_bar_app_icon", false)) {
-//                hookAllMethods(
-//                    "com.android.systemui.statusbar.StatusBarIconView",
-//                    param.classLoader,
-//                    "setVisibility",
-//                    object : XC_MethodHook() {
-//                        @Throws(Throwable::class)
-//                        override fun beforeHookedMethod(param: MethodHookParam) {
-//                            super.beforeHookedMethod(param)
-//                            param.args[0] = View.GONE
-//                        }
-//                    })
-
-
-                findAndHookMethod("com.android.systemui.statusbar.phone.NotificationIconContainer\$IconState",
+                hookAllMethods(
+                    "com.android.systemui.statusbar.StatusBarIconView",
                     param.classLoader,
-                    "applyToView",
-                    View::class.java,
-                    object : XC_MethodReplacement() {
-                        override fun replaceHookedMethod(p0: MethodHookParam?): Any {
-                            Log.d("xposed", "replaceHookedMethod: xxx")
-                            return ""
+                    "setVisibility",
+                    object : XC_MethodHook() {
+                        @Throws(Throwable::class)
+                        override fun beforeHookedMethod(param: MethodHookParam) {
+                            super.beforeHookedMethod(param)
+                            param.args[0] = View.GONE
+                            val thisObject = param.thisObject
+                            val objectField = XposedHelpers.getObjectField(thisObject, "mSlot")
+                            XposedBridge.log("mSlot->$objectField")
+                            val objectField1 = XposedHelpers.getObjectField(thisObject, "mIcon")
+                            val objectField2 =
+                                XposedHelpers.getObjectField(objectField1, "contentDescription")
+                            XposedBridge.log("contentDescription->$objectField2")
                         }
-
-                    })
-
-                findAndHookMethod("com.android.systemui.statusbar.phone.StatusIconContainer\$StatusIconState",
-                    param.classLoader,
-                    "applyToView",
-                    View::class.java,
-                    object : XC_MethodReplacement() {
-                        override fun replaceHookedMethod(p0: MethodHookParam?): Any {
-                            Log.d("xposed", "replaceHookedMethod: aaaa")
-                            return ""
-                        }
-
                     })
             }
 
