@@ -377,16 +377,26 @@ class SystemUi : XposedHelper(), IModule {
 
             //隐藏app图标
             if (prefs.getBoolean("hide_status_bar_app_icon", false)) {
-                hookAllMethods(
-                    "com.android.systemui.statusbar.StatusBarIconView",
+//                hookAllMethods(
+//                    "com.android.systemui.statusbar.StatusBarIconView",
+//                    param.classLoader,
+//                    "setVisibility",
+//                    object : XC_MethodHook() {
+//                        @Throws(Throwable::class)
+//                        override fun beforeHookedMethod(param: MethodHookParam) {
+//                            super.beforeHookedMethod(param)
+//                            param.args[0] = View.GONE
+//                        }
+//                    })
+                findAndHookMethod("com.android.systemui.statusbar.phone.NotificationIconContainer\$IconState",
                     param.classLoader,
-                    "setVisibility",
-                    object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun beforeHookedMethod(param: MethodHookParam) {
-                            super.beforeHookedMethod(param)
-                            param.args[0] = View.GONE
+                    "applyToView",
+                    View::class.java,
+                    object : XC_MethodReplacement() {
+                        override fun replaceHookedMethod(p0: MethodHookParam?): Any {
+                            return ""
                         }
+
                     })
             }
 
@@ -532,7 +542,7 @@ class SystemUi : XposedHelper(), IModule {
                                 subId
                             )
 
-                        val slotId = XposedHelpers.getIntField(iconState, "slotId") + 1;
+                        val slotId = XposedHelpers.getIntField(iconState, "slotId") + 1
 
                         // XposedBridge.log("当前卡槽$slotId")
                         if (prefs.getBoolean("hide_status_bar_sim1_icon", false) && slotId == 1) {
