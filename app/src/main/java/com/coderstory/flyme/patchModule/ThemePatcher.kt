@@ -33,6 +33,7 @@ class ThemePatcher : XposedHelper(), IModule {
                 //device_states | doCheckState
                 // 8.0.23
                 findAndHookMethod("com.meizu.customizecenter.k.c.a.c", param.classLoader, "w", Context::class.java, XC_MethodReplacement.returnConstant(2))
+                findAndHookMethod("com.meizu.customizecenter.l.e.a.e", param.classLoader, "v1", Context::class.java, XC_MethodReplacement.returnConstant(2))
                 findAndHookMethod("com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility", param.classLoader, "isRoot", Context::class.java, XC_MethodReplacement.returnConstant(false))
                 findAndHookMethod("com.meizu.statsapp.v3.lib.plugin.f.b", param.classLoader, "n", Context::class.java, XC_MethodReplacement.returnConstant(false))
 
@@ -40,6 +41,7 @@ class ThemePatcher : XposedHelper(), IModule {
                 // findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true));
                 // 8.0.23
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.j.b", param.classLoader, "e", XC_MethodReplacement.returnConstant(true))
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.j.b", param.classLoader, "I", XC_MethodReplacement.returnConstant(true))
                 /**
                  *
                  * public void a(boolean arg4, boolean arg5) {
@@ -69,6 +71,9 @@ class ThemePatcher : XposedHelper(), IModule {
 
                 //"checkTrialFont:!isUsingTrialFont() Context context, String str, long j
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", param.classLoader, "a", Context::class.java, String::class.java, Long::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(null))
+                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", param.classLoader, "l", Context::class.java, String::class.java, Long::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(null))
+
+
                 val themeContentProvider: Class<*> = findClass("com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider", param.classLoader)
                 //主题混搭 ThemeContentProvider query Unknown URI
                 findAndHookMethod(themeContentProvider, "query", Uri::class.java, Array<String>::class.java, String::class.java, Array<String>::class.java, String::class.java, object : XC_MethodHook() {
