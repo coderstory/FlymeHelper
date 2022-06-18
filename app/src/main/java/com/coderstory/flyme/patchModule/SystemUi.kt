@@ -386,13 +386,6 @@ class SystemUi : XposedHelper(), IModule {
                         override fun beforeHookedMethod(param: MethodHookParam) {
                             super.beforeHookedMethod(param)
                             param.args[0] = View.GONE
-                            val thisObject = param.thisObject
-                            val objectField = XposedHelpers.getObjectField(thisObject, "mSlot")
-                            XposedBridge.log("mSlot->$objectField")
-                            val objectField1 = XposedHelpers.getObjectField(thisObject, "mIcon")
-                            val objectField2 =
-                                XposedHelpers.getObjectField(objectField1, "contentDescription")
-                            XposedBridge.log("contentDescription->$objectField2")
                         }
                     })
             }
