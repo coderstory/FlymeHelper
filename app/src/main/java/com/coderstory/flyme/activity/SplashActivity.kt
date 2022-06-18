@@ -10,8 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import com.coderstory.flyme.R
-import com.coderstory.flyme.activity.MainActivity
-import com.coderstory.flyme.tools.Cpp
 
 class SplashActivity : Activity() {
     override fun getResources(): Resources { //还原字体大小
@@ -48,7 +46,6 @@ class SplashActivity : Activity() {
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
                 }
-                Cpp.runTest()
                 return 1
             }
 

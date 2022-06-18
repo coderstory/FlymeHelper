@@ -8,7 +8,7 @@ class Application : Application() {
         super.onCreate()
         mInstance = this
         System.loadLibrary("Utils")
-        Cpp.firstCpp(mInstance)
+
     }
 
     companion object {
