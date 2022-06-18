@@ -35,14 +35,14 @@ android {
         abortOnError false
         checkReleaseBuilds false
     }
-    applicationVariants.all { variant ->
-        variant.javaCompileProvider.get().doLast {
-            runAllatori(variant)
-        }
-        variant.outputs.all { output ->
-            outputFileName = "FlymeHelper-${defaultConfig.versionName}-${defaultConfig.versionCode}-${buildType.name}.apk"
-        }
-    }
+//    applicationVariants.all { variant ->
+//        variant.javaCompileProvider.get().doLast {
+//            runAllatori(variant)
+//        }
+//        variant.outputs.all { output ->
+//            outputFileName = "FlymeHelper-${defaultConfig.versionName}-${defaultConfig.versionCode}-${buildType.name}.apk"
+//        }
+//    }
 }
 
 def runAllatori(variant) {

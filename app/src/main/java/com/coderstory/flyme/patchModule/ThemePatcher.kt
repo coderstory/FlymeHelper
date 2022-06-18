@@ -11,12 +11,14 @@ import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
+
 class ThemePatcher : XposedHelper(), IModule {
     override fun handleInitPackageResources(respray: InitPackageResourcesParam) {}
     override fun handleLoadPackage(param: LoadPackageParam) {
 
         // 主题和谐
         if (param.packageName == "com.meizu.customizecenter" && prefs.getBoolean("enabletheme", false)) {
+
             if (param.packageName == "com.meizu.customizecenter") {
                 // 拦截开机自启广播
                 findAndHookMethod("com.meizu.customizecenter.admin.receiver.BootBroadcastReceiver", param.classLoader, "onReceive", Context::class.java, Intent::class.java, XC_MethodReplacement.returnConstant(null))
@@ -42,6 +44,7 @@ class ThemePatcher : XposedHelper(), IModule {
                 // 8.0.23
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.j.b", param.classLoader, "e", XC_MethodReplacement.returnConstant(true))
                 findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.j.b", param.classLoader, "I", XC_MethodReplacement.returnConstant(true))
+
                 /**
                  *
                  * public void a(boolean arg4, boolean arg5) {
@@ -54,7 +57,24 @@ class ThemePatcher : XposedHelper(), IModule {
                  * }
                  */
                 // 7.5
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", param.classLoader, "a", Context::class.java, String::class.java, Long::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(null))
+                findAndHookMethod(
+                    "com.meizu.customizecenter.manager.managermoduls.font.k",
+                    param.classLoader,
+                    "a",
+                    Context::class.java,
+                    String::class.java,
+                    Long::class.javaPrimitiveType,
+                    XC_MethodReplacement.returnConstant(null)
+                )
+                findAndHookMethod(
+                    "com.meizu.customizecenter.manager.managermoduls.font.k",
+                    param.classLoader,
+                    "Y",
+                    Boolean::class.javaPrimitiveType,
+                    Boolean::class.javaPrimitiveType,
+                    XC_MethodReplacement.returnConstant(null)
+                )
+
                 /**
                  * public void k() {
                  * long v0 = SystemClock.elapsedRealtime() - this.n();
@@ -64,15 +84,60 @@ class ThemePatcher : XposedHelper(), IModule {
                  * }
                  * }
                  */
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.g", param.classLoader, "k", XC_MethodReplacement.returnConstant(null))
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", param.classLoader, "k", XC_MethodReplacement.returnConstant(null))
+                findAndHookMethod(
+                    "com.meizu.customizecenter.manager.managermoduls.font.g",
+                    param.classLoader,
+                    "k",
+                    XC_MethodReplacement.returnConstant(null)
+                )
+                findAndHookMethod(
+                    "com.meizu.customizecenter.manager.managermoduls.font.k",
+                    param.classLoader,
+                    "k",
+                    XC_MethodReplacement.returnConstant(null)
+                )
                 // 8.0.23
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", param.classLoader, "b", XC_MethodReplacement.returnConstant(null))
+                findAndHookMethod(
+                    "com.meizu.customizecenter.manager.managermoduls.font.k",
+                    param.classLoader,
+                    "b",
+                    XC_MethodReplacement.returnConstant(null)
+                )
+                findAndHookMethod(
+                    "com.meizu.customizecenter.manager.managermoduls.font.k",
+                    param.classLoader,
+                    "m",
+                    XC_MethodReplacement.returnConstant(null)
+                )
 
                 //"checkTrialFont:!isUsingTrialFont() Context context, String str, long j
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", param.classLoader, "a", Context::class.java, String::class.java, Long::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(null))
-                findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.font.k", param.classLoader, "l", Context::class.java, String::class.java, Long::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(null))
-
+                findAndHookMethod(
+                    "com.meizu.customizecenter.manager.managermoduls.font.k",
+                    param.classLoader,
+                    "a",
+                    Context::class.java,
+                    String::class.java,
+                    Long::class.javaPrimitiveType,
+                    XC_MethodReplacement.returnConstant(null)
+                )
+                findAndHookMethod(
+                    "com.meizu.customizecenter.manager.managermoduls.font.k",
+                    param.classLoader,
+                    "l",
+                    Context::class.java,
+                    String::class.java,
+                    Long::class.javaPrimitiveType,
+                    XC_MethodReplacement.returnConstant(null)
+                )
+                findAndHookMethod(
+                    "com.meizu.customizecenter.manager.managermoduls.font.k",
+                    param.classLoader,
+                    "l",
+                    Context::class.java,
+                    String::class.java,
+                    Long::class.javaPrimitiveType,
+                    XC_MethodReplacement.returnConstant(null)
+                )
 
                 val themeContentProvider: Class<*> = findClass("com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider", param.classLoader)
                 //主题混搭 ThemeContentProvider query Unknown URI
