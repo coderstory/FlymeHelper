@@ -12,15 +12,15 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Cache (NDK)
-      id: ndk-cache
-      uses: actions/cache@v2
-      with:
-        path: ${ANDROID_HOME}/ndk/21.1.6352462
-        key: ndk-cache        
-    - name: Install NDK
-      if: steps.ndk-cache.outputs.cache-hit != 'true'
-      run:  echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.1.6352462"
+   # - name: Cache (NDK)
+   #   id: ndk-cache
+   #   uses: actions/cache@v2
+   #   with:
+   #     path: ${ANDROID_HOME}/ndk/21.1.6352462
+   #     key: ndk-cache        
+   # - name: Install NDK
+   #   if: steps.ndk-cache.outputs.cache-hit != 'true'
+   #   run:  echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.1.6352462"
     - name: licenses
       run: yes | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --licenses
     - name: Build with Gradle
