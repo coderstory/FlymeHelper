@@ -19,8 +19,6 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.cardview.widget.CardView
 import com.coderstory.flyme.R
 import com.coderstory.flyme.fragment.base.BaseFragment
-import com.coderstory.flyme.tools.SharedHelper
-import com.coderstory.flyme.tools.Utils
 import com.topjohnwu.superuser.Shell
 import per.goweii.anylayer.AnyLayer
 import per.goweii.anylayer.DialogLayer
@@ -235,15 +233,6 @@ class OthersFragment : BaseFragment() {
         (`$`<View>(R.id.mms) as SwitchCompat).isChecked = prefs.getBoolean("mms", false)
         (`$`<View>(R.id.disable_edge_back) as SwitchCompat).isChecked =
             prefs.getBoolean("disable_edge_back", false)
-        if (!Utils.check(SharedHelper(mContext))) {
-            `$`<View>(R.id.removeStore).isEnabled = false
-            `$`<View>(R.id.autoInstall).isEnabled = false
-            `$`<View>(R.id.home_icon_num_column).isEnabled = false
-            `$`<View>(R.id.home_icon_num_rows).isEnabled = false
-            `$`<View>(R.id.disable_edge_back).isEnabled = false
-            (`$`<View>(R.id.test1) as TextView).setTextColor(Color.parseColor("#A9A9A9"))
-            (`$`<View>(R.id.test2) as TextView).setTextColor(Color.parseColor("#A9A9A9"))
-        }
     }
 
     private fun setDatePickerDividerColor(picker: NumberPicker?, max: Int, min: Int) {

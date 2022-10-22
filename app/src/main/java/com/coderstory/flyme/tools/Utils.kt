@@ -6,17 +6,9 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.DialogInterface
 import android.content.SharedPreferences
-import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import com.topjohnwu.superuser.Shell
-import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.IOException
-import java.io.InputStream
 import java.lang.reflect.InvocationTargetException
-import java.net.HttpURLConnection
-import java.net.URL
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,95 +31,6 @@ class Utils {
             normalDialog.show()
         }
         return result[0]
-    }
-
-    inner class Check : Runnable {
-        private var mark: String
-        private var sn: String?
-        private var myHandler: Handler
-        private var isLogin: Int
-        var mContext: Context?
-
-        constructor(helper: SharedHelper, myHandler: Handler, mContext: Context?) {
-            mark = decodeStr(helper.getString(decode("bWFyaw=="), ""))
-            sn = getSerialNumber(mContext)
-            this.myHandler = myHandler
-            isLogin = 0
-            this.mContext = mContext
-        }
-
-        constructor(mark: String, myHandler: Handler, mContext: Context?) {
-            this.mark = mark
-            sn = getSerialNumber(mContext)
-            this.myHandler = myHandler
-            isLogin = 1
-            this.mContext = mContext
-        }
-
-        override fun run() {
-            val path = Misc.searchApi
-            try {
-                val url = URL(path)
-                val connection = url.openConnection() as HttpURLConnection
-                connection.connectTimeout = 5000
-                connection.requestMethod = "POST"
-
-                //数据准备
-                val data = """{
-    "${decode("UVE=")}": "$mark",
-    "${decode("c24=")}": "$sn",
-    "isLogin": $isLogin
-}"""
-                //至少要设置的两个请求头
-                connection.setRequestProperty("Content-Type", "application/json")
-                connection.setRequestProperty("Content-Length", data.length.toString() + "")
-
-                //post的方式提交实际上是留的方式提交给服务器
-                connection.doOutput = true
-                val outputStream = connection.outputStream
-                outputStream.write(data.toByteArray())
-
-                //获得结果码
-                val responseCode = connection.responseCode
-                if (responseCode == 200) {
-                    //请求成功
-                    val `is` = connection.inputStream
-                    val msg = Message()
-                    msg.arg1 = 4
-                    val data2 = Bundle()
-                    data2.putString("value", dealResponseResult(`is`))
-                    data2.putString(decode("bWFyaw=="), mark)
-                    data2.putString("sn", sn)
-                    msg.data = data2
-                    myHandler.sendMessage(msg)
-                } else {
-                    val msg = Message()
-                    msg.arg1 = 5
-                    myHandler.sendMessage(msg)
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
-                val msg = Message()
-                msg.arg1 = 5
-                myHandler.sendMessage(msg)
-            }
-        }
-
-        private fun dealResponseResult(inputStream: InputStream): String {
-            val resultData: String //存储处理结果
-            val byteArrayOutputStream = ByteArrayOutputStream()
-            val data = ByteArray(1024)
-            var len: Int
-            try {
-                while (inputStream.read(data).also { len = it } != -1) {
-                    byteArrayOutputStream.write(data, 0, len)
-                }
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-            resultData = String(byteArrayOutputStream.toByteArray())
-            return resultData
-        }
     }
 
     companion object {

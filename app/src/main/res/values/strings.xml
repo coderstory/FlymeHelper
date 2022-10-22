@@ -2,10 +2,7 @@
     <string name="app_name">Flyme助手</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="about_msg"><b>免费/付费版区别</b>\n软件分免费版和付费版，区别在于部分功能[vip标记]只有付费版才能使用。<font color='#FFC0CB'>免费版已包含大部分功能，不推荐付费购买</font></string>
     <string name="authorization_agreement"><b>声明</b>\n软件授权协议</string>
-    <string name="buy_way"><b>购买方式</b>\n扫码支付6元,点击[加入交流群]按钮加入交流群,截图给群主处理</string>
-    <string name="pay_explain"><b>付费版说明</b>\n付费版本需支付<font color='#FFC0CB'>6元</font>,单次付费仅授权激活<font color='#FFC0CB'>一台</font>设备,<font color='#FFC0CB'>不可换绑</font>但支持在同一台设备上重复激活。</string>
     <string name="enableBlockADS"><b>基础功能</b>\n删除和屏蔽魅族自家的广告插件,可以屏蔽一部分App的广告</string>
     <string name="mms"><b>短信</b>\n去除短信信息界面上的充值话费,申请信用卡等广告,但会无法快捷复制验证码</string>
     <string name="enableHosts"><b>启用模块</b>\n开启Hosts支持模块</string>
@@ -25,7 +22,7 @@
     <string name="enable_back_vibrator"><b>侧滑返回-震动</b>\n触发返回时开启震动,输入值为震动时长,推荐30–50</string>
     <string name="hideDepWarn"><b>隐藏开发者选项风险警告</b>\n禁止开启开发者选项后通知栏弹出的风险警告</string>
     <string name="HideRootWithUpgrade"><b>系统更新</b>\n关闭系统更新中Root检测,使之可以检测更新,注意开启ROOT会更新失败</string>
-    <string name="disable_edge_back"><b>禁用手势</b>   <font color='#FFC0CB'>vip</font>\n全局禁用侧滑返回手势，开启mback的时候可以开启</string>
+    <string name="disable_edge_back"><b>禁用手势</b> \n全局禁用侧滑返回手势，开启mback的时候可以开启</string>
     <string name="HideRootWithPay"><b>魅族Pay</b>\n关闭魅族Pay的Root检测</string>
     <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题,不会有倒计时之类的提示.如果你使用自带root则还需要开启[全局隐藏ROOT]</string>
     <string name="alarem"><b>闹钟</b>\n启用闹钟后,隐藏状态栏上的闹钟图标</string>
@@ -37,21 +34,21 @@
     <string name="hide_icon_shake"><b>震动</b>\n音量为0的情况下,隐藏状态栏上的震动图标</string>
     <string name="hide_status_bar_no_sim_icon"><b>空SIM</b>\n隐藏状态栏上的空sim卡图标</string>
     <string name="status_bar_custom_carrier_name"><b>运营商文本</b>\n自定义锁屏运营商文本</string>
-    <string name="status_bar_custom_time_text"><b>自定义时间格式</b>  <font color='#FFC0CB'>vip</font>\n自定义状态栏时间格式,例如 HH:mm:ss</string>
+    <string name="status_bar_custom_time_text"><b>自定义时间格式</b>\n自定义状态栏时间格式,例如 HH:mm:ss</string>
     <string name="hide_status_bar_wifi_icon"><b>隐藏wifi图标</b>\n隐藏状态栏上的wifi图标</string>
     <string name="hide_status_bar_vpn_icon"><b>隐藏vpn图标</b>\n开启vpn后，自动隐藏状态栏上的VPN图标和相关常驻通知</string>
     <string name="show_status_bar_time_second_icon"><b>时间显秒</b>\n状态栏上的当前时间格式变成[时:分:秒]</string>
     <string name="show_icon_battery_percentage"><b>电量百分比</b>\n在状态栏电量百分比后面加个百分号，比如电量97显示成97%, 注意框架必须开启资源钩子才能生效</string>
-    <string name="hide_status_bar_slow_rate_icon"><b>低速隐藏</b>  <font color='#FFC0CB'>vip</font>\n在系统设置里开启显示状态栏网速后，当实时网速低于100K/s则自隐藏状态栏上的网速图标</string>
-    <string name="hide_status_bar_time_week_icon"><b>状态栏时间-星期</b>  <font color='#FFC0CB'>vip</font>\n在状态栏时间后面追加星期 \n比如 [18:20 周一]</string>
-    <string name="hide_status_bar_time_chinese_icon"><b>状态栏时间-修饰</b>  <font color='#FFC0CB'>vip</font>\n在状态栏时间前面追加上午下午凌晨等词缀 比如 [傍晚 18:20]</string>
-    <string name="hide_status_bar_time_eng_icon"><b>状态栏星期-英文</b>  <font color='#FFC0CB'>vip</font>\n在状态栏显示英文的日期[需开启 状态栏时间-星期] \n比如 [AM 18:20 Mon]</string>
+    <string name="hide_status_bar_slow_rate_icon"><b>低速隐藏</b> \n在系统设置里开启显示状态栏网速后，当实时网速低于100K/s则自隐藏状态栏上的网速图标</string>
+    <string name="hide_status_bar_time_week_icon"><b>状态栏时间-星期</b>  \n在状态栏时间后面追加星期 \n比如 [18:20 周一]</string>
+    <string name="hide_status_bar_time_chinese_icon"><b>状态栏时间-修饰</b>  \n在状态栏时间前面追加上午下午凌晨等词缀 比如 [傍晚 18:20]</string>
+    <string name="hide_status_bar_time_eng_icon"><b>状态栏星期-英文</b>  \n在状态栏显示英文的日期[需开启 状态栏时间-星期] \n比如 [AM 18:20 Mon]</string>
     <string name="HideRootGlobal"><b>全局隐藏root</b>\n针对所有的flyme自带软件,隐藏自带的ROOT,开启后设置里会显示ROOT未开启</string>
-    <string name="status_text_view_clock_center"><b>状态栏时间居中</b> <font color='#FFC0CB'>vip</font>\n状态栏时间居中显示,与状态栏其他东西重叠时自动隐藏。</string>
+    <string name="status_text_view_clock_center"><b>状态栏时间居中</b> \n状态栏时间居中显示,与状态栏其他东西重叠时自动隐藏。</string>
     <string name="status_text_view_lyric_center"><b>状态栏歌词居中</b>\n状态栏歌词居中显示,时间居左。\n本功能由MZXPT作者提供</string>
-    <string name="home_icon_num_rows"><b>自定义布局-行</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面有多少行app图标</string>
-    <string name="home_icon_num_column"><b>自定义布局-列</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面有多少列app图标</string>
-    <string name="home_icon_num_hot_seat_icons"><b>自定义布局-Dock</b>  <font color='#FFC0CB'>vip</font>\n自定义桌面Dock栏的app数量</string>
+    <string name="home_icon_num_rows"><b>自定义布局-行</b>  \n自定义桌面有多少行app图标</string>
+    <string name="home_icon_num_column"><b>自定义布局-列</b>  \n自定义桌面有多少列app图标</string>
+    <string name="home_icon_num_hot_seat_icons"><b>自定义布局-Dock</b>  \n自定义桌面Dock栏的app数量</string>
     <string name="disableSearch"><b>桌面禁用手势-搜索</b>\n禁止桌面上划手势触发打开搜索</string>
     <string name="hide_status_bar_sim1_icon"><b>隐藏图标-SIM1</b>\n隐藏状态栏SIM1的图标</string>
     <string name="hide_status_bar_sim2_icon"><b>隐藏图标-SIM2</b>\n隐藏状态栏SIM2的图标</string>
@@ -61,7 +58,7 @@
     <string name="hide_status_bar_location_icon"><b>定位</b>\n使用GPS的时候，隐藏状态栏上的定位图标</string>
     <string name="hide_status_bar_clock_icon"><b>时钟</b>\n隐藏状态栏中的时间</string>
     <string name="hide_status_bar_battery_icon"><b>电池</b>\n隐藏状态栏上的电池图标(不含17系列的环形电池) 修改后立即生效,设置重启后失效</string>
-    <string name="hide_status_bar_app_icon"><b>隐藏应用图标</b>  <font color='#FFC0CB'>vip</font>\n隐藏状态栏上左侧区域的所有图标,比如开启流量监控的图标,usb调试图标等</string>
+    <string name="hide_status_bar_app_icon"><b>隐藏应用图标</b>  \n隐藏状态栏上左侧区域的所有图标,比如开启流量监控的图标,usb调试图标等</string>
     <string name="show_status_bar_time_am_pm"><b>AM-PM</b>\n状态栏时间添加AM-PM前缀</string>
     <string name="Tips_Title">温馨提示</string>
     <string name="about">关于应用</string>
@@ -118,10 +115,9 @@
     <string name="others_appsettings">应用设置</string>
     <string name="updateList">已检测到的OTA更新包</string>
     <string name="blog">作者博客</string>
-    <string name="removeStore"><b>移除推广按钮</b>  <font color='#FFC0CB'>vip</font>\n移除应用安装界面的从官方商店下载按钮</string>
-    <string name="autoInstall"><b>自动安装应用</b>  <font color='#FFC0CB'>vip</font>\n打开应用安装界面后，无需点击按钮自动执行安装</string>
+    <string name="removeStore"><b>移除推广按钮</b>  \n移除应用安装界面的从官方商店下载按钮</string>
+    <string name="autoInstall"><b>自动安装应用</b>  \n打开应用安装界面后，无需点击按钮自动执行安装</string>
     <string name="systemui_settings">自定义状态栏</string>
-    <string name="member_binding">会员绑定</string>
     <string name="open_sources">
             <b>致谢如下开源项目</b>\n\n
             <b>MaterialDesignDemo</b>\n https://github.com/burgessjp/MaterialDesignDemo\n\n

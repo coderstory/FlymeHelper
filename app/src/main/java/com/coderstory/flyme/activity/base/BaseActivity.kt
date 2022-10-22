@@ -41,12 +41,14 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onPause()
     }
 
-    override fun getResources(): Resources { //还原字体大小
+    override fun getResources(): Resources {
+        //还原字体大小
         val res = super.getResources()
         //非默认值
         if (res.configuration.fontScale != 1f) {
             val newConfig = Configuration()
-            newConfig.setToDefaults() //设置默认
+            newConfig.setToDefaults()
+            //设置默认
             res.updateConfiguration(newConfig, res.displayMetrics)
         }
         return res

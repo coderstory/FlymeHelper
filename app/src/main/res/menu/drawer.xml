@@ -64,11 +64,6 @@
                     android:title="@string/others_appsettings" />
 
                 <item
-                    android:id="@+id/navigation_item_about_me"
-                    android:icon="@drawable/ic_vip"
-                    android:title="@string/member_binding" />
-
-                <item
                     android:id="@+id/navigation_item_about"
                     android:icon="@drawable/ic_info"
                     android:title="@string/about" />

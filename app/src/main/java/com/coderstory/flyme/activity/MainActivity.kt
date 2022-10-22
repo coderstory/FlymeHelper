@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import android.os.*
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -20,7 +19,6 @@ import com.coderstory.flyme.activity.base.BaseActivity
 import com.coderstory.flyme.fragment.*
 import com.coderstory.flyme.tools.*
 import com.google.android.material.navigation.NavigationView
-import com.google.gson.Gson
 import per.goweii.anylayer.AnyLayer
 import per.goweii.anylayer.Layer
 import kotlin.system.exitProcess
@@ -61,13 +59,6 @@ class MainActivity : BaseActivity() {
                     dialog!!.cancel()
                     helper.put("isRooted", true)
                 }
-                4 -> if (msg.data["value"] != "{\"error\":\"0\"}") {
-                    Toast.makeText(this@MainActivity, Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" +
-                            Gson().fromJson<Map<String, String>>(msg.data["value"].toString(), MutableMap::class.java).getOrDefault("error", msg.data["value"].toString()), Toast.LENGTH_LONG).show()
-                    helper.put(Utils.decode("bWFyaw=="), "")
-                }
-                5 ->                     // 接口调用失败
-                    Toast.makeText(this@MainActivity, "服务器连接失败", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -120,9 +111,6 @@ class MainActivity : BaseActivity() {
         }.start()
         checkEnable()
         checkDialog()
-        if (Utils.check(helper)) {
-            Thread(Utils().Check(helper, myHandler, this)).start()
-        }
     }
 
     private fun checkDialog() {
@@ -130,7 +118,7 @@ class MainActivity : BaseActivity() {
             getSharedPreferences("test", MODE_WORLD_READABLE)
         } catch (e: SecurityException) {
             val normalDialog = AlertDialog.Builder(this@MainActivity)
-            normalDialog.setCancelable(false)
+            normalDialog.setCancelable(true)
             normalDialog.setTitle("插件配置初始化失败")
             normalDialog.setMessage("请使用最新版本的LSPosed或者EdXposed，且勾选本插件后再试")
             normalDialog.setPositiveButton("确定"
@@ -151,9 +139,10 @@ class MainActivity : BaseActivity() {
                 } else {
                     normalDialog.setMessage("当前助手适配的是flyme9系统,而当前系统是flyme$value,请选择合适的版本")
                 }
-                normalDialog.setPositiveButton("退出"
+                normalDialog.setPositiveButton(
+                    "退出"
                 ) { _: DialogInterface?, _: Int -> exitProcess(0) }
-                normalDialog.setCancelable(false)
+                normalDialog.setCancelable(true)
                 normalDialog.show()
             }
         } catch (e: Exception) {
@@ -254,10 +243,6 @@ class MainActivity : BaseActivity() {
                     mToolbar!!.setTitle(R.string.hosts)
                     switchFragment(HostsFragment::class.java)
                 }
-                id.navigation_item_about_me -> {
-                    mToolbar!!.title = Utils.decode("5Lya5ZGY5r+A5rS7")
-                    switchFragment(AccountFragment::class.java)
-                }
                 id.navigation_item_core_patch_settings -> {
                     mToolbar!!.title = "核心破解"
                     switchFragment(CorePatchFragment::class.java)
@@ -281,6 +266,7 @@ class MainActivity : BaseActivity() {
         mCurrentFragment = to
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         //当前抽屉是打开的，则关闭
         if (mDrawerLayout!!.isDrawerOpen(GravityCompat.START)) {

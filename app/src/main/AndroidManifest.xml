@@ -15,6 +15,7 @@
 
         <activity
             android:name=".activity.MainActivity"
+            android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +25,7 @@
         <activity android:name=".activity.AboutActivity" />
         <activity
             android:name=".activity.SplashActivity"
+            android:exported="true"
             android:theme="@style/fullscreen_theme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

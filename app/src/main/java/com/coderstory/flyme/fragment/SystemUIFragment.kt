@@ -10,8 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import com.coderstory.flyme.R
 import com.coderstory.flyme.fragment.base.BaseFragment
-import com.coderstory.flyme.tools.SharedHelper
-import com.coderstory.flyme.tools.Utils
 import com.topjohnwu.superuser.Shell
 import per.goweii.anylayer.AnyLayer
 import per.goweii.anylayer.Layer
@@ -238,15 +236,6 @@ class SystemUIFragment : BaseFragment() {
             prefs.getBoolean("show_status_bar_time_am_pm", false)
         (`$`<View>(R.id.status_text_view_lyric_center) as SwitchCompat).isChecked =
             prefs.getBoolean("status_text_view_lyric_center", false)
-        if (!Utils.check(SharedHelper(mContext))) {
-            //`$`<View>(R.id.status_bar_custom_time).isEnabled = false
-            `$`<View>(R.id.hide_status_bar_slow_rate_icon).isEnabled = false
-            `$`<View>(R.id.hide_status_bar_time_week_icon).isEnabled = false
-            `$`<View>(R.id.hide_status_bar_time_chinese_icon).isEnabled = false
-            `$`<View>(R.id.status_text_view_clock_center).isEnabled = false
-            `$`<View>(R.id.hide_status_bar_app_icon).isEnabled = false
-            `$`<View>(R.id.hide_status_bar_time_eng_icon).isEnabled = false
-        }
         (`$`<View>(R.id.status_bar_custom_time) as TextView).text = prefs.getString(
             "status_bar_custom_time",
             ""
