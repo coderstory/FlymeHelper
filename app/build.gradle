@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     buildToolsVersion "32.1.0-rc1"
     defaultConfig {
         applicationId "com.coderstory.flyme"
         minSdkVersion 26
-        targetSdk 28
+        targetSdk 33
         resConfigs 'zh', 'xxhdpi', 'cn'
         versionCode 513
         versionName "4.5.13"
@@ -35,14 +35,7 @@ android {
         abortOnError false
         checkReleaseBuilds false
     }
-//    applicationVariants.all { variant ->
-//        variant.javaCompileProvider.get().doLast {
-//            runAllatori(variant)
-//        }
-//        variant.outputs.all { output ->
-//            outputFileName = "FlymeHelper-${defaultConfig.versionName}-${defaultConfig.versionCode}-${buildType.name}.apk"
-//        }
-//    }
+    namespace 'com.coderstory.flyme'
 }
 
 def runAllatori(variant) {
@@ -73,14 +66,14 @@ dependencies {
     compileOnly fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.goweii:AnyLayer:3.4.3-support'
-    implementation "com.github.topjohnwu.libsu:core:3.0.2"
+    implementation "com.github.topjohnwu.libsu:core:3.1.2"
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.alibaba:fastjson:1.2.79'
-    implementation "androidx.core:core-ktx:1.8.0"
+    implementation "androidx.core:core-ktx:1.9.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 repositories {
