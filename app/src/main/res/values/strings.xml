@@ -2,7 +2,7 @@
     <string name="app_name">Flyme助手</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
-    <string name="about_msg"><b>免费/付费版区别</b>\n软件分免费版和付费版，区别在于部分功能只有付费版才能使用。免费版不可用的功能会在功能上会有[vip]字样，且功能灰色无法点击。</string>
+    <string name="about_msg"> ！！点击【激活会员】，然后输入任意数字即可激活！！！！</string>
     <string name="authorization_agreement"><b>声明</b>\n软件授权协议</string>
     <string name="buy_way"><b>购买方式</b>\n<b>方式1:</b> 点击[加入付费群],入群后点击[激活会员]按钮输入QQ号激活,无需人工处理[推荐此方式激活]\n<b>方式2:</b>扫码支付8.6元,点击[加入交流群]按钮加入交流群,截图给群主</string>
     <string name="pay_explain"><b>付费版说明</b>\n付费版本需支付<font color='#FFC0CB'>8.6元</font>,可以授权激活一台设备,不可解绑但支持在同一台设备上重复激活。</string>

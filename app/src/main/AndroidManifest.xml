@@ -33,7 +33,8 @@
 
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
@@ -42,7 +43,8 @@
         <activity android:name=".activity.AboutActivity" />
         <activity
             android:name=".activity.SplashActivity"
-            android:theme="@style/fulscreen_theme">
+            android:theme="@style/fulscreen_theme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

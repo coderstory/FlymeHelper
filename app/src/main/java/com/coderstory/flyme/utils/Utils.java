@@ -168,32 +168,16 @@ public class Utils {
         public void run() {
             String path = Misc.searchApi;
             //请求成功
-            InputStream is = connection.getInputStream();
             Message msg = new Message();
             msg.arg1 = 4;
             Bundle data2 = new Bundle();
-            data2.putString("value", dealResponseResult(is));
+            data2.putString("value", "");
             data2.putString(Utils.decode("bWFyaw=="), mark);
             data2.putString("sn", sn);
             msg.setData(data2);
             myHandler.sendMessage(msg);
         }
 
-        public String dealResponseResult(InputStream inputStream) {
-            String resultData;      //存储处理结果
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            byte[] data = new byte[1024];
-            int len;
-            try {
-                while ((len = inputStream.read(data)) != -1) {
-                    byteArrayOutputStream.write(data, 0, len);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            resultData = new String(byteArrayOutputStream.toByteArray());
-            return resultData;
-        }
     }
 
 }
