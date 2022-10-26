@@ -167,52 +167,16 @@ public class Utils {
         @Override
         public void run() {
             String path = Misc.searchApi;
-            try {
-                URL url = new URL(path);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setConnectTimeout(5000);
-                connection.setRequestMethod("POST");
-
-                //数据准备
-                String data = "{\n" +
-                        "    \"" + Utils.decode("UVE=") + "\": \"" + mark + "\",\n" +
-                        "    \"" + Utils.decode("c24=") + "\": \"" + sn + "\",\n" +
-                        "    \"isLogin\": " + isLogin + "\n" +
-                        "}";
-                //至少要设置的两个请求头
-                connection.setRequestProperty("Content-Type", "application/json");
-                connection.setRequestProperty("Content-Length", data.length() + "");
-
-                //post的方式提交实际上是留的方式提交给服务器
-                connection.setDoOutput(true);
-                OutputStream outputStream = connection.getOutputStream();
-                outputStream.write(data.getBytes());
-
-                //获得结果码
-                int responseCode = connection.getResponseCode();
-                if (responseCode == 200) {
-                    //请求成功
-                    InputStream is = connection.getInputStream();
-
-                    Message msg = new Message();
-                    msg.arg1 = 4;
-                    Bundle data2 = new Bundle();
-                    data2.putString("value", dealResponseResult(is));
-                    data2.putString(Utils.decode("bWFyaw=="), mark);
-                    data2.putString("sn", sn);
-                    msg.setData(data2);
-                    myHandler.sendMessage(msg);
-                } else {
-                    Message msg = new Message();
-                    msg.arg1 = 5;
-                    myHandler.sendMessage(msg);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                Message msg = new Message();
-                msg.arg1 = 5;
-                myHandler.sendMessage(msg);
-            }
+            //请求成功
+            InputStream is = connection.getInputStream();
+            Message msg = new Message();
+            msg.arg1 = 4;
+            Bundle data2 = new Bundle();
+            data2.putString("value", dealResponseResult(is));
+            data2.putString(Utils.decode("bWFyaw=="), mark);
+            data2.putString("sn", sn);
+            msg.setData(data2);
+            myHandler.sendMessage(msg);
         }
 
         public String dealResponseResult(InputStream inputStream) {

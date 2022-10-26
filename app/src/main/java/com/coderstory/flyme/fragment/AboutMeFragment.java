@@ -69,15 +69,10 @@ public class AboutMeFragment extends BaseFragment {
                     break;
 
                 case 4:
-                    if (msg.getData().get("value").equals("{\"error\":\"0\"}")) {
                         getEditor().putString(Utils.decode("bWFyaw=="), Utils.encodeStr(msg.getData().get("mark").toString())).commit();
                         sudoFixPermissions();
-                        //getEditor().putString("sn", msg.getData().get("sn").toString()).apply();
                         Toast.makeText(getMContext(), "绑定成功,重启应用生效", Toast.LENGTH_SHORT).show();
                         refresh();
-                    } else {
-                        Toast.makeText(getMContext(), Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" + new Gson().fromJson(msg.getData().get("value").toString(), Map.class).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
-                    }
                     // 校验返回
                     break;
                 case 5:

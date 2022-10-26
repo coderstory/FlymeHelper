@@ -90,12 +90,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
                     }
                     break;
                 case 4:
-                    if (!msg.getData().get("value").equals("{\"error\":\"0\"}")) {
-                        Toast.makeText(MainActivity.this, Utils.decode("5Lya5ZGY5qCh6aqM5aSx6LSl") + ":\r\n" + new Gson().fromJson(msg.getData().get("value").toString(), Map.class).getOrDefault("error", msg.getData().get("value").toString()), Toast.LENGTH_LONG).show();
-                        helper.put(Utils.decode("bWFyaw=="), "");
-                        //helper.put("sn", "");
-                    }
-                    // 校验返回
                     break;
                 case 5:
                     // 接口调用失败

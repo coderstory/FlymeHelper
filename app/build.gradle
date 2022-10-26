@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 33
     buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "com.coderstory.flyme"
         minSdkVersion 24
-        targetSdkVersion 29
+        targetSdkVersion 33
         resConfigs "zh", "xxhdpi"
         versionCode 468
         versionName "4.2.4.Final"
