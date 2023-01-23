@@ -10,6 +10,13 @@ import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.Boolean
 import java.lang.reflect.InvocationTargetException
+import kotlin.Any
+import kotlin.Array
+import kotlin.Int
+import kotlin.Throwable
+import kotlin.Throws
+import kotlin.arrayOf
+import kotlin.arrayOfNulls
 
 class CorePatchForQ : XposedHelper(), IXposedHookLoadPackage, IXposedHookZygoteInit {
     //override var prefs = XSharedPreferences(BuildConfig.APPLICATION_ID, "conf")

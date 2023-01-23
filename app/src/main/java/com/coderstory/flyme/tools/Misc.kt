@@ -5,7 +5,6 @@ object Misc {
     const val ApplicationName = "com.coderstory.flyme"
     const val SharedPreferencesName = "UserSettings"
     const val HostFileTmpName = "/hosts"
-    const val endTime = "2022-11-29"
     const val isTestVersion = false
     val searchApi: String =
         Utils.decode("aHR0cDovLzExOC4yNS4xMDkuMTIxOjEwMDg2L3NtYXJ0LWFkbWluLWFwaS9lbXBsb3llZS9jaGVja1Yy")

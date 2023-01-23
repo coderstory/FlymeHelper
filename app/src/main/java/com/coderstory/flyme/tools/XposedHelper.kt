@@ -13,7 +13,6 @@ import de.robv.android.xposed.XposedHelpers.ClassNotFoundError
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.io.*
 import java.lang.reflect.InvocationTargetException
-import java.util.*
 import java.util.zip.ZipFile
 
 open class XposedHelper {

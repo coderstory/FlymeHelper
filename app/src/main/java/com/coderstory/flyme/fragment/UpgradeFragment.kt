@@ -20,7 +20,6 @@ import com.coderstory.flyme.view.PullToRefreshView
 import per.goweii.anylayer.AnyLayer
 import per.goweii.anylayer.DialogLayer
 import per.goweii.anylayer.Layer
-import java.util.*
 
 class UpgradeFragment : BaseFragment() {
     private val appInfos: MutableList<AppInfo?> = ArrayList()

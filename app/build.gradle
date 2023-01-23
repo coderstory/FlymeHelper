@@ -3,14 +3,14 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 33
-    buildToolsVersion "32.1.0-rc1"
+    buildToolsVersion "33.0.1"
     defaultConfig {
         applicationId "com.coderstory.flyme"
         minSdkVersion 26
         targetSdk 33
         resConfigs 'zh', 'xxhdpi', 'cn'
-        versionCode 513
-        versionName "4.5.14 开源全功能版"
+        versionCode 514
+        versionName "4.5.15 开源全功能版"
         ndk {
             abiFilters 'arm64-v8a'
         }

@@ -120,9 +120,10 @@ class MainActivity : BaseActivity() {
             val normalDialog = AlertDialog.Builder(this@MainActivity)
             normalDialog.setCancelable(true)
             normalDialog.setTitle("插件配置初始化失败")
-            normalDialog.setMessage("请使用最新版本的LSPosed或者EdXposed，且勾选本插件后再试")
-            normalDialog.setPositiveButton("确定"
-            ) { _: DialogInterface?, _: Int -> exitProcess(0) }
+            normalDialog.setMessage("请在Lsposed中启用本插件，然后手动重启本软件再试")
+            normalDialog.setPositiveButton(
+                "确定"
+            ) { _: DialogInterface?, _: Int -> Process.killProcess(Process.myPid()) }
             normalDialog.show()
         }
 
