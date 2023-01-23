@@ -14,7 +14,21 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 
 class ThemePatcher : XposedHelper(), IModule {
-    override fun handleInitPackageResources(respray: InitPackageResourcesParam) {}
+    override fun handleInitPackageResources(respray: InitPackageResourcesParam) {
+        if (respray.packageName == "com.meizu.customizecenter" && prefs.getBoolean("enabletheme", false)) {
+            if (respray.packageName  == "com.meizu.customizecenter") {
+                XposedBridge.log("开始替换文本")
+                //respray.res.setReplacement("com.meizu.customizecenter","string","online_theme_trial_now","开始白嫖")
+                //respray.res.set("online_theme_trial_now","开始白嫖")
+                respray.res.setReplacement(0x7f1102ec,"开始白嫖")
+
+                //respray.res.setReplacement("com.meizu.customizecenter","string","online_theme_trial","开始白嫖")
+                //respray.res.setObjectField("online_theme_trial","开始白嫖")
+                respray.res.setReplacement(0x7f1102e5,"开始白嫖")
+            }
+        }
+
+    }
     override fun handleLoadPackage(param: LoadPackageParam) {
 
         // 主题和谐

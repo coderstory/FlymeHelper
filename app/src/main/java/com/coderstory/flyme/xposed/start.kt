@@ -23,6 +23,7 @@ class start : XposedHelper(), IXposedHookZygoteInit, IXposedHookLoadPackage,
             FlymeHome().handleInitPackageResources(resparam)
             Others().handleInitPackageResources(resparam)
             SystemUi().handleInitPackageResources(resparam)
+            ThemePatcher().handleInitPackageResources(resparam)
         }
     }
 
