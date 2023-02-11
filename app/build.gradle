@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 33
     buildToolsVersion "33.0.1"
+    def currentVersionCode = Math.random().toString().substring(2,5)
+
     defaultConfig {
         applicationId "com.coderstory.flyme"
         minSdkVersion 26
@@ -25,7 +27,12 @@ android {
             zipAlignEnabled true
             pseudoLocalesEnabled true
         }
-
+        //自己运行的debug包
+        debug {
+            versionNameSuffix "-${currentVersionCode}"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
