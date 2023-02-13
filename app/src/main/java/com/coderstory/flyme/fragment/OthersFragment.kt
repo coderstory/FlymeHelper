@@ -165,6 +165,10 @@ class OthersFragment : BaseFragment() {
             editor.putBoolean("mms", (v as SwitchCompat).isChecked)
             fix()
         }
+        `$`<View>(R.id.disable_charge_animation).setOnClickListener { v: View ->
+            editor.putBoolean("disable_charge_animation", (v as SwitchCompat).isChecked)
+            fix()
+        }
         `$`<View>(R.id.double_clock_sleep).setOnClickListener { v: View ->
             editor.putBoolean("double_clock_sleep", (v as SwitchCompat).isChecked)
             fix()
@@ -205,6 +209,12 @@ class OthersFragment : BaseFragment() {
         )
         (`$`<View>(R.id.disable_charge_animation) as SwitchCompat).isChecked =
             prefs.getBoolean("disable_charge_animation", false)
+        (`$`<View>(R.id.double_clock_sleep) as SwitchCompat).isChecked =
+            prefs.getBoolean("double_clock_sleep", true)
+        (`$`<View>(R.id.click_to_clock) as SwitchCompat).isChecked =
+            prefs.getBoolean("click_to_clock", true)
+        (`$`<View>(R.id.click_to_calendar) as SwitchCompat).isChecked =
+            prefs.getBoolean("click_to_calendar", true)
         (`$`<View>(R.id.hide_icon_label) as SwitchCompat).isChecked =
             prefs.getBoolean("hide_icon_label", false)
         (`$`<View>(R.id.enableBlockAD) as SwitchCompat).isChecked =
