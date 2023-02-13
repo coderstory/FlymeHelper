@@ -165,8 +165,16 @@ class OthersFragment : BaseFragment() {
             editor.putBoolean("mms", (v as SwitchCompat).isChecked)
             fix()
         }
-        `$`<View>(R.id.disable_charge_animation).setOnClickListener { v: View ->
-            editor.putBoolean("disable_charge_animation", (v as SwitchCompat).isChecked)
+        `$`<View>(R.id.double_clock_sleep).setOnClickListener { v: View ->
+            editor.putBoolean("double_clock_sleep", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.click_to_clock).setOnClickListener { v: View ->
+            editor.putBoolean("click_to_clock", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.click_to_calendar).setOnClickListener { v: View ->
+            editor.putBoolean("click_to_calendar", (v as SwitchCompat).isChecked)
             fix()
         }
         val carrierName = `$`<EditText>(R.id.enable_back_vibrator)

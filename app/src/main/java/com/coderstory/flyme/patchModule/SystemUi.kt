@@ -555,75 +555,86 @@ class SystemUi : XposedHelper(), IModule {
                 })
 
             //双击状态栏锁屏
-            findAndHookMethod(
-                "com.android.systemui.statusbar.phone.PhoneStatusBarView",
-                param.classLoader,
-                "onFinishInflate",
-                object : XC_MethodHook() {
-                    var preTime = 0L
-                    override fun afterHookedMethod(param: MethodHookParam) {
-                        val statusVarView = param.thisObject as ViewGroup
-                        statusVarView.setOnTouchListener { view, event ->
-                            if (event.action == MotionEvent.ACTION_DOWN) {
+            if (prefs.getBoolean("double_clock_sleep", true)){
+                findAndHookMethod(
+                    "com.android.systemui.statusbar.phone.PhoneStatusBarView",
+                    param.classLoader,
+                    "onFinishInflate",
+                    object : XC_MethodHook() {
+                        var preTime = 0L
+                        override fun afterHookedMethod(param: MethodHookParam) {
+                            val statusVarView = param.thisObject as ViewGroup
+                            statusVarView.setOnTouchListener { view, event ->
+                                if (event.action == MotionEvent.ACTION_DOWN) {
 //                                Log.d("LSPosed","点击啦状态栏")
-                                val currTime = System.currentTimeMillis();
-                                if (currTime - preTime <= 200) {
-                                    XposedHelpers.callMethod(
-                                        view.context.getSystemService(Context.POWER_SERVICE),
-                                        "goToSleep",
-                                        SystemClock.uptimeMillis()
-                                    )
+                                    val currTime = System.currentTimeMillis();
+                                    if (currTime - preTime <= 200) {
+                                        XposedHelpers.callMethod(
+                                            view.context.getSystemService(Context.POWER_SERVICE),
+                                            "goToSleep",
+                                            SystemClock.uptimeMillis()
+                                        )
+                                    }
+                                    preTime = currTime
                                 }
-                                preTime = currTime
+                                view.performClick()
+                                return@setOnTouchListener false
                             }
-                            view.performClick()
-                            return@setOnTouchListener false
                         }
-                    }
-                })
+                    })
+            }
 
+            val clickClock = prefs.getBoolean("click_to_clock", true)
+            val clickCalendar = prefs.getBoolean("click_to_calendar", true)
+            if(clickClock || clickCalendar){
+                //点击下拉通知栏的时间进入时钟/日历
+                findAndHookMethod(
+                    "com.flyme.systemui.statusbar.phone.StatusBarHeaderView",
+                    param.classLoader,
+                    "onFinishInflate",
+                    object : XC_MethodHook() {
+                        override fun afterHookedMethod(paramThis: MethodHookParam) {
+                            fun closeStatus() {
+                                val statusBarCls = XposedHelpers.callStaticMethod(
+                                    XposedHelpers.findClass("com.android.systemui.Dependency",param.classLoader),
+                                    "get",XposedHelpers.findClass("com.android.systemui.statusbar.phone.StatusBar",param.classLoader))
+                                statusBarCls.callMethod("postAnimateCollapsePanels")
+                            }
 
-            //点击下拉通知栏的时间进入时钟/日历
-            findAndHookMethod(
-                "com.flyme.systemui.statusbar.phone.StatusBarHeaderView",
-                param.classLoader,
-                "onFinishInflate",
-                object : XC_MethodHook() {
-                    override fun afterHookedMethod(paramThis: MethodHookParam) {
-                        val timeView = paramThis.thisObject.getObjectField("mTime") as View;
-                        fun closeStatus() {
-                            val statusBarCls = XposedHelpers.callStaticMethod(
-                                XposedHelpers.findClass("com.android.systemui.Dependency",param.classLoader),
-                                "get",XposedHelpers.findClass("com.android.systemui.statusbar.phone.StatusBar",param.classLoader))
-                            statusBarCls.callMethod("postAnimateCollapsePanels")
-                        }
+                            if(clickClock){
+                                val timeView = paramThis.thisObject.getObjectField("mTime") as? View
+                                timeView?.setOnClickListener {
+                                    //跳转系统闹钟
+                                    it.context.startActivity(Intent().apply {
+                                        setClassName(
+                                            "com.android.alarmclock",
+                                            "com.meizu.flyme.alarmclock.DeskClock"
+                                        )
+                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK;
+                                    })
+                                    closeStatus()
+                                }
+                            }
 
-                        timeView.setOnClickListener {
-                            //跳转系统闹钟
-                            it.context.startActivity(Intent().apply {
-                                setClassName(
-                                    "com.android.alarmclock",
-                                    "com.meizu.flyme.alarmclock.DeskClock"
-                                )
-                                flags = Intent.FLAG_ACTIVITY_NEW_TASK;
-                            })
-                            closeStatus();
+                            if(clickCalendar){
+                                val dateViewGroup =
+                                    paramThis.thisObject.getObjectField("mDateGroup") as? ViewGroup
+                                dateViewGroup?.setOnClickListener {
+                                    //跳转系统闹钟
+                                    it.context.startActivity(Intent().apply {
+                                        setClassName(
+                                            "com.android.calendar",
+                                            "com.meizu.flyme.calendar.AllInOneActivity"
+                                        )
+                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK;
+                                    })
+                                    closeStatus()
+                                }
+                            }
                         }
-                        val dateViewGroup =
-                            paramThis.thisObject.getObjectField("mDateGroup") as ViewGroup;
-                        dateViewGroup.setOnClickListener {
-                            //跳转系统闹钟
-                            it.context.startActivity(Intent().apply {
-                                setClassName(
-                                    "com.android.calendar",
-                                    "com.meizu.flyme.calendar.AllInOneActivity"
-                                )
-                                flags = Intent.FLAG_ACTIVITY_NEW_TASK;
-                            })
-                            closeStatus();
-                        }
-                    }
-                })
+                    })
+            }
+
         }
     }
 
