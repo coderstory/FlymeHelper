@@ -169,6 +169,18 @@ class OthersFragment : BaseFragment() {
             editor.putBoolean("disable_charge_animation", (v as SwitchCompat).isChecked)
             fix()
         }
+        `$`<View>(R.id.double_clock_sleep).setOnClickListener { v: View ->
+            editor.putBoolean("double_clock_sleep", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.click_to_clock).setOnClickListener { v: View ->
+            editor.putBoolean("click_to_clock", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.click_to_calendar).setOnClickListener { v: View ->
+            editor.putBoolean("click_to_calendar", (v as SwitchCompat).isChecked)
+            fix()
+        }
         val carrierName = `$`<EditText>(R.id.enable_back_vibrator)
         carrierName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
@@ -197,6 +209,12 @@ class OthersFragment : BaseFragment() {
         )
         (`$`<View>(R.id.disable_charge_animation) as SwitchCompat).isChecked =
             prefs.getBoolean("disable_charge_animation", false)
+        (`$`<View>(R.id.double_clock_sleep) as SwitchCompat).isChecked =
+            prefs.getBoolean("double_clock_sleep", true)
+        (`$`<View>(R.id.click_to_clock) as SwitchCompat).isChecked =
+            prefs.getBoolean("click_to_clock", true)
+        (`$`<View>(R.id.click_to_calendar) as SwitchCompat).isChecked =
+            prefs.getBoolean("click_to_calendar", true)
         (`$`<View>(R.id.hide_icon_label) as SwitchCompat).isChecked =
             prefs.getBoolean("hide_icon_label", false)
         (`$`<View>(R.id.enableBlockAD) as SwitchCompat).isChecked =

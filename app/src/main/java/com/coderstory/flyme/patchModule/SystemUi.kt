@@ -1,22 +1,29 @@
 package com.coderstory.flyme.patchModule
 
 
+import android.app.Activity
 import android.app.AndroidAppHelper
 import android.app.Service
+import android.content.Context
+import android.content.Intent
 import android.content.res.XModuleResources
+import android.net.Uri
 import android.os.Build
+import android.os.Debug
+import android.os.SystemClock
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.provider.AlarmClock
 import android.text.format.DateFormat
-import android.view.Gravity
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.coderstory.flyme.R
 import com.coderstory.flyme.tools.XposedHelper
+import com.coderstory.flyme.tools.callMethod
+import com.coderstory.flyme.tools.getObjectField
 import com.coderstory.flyme.xposed.IModule
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
 import de.robv.android.xposed.XC_MethodHook
@@ -546,11 +553,94 @@ class SystemUi : XposedHelper(), IModule {
                         // XposedBridge.log("处理完毕")
                     }
                 })
+
+            //双击状态栏锁屏
+            if (prefs.getBoolean("double_clock_sleep", true)){
+                findAndHookMethod(
+                    "com.android.systemui.statusbar.phone.PhoneStatusBarView",
+                    param.classLoader,
+                    "onFinishInflate",
+                    object : XC_MethodHook() {
+                        var preTime = 0L
+                        override fun afterHookedMethod(param: MethodHookParam) {
+                            val statusVarView = param.thisObject as ViewGroup
+                            statusVarView.setOnTouchListener { view, event ->
+                                if (event.action == MotionEvent.ACTION_DOWN) {
+//                                Log.d("LSPosed","点击啦状态栏")
+                                    val currTime = System.currentTimeMillis();
+                                    if (currTime - preTime <= 200) {
+                                        XposedHelpers.callMethod(
+                                            view.context.getSystemService(Context.POWER_SERVICE),
+                                            "goToSleep",
+                                            SystemClock.uptimeMillis()
+                                        )
+                                    }
+                                    preTime = currTime
+                                }
+                                view.performClick()
+                                return@setOnTouchListener false
+                            }
+                        }
+                    })
+            }
+
+            val clickClock = prefs.getBoolean("click_to_clock", true)
+            val clickCalendar = prefs.getBoolean("click_to_calendar", true)
+            if(clickClock || clickCalendar){
+                //点击下拉通知栏的时间进入时钟/日历
+                findAndHookMethod(
+                    "com.flyme.systemui.statusbar.phone.StatusBarHeaderView",
+                    param.classLoader,
+                    "onFinishInflate",
+                    object : XC_MethodHook() {
+                        override fun afterHookedMethod(paramThis: MethodHookParam) {
+                            fun closeStatus() {
+                                val statusBarCls = XposedHelpers.callStaticMethod(
+                                    XposedHelpers.findClass("com.android.systemui.Dependency",param.classLoader),
+                                    "get",XposedHelpers.findClass("com.android.systemui.statusbar.phone.StatusBar",param.classLoader))
+                                statusBarCls.callMethod("postAnimateCollapsePanels")
+                            }
+
+                            if(clickClock){
+                                val timeView = paramThis.thisObject.getObjectField("mTime") as? View
+                                timeView?.setOnClickListener {
+                                    //跳转系统闹钟
+                                    it.context.startActivity(Intent().apply {
+                                        setClassName(
+                                            "com.android.alarmclock",
+                                            "com.meizu.flyme.alarmclock.DeskClock"
+                                        )
+                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK;
+                                    })
+                                    closeStatus()
+                                }
+                            }
+
+                            if(clickCalendar){
+                                val dateViewGroup =
+                                    paramThis.thisObject.getObjectField("mDateGroup") as? ViewGroup
+                                dateViewGroup?.setOnClickListener {
+                                    //跳转系统闹钟
+                                    it.context.startActivity(Intent().apply {
+                                        setClassName(
+                                            "com.android.calendar",
+                                            "com.meizu.flyme.calendar.AllInOneActivity"
+                                        )
+                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK;
+                                    })
+                                    closeStatus()
+                                }
+                            }
+                        }
+                    })
+            }
+
         }
     }
 
     private val notifyBackAction: XC_MethodHook
         get() = object : XC_MethodHook() {
+            val duration = prefs.getString("enable_back_vibrator_value", "30")!!.toLong()
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: MethodHookParam) {
                 super.beforeHookedMethod(param)
@@ -560,15 +650,8 @@ class SystemUi : XposedHelper(), IModule {
                     Service.VIBRATOR_SERVICE
                 ) as Vibrator
 
-                vb.vibrate(
-                    VibrationEffect.createOneShot(
-                        prefs.getString(
-                            "enable_back_vibrator_value",
-                            "30"
-                        )!!.toLong(), -1
-                    )
-                )
-                // view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                vb.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
+//                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         }
     val timeType: String

@@ -259,6 +259,46 @@
                     android:textSize="15sp" />
             </LinearLayout>
 
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/double_clock_sleep"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:maxLines="10"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:text="@string/double_clock_sleep" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/click_to_clock"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:maxLines="10"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:text="@string/click_to_clock" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/click_to_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/switchBtn"
+                android:maxLines="10"
+                android:paddingStart="30dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="30dp"
+                android:paddingBottom="4dp"
+                android:text="@string/click_to_calendar" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"

@@ -20,6 +20,9 @@
     <string name="enableCTS"><b>启用原生应用安装界面</b>\n使用Android原生安装界面替换flyme定制的安装界面</string>
     <string name="disable_charge_animation"><b>充电动画</b>\n禁止开始充电时显示的全屏充电动画</string>
     <string name="enable_back_vibrator"><b>侧滑返回-震动</b>\n触发返回时开启震动,输入值为震动时长,推荐30–50</string>
+    <string name="double_clock_sleep"><b>双击状态栏锁屏</b>\n双击顶部状态栏实现锁屏</string>
+    <string name="click_to_clock"><b>下拉栏时间</b>\n点击下拉栏时间快捷打开时钟</string>
+    <string name="click_to_calendar"><b>下拉栏日历</b>\n点击下拉栏日期快捷打开日历</string>
     <string name="hideDepWarn"><b>隐藏开发者选项风险警告</b>\n禁止开启开发者选项后通知栏弹出的风险警告</string>
     <string name="HideRootWithUpgrade"><b>系统更新</b>\n关闭系统更新中Root检测,使之可以检测更新,注意开启ROOT会更新失败</string>
     <string name="disable_edge_back"><b>禁用手势</b> \n全局禁用侧滑返回手势，开启mback的时候可以开启</string>
