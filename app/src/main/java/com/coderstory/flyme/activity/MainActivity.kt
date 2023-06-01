@@ -132,20 +132,7 @@ class MainActivity : BaseActivity() {
             val getMethod = classType.getDeclaredMethod("get", String::class.java)
             val value = getMethod.invoke(classType, "ro.build.flyme.version") as String
             Log.e("xposed", "当前flyme版本$value")
-            if ("9" != value) {
-                val normalDialog = android.app.AlertDialog.Builder(this@MainActivity)
-                normalDialog.setTitle("不兼容的操作系统")
-                if ("" == value) {
-                    normalDialog.setMessage("当前助手适配的是flyme9系统,而当前系统不是flyme")
-                } else {
-                    normalDialog.setMessage("当前助手适配的是flyme9系统,而当前系统是flyme$value,请选择合适的版本")
-                }
-                normalDialog.setPositiveButton(
-                    "退出"
-                ) { _: DialogInterface?, _: Int -> exitProcess(0) }
-                normalDialog.setCancelable(true)
-                normalDialog.show()
-            }
+
         } catch (e: Exception) {
             Log.e("flyme9helper", e.message, e)
         }
