@@ -1,21 +1,17 @@
 package com.coderstory.flyme.patchModule
 
 
-import android.app.Activity
+import android.R.attr.classLoader
 import android.app.AndroidAppHelper
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.res.XModuleResources
-import android.net.Uri
 import android.os.Build
-import android.os.Debug
 import android.os.SystemClock
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.provider.AlarmClock
 import android.text.format.DateFormat
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -129,6 +125,13 @@ class SystemUi : XposedHelper(), IModule {
                         "com.android.systemui.recents.OverviewProxyService",
                         param.classLoader,
                         "notifyBackAction",
+                        notifyBackAction
+                    )
+                } else if (Build.VERSION.SDK_INT == 33) {
+                    hookAllMethods(
+                        "com.android.systemui.navigationbar.gestural.EdgeBackGestureHandler$5",
+                        param.classLoader,
+                        "triggerBack",
                         notifyBackAction
                     )
                 }
@@ -529,7 +532,8 @@ class SystemUi : XposedHelper(), IModule {
                         super.beforeHookedMethod(param)
                         // XposedBridge.log(JSON.toJSONString(param.args));
                         // XposedBridge.log("进入方法")
-                        var subId = param.args[11] as Int
+                        var obj = param.args[0]
+                        var subId = XposedHelpers.getObjectField(obj, "subId") as Int
 
                         var iconState =
                             XposedHelpers.callMethod(
@@ -555,7 +559,7 @@ class SystemUi : XposedHelper(), IModule {
                 })
 
             //双击状态栏锁屏
-            if (prefs.getBoolean("double_clock_sleep", true)){
+            if (prefs.getBoolean("double_clock_sleep", true)) {
                 findAndHookMethod(
                     "com.android.systemui.statusbar.phone.PhoneStatusBarView",
                     param.classLoader,
@@ -586,7 +590,7 @@ class SystemUi : XposedHelper(), IModule {
 
             val clickClock = prefs.getBoolean("click_to_clock", true)
             val clickCalendar = prefs.getBoolean("click_to_calendar", true)
-            if(clickClock || clickCalendar){
+            if (clickClock || clickCalendar) {
                 //点击下拉通知栏的时间进入时钟/日历
                 findAndHookMethod(
                     "com.flyme.systemui.statusbar.phone.StatusBarHeaderView",
@@ -596,12 +600,20 @@ class SystemUi : XposedHelper(), IModule {
                         override fun afterHookedMethod(paramThis: MethodHookParam) {
                             fun closeStatus() {
                                 val statusBarCls = XposedHelpers.callStaticMethod(
-                                    XposedHelpers.findClass("com.android.systemui.Dependency",param.classLoader),
-                                    "get",XposedHelpers.findClass("com.android.systemui.statusbar.phone.StatusBar",param.classLoader))
+                                    XposedHelpers.findClass(
+                                        "com.android.systemui.Dependency",
+                                        param.classLoader
+                                    ),
+                                    "get",
+                                    XposedHelpers.findClass(
+                                        "com.android.systemui.statusbar.phone.StatusBar",
+                                        param.classLoader
+                                    )
+                                )
                                 statusBarCls.callMethod("postAnimateCollapsePanels")
                             }
 
-                            if(clickClock){
+                            if (clickClock) {
                                 val timeView = paramThis.thisObject.getObjectField("mTime") as? View
                                 timeView?.setOnClickListener {
                                     //跳转系统闹钟
@@ -616,7 +628,7 @@ class SystemUi : XposedHelper(), IModule {
                                 }
                             }
 
-                            if(clickCalendar){
+                            if (clickCalendar) {
                                 val dateViewGroup =
                                     paramThis.thisObject.getObjectField("mDateGroup") as? ViewGroup
                                 dateViewGroup?.setOnClickListener {
@@ -641,6 +653,7 @@ class SystemUi : XposedHelper(), IModule {
     private val notifyBackAction: XC_MethodHook
         get() = object : XC_MethodHook() {
             val duration = prefs.getString("enable_back_vibrator_value", "30")!!.toLong()
+
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: MethodHookParam) {
                 super.beforeHookedMethod(param)
@@ -650,7 +663,12 @@ class SystemUi : XposedHelper(), IModule {
                     Service.VIBRATOR_SERVICE
                 ) as Vibrator
 
-                vb.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
+                vb.vibrate(
+                    VibrationEffect.createOneShot(
+                        duration,
+                        VibrationEffect.DEFAULT_AMPLITUDE
+                    )
+                )
 //                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         }
