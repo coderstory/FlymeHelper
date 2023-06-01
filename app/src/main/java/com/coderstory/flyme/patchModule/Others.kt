@@ -1,5 +1,6 @@
 package com.coderstory.flyme.patchModule
 
+import android.R.attr.classLoader
 import android.content.Context
 import android.util.Base64
 import android.widget.Toast
@@ -21,24 +22,37 @@ class Others : XposedHelper(), IModule {
         if (param.packageName == "com.android.packageinstaller") {
             if (prefs.getBoolean("enableCheckInstaller", false)) {
                 // 8.x
-                val clazz: Class<*> = findClass("com.android.packageinstaller.FlymePackageInstallerActivity", param.classLoader)
+                val clazz: Class<*> = findClass(
+                    "com.android.packageinstaller.FlymePackageInstallerActivity",
+                    param.classLoader
+                )
                 findAndHookMethod(clazz, "setVirusCheckTime", object : XC_MethodReplacement() {
                     override fun replaceHookedMethod(param: MethodHookParam) {
                         val mHandler = XposedHelpers.getObjectField(param.thisObject, "mHandler")
                         XposedHelpers.callMethod(mHandler, "sendEmptyMessage", 5)
                     }
                 })
-                findAndHookMethod("com.android.packageinstaller.FlymePackageInstallerActivity", param.classLoader, "replaceOrInstall", String::class.java, object : XC_MethodHook() {
-                    @Throws(Throwable::class)
-                    override fun beforeHookedMethod(param: MethodHookParam) {
-                        super.beforeHookedMethod(param)
-                        XposedHelpers.setObjectField(param.thisObject, "mAppInfo", null)
-                    }
-                })
+                findAndHookMethod(
+                    "com.android.packageinstaller.FlymePackageInstallerActivity",
+                    param.classLoader,
+                    "replaceOrInstall",
+                    String::class.java,
+                    object : XC_MethodHook() {
+                        @Throws(Throwable::class)
+                        override fun beforeHookedMethod(param: MethodHookParam) {
+                            super.beforeHookedMethod(param)
+                            XposedHelpers.setObjectField(param.thisObject, "mAppInfo", null)
+                        }
+                    })
             }
             if (prefs.getBoolean("enableCTS", false)) {
                 //XposedBridge.log("开启原生安装器");
-                findAndHookMethod("com.meizu.safe.security.utils.Utils", param.classLoader, "isCtsRunning", XC_MethodReplacement.returnConstant(true))
+                findAndHookMethod(
+                    "com.meizu.safe.security.utils.Utils",
+                    param.classLoader,
+                    "isCtsRunning",
+                    XC_MethodReplacement.returnConstant(true)
+                )
             }
         }
         if (param.packageName == "com.meizu.flyme.update") {
@@ -49,24 +63,20 @@ class Others : XposedHelper(), IModule {
             //        this.b = context.getApplicationContext();
             //        this.c = RequestManager.getInstance(this.b);
             //    }
-            XposedBridge.hookAllConstructors(findClass("com.meizu.flyme.update.c.a", param.classLoader), object : XC_MethodHook() {
-                @Throws(Throwable::class)
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    super.afterHookedMethod(param)
-                    if (param.args[0] is Context) {
-                        mContext = param.args[0] as Context
+
+            XposedBridge.hookAllConstructors(findClass(
+                "com.meizu.flyme.update.network.RequestManager",
+                param.classLoader
+            ),
+                object : XC_MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        super.afterHookedMethod(param)
+                        if (param.args[0] is Context) {
+                            mContext = param.args[0] as Context
+                        }
                     }
-                }
-            })
-            XposedBridge.hookAllConstructors(findClass("com.meizu.flyme.update.d.a", param.classLoader), object : XC_MethodHook() {
-                @Throws(Throwable::class)
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    super.afterHookedMethod(param)
-                    if (param.args[0] is Context) {
-                        mContext = param.args[0] as Context
-                    }
-                }
-            })
+                })
 
             // 解析当前系统版本 待更新版本的zip包地址
             //       public class k {
@@ -82,17 +92,21 @@ class Others : XposedHelper(), IModule {
             //                    this.cdnCheckResult = bVar;
             //                }
             //            }
-            XposedBridge.hookAllConstructors(findClass("com.meizu.flyme.update.model.n", param.classLoader), object : XC_MethodHook() {
-                @Throws(Throwable::class)
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    super.afterHookedMethod(param)
-                    val obj = param.thisObject
-                    val currentFimware = XposedHelpers.getObjectField(obj, "currentFimware")
-                    handleInfo(currentFimware)
-                    val upgradeFirmware = XposedHelpers.getObjectField(obj, "upgradeFirmware")
-                    handleInfo(upgradeFirmware)
-                }
-            })
+            XposedBridge.hookAllConstructors(
+                findClass(
+                    "com.meizu.flyme.update.model.n",
+                    param.classLoader
+                ), object : XC_MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        super.afterHookedMethod(param)
+                        val obj = param.thisObject
+                        val currentFimware = XposedHelpers.getObjectField(obj, "currentFimware")
+                        handleInfo(currentFimware)
+                        val upgradeFirmware = XposedHelpers.getObjectField(obj, "upgradeFirmware")
+                        handleInfo(upgradeFirmware)
+                    }
+                })
         }
     }
 
@@ -108,8 +122,14 @@ class Others : XposedHelper(), IModule {
             if (!update.contains(msg)) {
                 update += "$msg;"
                 if (mContext != null) {
-                    XposedBridge.log("参数保存结果" + SharedHelper(mContext!!).put("updateList", Base64.encodeToString(update.toByteArray(), Base64.DEFAULT)))
-                    Toast.makeText(mContext, "flyme助手:已检测到新的更新包地址", Toast.LENGTH_LONG).show()
+                    XposedBridge.log(
+                        "参数保存结果" + SharedHelper(mContext!!).put(
+                            "updateList",
+                            Base64.encodeToString(update.toByteArray(), Base64.DEFAULT)
+                        )
+                    )
+                    Toast.makeText(mContext, "flyme助手:已检测到新的更新包地址", Toast.LENGTH_LONG)
+                        .show()
                     XposedBridge.log(update)
                 }
             }

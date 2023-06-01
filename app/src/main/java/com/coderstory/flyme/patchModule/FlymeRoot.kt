@@ -4,7 +4,6 @@ import android.content.Context
 import com.coderstory.flyme.tools.XposedHelper
 import com.coderstory.flyme.xposed.IModule
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
-import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -26,18 +25,18 @@ class FlymeRoot : XposedHelper(), IModule {
 
         // hook 框架层的root检测
         if ("android" == loadPackageParam.packageName) {
-            hookAllMethods("com.android.server.DeviceStateService", loadPackageParam.classLoader, "doCheckState", object : XC_MethodHook() {
-                @Throws(Throwable::class)
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    super.afterHookedMethod(param)
-                    val code = param.args[0] as Int
-                    if (prefs.getBoolean("HideRootGlobal", false)) {
-                        if (code == 1 || code == 3 || code == 4) {
-                            param.result = 0
-                        }
-                    }
-                }
-            })
+//            hookAllMethods("com.android.server.DeviceStateService", loadPackageParam.classLoader, "doCheckState", object : XC_MethodHook() {
+//                @Throws(Throwable::class)
+//                override fun afterHookedMethod(param: MethodHookParam) {
+//                    super.afterHookedMethod(param)
+//                    val code = param.args[0] as Int
+//                    if (prefs.getBoolean("HideRootGlobal", false)) {
+//                        if (code == 1 || code == 3 || code == 4) {
+//                            param.result = 0
+//                        }
+//                    }
+//                }
+//            })
         }
     }
 
