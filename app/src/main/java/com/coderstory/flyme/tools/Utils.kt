@@ -50,8 +50,6 @@ class Utils {
             }
         }
 
-        fun vi(): Boolean = true
-
         fun getMySharedPreferences(context: Context?, dir: String?, fileName: String?): SharedPreferences {
             var result: SharedPreferences
             try {

@@ -145,15 +145,7 @@ class MainActivity : BaseActivity() {
             normalDialog.setCancelable(true)
             normalDialog.show()
         }
-        if (!Utils.vi()) {
-            val normalDialog = android.app.AlertDialog.Builder(this@MainActivity)
-            normalDialog.setTitle("过期提示")
-            normalDialog.setMessage("当前flyme助手版本已过期，请加入交流群下载最新版本")
-            normalDialog.setPositiveButton("确定"
-            ) { _: DialogInterface?, _: Int -> }
-            normalDialog.setCancelable(true)
-            normalDialog.show()
-        }
+
         if (Misc.isTestVersion) {
             val normalDialog = android.app.AlertDialog.Builder(this@MainActivity)
             normalDialog.setTitle("FBI Warning")

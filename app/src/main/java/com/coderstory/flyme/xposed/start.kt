@@ -18,37 +18,35 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 class start : XposedHelper(), IXposedHookZygoteInit, IXposedHookLoadPackage,
     IXposedHookInitPackageResources {
     override fun handleInitPackageResources(resparam: InitPackageResourcesParam) {
-        if (Utils.Companion.vi()) {
-            FlymeRoot().handleInitPackageResources(resparam)
-            FlymeHome().handleInitPackageResources(resparam)
-            Others().handleInitPackageResources(resparam)
-            SystemUi().handleInitPackageResources(resparam)
-            ThemePatcher().handleInitPackageResources(resparam)
-        }
+        FlymeRoot().handleInitPackageResources(resparam)
+        FlymeHome().handleInitPackageResources(resparam)
+        Others().handleInitPackageResources(resparam)
+        SystemUi().handleInitPackageResources(resparam)
+        ThemePatcher().handleInitPackageResources(resparam)
     }
 
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
         if (json.isEmpty()) {
             initJson(lpparam)
         }
-        if (Utils.vi()) {
-            FlymeHome().handleLoadPackage(lpparam)
-            IsEnable().handleLoadPackage(lpparam)
-            HideApp().handleLoadPackage(lpparam)
-            Others().handleLoadPackage(lpparam)
-            ThemePatcher().handleLoadPackage(lpparam)
-            FlymeRoot().handleLoadPackage(lpparam)
-            FuckAd().handleLoadPackage(lpparam)
-            SystemUi().handleLoadPackage(lpparam)
-            if ("android" == lpparam.packageName && lpparam.processName == "android") {
-                if (Build.VERSION.SDK_INT == 30) {
-                    CorePatchForR().handleLoadPackage(lpparam)
-                } else if (Build.VERSION.SDK_INT == 29) {
-                    CorePatchForQ().handleLoadPackage(lpparam)
-                } else {
-                    XposedBridge.log("Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT)
-                }
+
+        FlymeHome().handleLoadPackage(lpparam)
+        IsEnable().handleLoadPackage(lpparam)
+        HideApp().handleLoadPackage(lpparam)
+        Others().handleLoadPackage(lpparam)
+        ThemePatcher().handleLoadPackage(lpparam)
+        FlymeRoot().handleLoadPackage(lpparam)
+        FuckAd().handleLoadPackage(lpparam)
+        SystemUi().handleLoadPackage(lpparam)
+        if ("android" == lpparam.packageName && lpparam.processName == "android") {
+            if (Build.VERSION.SDK_INT == 30) {
+                CorePatchForR().handleLoadPackage(lpparam)
+            } else if (Build.VERSION.SDK_INT == 29) {
+                CorePatchForQ().handleLoadPackage(lpparam)
+            } else {
+                XposedBridge.log("Warning: Unsupported Version of Android " + Build.VERSION.SDK_INT)
             }
+
         }
     }
 
