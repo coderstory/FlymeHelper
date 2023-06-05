@@ -112,8 +112,16 @@ class ThemePatcher : XposedHelper(), IModule {
 
                 //resetToSystemTheme
                 // findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true))
+                 // 10.1.x
                 findAndHookMethod(
                     "com.meizu.flyme.policy.sdk.ve0",
+                    param.classLoader,
+                    "J",
+                    XC_MethodReplacement.returnConstant(true)
+                )
+                // 10.2.2
+                findAndHookMethod(
+                    "com.meizu.flyme.policy.sdk.pe0",
                     param.classLoader,
                     "J",
                     XC_MethodReplacement.returnConstant(true)
