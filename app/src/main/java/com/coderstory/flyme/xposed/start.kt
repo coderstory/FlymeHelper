@@ -18,7 +18,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 class start : XposedHelper(), IXposedHookZygoteInit, IXposedHookLoadPackage,
     IXposedHookInitPackageResources {
     override fun handleInitPackageResources(resparam: InitPackageResourcesParam) {
-        FlymeRoot().handleInitPackageResources(resparam)
+        // FlymeRoot().handleInitPackageResources(resparam)
         FlymeHome().handleInitPackageResources(resparam)
         Others().handleInitPackageResources(resparam)
         SystemUi().handleInitPackageResources(resparam)
@@ -35,7 +35,7 @@ class start : XposedHelper(), IXposedHookZygoteInit, IXposedHookLoadPackage,
         HideApp().handleLoadPackage(lpparam)
         Others().handleLoadPackage(lpparam)
         ThemePatcher().handleLoadPackage(lpparam)
-        FlymeRoot().handleLoadPackage(lpparam)
+        // FlymeRoot().handleLoadPackage(lpparam)
         FuckAd().handleLoadPackage(lpparam)
         SystemUi().handleLoadPackage(lpparam)
         if ("android" == lpparam.packageName && lpparam.processName == "android") {

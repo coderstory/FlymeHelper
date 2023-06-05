@@ -539,8 +539,7 @@ class SystemUi : XposedHelper(), IModule {
                         var iconState =
                             XposedHelpers.callMethod(
                                 param.thisObject,
-                                "mzGetState",
-                                "subId",
+                                "getState",
                                 subId
                             )
 
