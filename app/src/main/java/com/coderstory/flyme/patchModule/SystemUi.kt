@@ -267,7 +267,7 @@ class SystemUi : XposedHelper(), IModule {
                             val view = XposedHelpers.getObjectField(
                                 param.thisObject,
                                 "mUnitView"
-                            ) as ImageView
+                            ) as View
                             view.visibility = if (rate < 100) View.GONE else View.VISIBLE
                         }
                     })
