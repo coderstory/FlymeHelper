@@ -1,6 +1,7 @@
 package com.coderstory.flyme.patchModule
 
 
+import android.R.attr.classLoader
 import android.content.*
 import android.net.Uri
 import com.coderstory.flyme.tools.XposedHelper
@@ -9,6 +10,7 @@ import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
+import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
@@ -109,26 +111,14 @@ class ThemePatcher : XposedHelper(), IModule {
 //                )
 
                 //resetToSystemTheme
-                // findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true));
-                // 8.0.23
+                // findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true))
                 findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.theme.j.b",
+                    "com.meizu.flyme.policy.sdk.ve0",
                     param.classLoader,
-                    "e",
+                    "J",
                     XC_MethodReplacement.returnConstant(true)
                 )
-                findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.theme.j.b",
-                    param.classLoader,
-                    "I",
-                    XC_MethodReplacement.returnConstant(true)
-                )
-                findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.theme.j.b",
-                    param.classLoader,
-                    "I",
-                    XC_MethodReplacement.returnConstant(true)
-                )
+
                 /**
                  *
                  * public void a(boolean arg4, boolean arg5) {
@@ -144,26 +134,12 @@ class ThemePatcher : XposedHelper(), IModule {
                 findAndHookMethod(
                     "com.meizu.customizecenter.manager.managermoduls.font.k",
                     param.classLoader,
-                    "a",
-                    Context::class.java,
-                    String::class.java,
-                    Long::class.javaPrimitiveType,
-                    XC_MethodReplacement.returnConstant(null)
-                )
-                findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.font.k",
-                    param.classLoader,
                     "Y",
                     Boolean::class.javaPrimitiveType,
                     Boolean::class.javaPrimitiveType,
                     XC_MethodReplacement.returnConstant(null)
                 )
-                hookAllMethods(
-                    "com.meizu.customizecenter.manager.managermoduls.font.k",
-                    param.classLoader,
-                    "Y",
-                    XC_MethodReplacement.returnConstant(null)
-                );
+
 
                 /**
                  * public void k() {
@@ -175,65 +151,15 @@ class ThemePatcher : XposedHelper(), IModule {
                  * }
                  */
                 findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.font.g",
-                    param.classLoader,
-                    "k",
-                    XC_MethodReplacement.returnConstant(null)
-                )
-                findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.font.k",
-                    param.classLoader,
-                    "k",
-                    XC_MethodReplacement.returnConstant(null)
-                )
-                // 8.0.23
-                findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.font.k",
-                    param.classLoader,
-                    "b",
-                    XC_MethodReplacement.returnConstant(null)
-                )
-                findAndHookMethod(
                     "com.meizu.customizecenter.manager.managermoduls.font.k",
                     param.classLoader,
                     "m",
                     XC_MethodReplacement.returnConstant(null)
                 )
 
-                findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.font.k",
-                    param.classLoader,
-                    "m",
-                    XC_MethodReplacement.returnConstant(null)
-                )
 
 
                 //"checkTrialFont:!isUsingTrialFont() Context context, String str, long j
-                findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.font.k",
-                    param.classLoader,
-                    "a",
-                    Context::class.java,
-                    String::class.java,
-                    Long::class.javaPrimitiveType,
-                    XC_MethodReplacement.returnConstant(null)
-                )
-                findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.font.k",
-                    param.classLoader,
-                    "l",
-                    Context::class.java,
-                    String::class.java,
-                    Long::class.javaPrimitiveType,
-                    XC_MethodReplacement.returnConstant(null)
-                )
-
-                hookAllMethods(
-                    "com.meizu.customizecenter.manager.managermoduls.font.k",
-                    param.classLoader,
-                    "l",
-                    XC_MethodReplacement.returnConstant(null)
-                )
                 findAndHookMethod(
                     "com.meizu.customizecenter.manager.managermoduls.font.k",
                     param.classLoader,
