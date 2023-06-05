@@ -242,11 +242,12 @@ class SystemUi : XposedHelper(), IModule {
                     XC_MethodReplacement.returnConstant(null)
                 )
             }
+
             //隐藏 空sim卡图标
             if (prefs.getBoolean("hide_status_bar_no_sim_icon", false)) {
                 XposedBridge.log("开启隐藏空sim卡")
                 findAndHookMethod(
-                    "com.android.systemui.statusbar.policy.NetworkControllerImpl",
+                    "com.android.systemui.statusbar.connectivity.NetworkControllerImpl",
                     param.classLoader,
                     "updateNoSims",
                     XC_MethodReplacement.returnConstant(null)

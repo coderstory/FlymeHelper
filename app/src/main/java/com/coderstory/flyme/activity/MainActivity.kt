@@ -134,7 +134,7 @@ class MainActivity : BaseActivity() {
             Log.e("xposed", "当前flyme版本$value")
 
         } catch (e: Exception) {
-            Log.e("flyme9helper", e.message, e)
+            Log.e("flyme10helper", e.message, e)
         }
         if (helper.getBoolean("firstOpenD", true) && Build.VERSION.SDK_INT <= 28) {
             val normalDialog = android.app.AlertDialog.Builder(this@MainActivity)
