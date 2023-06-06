@@ -6,7 +6,6 @@ import android.app.AndroidAppHelper
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.content.res.XModuleResources
 import android.os.Build
 import android.os.SystemClock
 import android.os.VibrationEffect
@@ -14,7 +13,6 @@ import android.os.Vibrator
 import android.text.format.DateFormat
 import android.view.*
 import android.widget.TextView
-import com.coderstory.flyme.R
 import com.coderstory.flyme.tools.XposedHelper
 import com.coderstory.flyme.tools.getObjectField
 import com.coderstory.flyme.xposed.IModule
@@ -23,7 +21,6 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
-import de.robv.android.xposed.XposedHelpers.findAndHookConstructor
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.text.SimpleDateFormat
@@ -66,18 +63,13 @@ class SystemUi : XposedHelper(), IModule {
 
             //coord: (0,198,28) | addr: Lcom/flyme/systemui/charge/ChargeAnimationController;->loadCharingView(Z)V | loc: ?
             if (prefs.getBoolean("disable_charge_animation", false)) {
+
+
                 findAndHookMethod(
                     "com.flyme.keyguard.charging.ChargeAnimationController",
                     param.classLoader,
                     "loadCharingView",
-                    Boolean::class.javaPrimitiveType,
-                    object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun beforeHookedMethod(param: MethodHookParam) {
-                            super.beforeHookedMethod(param)
-                            param.args[0] = false
-                        }
-                    })
+                    XC_MethodReplacement.returnConstant(null))
                 hookAllConstructors(
                     "com.flyme.keyguard.charging.ChargeAnimationController",
                     param.classLoader,
