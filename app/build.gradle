@@ -6,7 +6,7 @@ android {
     buildToolsVersion "33.0.1"
 
     defaultConfig {
-        applicationId "com.coderstory.flyme"
+        applicationId "com.coderstory.flyme10"
         minSdkVersion 26
         targetSdk 33
         resourceConfigurations += ['zh', 'xxhdpi', 'cn']
