@@ -9,6 +9,7 @@
         android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:description="不忘初心 方得始终"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
 
@@ -39,12 +40,10 @@
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
-        <meta-data
-            android:name="xposeddescription"
-            android:value="不忘初心 方得始终" />
+
         <meta-data
             android:name="xposedminversion"
-            android:value="54" />
+            android:value="100" />
         <meta-data
             android:name="xposedsharedprefs"
             android:value="true" />
