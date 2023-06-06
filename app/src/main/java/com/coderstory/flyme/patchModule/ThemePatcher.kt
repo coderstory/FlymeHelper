@@ -27,9 +27,7 @@ class ThemePatcher : XposedHelper(), IModule {
                 respray.res.setReplacement(0x7f1102f2, "正在白嫖")
             }
         }
-
     }
-
     override fun handleLoadPackage(param: LoadPackageParam) {
 
         // 主题和谐
@@ -85,37 +83,6 @@ class ThemePatcher : XposedHelper(), IModule {
                             return 2
                         }
                     })
-
-                //device_states | doCheckState
-                // 8.0.23
-//                findAndHookMethod(
-//                    "com.meizu.customizecenter.k.c.a.c",
-//                    param.classLoader,
-//                    "w",
-//                    Context::class.java,
-//                    XC_MethodReplacement.returnConstant(2)
-//                )
-//                findAndHookMethod(
-//                    "com.meizu.customizecenter.l.e.a.e",
-//                    param.classLoader,
-//                    "v1",
-//                    Context::class.java,
-//                    XC_MethodReplacement.returnConstant(2)
-//                )
-//                findAndHookMethod(
-//                    "com.meizu.net.lockscreenlibrary.manager.utilstool.baseutils.Utility",
-//                    param.classLoader,
-//                    "isRoot",
-//                    Context::class.java,
-//                    XC_MethodReplacement.returnConstant(false)
-//                )
-//                findAndHookMethod(
-//                    "com.meizu.statsapp.v3.lib.plugin.f.b",
-//                    param.classLoader,
-//                    "n",
-//                    Context::class.java,
-//                    XC_MethodReplacement.returnConstant(false)
-//                )
 
                 //resetToSystemTheme
                 // findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true))

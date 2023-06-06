@@ -163,7 +163,6 @@ class FuckAd : XposedHelper(), IModule {
             }
 
             if (loadPackageParam.packageName == "com.hy.weather.mz") {
-                XposedBridge.log("wqeqwewqe")
                 hookAllMethods(
                     "com.hy.weather.mz.cityWeather.WeatherInfoRepository",
                     loadPackageParam.classLoader,
@@ -202,30 +201,6 @@ class FuckAd : XposedHelper(), IModule {
                     loadPackageParam.classLoader,
                     "isSystemApp",
                     XC_MethodReplacement.returnConstant(true)
-                )
-            }
-        }
-        /**
-         * public void init(Object obj, Map<String></String>, String> map) {
-         * try {
-         * super.init(obj, map);
-         * String str = (String) map.get("CHANNEL");
-         * String str2 = (String) map.get("SIM_ICCID");
-         * ParseManager.setSdkDoAction((AbsSdkDoAction) obj);
-         * ParseManager.initSdk(this.mContext, str, str2, true, true, map);
-         * this.mSdkInit = true;
-         * } catch (Throwable th) {
-         * Log.e(TAG, "init", th);
-         * }
-         * }
-         */
-        if (loadPackageParam.packageName == "com.android.mms") {
-            if (prefs.getBoolean("mms", false)) {
-                hookAllMethods(
-                    "com.xy.smartsms.pluginxy.XYSmsPlugin",
-                    loadPackageParam.classLoader,
-                    "init",
-                    XC_MethodReplacement.returnConstant(null)
                 )
             }
         }

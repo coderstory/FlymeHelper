@@ -400,43 +400,43 @@ class SystemUi : XposedHelper(), IModule {
             }
 
             // 歌词居中  时间居左
-            if (prefs.getBoolean("status_text_view_lyric_center", false)) {
-                findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarView",
-                    param.classLoader,
-                    "setBar",
-                    "com.android.systemui.statusbar.phone.StatusBar",
-                    object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        public override fun afterHookedMethod(param: MethodHookParam) {
-                            val phoneStatusBarView = param.thisObject as ViewGroup
-                            val context = phoneStatusBarView.context
-                            val res = context.resources
-                            val clock = phoneStatusBarView.findViewById<TextView>(
-                                res.getIdentifier("clock", "id", "com.android.systemui")
-                            )
-                            (clock.parent as ViewGroup).removeView(clock)
-                            val statusbaiview = context.resources.getIdentifier(
-                                "status_bar_contents",
-                                "id",
-                                context.packageName
-                            )
-                            val myclock =
-                                phoneStatusBarView.findViewById<ViewGroup>(statusbaiview) //状态栏对象，左右两部分
-
-                            val mCenterLayout = LinearLayout(context)
-                            val lp = LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.WRAP_CONTENT,
-                                LinearLayout.LayoutParams.MATCH_PARENT
-                            )
-                            mCenterLayout.layoutParams = lp
-                            mCenterLayout.gravity = Gravity.CENTER_VERTICAL
-                            clock.setPadding(5, 0, 5, 0)
-                            clock.gravity = Gravity.CENTER
-                            mCenterLayout.addView(clock)
-                            myclock.addView(mCenterLayout, 0)
-                        }
-                    })
-            }
+//            if (prefs.getBoolean("status_text_view_lyric_center", false)) {
+//                findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarView",
+//                    param.classLoader,
+//                    "setBar",
+//                    "com.android.systemui.statusbar.phone.StatusBar",
+//                    object : XC_MethodHook() {
+//                        @Throws(Throwable::class)
+//                        public override fun afterHookedMethod(param: MethodHookParam) {
+//                            val phoneStatusBarView = param.thisObject as ViewGroup
+//                            val context = phoneStatusBarView.context
+//                            val res = context.resources
+//                            val clock = phoneStatusBarView.findViewById<TextView>(
+//                                res.getIdentifier("clock", "id", "com.android.systemui")
+//                            )
+//                            (clock.parent as ViewGroup).removeView(clock)
+//                            val statusbaiview = context.resources.getIdentifier(
+//                                "status_bar_contents",
+//                                "id",
+//                                context.packageName
+//                            )
+//                            val myclock =
+//                                phoneStatusBarView.findViewById<ViewGroup>(statusbaiview) //状态栏对象，左右两部分
+//
+//                            val mCenterLayout = LinearLayout(context)
+//                            val lp = LinearLayout.LayoutParams(
+//                                LinearLayout.LayoutParams.WRAP_CONTENT,
+//                                LinearLayout.LayoutParams.MATCH_PARENT
+//                            )
+//                            mCenterLayout.layoutParams = lp
+//                            mCenterLayout.gravity = Gravity.CENTER_VERTICAL
+//                            clock.setPadding(5, 0, 5, 0)
+//                            clock.gravity = Gravity.CENTER
+//                            mCenterLayout.addView(clock)
+//                            myclock.addView(mCenterLayout, 0)
+//                        }
+//                    })
+//            }
 
             //时间居中
             if (prefs.getBoolean("status_text_view_clock_center", false)) {
@@ -596,20 +596,7 @@ class SystemUi : XposedHelper(), IModule {
                     "onFinishInflate",
                     object : XC_MethodHook() {
                         override fun afterHookedMethod(paramThis: MethodHookParam) {
-                            fun closeStatus() {
-                                val statusBarCls = XposedHelpers.callStaticMethod(
-                                    XposedHelpers.findClass(
-                                        "com.android.systemui.Dependency",
-                                        param.classLoader
-                                    ),
-                                    "get",
-                                    XposedHelpers.findClass(
-                                        "com.android.systemui.statusbar.phone.StatusBar",
-                                        param.classLoader
-                                    )
-                                )
-                                statusBarCls.callMethod("postAnimateCollapsePanels")
-                            }
+
 
                             if (clickClock) {
                                 val timeView = paramThis.thisObject.getObjectField("mTime") as? View
@@ -622,7 +609,7 @@ class SystemUi : XposedHelper(), IModule {
                                         )
                                         flags = Intent.FLAG_ACTIVITY_NEW_TASK
                                     })
-                                    closeStatus()
+
                                 }
                             }
 
@@ -638,13 +625,11 @@ class SystemUi : XposedHelper(), IModule {
                                         )
                                         flags = Intent.FLAG_ACTIVITY_NEW_TASK
                                     })
-                                    closeStatus()
                                 }
                             }
                         }
                     })
             }
-
         }
     }
 
@@ -655,8 +640,7 @@ class SystemUi : XposedHelper(), IModule {
             @Throws(Throwable::class)
             override fun beforeHookedMethod(param: MethodHookParam) {
                 super.beforeHookedMethod(param)
-                //XposedBridge.log("notifyBackAction")
-                //XposedBridge.log("ggg" + param.thisObject.javaClass.name)
+
                 val vb = AndroidAppHelper.currentApplication().applicationContext.getSystemService(
                     Service.VIBRATOR_SERVICE
                 ) as Vibrator
@@ -667,7 +651,6 @@ class SystemUi : XposedHelper(), IModule {
                         VibrationEffect.DEFAULT_AMPLITUDE
                     )
                 )
-//                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             }
         }
     val timeType: String

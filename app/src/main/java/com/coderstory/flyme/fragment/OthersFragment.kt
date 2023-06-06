@@ -86,10 +86,6 @@ class OthersFragment : BaseFragment() {
             editor.putBoolean("disableSearch", (v as SwitchCompat).isChecked)
             fix()
         }
-        `$`<View>(R.id.mms).setOnClickListener { v: View ->
-            editor.putBoolean("mms", (v as SwitchCompat).isChecked)
-            fix()
-        }
         `$`<View>(R.id.disable_charge_animation).setOnClickListener { v: View ->
             editor.putBoolean("disable_charge_animation", (v as SwitchCompat).isChecked)
             fix()
@@ -157,7 +153,6 @@ class OthersFragment : BaseFragment() {
             prefs.getBoolean("autoInstall", false)
         (`$`<View>(R.id.disableSearch) as SwitchCompat).isChecked =
             prefs.getBoolean("disableSearch", false)
-        (`$`<View>(R.id.mms) as SwitchCompat).isChecked = prefs.getBoolean("mms", false)
         (`$`<View>(R.id.disable_edge_back) as SwitchCompat).isChecked =
             prefs.getBoolean("disable_edge_back", false)
     }

@@ -2,7 +2,6 @@
 <resources>
     <string-array name="scope">
         <item>android</item>
-        <item>com.android.mms</item>
         <item>com.android.packageinstaller</item>
         <item>com.android.systemui</item>
         <item>com.meizu.mznfcpay</item>
