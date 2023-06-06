@@ -10,7 +10,7 @@ android {
         applicationId "com.coderstory.flyme"
         minSdkVersion 26
         targetSdk 33
-        resConfigs 'zh', 'xxhdpi', 'cn'
+        resourceConfigurations += ['zh', 'xxhdpi', 'cn']
         versionCode 515
         versionName "4.6.0 beta 2"
         ndk {
@@ -23,9 +23,10 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
             pseudoLocalesEnabled true
+            versionNameSuffix "-${currentVersionCode}"
         }
         //自己运行的debug包
         debug {
