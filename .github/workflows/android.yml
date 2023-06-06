@@ -2,7 +2,7 @@ name: Android CI
 
 on:
   push:
-    branches: [ flyme10 ]
+    branches: [ dev ]
 jobs:
   build:
     runs-on: ubuntu-latest
