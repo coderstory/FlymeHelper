@@ -85,10 +85,6 @@ class SystemUIFragment : BaseFragment() {
             editor.putBoolean("hide_status_bar_time_chinese_icon", (v as SwitchCompat).isChecked)
             fix()
         }
-        `$`<View>(R.id.status_text_view_clock_center).setOnClickListener { v: View ->
-            editor.putBoolean("status_text_view_clock_center", (v as SwitchCompat).isChecked)
-            fix()
-        }
         `$`<View>(R.id.hide_status_bar_sim1_icon).setOnClickListener { v: View ->
             editor.putBoolean("hide_status_bar_sim1_icon", (v as SwitchCompat).isChecked)
             fix()
@@ -120,16 +116,8 @@ class SystemUIFragment : BaseFragment() {
             editor.putBoolean("show_status_bar_time_am_pm", (v as SwitchCompat).isChecked)
             fix()
         }
-        `$`<View>(R.id.status_text_view_lyric_center).setOnClickListener { v: View ->
-            editor.putBoolean("status_text_view_lyric_center", (v as SwitchCompat).isChecked)
-            fix()
-        }
         `$`<View>(R.id.hide_status_bar_time_eng_icon).setOnClickListener { v: View ->
             editor.putBoolean("hide_status_bar_time_eng_icon", (v as SwitchCompat).isChecked)
-            fix()
-        }
-        `$`<View>(R.id.status_bar_blur).setOnClickListener { v: View ->
-            editor.putBoolean("status_bar_blur", (v as SwitchCompat).isChecked)
             fix()
         }
         val carrierName = `$`<EditText>(R.id.status_bar_custom_carrier_name)
@@ -187,8 +175,6 @@ class SystemUIFragment : BaseFragment() {
                 ""
             )
         )
-        (`$`<View>(R.id.status_bar_blur) as SwitchCompat).isChecked =
-            prefs.getBoolean("status_bar_blur", false)
         (`$`<View>(R.id.hide_icon_bluetooth) as SwitchCompat).isChecked =
             prefs.getBoolean("hide_icon_bluetooth", false)
         (`$`<View>(R.id.hide_icon_hotspot) as SwitchCompat).isChecked =
@@ -219,8 +205,6 @@ class SystemUIFragment : BaseFragment() {
             prefs.getBoolean("hide_status_bar_time_week_icon", false)
         (`$`<View>(R.id.hide_status_bar_time_chinese_icon) as SwitchCompat).isChecked =
             prefs.getBoolean("hide_status_bar_time_chinese_icon", false)
-        (`$`<View>(R.id.status_text_view_clock_center) as SwitchCompat).isChecked =
-            prefs.getBoolean("status_text_view_clock_center", false)
         (`$`<View>(R.id.hide_status_bar_sim1_icon) as SwitchCompat).isChecked =
             prefs.getBoolean("hide_status_bar_sim1_icon", false)
         (`$`<View>(R.id.hide_status_bar_sim2_icon) as SwitchCompat).isChecked =
@@ -235,8 +219,6 @@ class SystemUIFragment : BaseFragment() {
             prefs.getBoolean("hide_status_bar_app_icon", false)
         (`$`<View>(R.id.show_status_bar_time_am_pm) as SwitchCompat).isChecked =
             prefs.getBoolean("show_status_bar_time_am_pm", false)
-        (`$`<View>(R.id.status_text_view_lyric_center) as SwitchCompat).isChecked =
-            prefs.getBoolean("status_text_view_lyric_center", false)
         (`$`<View>(R.id.status_bar_custom_time) as TextView).text = prefs.getString(
             "status_bar_custom_time",
             ""

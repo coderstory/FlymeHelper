@@ -256,18 +256,6 @@
                 android:text="@string/show_status_bar_time_second_icon" />
 
             <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/status_bar_blur"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/switchBtn"
-                android:paddingStart="30dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="30dp"
-                android:paddingBottom="4dp"
-                android:text="@string/status_bar_blur" />
-
-            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/show_icon_battery_percentage"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
@@ -328,17 +316,6 @@
                 android:paddingBottom="4dp"
                 android:text="@string/hide_status_bar_time_chinese_icon" />
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/status_text_view_clock_center"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/switchBtn"
-                android:paddingStart="30dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="30dp"
-                android:paddingBottom="4dp"
-                android:text="@string/status_text_view_clock_center" />
 
 
             <LinearLayout
@@ -376,17 +353,7 @@
                     android:textSize="15sp" />
             </LinearLayout>
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/status_text_view_lyric_center"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/switchBtn"
-                android:paddingStart="30dp"
-                android:paddingTop="4dp"
-                android:paddingEnd="30dp"
-                android:paddingBottom="4dp"
-                android:text="@string/status_text_view_lyric_center" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"

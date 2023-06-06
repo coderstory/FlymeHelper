@@ -111,10 +111,7 @@ class OthersFragment : BaseFragment() {
                 fix()
             }
         })
-        `$`<View>(R.id.disable_edge_back).setOnClickListener { v: View ->
-            editor.putBoolean("disable_edge_back", (v as SwitchCompat).isChecked)
-            fix()
-        }
+
     }
 
     override fun setLayoutResourceID(): Int {
@@ -153,8 +150,7 @@ class OthersFragment : BaseFragment() {
             prefs.getBoolean("autoInstall", false)
         (`$`<View>(R.id.disableSearch) as SwitchCompat).isChecked =
             prefs.getBoolean("disableSearch", false)
-        (`$`<View>(R.id.disable_edge_back) as SwitchCompat).isChecked =
-            prefs.getBoolean("disable_edge_back", false)
+
     }
 
     private fun setDatePickerDividerColor(picker: NumberPicker?, max: Int, min: Int) {
