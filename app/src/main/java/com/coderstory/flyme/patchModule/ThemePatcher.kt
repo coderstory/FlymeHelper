@@ -22,9 +22,9 @@ class ThemePatcher : XposedHelper(), IModule {
         ) {
             if (respray.packageName == "com.meizu.customizecenter") {
                 XposedBridge.log("开始替换文本")
-                respray.res.setReplacement("online_theme_trial_now", "开始白嫖")
-                respray.res.setReplacement("online_theme_trial", "白嫖")
-                respray.res.setReplacement("online_theme_trying_now", "正在白嫖")
+                respray.res.setReplacement(0x7f1102ec, "开始白嫖")
+                respray.res.setReplacement(0x7f1102e5, "开始白嫖")
+                respray.res.setReplacement(0x7f1102f2, "正在白嫖")
             }
         }
 

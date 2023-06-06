@@ -50,8 +50,9 @@ class SystemUi : XposedHelper(), IModule {
                 val modRes = XModuleResources.createInstance(MODULE_PATH, respray.res)
                 respray.res.setReplacement(
                     "com.android.systemui",
-                    "color",
-                    "panel_background_cover_color", "#e0f2f2f")
+                    "drawable",
+                    "panel_background", modRes.fwd(R.drawable.panel_background)
+                )
             }
 
         }
@@ -72,7 +73,7 @@ class SystemUi : XposedHelper(), IModule {
             //coord: (0,198,28) | addr: Lcom/flyme/systemui/charge/ChargeAnimationController;->loadCharingView(Z)V | loc: ?
             if (prefs.getBoolean("disable_charge_animation", false)) {
                 findAndHookMethod(
-                    "com.flyme.keyguard.charging.ChargeAnimationController",
+                    "com.flyme.systemui.charge.ChargeAnimationController",
                     param.classLoader,
                     "loadCharingView",
                     Boolean::class.javaPrimitiveType,
@@ -84,7 +85,7 @@ class SystemUi : XposedHelper(), IModule {
                         }
                     })
                 hookAllConstructors(
-                    "com.flyme.keyguard.charging.ChargeAnimationController",
+                    "com.flyme.systemui.charge.ChargeAnimationController",
                     param.classLoader,
                     object : XC_MethodHook() {
                         @Throws(Throwable::class)
@@ -97,7 +98,7 @@ class SystemUi : XposedHelper(), IModule {
                         }
                     })
                 hookAllMethods(
-                    "com.flyme.keyguard.charging.ChargeAnimationController",
+                    "com.flyme.systemui.charge.ChargeAnimationController",
                     param.classLoader,
                     "updateBatteryState",
                     XC_MethodReplacement.returnConstant(null)
@@ -233,7 +234,7 @@ class SystemUi : XposedHelper(), IModule {
             // com.android.systemui.power.PowerUI playBatterySound start 低电量 电量空
             if (prefs.getBoolean("hideDepWarn", false)) {
                 hookAllMethods(
-                    "com.flyme.developer.DeveloperSettingsController",
+                    "com.flyme.systemui.developer.DeveloperSettingsController",
                     param.classLoader,
                     "updateDeveloperNotification",
                     XC_MethodReplacement.returnConstant(null)
@@ -252,7 +253,7 @@ class SystemUi : XposedHelper(), IModule {
             }
             if (prefs.getBoolean("hide_status_bar_slow_rate_icon", false)) {
                 hookAllMethods(
-                    "com.android.flyme.statusbar.connectionRateView.ConnectionRateView",
+                    "com.flyme.systemui.statusbar.ConnectionRateView",
                     param.classLoader,
                     "updateConnectionRate",
                     object : XC_MethodHook() {
@@ -402,8 +403,8 @@ class SystemUi : XposedHelper(), IModule {
             if (prefs.getBoolean("status_text_view_lyric_center", false)) {
                 findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarView",
                     param.classLoader,
-                    "setTickerView",
-                    "android.view.View",
+                    "setBar",
+                    "com.android.systemui.statusbar.phone.StatusBar",
                     object : XC_MethodHook() {
                         @Throws(Throwable::class)
                         public override fun afterHookedMethod(param: MethodHookParam) {
@@ -468,11 +469,8 @@ class SystemUi : XposedHelper(), IModule {
                             mCenterLayout.addView(clock)
                         }
                     })
-
-
-
                 hookAllMethods(
-                    "com.android.flyme.statusbar.ticker.FlymeMarqueeTicker",
+                    "com.flyme.systemui.statusbar.phone.FlymeMarqueeTicker",
                     param.classLoader,
                     "tickerDone",
                     object : XC_MethodHook() {
@@ -483,7 +481,7 @@ class SystemUi : XposedHelper(), IModule {
                         }
                     })
                 hookAllMethods(
-                    "com.android.flyme.statusbar.ticker.MarqueeTextView",
+                    "com.flyme.systemui.statusbar.phone.MarqueeTextView",
                     param.classLoader,
                     "setText",
                     object : XC_MethodHook() {
@@ -496,7 +494,7 @@ class SystemUi : XposedHelper(), IModule {
                         }
                     })
                 hookAllMethods(
-                    "com.android.flyme.statusbar.ticker.FlymeMarqueeTicker",
+                    "com.flyme.systemui.statusbar.phone.FlymeMarqueeTicker",
                     param.classLoader,
                     "tickerHalting",
                     object : XC_MethodHook() {
@@ -509,7 +507,7 @@ class SystemUi : XposedHelper(), IModule {
                         }
                     })
                 hookAllMethods(
-                    "com.android.flyme.statusbar.ticker.FlymeMarqueeTicker",
+                    "com.flyme.systemui.statusbar.phone.FlymeMarqueeTicker",
                     param.classLoader,
                     "tickerStarting",
                     object : XC_MethodHook() {
@@ -543,7 +541,7 @@ class SystemUi : XposedHelper(), IModule {
                                 subId
                             )
 
-                        val slotId = XposedHelpers.getIntField(iconState, "subId") + 1
+                        val slotId = XposedHelpers.getIntField(iconState, "slotId") + 1
 
                         // XposedBridge.log("当前卡槽$slotId")
                         if (prefs.getBoolean("hide_status_bar_sim1_icon", false) && slotId == 1) {

@@ -1,3 +1,0 @@
-[submodule "api/helper"]
-	path = api/helper
-	url = https://github.com/libxposed/helper.git
