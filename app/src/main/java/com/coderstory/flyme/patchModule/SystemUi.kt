@@ -1,6 +1,7 @@
 package com.coderstory.flyme.patchModule
 
 
+import android.R.attr.classLoader
 import android.app.AndroidAppHelper
 import android.app.Service
 import android.content.Context
@@ -12,11 +13,9 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.format.DateFormat
 import android.view.*
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.coderstory.flyme.R
 import com.coderstory.flyme.tools.XposedHelper
-import com.coderstory.flyme.tools.callMethod
 import com.coderstory.flyme.tools.getObjectField
 import com.coderstory.flyme.xposed.IModule
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
@@ -24,6 +23,7 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
+import de.robv.android.xposed.XposedHelpers.findAndHookConstructor
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.text.SimpleDateFormat
@@ -46,15 +46,6 @@ class SystemUi : XposedHelper(), IModule {
                     "%d%%"
                 )
             }
-            if (prefs.getBoolean("status_bar_blur", false)) {
-                val modRes = XModuleResources.createInstance(MODULE_PATH, respray.res)
-                respray.res.setReplacement(
-                    "com.android.systemui",
-                    "drawable",
-                    "panel_background", modRes.fwd(R.drawable.panel_background)
-                )
-            }
-
         }
     }
 
@@ -62,18 +53,21 @@ class SystemUi : XposedHelper(), IModule {
         if (param.packageName == "com.android.systemui") {
             val statusBarCustomCarrierName = prefs.getString("status_bar_custom_carrier_name", "")
             if (statusBarCustomCarrierName != "") {
-                hookAllMethods(
-                    "com.flyme.systemui.statusbar.ext.FlymeStatusBarPluginImpl\$FlymeNetWorkName",
-                    param.classLoader,
-                    "mergeNetWorkNames",
-                    XC_MethodReplacement.returnConstant(statusBarCustomCarrierName)
-                )
+                hookAllConstructors(
+                    findClass("com.android.keyguard.CarrierTextManager\$CarrierTextCallbackInfo",
+                        param.classLoader),
+                    object : XC_MethodHook() {
+                        @Throws(Throwable::class)
+                        override fun beforeHookedMethod(param: MethodHookParam) {
+                           param.args[0] = statusBarCustomCarrierName
+                        }
+                    })
             }
 
             //coord: (0,198,28) | addr: Lcom/flyme/systemui/charge/ChargeAnimationController;->loadCharingView(Z)V | loc: ?
             if (prefs.getBoolean("disable_charge_animation", false)) {
                 findAndHookMethod(
-                    "com.flyme.systemui.charge.ChargeAnimationController",
+                    "com.flyme.keyguard.charging.ChargeAnimationController",
                     param.classLoader,
                     "loadCharingView",
                     Boolean::class.javaPrimitiveType,
@@ -85,7 +79,7 @@ class SystemUi : XposedHelper(), IModule {
                         }
                     })
                 hookAllConstructors(
-                    "com.flyme.systemui.charge.ChargeAnimationController",
+                    "com.flyme.keyguard.charging.ChargeAnimationController",
                     param.classLoader,
                     object : XC_MethodHook() {
                         @Throws(Throwable::class)
@@ -98,7 +92,7 @@ class SystemUi : XposedHelper(), IModule {
                         }
                     })
                 hookAllMethods(
-                    "com.flyme.systemui.charge.ChargeAnimationController",
+                    "com.flyme.keyguard.charging.ChargeAnimationController",
                     param.classLoader,
                     "updateBatteryState",
                     XC_MethodReplacement.returnConstant(null)
@@ -135,16 +129,7 @@ class SystemUi : XposedHelper(), IModule {
                 }
             }
 
-            if (prefs.getBoolean("disable_edge_back", false)) {
-                findAndHookMethod("com.android.systemui.statusbar.phone.EdgeBackView",
-                    param.classLoader,
-                    "onMotionEvent",
-                    MotionEvent::class.java,
-                    object : XC_MethodReplacement() {
-                        override fun replaceHookedMethod(p0: MethodHookParam): Any? = null
-                    }
-                )
-            }
+
 
             hookAllMethods(
                 "com.android.systemui.statusbar.StatusBarIconView",
@@ -234,7 +219,7 @@ class SystemUi : XposedHelper(), IModule {
             // com.android.systemui.power.PowerUI playBatterySound start 低电量 电量空
             if (prefs.getBoolean("hideDepWarn", false)) {
                 hookAllMethods(
-                    "com.flyme.systemui.developer.DeveloperSettingsController",
+                    "com.flyme.developer.DeveloperSettingsController",
                     param.classLoader,
                     "updateDeveloperNotification",
                     XC_MethodReplacement.returnConstant(null)
@@ -253,7 +238,7 @@ class SystemUi : XposedHelper(), IModule {
             }
             if (prefs.getBoolean("hide_status_bar_slow_rate_icon", false)) {
                 hookAllMethods(
-                    "com.flyme.systemui.statusbar.ConnectionRateView",
+                    "com.android.flyme.statusbar.connectionRateView.ConnectionRateView",
                     param.classLoader,
                     "updateConnectionRate",
                     object : XC_MethodHook() {
@@ -399,127 +384,6 @@ class SystemUi : XposedHelper(), IModule {
                     })
             }
 
-            // 歌词居中  时间居左
-//            if (prefs.getBoolean("status_text_view_lyric_center", false)) {
-//                findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarView",
-//                    param.classLoader,
-//                    "setBar",
-//                    "com.android.systemui.statusbar.phone.StatusBar",
-//                    object : XC_MethodHook() {
-//                        @Throws(Throwable::class)
-//                        public override fun afterHookedMethod(param: MethodHookParam) {
-//                            val phoneStatusBarView = param.thisObject as ViewGroup
-//                            val context = phoneStatusBarView.context
-//                            val res = context.resources
-//                            val clock = phoneStatusBarView.findViewById<TextView>(
-//                                res.getIdentifier("clock", "id", "com.android.systemui")
-//                            )
-//                            (clock.parent as ViewGroup).removeView(clock)
-//                            val statusbaiview = context.resources.getIdentifier(
-//                                "status_bar_contents",
-//                                "id",
-//                                context.packageName
-//                            )
-//                            val myclock =
-//                                phoneStatusBarView.findViewById<ViewGroup>(statusbaiview) //状态栏对象，左右两部分
-//
-//                            val mCenterLayout = LinearLayout(context)
-//                            val lp = LinearLayout.LayoutParams(
-//                                LinearLayout.LayoutParams.WRAP_CONTENT,
-//                                LinearLayout.LayoutParams.MATCH_PARENT
-//                            )
-//                            mCenterLayout.layoutParams = lp
-//                            mCenterLayout.gravity = Gravity.CENTER_VERTICAL
-//                            clock.setPadding(5, 0, 5, 0)
-//                            clock.gravity = Gravity.CENTER
-//                            mCenterLayout.addView(clock)
-//                            myclock.addView(mCenterLayout, 0)
-//                        }
-//                    })
-//            }
-
-            //时间居中
-            if (prefs.getBoolean("status_text_view_clock_center", false)) {
-                findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarView",
-                    param.classLoader,
-                    "setBar",
-                    "com.android.systemui.statusbar.phone.StatusBar",
-                    object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        public override fun afterHookedMethod(param: MethodHookParam) {
-                            val phoneStatusBarView = param.thisObject as ViewGroup
-                            val context = phoneStatusBarView.context
-                            val res = context.resources
-                            val clock = phoneStatusBarView.findViewById<TextView>(
-                                res.getIdentifier("clock", "id", "com.android.systemui")
-                            )
-                            //SystemUi.mClock.get(0) = clock
-                            mClock[0] = clock
-                            (clock.parent as ViewGroup).removeView(clock)
-                            val mCenterLayout = LinearLayout(context)
-                            val lp = LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.MATCH_PARENT
-                            )
-                            mCenterLayout.layoutParams = lp
-                            mCenterLayout.gravity = Gravity.CENTER_HORIZONTAL
-                            phoneStatusBarView.addView(mCenterLayout)
-                            clock.gravity = Gravity.BOTTOM
-                            clock.setPaddingRelative(0, 0, 0, 15)
-                            mCenterLayout.addView(clock)
-                        }
-                    })
-                hookAllMethods(
-                    "com.flyme.systemui.statusbar.phone.FlymeMarqueeTicker",
-                    param.classLoader,
-                    "tickerDone",
-                    object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun afterHookedMethod(param: MethodHookParam) {
-                            super.afterHookedMethod(param)
-                            mClock[0]?.visibility = View.VISIBLE
-                        }
-                    })
-                hookAllMethods(
-                    "com.flyme.systemui.statusbar.phone.MarqueeTextView",
-                    param.classLoader,
-                    "setText",
-                    object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun afterHookedMethod(param: MethodHookParam) {
-                            super.afterHookedMethod(param)
-                            if (mClock[0] != null && param.args[0] != null) {
-                                mClock[0]!!.visibility = View.INVISIBLE
-                            }
-                        }
-                    })
-                hookAllMethods(
-                    "com.flyme.systemui.statusbar.phone.FlymeMarqueeTicker",
-                    param.classLoader,
-                    "tickerHalting",
-                    object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun afterHookedMethod(param: MethodHookParam) {
-                            super.afterHookedMethod(param)
-
-                            mClock[0]?.visibility = View.VISIBLE
-
-                        }
-                    })
-                hookAllMethods(
-                    "com.flyme.systemui.statusbar.phone.FlymeMarqueeTicker",
-                    param.classLoader,
-                    "tickerStarting",
-                    object : XC_MethodHook() {
-                        @Throws(Throwable::class)
-                        override fun afterHookedMethod(param: MethodHookParam) {
-                            super.afterHookedMethod(param)
-
-                            mClock[0]?.visibility = View.INVISIBLE
-
-                        }
-                    })
-            }
             //coord: (200179,10,46) | addr: Lcom/android/systemui/statusbar/phone/StatusBarSignalPolicy$WifiIconState;->toString()Ljava/lang/String;+28h | loc: ?
             hookAllMethods(
                 "com.android.systemui.statusbar.phone.StatusBarSignalPolicy",
@@ -527,12 +391,19 @@ class SystemUi : XposedHelper(), IModule {
                 "setMobileDataIndicators",
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
-                    override fun beforeHookedMethod(param: MethodHookParam) {
-                        super.beforeHookedMethod(param)
-                        // XposedBridge.log(JSON.toJSONString(param.args));
-                        // XposedBridge.log("进入方法")
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        super.afterHookedMethod(param)
+                        // public void setMobileDataIndicators(MobileDataIndicators indicators) {
+                        //        Log.d(TAG, "setMobileDataIndicators: " + indicators);
+                        //        MobileIconState state = getState(indicators.subId);
+                        //        if (state == null) {
+                        //            return;
+                        //        }
+                        //        boolean z = true;
+                        //        boolean typeChanged = indicators.statusType != state.typeId && (indicators.statusType == 0 || state.typeId == 0);
+                        //        state.visible = indicators.statusIcon.visible && !this.mHideMobile;
                         var obj = param.args[0]
-                        var subId = XposedHelpers.getObjectField(obj, "subId") as Int
+                        var subId = XposedHelpers.getIntField(obj, "subId")
 
                         var iconState =
                             XposedHelpers.callMethod(
@@ -541,18 +412,20 @@ class SystemUi : XposedHelper(), IModule {
                                 subId
                             )
 
-                        val slotId = XposedHelpers.getIntField(iconState, "slotId") + 1
+                       if(iconState!=null){
+                           val slotId = XposedHelpers.getIntField(iconState, "subId") + 1
 
-                        // XposedBridge.log("当前卡槽$slotId")
-                        if (prefs.getBoolean("hide_status_bar_sim1_icon", false) && slotId == 1) {
-                            // XposedBridge.log("开启隐藏sim1")
-                            XposedHelpers.setBooleanField(param.args[0], "visible", false)
-                        }
-                        if (prefs.getBoolean("hide_status_bar_sim2_icon", false) && slotId == 2) {
-                            // XposedBridge.log("开启隐藏sim2")
-                            XposedHelpers.setBooleanField(param.args[0], "visible", false)
-                        }
-                        // XposedBridge.log("处理完毕")
+                           // XposedBridge.log("当前卡槽$slotId")
+                           if (prefs.getBoolean("hide_status_bar_sim1_icon", false) && slotId == 1) {
+                               // XposedBridge.log("开启隐藏sim1")
+                               XposedHelpers.setBooleanField(iconState, "visible", false)
+                           }
+                           if (prefs.getBoolean("hide_status_bar_sim2_icon", false) && slotId == 2) {
+                               // XposedBridge.log("开启隐藏sim2")
+                               XposedHelpers.setBooleanField(iconState, "visible", false)
+                           }
+                       }
+
                     }
                 })
 
