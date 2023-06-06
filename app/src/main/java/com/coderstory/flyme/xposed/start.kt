@@ -1,7 +1,6 @@
 package com.coderstory.flyme.xposed
 
 import com.coderstory.flyme.BuildConfig
-import com.coderstory.flyme.patchModule.FlymeHome
 import com.coderstory.flyme.patchModule.FuckAd
 import com.coderstory.flyme.patchModule.HideApp
 import com.coderstory.flyme.patchModule.IsEnable
@@ -20,7 +19,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 class start : XposedHelper(), IXposedHookZygoteInit, IXposedHookLoadPackage,
     IXposedHookInitPackageResources {
     override fun handleInitPackageResources(resparam: InitPackageResourcesParam) {
-        FlymeHome().handleInitPackageResources(resparam)
         Others().handleInitPackageResources(resparam)
         SystemUi().handleInitPackageResources(resparam)
         ThemePatcher().handleInitPackageResources(resparam)
@@ -30,8 +28,6 @@ class start : XposedHelper(), IXposedHookZygoteInit, IXposedHookLoadPackage,
         if (json.isEmpty()) {
             initJson(lpparam)
         }
-
-        FlymeHome().handleLoadPackage(lpparam)
         IsEnable().handleLoadPackage(lpparam)
         HideApp().handleLoadPackage(lpparam)
         Others().handleLoadPackage(lpparam)
@@ -42,7 +38,6 @@ class start : XposedHelper(), IXposedHookZygoteInit, IXposedHookLoadPackage,
 
     override fun initZygote(startupParam: StartupParam) {
         XposedBridge.log("Flyme助手已加载")
-        XposedBridge.log("version${BuildConfig.VERSION_NAME}")
         SystemUi().initZygote(startupParam)
     }
 }

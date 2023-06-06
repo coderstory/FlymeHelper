@@ -24,9 +24,7 @@
     <string name="click_to_clock"><b>下拉栏时间</b>\n点击下拉栏时间快捷打开时钟</string>
     <string name="click_to_calendar"><b>下拉栏日历</b>\n点击下拉栏日期快捷打开日历</string>
     <string name="hideDepWarn"><b>隐藏开发者选项风险警告</b>\n禁止开启开发者选项后通知栏弹出的风险警告</string>
-    <string name="HideRootWithUpgrade"><b>系统更新</b>\n关闭系统更新中Root检测,使之可以检测更新,注意开启ROOT会更新失败</string>
     <string name="disable_edge_back"><b>禁用手势</b> \n全局禁用侧滑返回手势，开启mback的时候可以开启</string>
-    <string name="HideRootWithPay"><b>魅族Pay</b>\n关闭魅族Pay的Root检测</string>
     <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题,不会有倒计时之类的提示.如果你使用自带root则还需要开启[全局隐藏ROOT]</string>
     <string name="alarem"><b>闹钟</b>\n启用闹钟后,隐藏状态栏上的闹钟图标</string>
     <string name="hide_icon_debug"><b>USB调试</b>\n隐藏链接电脑后的USB调试图标</string>
@@ -46,18 +44,12 @@
     <string name="hide_status_bar_time_week_icon"><b>状态栏时间-星期</b>  \n在状态栏时间后面追加星期 \n比如 [18:20 周一]</string>
     <string name="hide_status_bar_time_chinese_icon"><b>状态栏时间-修饰</b>  \n在状态栏时间前面追加上午下午凌晨等词缀 比如 [傍晚 18:20]</string>
     <string name="hide_status_bar_time_eng_icon"><b>状态栏星期-英文</b>  \n在状态栏显示英文的日期[需开启 状态栏时间-星期] \n比如 [AM 18:20 Mon]</string>
-    <string name="HideRootGlobal"><b>全局隐藏root</b>\n针对所有的flyme自带软件,隐藏自带的ROOT,开启后设置里会显示ROOT未开启</string>
     <string name="status_text_view_clock_center"><b>状态栏时间居中</b> \n状态栏时间居中显示,与状态栏其他东西重叠时自动隐藏。</string>
     <string name="status_text_view_lyric_center"><b>状态栏歌词居中</b>\n状态栏歌词居中显示,时间居左。\n本功能由MZXPT作者提供</string>
-    <string name="home_icon_num_rows"><b>自定义布局-行</b>  \n自定义桌面有多少行app图标</string>
-    <string name="home_icon_num_column"><b>自定义布局-列</b>  \n自定义桌面有多少列app图标</string>
-    <string name="home_icon_num_hot_seat_icons"><b>自定义布局-Dock</b>  \n自定义桌面Dock栏的app数量</string>
     <string name="disableSearch"><b>桌面禁用手势-搜索</b>\n禁止桌面上划手势触发打开搜索</string>
     <string name="hide_status_bar_sim1_icon"><b>隐藏图标-SIM1</b>\n隐藏状态栏SIM1的图标</string>
     <string name="hide_status_bar_sim2_icon"><b>隐藏图标-SIM2</b>\n隐藏状态栏SIM2的图标</string>
     <string name="status_bar_blur"><b>状态栏下拉菜单-模糊</b>\n降低下拉通知菜单的模糊程度 从100%改成50% 需要开启资源钩子才能生效</string>
-    <string name="launcher10">自定义桌面布局</string>
-    <string name="launcher8">自定义桌面布局(<font color='#4db6ac'> Andorid 8.0- 9.0可用</font>)</string>
     <string name="hide_status_bar_location_icon"><b>定位</b>\n使用GPS的时候，隐藏状态栏上的定位图标</string>
     <string name="hide_status_bar_clock_icon"><b>时钟</b>\n隐藏状态栏中的时间</string>
     <string name="hide_status_bar_battery_icon"><b>电池</b>\n隐藏状态栏上的电池图标(不含17系列的环形电池) 修改后立即生效,设置重启后失效</string>
@@ -125,5 +117,4 @@
         \n\n<b>微博主页: https://weibo.com/codestory</b>
     </string>
     <string name="dialog_msg">dialog_msg</string>
-    <string name="tips2"><b>修改桌面布局后</b>\n如果桌面挂件尺寸不对,请删除后重新添加即可\n<font color='red'>修改DPI会导致挂件只有4x1布局，请添加后再修改DPI</font></string>
 </resources>
