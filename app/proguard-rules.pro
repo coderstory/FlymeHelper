@@ -21,3 +21,4 @@
  -keep class com.coderstory.flyme.activity.MainActivity {
           boolean isEnable();
   }
+-dontwarn

@@ -66,7 +66,6 @@
     <string name="Tips_Title">温馨提示</string>
     <string name="about">关于应用</string>
     <string name="Flyme_Purify">基础功能</string>
-    <string name="hosts">Hosts去广告</string>
     <string name="disableapp">冻结应用</string>
     <string name="appclean">清理应用缓存</string>
     <string name="othersettings">常用设置</string>
@@ -84,14 +83,6 @@
     <string name="sureDisable">你确定要冻结</string>
     <string name="sureDisableAfter">吗?</string>
     <string name="loadappinfo">正在读取应用信息。。。</string>
-
-
-    <string name="view_ready">已准备就绪, 请点击『开始清理』按钮开始清理…\n</string>
-    <string name="view_start_clean">开始清理, 请耐心等待…\n</string>
-    <string name="view_clean_cache" formatted="false">清理: %s (%s) …\n</string>
-    <string name="view_clean_anr" formatted="false">清理 ANR 日志 (%s) …\n</string>
-    <string name="view_clean_complete" formatted="false">清理完毕, 共清理文件 %s\n\n</string>
-    <string name="startclean">开始清理</string>
 
     <string name="isWorkingTips">请耐心等待应用清理完成再进行其他的操作！</string>
 
@@ -135,9 +126,4 @@
     </string>
     <string name="dialog_msg">dialog_msg</string>
     <string name="tips2"><b>修改桌面布局后</b>\n如果桌面挂件尺寸不对,请删除后重新添加即可\n<font color='red'>修改DPI会导致挂件只有4x1布局，请添加后再修改DPI</font></string>
-    <string name="install_xposed">框架安装</string>
-    <string name="enhancedMode"><b>增强模式</b>\n可以解决一些app内部的完整性校验,一般不需要开启</string>
-    <string name="downgrade"><b>允许降级安装应用</b>\n允许应用在安装新版本的情况下直接覆盖安装旧版本</string>
-    <string name="digestCreak"><b>禁用APK签名验证</b>\n允许直接覆盖安装同包名不同签名的应用</string>
-    <string name="authcreak"><b>禁用软件包管理器签名验证</b>\n关闭安装应用时的签名验证,可以安装被篡改的应用</string>
 </resources>

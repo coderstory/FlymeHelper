@@ -102,7 +102,7 @@ class DisbaleAppFragment : BaseFragment() {
             mposition = position
             mview = view
             val anyLayer = AnyLayer.dialog(context)
-                    .contentView(R.layout.dialog_tdisable_app)
+                    .contentView(R.layout.dialog_disable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
@@ -193,7 +193,7 @@ class DisbaleAppFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_backupList) {
             val anyLayer = AnyLayer.dialog(context)
-                    .contentView(R.layout.dialog_tdisable_app)
+                    .contentView(R.layout.dialog_disable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick({ AnyLayer: Layer, _: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
@@ -208,7 +208,7 @@ class DisbaleAppFragment : BaseFragment() {
             textView.text = getString(R.string.tips_sure_backuplist)
         } else if (item.itemId == R.id.action_restoreList) {
             val anyLayer = AnyLayer.dialog(context)
-                    .contentView(R.layout.dialog_tdisable_app)
+                    .contentView(R.layout.dialog_disable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick({ AnyLayer: Layer, _: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)

@@ -192,10 +192,6 @@ class MainActivity : BaseActivity() {
                     mToolbar!!.setTitle(R.string.others_appsettings)
                     switchFragment(SettingsFragment::class.java)
                 }
-                id.navigation_item_Clean -> {
-                    mToolbar!!.setTitle(R.string.appclean)
-                    switchFragment(CleanFragment::class.java)
-                }
                 id.navigation_item_disableapps -> {
                     mToolbar!!.setTitle(R.string.disableapp)
                     switchFragment(DisbaleAppFragment::class.java)
@@ -218,14 +214,6 @@ class MainActivity : BaseActivity() {
                 id.navigation_item_system_ui_settings -> {
                     mToolbar!!.setTitle(R.string.systemui_settings)
                     switchFragment(SystemUIFragment::class.java)
-                }
-                id.navigation_item_hosts -> {
-                    mToolbar!!.setTitle(R.string.hosts)
-                    switchFragment(HostsFragment::class.java)
-                }
-                id.navigation_item_core_patch_settings -> {
-                    mToolbar!!.title = "核心破解"
-                    switchFragment(CorePatchFragment::class.java)
                 }
             }
             item.isChecked = true

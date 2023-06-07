@@ -4,7 +4,6 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 33
     buildToolsVersion "33.0.1"
-    def currentVersionCode = Math.random().toString().substring(2,5)
 
     defaultConfig {
         applicationId "com.coderstory.flyme"
@@ -12,7 +11,7 @@ android {
         targetSdk 33
         resourceConfigurations += ['zh', 'xxhdpi', 'cn']
         versionCode 515
-        versionName "4.6.0 beta 2"
+        versionName "4.6.0"
         ndk {
             abiFilters 'arm64-v8a'
         }
@@ -22,18 +21,12 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
             pseudoLocalesEnabled true
-            versionNameSuffix "-${currentVersionCode}"
         }
-        //自己运行的debug包
-        debug {
-            versionNameSuffix "-${currentVersionCode}"
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -55,8 +48,8 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.goweii:AnyLayer:3.4.3-support'
     implementation "com.github.topjohnwu.libsu:core:3.1.2"
-    implementation 'com.google.code.gson:gson:2.8.9'
-    implementation 'com.alibaba:fastjson:1.2.80'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.alibaba:fastjson:2.0.33'
     implementation "androidx.core:core-ktx:1.10.1"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }

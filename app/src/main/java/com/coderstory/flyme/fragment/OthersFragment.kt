@@ -33,7 +33,7 @@ class OthersFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val anyLayer = AnyLayer.dialog(mContext)
-            .contentView(R.layout.dialog_tdisable_app)
+            .contentView(R.layout.dialog_disable_app)
             .cancelableOnTouchOutside(true)
             .cancelableOnClickKeyBack(true)
             .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
