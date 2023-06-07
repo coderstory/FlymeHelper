@@ -82,7 +82,12 @@ object PreferencesProviderUtils {
         val cr = context.contentResolver
         val cursor = cr.query(uri, null, null, null, null) ?: return result
         if (cursor.moveToNext()) {
-            result = String(Base64.decode(cursor.getString(cursor.getColumnIndex(PreferencesProvider.COLUMNNAME)).toByteArray(), Base64.DEFAULT))
+            result = String(
+                Base64.decode(
+                    cursor.getString(cursor.getColumnIndex(PreferencesProvider.COLUMNNAME))
+                        .toByteArray(), Base64.DEFAULT
+                )
+            )
         }
         cursor.close()
         return result
@@ -306,7 +311,12 @@ object PreferencesProviderUtils {
         val cr = context.contentResolver
         val cursor = cr.query(uri, null, null, null, null) ?: return result
         if (cursor.moveToNext()) {
-            result = String(Base64.decode(cursor.getString(cursor.getColumnIndex(PreferencesProvider.COLUMNNAME)).toByteArray(), Base64.DEFAULT)) == "true"
+            result = String(
+                Base64.decode(
+                    cursor.getString(cursor.getColumnIndex(PreferencesProvider.COLUMNNAME))
+                        .toByteArray(), Base64.DEFAULT
+                )
+            ) == "true"
         }
         cursor.close()
         return result
@@ -341,19 +351,26 @@ object PreferencesProviderUtils {
         var uri: Uri? = null
         when (code) {
             PreferencesProvider.STRING_CONTENT_URI_CODE -> uri = Uri
-                    .parse("content://$authorities/string/$spName/$key/$value")
+                .parse("content://$authorities/string/$spName/$key/$value")
+
             PreferencesProvider.INTEGER_CONTENT_URI_CODE -> uri = Uri
-                    .parse("content://$authorities/integer/$spName/$key/$value")
+                .parse("content://$authorities/integer/$spName/$key/$value")
+
             PreferencesProvider.LONG_CONTENT_URI_CODE -> uri = Uri
-                    .parse("content://$authorities/long/$spName/$key/$value")
+                .parse("content://$authorities/long/$spName/$key/$value")
+
             PreferencesProvider.FLOAT_CONTENT_URI_CODE -> uri = Uri
-                    .parse("content://$authorities/float/$spName/$key/$value")
+                .parse("content://$authorities/float/$spName/$key/$value")
+
             PreferencesProvider.BOOLEAN_CONTENT_URI_CODE -> uri = Uri
-                    .parse("content://$authorities/boolean/$spName/$key/$value")
+                .parse("content://$authorities/boolean/$spName/$key/$value")
+
             PreferencesProvider.DELETE_CONTENT_URI_CODE -> uri = Uri
-                    .parse("content://$authorities/delete/$spName/$key")
+                .parse("content://$authorities/delete/$spName/$key")
+
             PreferencesProvider.PUTS_CONTENT_URI_CODE -> uri = Uri
-                    .parse("content://$authorities/puts")
+                .parse("content://$authorities/puts")
+
             else -> {
             }
         }

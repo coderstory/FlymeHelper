@@ -1,7 +1,6 @@
 package com.coderstory.flyme.patchModule
 
 
-import android.R.attr.classLoader
 import android.app.AndroidAppHelper
 import android.app.Service
 import android.content.Context
@@ -13,7 +12,6 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.text.format.DateFormat
 import android.view.*
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.coderstory.flyme.R
@@ -571,7 +569,7 @@ class SystemUi : XposedHelper(), IModule {
                             statusVarView.setOnTouchListener { view, event ->
                                 if (event.action == MotionEvent.ACTION_DOWN) {
 //                                Log.d("LSPosed","点击啦状态栏")
-                                    val currTime = System.currentTimeMillis();
+                                    val currTime = System.currentTimeMillis()
                                     if (currTime - preTime <= 200) {
                                         XposedHelpers.callMethod(
                                             view.context.getSystemService(Context.POWER_SERVICE),
@@ -622,7 +620,7 @@ class SystemUi : XposedHelper(), IModule {
                                             "com.android.alarmclock",
                                             "com.meizu.flyme.alarmclock.DeskClock"
                                         )
-                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK;
+                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
                                     })
                                     closeStatus()
                                 }
@@ -638,7 +636,7 @@ class SystemUi : XposedHelper(), IModule {
                                             "com.android.calendar",
                                             "com.meizu.flyme.calendar.AllInOneActivity"
                                         )
-                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK;
+                                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
                                     })
                                     closeStatus()
                                 }

@@ -19,7 +19,8 @@ import com.coderstory.flyme.refreshView.SunRefreshView
 import com.coderstory.flyme.tools.Utils
 import java.security.InvalidParameterException
 
-class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
+class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
+    ViewGroup(context, attrs) {
     private val mRefreshView: ImageView
     private val mDecelerateInterpolator: Interpolator
     private val mTouchSlop: Int
@@ -28,14 +29,15 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
     private var mBaseRefreshView: BaseRefreshView? = null
     private var mCurrentDragPercent = 0f
     private var mCurrentOffsetTop = 0
-    private val mToStartListener: Animation.AnimationListener = object : Animation.AnimationListener {
-        override fun onAnimationStart(animation: Animation) {}
-        override fun onAnimationRepeat(animation: Animation) {}
-        override fun onAnimationEnd(animation: Animation) {
-            mBaseRefreshView!!.stop()
-            mCurrentOffsetTop = mTarget!!.top
+    private val mToStartListener: Animation.AnimationListener =
+        object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {}
+            override fun onAnimationRepeat(animation: Animation) {}
+            override fun onAnimationEnd(animation: Animation) {
+                mBaseRefreshView!!.stop()
+                mCurrentOffsetTop = mTarget!!.top
+            }
         }
-    }
     private var mRefreshing = false
     private var mActivePointerId = 0
     private var mIsBeingDragged = false
@@ -85,8 +87,14 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         ensureTarget()
         if (mTarget == null) return
-        val measuredWidth = MeasureSpec.makeMeasureSpec(measuredWidth - paddingRight - paddingLeft, MeasureSpec.EXACTLY)
-        val measuredHeight = MeasureSpec.makeMeasureSpec(measuredHeight - paddingTop - paddingBottom, MeasureSpec.EXACTLY)
+        val measuredWidth = MeasureSpec.makeMeasureSpec(
+            measuredWidth - paddingRight - paddingLeft,
+            MeasureSpec.EXACTLY
+        )
+        val measuredHeight = MeasureSpec.makeMeasureSpec(
+            measuredHeight - paddingTop - paddingBottom,
+            MeasureSpec.EXACTLY
+        )
         mTarget!!.measure(measuredWidth, measuredHeight)
         mRefreshView.measure(measuredWidth, measuredHeight)
     }
@@ -123,6 +131,7 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
                 }
                 mInitialMotionY = initialMotionY
             }
+
             MotionEvent.ACTION_MOVE -> {
                 if (mActivePointerId == INVALID_POINTER) {
                     return false
@@ -136,10 +145,12 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
                     mIsBeingDragged = true
                 }
             }
+
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 mIsBeingDragged = false
                 mActivePointerId = INVALID_POINTER
             }
+
             MotionEventCompat.ACTION_POINTER_UP -> onSecondaryPointerUp(ev)
         }
         return mIsBeingDragged
@@ -166,19 +177,24 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
                 val boundedDragPercent = Math.min(1f, Math.abs(mCurrentDragPercent))
                 val extraOS = Math.abs(scrollTop) - totalDragDistance
                 val slingshotDist = totalDragDistance.toFloat()
-                val tensionSlingshotPercent = Math.max(0f,
-                        Math.min(extraOS, slingshotDist * 2) / slingshotDist)
+                val tensionSlingshotPercent = Math.max(
+                    0f,
+                    Math.min(extraOS, slingshotDist * 2) / slingshotDist
+                )
                 val tensionPercent = (tensionSlingshotPercent / 4 - Math.pow(
-                        (tensionSlingshotPercent / 4).toDouble(), 2.0)).toFloat() * 2f
+                    (tensionSlingshotPercent / 4).toDouble(), 2.0
+                )).toFloat() * 2f
                 val extraMove = slingshotDist * tensionPercent / 2
                 val targetY = (slingshotDist * boundedDragPercent + extraMove).toInt()
                 mBaseRefreshView!!.setPercent(mCurrentDragPercent, true)
                 setTargetOffsetTop(targetY - mCurrentOffsetTop)
             }
+
             MotionEventCompat.ACTION_POINTER_DOWN -> {
                 val index = MotionEventCompat.getActionIndex(ev)
                 mActivePointerId = MotionEventCompat.getPointerId(ev, index)
             }
+
             MotionEventCompat.ACTION_POINTER_UP -> onSecondaryPointerUp(ev)
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 if (mActivePointerId == INVALID_POINTER) {
@@ -204,7 +220,8 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
     private fun animateOffsetToStartPosition() {
         mFrom = mCurrentOffsetTop
         mFromDragPercent = mCurrentDragPercent
-        val animationDuration = Math.abs((MAX_OFFSET_ANIMATION_DURATION * mFromDragPercent).toLong())
+        val animationDuration =
+            Math.abs((MAX_OFFSET_ANIMATION_DURATION * mFromDragPercent).toLong())
         mAnimateToStartPosition.reset()
         mAnimateToStartPosition.duration = animationDuration
         mAnimateToStartPosition.interpolator = mDecelerateInterpolator
@@ -233,7 +250,12 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
             animateOffsetToStartPosition()
         }
         mCurrentOffsetTop = mTarget!!.top
-        mTarget!!.setPadding(mTargetPaddingLeft, mTargetPaddingTop, mTargetPaddingRight, totalDragDistance)
+        mTarget!!.setPadding(
+            mTargetPaddingLeft,
+            mTargetPaddingTop,
+            mTargetPaddingRight,
+            totalDragDistance
+        )
     }
 
     private fun moveToStart(interpolatedTime: Float) {
@@ -242,7 +264,12 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
         val offset = targetTop - mTarget!!.top
         mCurrentDragPercent = targetPercent
         mBaseRefreshView!!.setPercent(mCurrentDragPercent, true)
-        mTarget!!.setPadding(mTargetPaddingLeft, mTargetPaddingTop, mTargetPaddingRight, mTargetPaddingBottom + targetTop)
+        mTarget!!.setPadding(
+            mTargetPaddingLeft,
+            mTargetPaddingTop,
+            mTargetPaddingRight,
+            mTargetPaddingBottom + targetTop
+        )
         setTargetOffsetTop(offset)
     }
 
@@ -301,7 +328,12 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
         val top = paddingTop
         val right = paddingRight
         val bottom = paddingBottom
-        mTarget!!.layout(left, top + mCurrentOffsetTop, left + width - right, top + height - bottom + mCurrentOffsetTop)
+        mTarget!!.layout(
+            left,
+            top + mCurrentOffsetTop,
+            left + width - right,
+            top + height - bottom + mCurrentOffsetTop
+        )
         mRefreshView.layout(left, top, left + width - right, top + height - bottom)
     }
 

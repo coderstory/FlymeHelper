@@ -46,15 +46,22 @@ class MainActivity : BaseActivity() {
                     val normalDialog = AlertDialog.Builder(this@MainActivity)
                     normalDialog.setTitle("提示")
                     normalDialog.setMessage("请先授权应用ROOT权限")
-                    normalDialog.setPositiveButton("确定"
+                    normalDialog.setPositiveButton(
+                        "确定"
                     ) { _: DialogInterface?, _: Int -> exitProcess(0) }
                     normalDialog.show()
                     super.handleMessage(msg)
                 }
+
                 1 -> {
-                    dialog = ProgressDialog.show(this@MainActivity, "检测ROOT权限", "请在ROOT授权弹窗中给与ROOT权限,\n如果长时间无反应则请检查自带的ROOT是否失效或者magisk是否允许后台运行")
+                    dialog = ProgressDialog.show(
+                        this@MainActivity,
+                        "检测ROOT权限",
+                        "请在ROOT授权弹窗中给与ROOT权限,\n如果长时间无反应则请检查自带的ROOT是否失效或者magisk是否允许后台运行"
+                    )
                     dialog?.show()
                 }
+
                 2 -> if (dialog != null && dialog!!.isShowing) {
                     dialog!!.cancel()
                     helper.put("isRooted", true)
@@ -85,7 +92,13 @@ class MainActivity : BaseActivity() {
         //这句一定要在下面几句之前调用，不然就会出现点击无反应
         setSupportActionBar(mToolbar)
         setNavigationViewItemClickListener()
-        val mDrawerToggle = ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close)
+        val mDrawerToggle = ActionBarDrawerToggle(
+            this,
+            mDrawerLayout,
+            mToolbar,
+            R.string.drawer_open,
+            R.string.drawer_close
+        )
         mDrawerToggle.syncState()
         mDrawerLayout!!.addDrawerListener(mDrawerToggle)
         mToolbar!!.setNavigationIcon(R.drawable.ic_drawer_home)
@@ -140,7 +153,8 @@ class MainActivity : BaseActivity() {
             val normalDialog = android.app.AlertDialog.Builder(this@MainActivity)
             normalDialog.setTitle("提示")
             normalDialog.setMessage("部分涉及系统UI的功能在低版本安卓系统[7.0-9.0]上不可以用")
-            normalDialog.setPositiveButton("确定"
+            normalDialog.setPositiveButton(
+                "确定"
             ) { _: DialogInterface?, _: Int -> helper.put("firstOpenD", false) }
             normalDialog.setCancelable(true)
             normalDialog.show()
@@ -150,7 +164,8 @@ class MainActivity : BaseActivity() {
             val normalDialog = android.app.AlertDialog.Builder(this@MainActivity)
             normalDialog.setTitle("FBI Warning")
             normalDialog.setMessage("当前版本为测试版本,不适合长期使用")
-            normalDialog.setPositiveButton("确定"
+            normalDialog.setPositiveButton(
+                "确定"
             ) { _: DialogInterface?, _: Int -> }
             normalDialog.setCancelable(true)
             normalDialog.show()
@@ -161,11 +176,11 @@ class MainActivity : BaseActivity() {
         Log.e("xposed", "flyme助手->isEnable:" + if (isEnable) "true" else "false")
         if (helper.getBoolean("enableCheck", true) && !isEnable) {
             AnyLayer.dialog(this@MainActivity)
-                    .contentView(R.layout.dialog_xposed_disabled)
-                    .cancelableOnTouchOutside(false)
-                    .cancelableOnClickKeyBack(false)
-                    .onClick({ AnyLayer: Layer, _: View? -> AnyLayer.dismiss() }, id.fl_dialog_yes)
-                    .show()
+                .contentView(R.layout.dialog_xposed_disabled)
+                .cancelableOnTouchOutside(false)
+                .cancelableOnClickKeyBack(false)
+                .onClick({ AnyLayer: Layer, _: View? -> AnyLayer.dismiss() }, id.fl_dialog_yes)
+                .show()
         }
     }
 
@@ -192,25 +207,31 @@ class MainActivity : BaseActivity() {
                     mToolbar!!.setTitle(R.string.others_appsettings)
                     switchFragment(SettingsFragment::class.java)
                 }
+
                 id.navigation_item_disableapps -> {
                     mToolbar!!.setTitle(R.string.disableapp)
                     switchFragment(DisbaleAppFragment::class.java)
                 }
+
                 id.navigation_item_about -> {
                     startActivityWithoutExtras(AboutActivity::class.java)
                 }
+
                 id.navigation_item_otherssettings -> {
                     mToolbar!!.setTitle(R.string.othersettings)
                     switchFragment(OthersFragment::class.java)
                 }
+
                 id.navigation_item_Blog -> {
                     mToolbar!!.setTitle(R.string.blog)
                     switchFragment(BlogFragment::class.java)
                 }
+
                 id.navigation_item_updateList -> {
                     mToolbar!!.setTitle(R.string.updateList)
                     switchFragment(UpgradeFragment::class.java)
                 }
+
                 id.navigation_item_system_ui_settings -> {
                     mToolbar!!.setTitle(R.string.systemui_settings)
                     switchFragment(SystemUIFragment::class.java)

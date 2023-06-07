@@ -12,7 +12,12 @@ class IsEnable : XposedHelper(), IModule {
     override fun handleInitPackageResources(respray: InitPackageResourcesParam) {}
     override fun handleLoadPackage(param: LoadPackageParam) {
         if (param.packageName == "com.coderstory.flyme") {
-            findAndHookMethod("com.coderstory.flyme.activity.MainActivity", param.classLoader, "isEnable", XC_MethodReplacement.returnConstant(true))
+            findAndHookMethod(
+                "com.coderstory.flyme.activity.MainActivity",
+                param.classLoader,
+                "isEnable",
+                XC_MethodReplacement.returnConstant(true)
+            )
         }
     }
 

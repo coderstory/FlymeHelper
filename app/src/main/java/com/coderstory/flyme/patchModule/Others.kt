@@ -1,6 +1,5 @@
 package com.coderstory.flyme.patchModule
 
-import android.R.attr.classLoader
 import android.content.Context
 import android.util.Base64
 import android.widget.Toast

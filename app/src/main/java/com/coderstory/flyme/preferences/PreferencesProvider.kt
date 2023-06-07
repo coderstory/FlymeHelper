@@ -1,6 +1,10 @@
 package com.coderstory.flyme.preferences
 
-import android.content.*
+import android.content.ContentProvider
+import android.content.ContentValues
+import android.content.Context
+import android.content.SharedPreferences
+import android.content.UriMatcher
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
@@ -71,7 +75,13 @@ abstract class PreferencesProvider : ContentProvider() {
         return false
     }
 
-    override fun query(uri: Uri, projection: Array<String>?, selection: String?, selectionArgs: Array<String>?, sortOrder: String?): Cursor? {
+    override fun query(
+        uri: Uri,
+        projection: Array<String>?,
+        selection: String?,
+        selectionArgs: Array<String>?,
+        sortOrder: String?
+    ): Cursor? {
         val model = getModel(uri) ?: return null
         val code = mUriMatcher!!.match(uri)
         return buildCursor(context!!, model, code)
@@ -99,7 +109,12 @@ abstract class PreferencesProvider : ContentProvider() {
         return 0
     }
 
-    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<String>?): Int {
+    override fun update(
+        uri: Uri,
+        values: ContentValues?,
+        selection: String?,
+        selectionArgs: Array<String>?
+    ): Int {
         getModel(uri) ?: return -1
         val code = mUriMatcher!!.match(uri)
         if (code == STRING_CONTENT_URI_CODE || code == INTEGER_CONTENT_URI_CODE || code == LONG_CONTENT_URI_CODE || code == FLOAT_CONTENT_URI_CODE || code == BOOLEAN_CONTENT_URI_CODE) {
@@ -129,7 +144,11 @@ abstract class PreferencesProvider : ContentProvider() {
     private fun insert(context: Context?, values: ContentValues?) {
         //Log.e("Xposed", "Model " + JSON.toJSONString(model));
         //Log.e("Xposed", "ContentValues " + JSON.toJSONString(values));
-        val editor: SharedPreferences.Editor = Utils.getMySharedPreferences(context, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName).edit()
+        val editor: SharedPreferences.Editor = Utils.getMySharedPreferences(
+            context,
+            "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
+            Misc.SharedPreferencesName
+        ).edit()
         val keys = values!!.keySet()
         for (key in keys) {
             val value = values[key]
@@ -142,7 +161,15 @@ abstract class PreferencesProvider : ContentProvider() {
             } else if (value is Boolean) {
                 editor.putBoolean(key, java.lang.Boolean.valueOf(value.toString() + ""))
             } else {
-                editor.putString(key, if (value == null) "" else String(Base64.decode(value as String, Base64.DEFAULT)))
+                editor.putString(
+                    key,
+                    if (value == null) "" else String(
+                        Base64.decode(
+                            value as String,
+                            Base64.DEFAULT
+                        )
+                    )
+                )
             }
         }
         editor.apply()
@@ -157,23 +184,49 @@ abstract class PreferencesProvider : ContentProvider() {
         var value: Any? = null
         var defValue = model.defValue
         when (code) {
-            STRING_CONTENT_URI_CODE -> value = PreferencesUtils.getString(context, model.spName, model.key, defValue.toString())
+            STRING_CONTENT_URI_CODE -> value =
+                PreferencesUtils.getString(context, model.spName, model.key, defValue.toString())
+
             INTEGER_CONTENT_URI_CODE -> {
                 if (!TextUtils.isDigitsOnly(defValue.toString() + "")) {
                     defValue = -1
                 }
-                value = PreferencesUtils.getInt(context, model.spName, model.key, (defValue.toString() + "").toInt())
+                value = PreferencesUtils.getInt(
+                    context,
+                    model.spName,
+                    model.key,
+                    (defValue.toString() + "").toInt()
+                )
             }
+
             LONG_CONTENT_URI_CODE -> {
                 if (!TextUtils.isDigitsOnly(defValue.toString() + "")) {
                     defValue = -1
                 }
-                value = PreferencesUtils.getLong(context, model.spName, model.key, (defValue.toString() + "").toLong())
+                value = PreferencesUtils.getLong(
+                    context,
+                    model.spName,
+                    model.key,
+                    (defValue.toString() + "").toLong()
+                )
             }
+
             FLOAT_CONTENT_URI_CODE -> {
-                value = PreferencesUtils.getFloat(context, model.spName, model.key, (defValue.toString() + "").toFloat())
+                value = PreferencesUtils.getFloat(
+                    context,
+                    model.spName,
+                    model.key,
+                    (defValue.toString() + "").toFloat()
+                )
             }
-            BOOLEAN_CONTENT_URI_CODE -> value = PreferencesUtils.getBoolean(context, model.spName, model.key, java.lang.Boolean.valueOf(defValue.toString() + "")).toString() + ""
+
+            BOOLEAN_CONTENT_URI_CODE -> value = PreferencesUtils.getBoolean(
+                context,
+                model.spName,
+                model.key,
+                java.lang.Boolean.valueOf(defValue.toString() + "")
+            ).toString() + ""
+
             else -> {
             }
         }

@@ -18,8 +18,12 @@ object FileUtils {
         var buffReader: BufferedReader? = null
         return try {
             fis = FileInputStream(_sFileName)
-            buffReader = BufferedReader(InputStreamReader(fis,
-                    encoding))
+            buffReader = BufferedReader(
+                InputStreamReader(
+                    fis,
+                    encoding
+                )
+            )
             var zFirstLine = "UTF-8".equals(encoding, ignoreCase = true)
             while (buffReader.readLine().also { sLine = it } != null) {
                 buffContent = buffContent?.append("\n") ?: StringBuffer()
@@ -109,10 +113,10 @@ object FileUtils {
             val file = File(fileName)
             val bufferedReader = BufferedReader(FileReader(file))
             while (bufferedReader.readLine().also {
-                        if (it != null) {
-                            stringBuffer.append(line)
-                        }
-                    } != null)
+                    if (it != null) {
+                        stringBuffer.append(line)
+                    }
+                } != null)
                 bufferedReader.close()
         } catch (e: IOException) {
             Log.e("Xposed", Log.getStackTraceString(e))

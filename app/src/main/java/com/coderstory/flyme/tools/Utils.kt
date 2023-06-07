@@ -11,7 +11,7 @@ import java.io.File
 import java.lang.reflect.InvocationTargetException
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 import kotlin.math.roundToInt
 import kotlin.system.exitProcess
 
@@ -25,7 +25,8 @@ class Utils {
             val normalDialog = AlertDialog.Builder(mContext)
             normalDialog.setTitle("!!致命错误!!")
             normalDialog.setMessage("检测到您手机自带的ROOT已失效!")
-            normalDialog.setPositiveButton("确定"
+            normalDialog.setPositiveButton(
+                "确定"
             ) { _: DialogInterface?, _: Int -> exitProcess(0) }
             normalDialog.setCancelable(true)
             normalDialog.show()
@@ -50,7 +51,11 @@ class Utils {
             }
         }
 
-        fun getMySharedPreferences(context: Context?, dir: String?, fileName: String?): SharedPreferences {
+        fun getMySharedPreferences(
+            context: Context?,
+            dir: String?,
+            fileName: String?
+        ): SharedPreferences {
             var result: SharedPreferences
             try {
                 result = context!!.getSharedPreferences(fileName, Context.MODE_WORLD_READABLE)
@@ -62,7 +67,8 @@ class Utils {
                     // 获取 mBase变量
                     val obj_mBase = field_mBase[context]
                     // 获取 ContextImpl。mPreferencesDir变量，该变量保存了数据文件的保存路径
-                    val field_mPreferencesDir = obj_mBase.javaClass.getDeclaredField("mPreferencesDir")
+                    val field_mPreferencesDir =
+                        obj_mBase.javaClass.getDeclaredField("mPreferencesDir")
                     field_mPreferencesDir.isAccessible = true
                     // 创建自定义路径
                     //  String FILE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()+"/Android";
@@ -93,7 +99,11 @@ class Utils {
         fun decode(base64: String?): String {
             return try {
                 val clazz = Class.forName("android.util.Base64")
-                val method = clazz.getDeclaredMethod("decode", String::class.java, Int::class.javaPrimitiveType)
+                val method = clazz.getDeclaredMethod(
+                    "decode",
+                    String::class.java,
+                    Int::class.javaPrimitiveType
+                )
                 String((method.invoke(null, base64, 0) as ByteArray))
             } catch (e: ClassNotFoundException) {
                 e.printStackTrace()
@@ -125,7 +135,7 @@ class Utils {
             val b = data.toByteArray()
             //遍历
             for (i in b.indices) {
-                b[i] =  b[i].plus(-1).toByte()
+                b[i] = b[i].plus(-1).toByte()
             }
             return String(b)
         }

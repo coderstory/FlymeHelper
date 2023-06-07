@@ -1,13 +1,16 @@
 package com.coderstory.flyme.refreshView
 
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Matrix
+import android.graphics.Rect
 import android.graphics.drawable.Animatable
 import android.view.animation.Animation
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
 import android.view.animation.Transformation
 import com.coderstory.flyme.R
-import com.coderstory.flyme.refreshView.SunRefreshView
 import com.coderstory.flyme.tools.Utils
 import com.coderstory.flyme.view.PullToRefreshView
 
@@ -15,7 +18,8 @@ import com.coderstory.flyme.view.PullToRefreshView
  * Created by Oleksii Shliama on 22/12/2014.
  * https://dribbble.com/shots/1650317-Pull-to-Refresh-Rentals
  */
-class SunRefreshView(private val mParent: PullToRefreshView) : BaseRefreshView(mParent), Animatable {
+class SunRefreshView(private val mParent: PullToRefreshView) : BaseRefreshView(mParent),
+    Animatable {
     private val mMatrix: Matrix
     private val mSunSize = 100
     private var mAnimation: Animation? = null
@@ -43,8 +47,10 @@ class SunRefreshView(private val mParent: PullToRefreshView) : BaseRefreshView(m
         mSkyTopOffset = mSkyHeight * 0.38f
         mSkyMoveOffset = Utils.convertDpToPixel(context, 15).toFloat()
         mTownHeight = (TOWN_RATIO * mScreenWidth).toInt()
-        mTownInitialTopOffset = mParent.totalDragDistance - mTownHeight * SunRefreshView.Companion.TOWN_INITIAL_SCALE
-        mTownFinalTopOffset = mParent.totalDragDistance - mTownHeight * SunRefreshView.Companion.TOWN_FINAL_SCALE
+        mTownInitialTopOffset =
+            mParent.totalDragDistance - mTownHeight * TOWN_INITIAL_SCALE
+        mTownFinalTopOffset =
+            mParent.totalDragDistance - mTownHeight * TOWN_FINAL_SCALE
         mTownMoveOffset = Utils.convertDpToPixel(context, 10).toFloat()
         mSunLeftOffset = 0.3f * mScreenWidth.toFloat()
         mSunTopOffset = mParent.totalDragDistance * 0.1f
@@ -58,7 +64,12 @@ class SunRefreshView(private val mParent: PullToRefreshView) : BaseRefreshView(m
         mSky = BitmapFactory.decodeResource(context.resources, R.drawable.sky, options)
         mSky = Bitmap.createScaledBitmap(mSky!!, mScreenWidth, mSkyHeight, true)
         mTown = BitmapFactory.decodeResource(context.resources, R.drawable.buildings, options)
-        mTown = Bitmap.createScaledBitmap(mTown!!, mScreenWidth, (mScreenWidth * SunRefreshView.Companion.TOWN_RATIO).toInt(), true)
+        mTown = Bitmap.createScaledBitmap(
+            mTown!!,
+            mScreenWidth,
+            (mScreenWidth * TOWN_RATIO).toInt(),
+            true
+        )
         mSun = BitmapFactory.decodeResource(context.resources, R.drawable.sun, options)
         mSun = Bitmap.createScaledBitmap(mSun!!, mSunSize, mSunSize, true)
     }
@@ -89,17 +100,19 @@ class SunRefreshView(private val mParent: PullToRefreshView) : BaseRefreshView(m
         matrix.reset()
         val dragPercent = Math.min(1f, Math.abs(mPercent))
         val skyScale: Float
-        val scalePercentDelta: Float = dragPercent - SunRefreshView.Companion.SCALE_START_PERCENT
+        val scalePercentDelta: Float = dragPercent - SCALE_START_PERCENT
         skyScale = if (scalePercentDelta > 0) {
-            val scalePercent: Float = scalePercentDelta / (1.0f - SunRefreshView.Companion.SCALE_START_PERCENT)
-            SunRefreshView.Companion.SKY_INITIAL_SCALE - (SunRefreshView.Companion.SKY_INITIAL_SCALE - 1.0f) * scalePercent
+            val scalePercent: Float =
+                scalePercentDelta / (1.0f - SCALE_START_PERCENT)
+            SKY_INITIAL_SCALE - (SKY_INITIAL_SCALE - 1.0f) * scalePercent
         } else {
-            SunRefreshView.Companion.SKY_INITIAL_SCALE
+            SKY_INITIAL_SCALE
         }
         val offsetX = -(mScreenWidth * skyScale - mScreenWidth) / 2.0f
-        val offsetY = (((1.0f - dragPercent) * mParent.totalDragDistance - mSkyTopOffset // Offset canvas moving
-                - mSkyHeight * (skyScale - 1.0f) / 2) // Offset sky scaling
-                + mSkyMoveOffset * dragPercent) // Give it a little move top -> bottom
+        val offsetY =
+            (((1.0f - dragPercent) * mParent.totalDragDistance - mSkyTopOffset // Offset canvas moving
+                    - mSkyHeight * (skyScale - 1.0f) / 2) // Offset sky scaling
+                    + mSkyMoveOffset * dragPercent) // Give it a little move top -> bottom
         matrix.postScale(skyScale, skyScale)
         matrix.postTranslate(offsetX, offsetY)
         canvas.drawBitmap(mSky!!, matrix, null)
@@ -112,15 +125,18 @@ class SunRefreshView(private val mParent: PullToRefreshView) : BaseRefreshView(m
         val townScale: Float
         val townTopOffset: Float
         val townMoveOffset: Float
-        val scalePercentDelta: Float = dragPercent - SunRefreshView.Companion.SCALE_START_PERCENT
+        val scalePercentDelta: Float = dragPercent - SCALE_START_PERCENT
         if (scalePercentDelta > 0) {
-            val scalePercent: Float = scalePercentDelta / (1.0f - SunRefreshView.Companion.SCALE_START_PERCENT)
-            townScale = SunRefreshView.Companion.TOWN_INITIAL_SCALE + (SunRefreshView.Companion.TOWN_FINAL_SCALE - SunRefreshView.Companion.TOWN_INITIAL_SCALE) * scalePercent
-            townTopOffset = mTownInitialTopOffset - (mTownFinalTopOffset - mTownInitialTopOffset) * scalePercent
+            val scalePercent: Float =
+                scalePercentDelta / (1.0f - SCALE_START_PERCENT)
+            townScale =
+                TOWN_INITIAL_SCALE + (TOWN_FINAL_SCALE - TOWN_INITIAL_SCALE) * scalePercent
+            townTopOffset =
+                mTownInitialTopOffset - (mTownFinalTopOffset - mTownInitialTopOffset) * scalePercent
             townMoveOffset = mTownMoveOffset * (1.0f - scalePercent)
         } else {
-            val scalePercent: Float = dragPercent / SunRefreshView.Companion.SCALE_START_PERCENT
-            townScale = SunRefreshView.Companion.TOWN_INITIAL_SCALE
+            val scalePercent: Float = dragPercent / SCALE_START_PERCENT
+            townScale = TOWN_INITIAL_SCALE
             townTopOffset = mTownInitialTopOffset
             townMoveOffset = mTownMoveOffset * scalePercent
         }
@@ -142,17 +158,22 @@ class SunRefreshView(private val mParent: PullToRefreshView) : BaseRefreshView(m
             dragPercent = (dragPercent + 9.0f) / 10
         }
         val sunRadius = mSunSize.toFloat() / 2.0f
-        var sunRotateGrowth: Float = SunRefreshView.Companion.SUN_INITIAL_ROTATE_GROWTH
+        var sunRotateGrowth: Float = SUN_INITIAL_ROTATE_GROWTH
         var offsetX = mSunLeftOffset
         var offsetY = (mSunTopOffset
                 + mParent.totalDragDistance / 2 * (1.0f - dragPercent) // Move the sun up
                 - mTop) // Depending on Canvas position
-        val scalePercentDelta: Float = dragPercent - SunRefreshView.Companion.SCALE_START_PERCENT
+        val scalePercentDelta: Float = dragPercent - SCALE_START_PERCENT
         if (scalePercentDelta > 0) {
-            val scalePercent: Float = scalePercentDelta / (1.0f - SunRefreshView.Companion.SCALE_START_PERCENT)
-            val sunScale: Float = 1.0f - (1.0f - SunRefreshView.Companion.SUN_FINAL_SCALE) * scalePercent
-            sunRotateGrowth += (SunRefreshView.Companion.SUN_FINAL_ROTATE_GROWTH - SunRefreshView.Companion.SUN_INITIAL_ROTATE_GROWTH) * scalePercent
-            matrix.preTranslate(offsetX + (sunRadius - sunRadius * sunScale), offsetY * (2.0f - sunScale))
+            val scalePercent: Float =
+                scalePercentDelta / (1.0f - SCALE_START_PERCENT)
+            val sunScale: Float =
+                1.0f - (1.0f - SUN_FINAL_SCALE) * scalePercent
+            sunRotateGrowth += (SUN_FINAL_ROTATE_GROWTH - SUN_INITIAL_ROTATE_GROWTH) * scalePercent
+            matrix.preTranslate(
+                offsetX + (sunRadius - sunRadius * sunScale),
+                offsetY * (2.0f - sunScale)
+            )
             matrix.preScale(sunScale, sunScale)
             offsetX += sunRadius
             offsetY = offsetY * (2.0f - sunScale) + sunRadius * sunScale
@@ -162,9 +183,10 @@ class SunRefreshView(private val mParent: PullToRefreshView) : BaseRefreshView(m
             offsetY += sunRadius
         }
         matrix.postRotate(
-                (if (isRefreshing) -360 else 360) * mRotate * (if (isRefreshing) 1F else sunRotateGrowth),
-                offsetX,
-                offsetY)
+            (if (isRefreshing) -360 else 360) * mRotate * (if (isRefreshing) 1F else sunRotateGrowth),
+            offsetX,
+            offsetY
+        )
         canvas.drawBitmap(mSun!!, matrix, null)
     }
 
@@ -180,10 +202,6 @@ class SunRefreshView(private val mParent: PullToRefreshView) : BaseRefreshView(m
     private fun resetOriginals() {
         setPercent(0f)
         setRotate(0f)
-    }
-
-    override fun onBoundsChange(bounds: Rect) {
-        super.onBoundsChange(bounds)
     }
 
     override fun setBounds(left: Int, top: Int, right: Int, bottom: Int) {

@@ -7,7 +7,8 @@ import android.graphics.drawable.Animatable
 import android.graphics.drawable.Drawable
 import com.coderstory.flyme.view.PullToRefreshView
 
-abstract class BaseRefreshView internal constructor(private val mRefreshLayout: PullToRefreshView?) : Drawable(), Drawable.Callback, Animatable {
+abstract class BaseRefreshView internal constructor(private val mRefreshLayout: PullToRefreshView?) :
+    Drawable(), Drawable.Callback, Animatable {
     val context: Context
         get() = mRefreshLayout!!.context
 

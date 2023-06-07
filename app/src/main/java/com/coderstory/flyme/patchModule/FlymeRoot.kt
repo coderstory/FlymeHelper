@@ -1,25 +1,35 @@
 package com.coderstory.flyme.patchModule
 
-import android.content.Context
 import com.coderstory.flyme.tools.XposedHelper
 import com.coderstory.flyme.xposed.IModule
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
-import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 class FlymeRoot : XposedHelper(), IModule {
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
-        if (loadPackageParam.packageName == "com.meizu.mznfcpay" && prefs.getBoolean("HideRootWithPay", false)) {
+        if (loadPackageParam.packageName == "com.meizu.mznfcpay" && prefs.getBoolean(
+                "HideRootWithPay",
+                false
+            )
+        ) {
             // 6.0.7
             //findAndHookMethod("com.meizu.cloud.a.a.a", loadPackageParam.classLoader, "b", Context::class.java, XC_MethodReplacement.returnConstant(false))
         }
-        if (loadPackageParam.packageName == "com.meizu.flyme.update" && prefs.getBoolean("HideRootWithUpgrade", false)) {
+        if (loadPackageParam.packageName == "com.meizu.flyme.update" && prefs.getBoolean(
+                "HideRootWithUpgrade",
+                false
+            )
+        ) {
             // DEVICE_STATE_SERVICE
-            if (findClassWithoutLog("com.meizu.cloud.a.a.a", loadPackageParam.classLoader) != null) {
+            if (findClassWithoutLog(
+                    "com.meizu.cloud.a.a.a",
+                    loadPackageParam.classLoader
+                ) != null
+            ) {
                 //findAndHookMethod("com.meizu.cloud.a.a.a", loadPackageParam.classLoader, "b", Context::class.java, XC_MethodReplacement.returnConstant(false))
             } else {
-               // findAndHookMethod("com.meizu.cloud.a.b.a", loadPackageParam.classLoader, "c", Context::class.java, XC_MethodReplacement.returnConstant(false))
+                // findAndHookMethod("com.meizu.cloud.a.b.a", loadPackageParam.classLoader, "c", Context::class.java, XC_MethodReplacement.returnConstant(false))
             }
         }
 

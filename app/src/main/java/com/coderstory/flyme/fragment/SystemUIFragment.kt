@@ -14,7 +14,8 @@ import com.topjohnwu.superuser.Shell
 import per.goweii.anylayer.AnyLayer
 import per.goweii.anylayer.Layer
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import java.util.stream.Collectors
 
 class SystemUIFragment : BaseFragment() {

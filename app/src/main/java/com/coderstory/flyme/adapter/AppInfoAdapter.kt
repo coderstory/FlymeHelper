@@ -12,7 +12,8 @@ import androidx.core.content.ContextCompat
 import com.coderstory.flyme.R
 import com.coderstory.flyme.R.id
 
-class AppInfoAdapter(context: Context?, private val resourceId: Int, objects: List<AppInfo?>?) : ArrayAdapter<Any?>(context!!, resourceId, objects!!) {
+class AppInfoAdapter(context: Context?, private val resourceId: Int, objects: List<AppInfo?>?) :
+    ArrayAdapter<Any?>(context!!, resourceId, objects!!) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val appInfo = getItem(position) as AppInfo?
         val view: View
@@ -32,9 +33,15 @@ class AppInfoAdapter(context: Context?, private val resourceId: Int, objects: Li
         vh.myText!!.tag = appInfo!!.packageName
         if (appInfo.imageId != null) {
             vh.myImage!!.setImageDrawable(appInfo.imageId)
-            vh.myText!!.text = String.format(context.getString(R.string.appname), appInfo.name, appInfo.version)
+            vh.myText!!.text =
+                String.format(context.getString(R.string.appname), appInfo.name, appInfo.version)
         } else {
-            vh.myText!!.text = String.format(context.getString(R.string.app_info), appInfo.name, appInfo.fileSize, appInfo.releaseDate)
+            vh.myText!!.text = String.format(
+                context.getString(R.string.app_info),
+                appInfo.name,
+                appInfo.fileSize,
+                appInfo.releaseDate
+            )
             vh.myImage!!.visibility = View.GONE
         }
 

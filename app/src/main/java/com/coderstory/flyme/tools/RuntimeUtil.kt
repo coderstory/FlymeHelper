@@ -80,10 +80,12 @@ object RuntimeUtil {
     @Throws(IOException::class)
     private fun runCmd(writer: BufferedWriter, vararg cmd: String) {
         for (i in 0 until cmd.size) {
-            writer.write("""
+            writer.write(
+                """
     ${cmd[i]}
     
-    """.trimIndent())
+    """.trimIndent()
+            )
             writer.flush()
         }
         writer.write("exit \n")

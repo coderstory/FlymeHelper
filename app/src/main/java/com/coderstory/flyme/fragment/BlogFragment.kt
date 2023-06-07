@@ -24,7 +24,8 @@ class BlogFragment : WebViewFragment() {
         if (item.itemId == R.id.action_copy) {
             val myClipboard: ClipboardManager
             if (activity != null) {
-                myClipboard = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                myClipboard =
+                    requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val myClip: ClipData
                 val text = mWebView?.url ?: ""
                 myClip = ClipData.newPlainText("text", text)

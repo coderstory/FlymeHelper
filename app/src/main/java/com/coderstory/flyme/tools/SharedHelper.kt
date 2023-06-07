@@ -10,18 +10,23 @@ class SharedHelper(private val context: Context) {
             is String -> {
                 PreferencesProviderUtils.putString(context, spName, key, value)
             }
+
             is Int -> {
                 PreferencesProviderUtils.putInt(context, spName, key, value)
             }
+
             is Boolean -> {
                 PreferencesProviderUtils.putBoolean(context, spName, key, value)
             }
+
             is Float -> {
                 PreferencesProviderUtils.putFloat(context, spName, key, value)
             }
+
             is Long -> {
                 PreferencesProviderUtils.putLong(context, spName, key, value)
             }
+
             else -> {
                 PreferencesProviderUtils.putString(context, spName, key, value.toString())
             }

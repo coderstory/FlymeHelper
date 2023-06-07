@@ -11,15 +11,21 @@ import android.widget.NumberPicker
 class QNumberPicker : NumberPicker {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
     override fun addView(child: View) {
         super.addView(child)
         updateView(child)
     }
 
-    override fun addView(child: View, index: Int,
-                         params: ViewGroup.LayoutParams) {
+    override fun addView(
+        child: View, index: Int,
+        params: ViewGroup.LayoutParams
+    ) {
         super.addView(child, index, params)
         updateView(child)
     }

@@ -17,17 +17,23 @@ class SettingsFragment : BaseFragment() {
         `$`<View>(R.id.hideicon).setOnClickListener { v: View ->
             editor.putBoolean("hideIcon", (v as SwitchCompat).isChecked)
             fix()
-            val localComponentName = ComponentName(mContext, "com.coderstory.flyme.activity.SplashActivity")
+            val localComponentName =
+                ComponentName(mContext, "com.coderstory.flyme.activity.SplashActivity")
             val localPackageManager = mContext.packageManager
             localPackageManager.getComponentEnabledSetting(localComponentName)
             val packageManager = mContext.packageManager
-            val componentName = ComponentName(mContext, "com.coderstory.flyme.activity.SplashActivity")
+            val componentName =
+                ComponentName(mContext, "com.coderstory.flyme.activity.SplashActivity")
             if (v.isChecked) {
-                packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                        PackageManager.DONT_KILL_APP)
+                packageManager.setComponentEnabledSetting(
+                    componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP
+                )
             } else {
-                packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
-                        PackageManager.DONT_KILL_APP)
+                packageManager.setComponentEnabledSetting(
+                    componentName, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
+                    PackageManager.DONT_KILL_APP
+                )
             }
         }
     }
@@ -37,7 +43,8 @@ class SettingsFragment : BaseFragment() {
     }
 
     override fun setUpData() {
-        (`$`<View>(R.id.enableCheck) as SwitchCompat).isChecked = prefs.getBoolean("enableCheck", true)
+        (`$`<View>(R.id.enableCheck) as SwitchCompat).isChecked =
+            prefs.getBoolean("enableCheck", true)
         (`$`<View>(R.id.hideicon) as SwitchCompat).isChecked = prefs.getBoolean("hideIcon", false)
     }
 }

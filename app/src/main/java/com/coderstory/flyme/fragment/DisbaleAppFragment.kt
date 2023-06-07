@@ -80,10 +80,24 @@ class DisbaleAppFragment : BaseFragment() {
                 val packageInfo = packages[i]
                 if (packageInfo.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM > 0) {
                     if (packageInfo.applicationInfo.enabled) {
-                        val appInfo = AppInfo(packageInfo.applicationInfo.loadLabel(requireContext().packageManager).toString(), packageInfo.applicationInfo.loadIcon(requireContext().packageManager), packageInfo.packageName, false, packageInfo.versionName.toString())
+                        val appInfo = AppInfo(
+                            packageInfo.applicationInfo.loadLabel(requireContext().packageManager)
+                                .toString(),
+                            packageInfo.applicationInfo.loadIcon(requireContext().packageManager),
+                            packageInfo.packageName,
+                            false,
+                            packageInfo.versionName.toString()
+                        )
                         appInfoList.add(appInfo)
                     } else {
-                        val appInfo = AppInfo(packageInfo.applicationInfo.loadLabel(requireContext().packageManager).toString(), packageInfo.applicationInfo.loadIcon(requireContext().packageManager), packageInfo.packageName, true, packageInfo.versionName.toString())
+                        val appInfo = AppInfo(
+                            packageInfo.applicationInfo.loadLabel(requireContext().packageManager)
+                                .toString(),
+                            packageInfo.applicationInfo.loadIcon(requireContext().packageManager),
+                            packageInfo.packageName,
+                            true,
+                            packageInfo.versionName.toString()
+                        )
                         appInfoList2.add(appInfo)
                     }
                 }
@@ -98,26 +112,30 @@ class DisbaleAppFragment : BaseFragment() {
         listView = contentView?.findViewById(R.id.listView)
         assert(listView != null)
         listView!!.adapter = adapter
-        listView!!.onItemClickListener = OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
-            mposition = position
-            mview = view
-            val anyLayer = AnyLayer.dialog(context)
+        listView!!.onItemClickListener =
+            OnItemClickListener { parent: AdapterView<*>?, view: View?, position: Int, id: Long ->
+                mposition = position
+                mview = view
+                val anyLayer = AnyLayer.dialog(context)
                     .contentView(R.layout.dialog_disable_app)
                     .cancelableOnTouchOutside(true)
                     .cancelableOnClickKeyBack(true)
                     .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
                     .onClick({ AnyLayer: Layer, v: View? ->
-                        val commandText = (if (!appInfo!!.disable) "pm disable " else "pm enable ") + appInfo!!.packageName
+                        val commandText =
+                            (if (!appInfo!!.disable) "pm disable " else "pm enable ") + appInfo!!.packageName
                         Log.e("cc", commandText)
                         var process: Process? = null
                         var os: DataOutputStream? = null
                         try {
                             process = Runtime.getRuntime().exec("su") //切换到root帐号
                             os = DataOutputStream(process.outputStream)
-                            os.writeBytes("""
+                            os.writeBytes(
+                                """
     $commandText
     
-    """.trimIndent())
+    """.trimIndent()
+                            )
                             os.writeBytes("exit\n")
                             os.flush()
                             process.waitFor()
@@ -141,17 +159,19 @@ class DisbaleAppFragment : BaseFragment() {
                         }
                         AnyLayer.dismiss()
                     }, R.id.fl_dialog_yes)
-            anyLayer.show()
-            val cardView = (anyLayer as DialogLayer).contentView as CardView
-            val linearLayout = cardView.getChildAt(0) as LinearLayout
-            val textView = linearLayout.getChildAt(1) as TextView
-            appInfo = appInfoList[mposition]
-            if (appInfo!!.disable) {
-                textView.text = getString(R.string.sureAntiDisable) + appInfo!!.name + getString(R.string.sureAntiDisableAfter)
-            } else {
-                textView.text = getString(R.string.sureDisable) + appInfo!!.name + getString(R.string.sureDisableAfter)
+                anyLayer.show()
+                val cardView = (anyLayer as DialogLayer).contentView as CardView
+                val linearLayout = cardView.getChildAt(0) as LinearLayout
+                val textView = linearLayout.getChildAt(1) as TextView
+                appInfo = appInfoList[mposition]
+                if (appInfo!!.disable) {
+                    textView.text =
+                        getString(R.string.sureAntiDisable) + appInfo!!.name + getString(R.string.sureAntiDisableAfter)
+                } else {
+                    textView.text =
+                        getString(R.string.sureDisable) + appInfo!!.name + getString(R.string.sureDisableAfter)
+                }
             }
-        }
     }
 
     override fun setLayoutResourceID(): Int {
@@ -173,7 +193,11 @@ class DisbaleAppFragment : BaseFragment() {
 
         })
 
-        dialog = ProgressDialog.show(mContext, getString(R.string.Tips_Title), getString(R.string.loadappinfo))
+        dialog = ProgressDialog.show(
+            mContext,
+            getString(R.string.Tips_Title),
+            getString(R.string.loadappinfo)
+        )
         Thread {
             initData()
             (mContext as Activity).runOnUiThread {
@@ -193,14 +217,14 @@ class DisbaleAppFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_backupList) {
             val anyLayer = AnyLayer.dialog(context)
-                    .contentView(R.layout.dialog_disable_app)
-                    .cancelableOnTouchOutside(true)
-                    .cancelableOnClickKeyBack(true)
-                    .onClick({ AnyLayer: Layer, _: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
-                    .onClick({ AnyLayer: Layer, _: View? ->
-                        satrtBackuop()
-                        AnyLayer.dismiss()
-                    }, R.id.fl_dialog_yes)
+                .contentView(R.layout.dialog_disable_app)
+                .cancelableOnTouchOutside(true)
+                .cancelableOnClickKeyBack(true)
+                .onClick({ AnyLayer: Layer, _: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
+                .onClick({ AnyLayer: Layer, _: View? ->
+                    satrtBackuop()
+                    AnyLayer.dismiss()
+                }, R.id.fl_dialog_yes)
             anyLayer.show()
             val cardView = (anyLayer as DialogLayer).contentView as CardView
             val linearLayout = cardView.getChildAt(0) as LinearLayout
@@ -208,14 +232,14 @@ class DisbaleAppFragment : BaseFragment() {
             textView.text = getString(R.string.tips_sure_backuplist)
         } else if (item.itemId == R.id.action_restoreList) {
             val anyLayer = AnyLayer.dialog(context)
-                    .contentView(R.layout.dialog_disable_app)
-                    .cancelableOnTouchOutside(true)
-                    .cancelableOnClickKeyBack(true)
-                    .onClick({ AnyLayer: Layer, _: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
-                    .onClick({ AnyLayer: Layer, _: View? ->
-                        restoreList()
-                        AnyLayer.dismiss()
-                    }, R.id.fl_dialog_yes)
+                .contentView(R.layout.dialog_disable_app)
+                .cancelableOnTouchOutside(true)
+                .cancelableOnClickKeyBack(true)
+                .onClick({ AnyLayer: Layer, _: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
+                .onClick({ AnyLayer: Layer, _: View? ->
+                    restoreList()
+                    AnyLayer.dismiss()
+                }, R.id.fl_dialog_yes)
             anyLayer.show()
             val cardView = (anyLayer as DialogLayer).contentView as CardView
             val linearLayout = cardView.getChildAt(0) as LinearLayout
@@ -230,7 +254,10 @@ class DisbaleAppFragment : BaseFragment() {
         val fileName = "userList"
         var content: String? = ""
         if (!dir.exists()) {
-            SnackBarUtils.makeShort(`$`<View>(R.id.listView), getString(R.string.not_fond_backup_list_file)).danger()
+            SnackBarUtils.makeShort(
+                `$`<View>(R.id.listView),
+                getString(R.string.not_fond_backup_list_file)
+            ).danger()
             return
         }
         try {
@@ -239,11 +266,15 @@ class DisbaleAppFragment : BaseFragment() {
             e.printStackTrace()
         }
         if (content!!.isEmpty()) {
-            SnackBarUtils.makeShort(`$`<View>(R.id.listView), getString(R.string.not_fond_backup_list)).danger()
+            SnackBarUtils.makeShort(
+                `$`<View>(R.id.listView),
+                getString(R.string.not_fond_backup_list)
+            ).danger()
             return
         }
         val list = content.split("\n").toTypedArray()
-        dialog = ProgressDialog.show(context, getString(R.string.tips), getString(R.string.restoreing))
+        dialog =
+            ProgressDialog.show(context, getString(R.string.tips), getString(R.string.restoreing))
         dialog!!.show()
         Thread {
             Shell.su(*list)
@@ -264,7 +295,10 @@ class DisbaleAppFragment : BaseFragment() {
         val fileName = "userList"
         if (!dir.exists()) {
             if (!dir.mkdirs()) {
-                SnackBarUtils.makeShort(`$`<View>(R.id.listView), getString(R.string.tips_backup_error)).show()
+                SnackBarUtils.makeShort(
+                    `$`<View>(R.id.listView),
+                    getString(R.string.tips_backup_error)
+                ).show()
                 return
             }
         }
@@ -279,9 +313,15 @@ class DisbaleAppFragment : BaseFragment() {
             result = e.message ?: ""
         }
         if (result == "") {
-            SnackBarUtils.makeShort(`$`<View>(R.id.listView), getString(R.string.tips_backup_success)).show()
+            SnackBarUtils.makeShort(
+                `$`<View>(R.id.listView),
+                getString(R.string.tips_backup_success)
+            ).show()
         } else {
-            SnackBarUtils.makeShort(`$`<View>(R.id.listView), getString(R.string.tips_backup_error) + result).show()
+            SnackBarUtils.makeShort(
+                `$`<View>(R.id.listView),
+                getString(R.string.tips_backup_error) + result
+            ).show()
         }
     }
 }

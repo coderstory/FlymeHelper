@@ -26,7 +26,13 @@ class AppInfo {
         this.releaseDate = releaseDate
     }
 
-    constructor(name: String, imageId: Drawable?, packageName: String, Disable: Boolean, version: String) {
+    constructor(
+        name: String,
+        imageId: Drawable?,
+        packageName: String,
+        Disable: Boolean,
+        version: String
+    ) {
         this.name = if (name.length > 25) name.substring(0, 25) + "..." else name
         this.imageId = imageId
         this.packageName = packageName

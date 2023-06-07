@@ -1,7 +1,6 @@
 package com.coderstory.flyme.patchModule
 
 
-import android.R.attr.classLoader
 import android.content.*
 import android.net.Uri
 import com.coderstory.flyme.tools.XposedHelper
@@ -10,15 +9,18 @@ import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
-import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
 
 class ThemePatcher : XposedHelper(), IModule {
     override fun handleInitPackageResources(respray: InitPackageResourcesParam) {
-        if (respray.packageName == "com.meizu.customizecenter" && prefs.getBoolean("enabletheme", false)) {
-            if (respray.packageName  == "com.meizu.customizecenter") {
+        if (respray.packageName == "com.meizu.customizecenter" && prefs.getBoolean(
+                "enabletheme",
+                false
+            )
+        ) {
+            if (respray.packageName == "com.meizu.customizecenter") {
                 XposedBridge.log("开始替换文本")
                 respray.res.setReplacement(0x7f1102ec, "开始白嫖")
                 respray.res.setReplacement(0x7f1102e5, "开始白嫖")
@@ -27,10 +29,15 @@ class ThemePatcher : XposedHelper(), IModule {
         }
 
     }
+
     override fun handleLoadPackage(param: LoadPackageParam) {
 
         // 主题和谐
-        if (param.packageName == "com.meizu.customizecenter" && prefs.getBoolean("enabletheme", false)) {
+        if (param.packageName == "com.meizu.customizecenter" && prefs.getBoolean(
+                "enabletheme",
+                false
+            )
+        ) {
             if (param.packageName == "com.meizu.customizecenter") {
                 XposedBridge.log("开始hook主题")
                 // 开始试用主题
@@ -112,7 +119,7 @@ class ThemePatcher : XposedHelper(), IModule {
 
                 //resetToSystemTheme
                 // findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true))
-                 // 10.1.x
+                // 10.1.x
                 findAndHookMethod(
                     "com.meizu.flyme.policy.sdk.ve0",
                     param.classLoader,
@@ -166,7 +173,6 @@ class ThemePatcher : XposedHelper(), IModule {
                 )
 
 
-
                 //"checkTrialFont:!isUsingTrialFont() Context context, String str, long j
                 findAndHookMethod(
                     "com.meizu.customizecenter.manager.managermoduls.font.k",
@@ -198,27 +204,27 @@ class ThemePatcher : XposedHelper(), IModule {
                             val tag = "(ITEMS LIKE"
                             val tag2 = "%zklockscreen;%"
                             val tag3 = "%com.meizu.flyme.weather;%"
-                        var result = false
-                        for (obj in objs) {
-                            if (obj is String && (obj.contains(tag) || obj == tag2 || obj == tag3)) {
-                                result = true
-                            }
-                        }
-                        if (result) {
+                            var result = false
                             for (obj in objs) {
-                                if (obj is Array<*>) { // obj is String[]
-                                    for (j in (obj as Array<String>).indices) {
-                                        if (obj[j].contains("/storage/emulated/0/Customize/Themes")) {
-                                            obj[j] = "/storage/emulated/0/Customize%"
-                                        } else if (obj[j].contains("/storage/emulated/0/Customize/TrialThemes")) {
-                                            obj[j] = "NONE"
+                                if (obj is String && (obj.contains(tag) || obj == tag2 || obj == tag3)) {
+                                    result = true
+                                }
+                            }
+                            if (result) {
+                                for (obj in objs) {
+                                    if (obj is Array<*>) { // obj is String[]
+                                        for (j in (obj as Array<String>).indices) {
+                                            if (obj[j].contains("/storage/emulated/0/Customize/Themes")) {
+                                                obj[j] = "/storage/emulated/0/Customize%"
+                                            } else if (obj[j].contains("/storage/emulated/0/Customize/TrialThemes")) {
+                                                obj[j] = "NONE"
+                                            }
                                         }
                                     }
                                 }
                             }
+                            super.beforeHookedMethod(param)
                         }
-                        super.beforeHookedMethod(param)
-                    }
                     })
 
                 // android 11 8.30.2

@@ -23,11 +23,19 @@ import java.io.File
 abstract class BaseFragment : Fragment() {
     protected var contentView: View? = null
         private set
-   lateinit var mContext: Context
+    lateinit var mContext: Context
         private set
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        contentView = inflater.inflate(setLayoutResourceID(), container, false) //setContentView(inflater, container);
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        contentView = inflater.inflate(
+            setLayoutResourceID(),
+            container,
+            false
+        ) //setContentView(inflater, container);
         mContext = requireContext()
         val mProgressDialog = ProgressDialog(mContext)
         mProgressDialog.setCanceledOnTouchOutside(false)
@@ -50,7 +58,11 @@ abstract class BaseFragment : Fragment() {
         }
     protected val prefs: SharedPreferences
         get() {
-            Companion.prefs = Utils.getMySharedPreferences(mContext.applicationContext, "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/", Misc.SharedPreferencesName)
+            Companion.prefs = Utils.getMySharedPreferences(
+                mContext.applicationContext,
+                "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
+                Misc.SharedPreferencesName
+            )
             return Companion.prefs
         }
 
@@ -83,7 +95,8 @@ abstract class BaseFragment : Fragment() {
 
     companion object {
         const val PREFS_FOLDER = " /data/user_de/0/" + Misc.ApplicationName + "/shared_prefs\n"
-        const val PREFS_FILE = " /data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml\n"
+        const val PREFS_FILE =
+            " /data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/" + Misc.SharedPreferencesName + ".xml\n"
         private lateinit var prefs: SharedPreferences
         private var editor: SharedPreferences.Editor? = null
     }

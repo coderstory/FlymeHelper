@@ -229,9 +229,11 @@ class FlymeHome : XposedHelper(), IModule {
             prefs.getBoolean("hide_icon_5", false) -> {
                 type = "hide_icon_5"
             }
+
             prefs.getBoolean("hide_icon_6", false) -> {
                 type = "hide_icon_6"
             }
+
             prefs.getBoolean("hide_icon_4", false) -> {
                 type = "hide_icon_4"
             }
@@ -249,10 +251,12 @@ class FlymeHome : XposedHelper(), IModule {
                                 param.args[3] = 5.0f // y
                                 param.args[4] = 5.0f // x.
                             }
+
                             "hide_icon_6" -> {
                                 param.args[3] = 6.0f // y
                                 param.args[4] = 5.0f // x.
                             }
+
                             "hide_icon_4" -> {
                                 param.args[3] = 5.0f // y
                                 param.args[4] = 4.0f // x.
