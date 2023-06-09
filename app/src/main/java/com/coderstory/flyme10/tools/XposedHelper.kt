@@ -1,7 +1,5 @@
 package com.coderstory.flyme10.tools
 
-import android.content.Context
-import android.content.pm.PackageManager
 import com.coderstory.flyme10.BuildConfig
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XSharedPreferences
@@ -38,35 +36,12 @@ open class XposedHelper {
     }
 
     protected fun findClassWithoutLog(classpatch: String, classLoader: ClassLoader): Class<*>? {
-        try {
-            return XposedHelpers.findClass(classpatch, classLoader)
-        } catch (error: ClassNotFoundError) {
-            //XposedBridge.log(error);
-        }
-        return null
-    }
-
-    /**
-     * Find apk file file. 获取需要Hook Apk文件地址
-     *
-     * @param context           the context
-     * @param packageName the module package name
-     * @return the file
-     */
-    private fun findApkFile(context: Context, packageName: String): File? {
         return try {
-            val moduleContext = context.createPackageContext(
-                packageName,
-                Context.CONTEXT_INCLUDE_CODE or Context.CONTEXT_IGNORE_SECURITY
-            )
-            val apkPath = moduleContext.packageCodePath
-            File(apkPath)
-        } catch (e: PackageManager.NameNotFoundException) {
-            Logger.loge(String.format("Find File Error，Package:%s", packageName))
+            XposedHelpers.findClass(classpatch, classLoader)
+        } catch (error: Exception) {
             null
         }
     }
-
 
 
     companion object {
