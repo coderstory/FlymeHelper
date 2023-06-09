@@ -12,33 +12,6 @@ object RuntimeUtil {
         return execSilent("echo test")
     }
 
-    /**
-     * 执行命令获取结果集
-     */
-    fun exec(cmd: String): List<String?>? {
-        var dataList: MutableList<String?>? = null
-        var writer: BufferedWriter? = null
-        var reader: BufferedReader? = null
-        var process: Process? = null
-        try {
-            process = Runtime.getRuntime().exec("su")
-            writer = BufferedWriter(OutputStreamWriter(process.outputStream))
-            reader = BufferedReader(InputStreamReader(process.inputStream))
-            runCmd(writer, cmd)
-            process.waitFor()
-            dataList = ArrayList()
-            var content: String?
-            while (null != reader.readLine().also { content = it }) {
-                dataList.add(content)
-            }
-        } catch (e: Exception) {
-            //e.printStackTrace();
-        } finally {
-            closeCloseable(reader, writer)
-            process?.destroy()
-        }
-        return dataList
-    }
 
     /**
      * 判断是否成功执行
@@ -79,10 +52,10 @@ object RuntimeUtil {
     // 执行命令
     @Throws(IOException::class)
     private fun runCmd(writer: BufferedWriter, vararg cmd: String) {
-        for (i in 0 until cmd.size) {
+        for (element in cmd) {
             writer.write(
                 """
-    ${cmd[i]}
+    $element
     
     """.trimIndent()
             )

@@ -19,39 +19,9 @@ class SnackBarUtils private constructor(private val mSnack: Snackbar) {
         show()
     }
 
-    fun info(actionText: String?, listener: View.OnClickListener?) {
-        setSnackBarBackColor(color_info)
-        show(actionText, listener)
-    }
-
-    fun warning() {
-        setSnackBarBackColor(color_warning)
-        show()
-    }
-
-    fun warning(actionText: String?, listener: View.OnClickListener?) {
-        setSnackBarBackColor(color_warning)
-        show(actionText, listener)
-    }
-
     fun danger() {
         setSnackBarBackColor(color_danger)
         show()
-    }
-
-    fun danger(actionText: String?, listener: View.OnClickListener?) {
-        setSnackBarBackColor(color_danger)
-        show(actionText, listener)
-    }
-
-    fun success() {
-        setSnackBarBackColor(color_success)
-        show()
-    }
-
-    fun success(actionText: String?, listener: View.OnClickListener?) {
-        setSnackBarBackColor(color_success)
-        show(actionText, listener)
     }
 
     fun show() {
@@ -65,9 +35,7 @@ class SnackBarUtils private constructor(private val mSnack: Snackbar) {
 
     companion object {
         private const val color_danger = -0x56bbbe
-        private const val color_success = -0xc389c3
         private const val color_info = -0xd6490a
-        private const val color_warning = -0x7592c5
         private const val color_action = -0x323a41
         fun makeShort(view: View?, text: String?): SnackBarUtils {
             val snackbar = Snackbar.make(view!!, text!!, Snackbar.LENGTH_SHORT)

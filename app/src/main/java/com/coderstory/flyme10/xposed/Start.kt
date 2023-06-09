@@ -15,7 +15,7 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
-class start : XposedHelper(), IXposedHookZygoteInit, IXposedHookLoadPackage,
+class Start : XposedHelper(), IXposedHookZygoteInit, IXposedHookLoadPackage,
     IXposedHookInitPackageResources {
     override fun handleInitPackageResources(resparam: InitPackageResourcesParam) {
         Others().handleInitPackageResources(resparam)

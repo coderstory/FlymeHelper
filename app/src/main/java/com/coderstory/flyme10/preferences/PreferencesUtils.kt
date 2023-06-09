@@ -41,7 +41,6 @@ object PreferencesUtils {
     fun putString(context: Context?, spName: String?, key: String?, value: String?): Boolean {
         val settings: SharedPreferences = Utils.getMySharedPreferences(
             context,
-            "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
             Misc.SharedPreferencesName
         )
         val editor = settings.edit()
@@ -49,16 +48,6 @@ object PreferencesUtils {
         return editor.commit()
     }
 
-    fun remove(context: Context?, spName: String?, key: String?): Boolean {
-        val settings: SharedPreferences = Utils.getMySharedPreferences(
-            context,
-            "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
-            Misc.SharedPreferencesName
-        )
-        val editor = settings.edit()
-        editor.remove(key)
-        return editor.commit()
-    }
 
     /**
      * get string preferences
@@ -85,7 +74,6 @@ object PreferencesUtils {
     fun getString(context: Context, spName: String, key: String, defaultValue: String): String {
         val settings: SharedPreferences = Utils.getMySharedPreferences(
             context,
-            "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
             Misc.SharedPreferencesName
         )
         return settings.getString(key, defaultValue) ?: ""
@@ -102,7 +90,6 @@ object PreferencesUtils {
     fun putInt(context: Context?, spName: String?, key: String?, value: Int): Boolean {
         val settings: SharedPreferences = Utils.getMySharedPreferences(
             context,
-            "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
             Misc.SharedPreferencesName
         )
         val editor = settings.edit()
@@ -135,7 +122,6 @@ object PreferencesUtils {
     fun getInt(context: Context?, spName: String?, key: String?, defaultValue: Int): Int {
         val settings: SharedPreferences = Utils.getMySharedPreferences(
             context,
-            "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
             Misc.SharedPreferencesName
         )
         return settings.getInt(key, defaultValue)
@@ -152,7 +138,6 @@ object PreferencesUtils {
     fun putLong(context: Context?, spName: String?, key: String?, value: Long): Boolean {
         val settings: SharedPreferences = Utils.getMySharedPreferences(
             context,
-            "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
             Misc.SharedPreferencesName
         )
         val editor = settings.edit()
@@ -185,7 +170,6 @@ object PreferencesUtils {
     fun getLong(context: Context?, spName: String?, key: String?, defaultValue: Long): Long {
         val settings: SharedPreferences = Utils.getMySharedPreferences(
             context,
-            "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
             Misc.SharedPreferencesName
         )
         return settings.getLong(key, defaultValue)
@@ -202,7 +186,6 @@ object PreferencesUtils {
     fun putFloat(context: Context?, spName: String?, key: String?, value: Float): Boolean {
         val settings: SharedPreferences = Utils.getMySharedPreferences(
             context,
-            "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
             Misc.SharedPreferencesName
         )
         val editor = settings.edit()
@@ -218,7 +201,6 @@ object PreferencesUtils {
     fun getEditor(context: Context?, spName: String?): SharedPreferences.Editor {
         val settings: SharedPreferences = Utils.getMySharedPreferences(
             context,
-            "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
             Misc.SharedPreferencesName
         )
         return settings.edit()
@@ -249,7 +231,6 @@ object PreferencesUtils {
     fun getFloat(context: Context?, spName: String?, key: String?, defaultValue: Float): Float {
         val settings: SharedPreferences = Utils.getMySharedPreferences(
             context,
-            "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
             Misc.SharedPreferencesName
         )
         return settings.getFloat(key, defaultValue)
@@ -266,7 +247,6 @@ object PreferencesUtils {
     fun putBoolean(context: Context?, spName: String?, key: String?, value: Boolean): Boolean {
         val settings: SharedPreferences = Utils.getMySharedPreferences(
             context,
-            "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
             Misc.SharedPreferencesName
         )
         val editor = settings.edit()
@@ -304,7 +284,6 @@ object PreferencesUtils {
     ): Boolean {
         val settings: SharedPreferences = Utils.getMySharedPreferences(
             context,
-            "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
             Misc.SharedPreferencesName
         )
         return settings.getBoolean(key, defaultValue)

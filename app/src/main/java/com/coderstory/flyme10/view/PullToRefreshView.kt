@@ -67,20 +67,13 @@ class PullToRefreshView @JvmOverloads constructor(context: Context, attrs: Attri
         }
     }
 
-    fun setRefreshStyle(type: Int) {
+    private fun setRefreshStyle(type: Int) {
         setRefreshing(false)
         mBaseRefreshView = when (type) {
             STYLE_SUN -> SunRefreshView(this)
             else -> throw InvalidParameterException("Type does not exist")
         }
         mRefreshView.setImageDrawable(mBaseRefreshView)
-    }
-
-    /**
-     * This method sets padding for the refresh (progress) view.
-     */
-    fun setRefreshViewPadding(left: Int, top: Int, right: Int, bottom: Int) {
-        mRefreshView.setPadding(left, top, right, bottom)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

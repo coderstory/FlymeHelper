@@ -126,6 +126,7 @@ class MainActivity : BaseActivity() {
         checkDialog()
     }
 
+    @SuppressLint("PrivateApi")
     private fun checkDialog() {
         try {
             getSharedPreferences("test", MODE_WORLD_READABLE)

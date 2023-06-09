@@ -60,7 +60,6 @@ abstract class BaseFragment : Fragment() {
         get() {
             Companion.prefs = Utils.getMySharedPreferences(
                 mContext.applicationContext,
-                "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
                 Misc.SharedPreferencesName
             )
             return Companion.prefs

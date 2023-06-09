@@ -1,6 +1,5 @@
 package com.coderstory.flyme10.fragment
 
-import android.app.ProgressDialog
 import android.content.res.Resources.NotFoundException
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -24,7 +23,6 @@ import per.goweii.anylayer.DialogLayer
 import per.goweii.anylayer.Layer
 
 class OthersFragment : BaseFragment() {
-    var dialog: ProgressDialog? = null
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_upgrade_toolbar, menu)
         super.onCreateOptionsMenu(menu, inflater)

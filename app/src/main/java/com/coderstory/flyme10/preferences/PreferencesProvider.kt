@@ -146,7 +146,6 @@ abstract class PreferencesProvider : ContentProvider() {
         //Log.e("Xposed", "ContentValues " + JSON.toJSONString(values));
         val editor: SharedPreferences.Editor = Utils.getMySharedPreferences(
             context,
-            "/data/user_de/0/" + Misc.ApplicationName + "/shared_prefs/",
             Misc.SharedPreferencesName
         ).edit()
         val keys = values!!.keySet()

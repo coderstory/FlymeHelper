@@ -13,9 +13,6 @@ class AppInfo {
         private set
     var version = ""
         private set
-    var appDir: String? = null
-    var versionCode = 0
-        private set
     var fileSize = ""
     var releaseDate: String? = null
 
