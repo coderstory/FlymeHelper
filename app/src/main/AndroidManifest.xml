@@ -54,7 +54,7 @@
 
         <provider
             android:name=".PreferencesProvider"
-            android:authorities="com.coderstory.flyme.PreferencesProvider"
+            android:authorities="com.coderstory.flyme10.PreferencesProvider"
             android:exported="true" />
     </application>
 </manifest>

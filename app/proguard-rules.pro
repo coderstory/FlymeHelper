@@ -16,9 +16,9 @@
 #混淆时所采用的算法
 -optimizations !code/simplification/arithmetic,!code/simplication/cast,!field/*,!class/mergin/*
 #保持哪些类不被混淆
--keep class com.coderstory.flyme.xposed.start
+-keep class com.coderstory.flyme10.xposed.start
 
- -keep class com.coderstory.flyme.activity.MainActivity {
+ -keep class com.coderstory.flyme10.activity.MainActivity {
           boolean isEnable();
   }
 -dontwarn

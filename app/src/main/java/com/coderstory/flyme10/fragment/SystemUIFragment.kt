@@ -1,0 +1,266 @@
+package com.coderstory.flyme10.fragment
+
+
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.widget.SwitchCompat
+import com.coderstory.flyme10.R
+import com.coderstory.flyme10.fragment.base.BaseFragment
+import com.topjohnwu.superuser.Shell
+import per.goweii.anylayer.AnyLayer
+import per.goweii.anylayer.Layer
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.stream.Collectors
+
+class SystemUIFragment : BaseFragment() {
+    override fun setUpView() {
+        `$`<View>(R.id.hide_icon_alarm_clock).setOnClickListener { v: View ->
+            editor.putBoolean("hide_icon_alarm_clock", (v as SwitchCompat).isChecked)
+            fix()
+            updateIcon()
+        }
+        `$`<View>(R.id.hide_icon_bluetooth).setOnClickListener { v: View ->
+            editor.putBoolean("hide_icon_bluetooth", (v as SwitchCompat).isChecked)
+            fix()
+            updateIcon()
+        }
+        `$`<View>(R.id.hide_icon_hotspot).setOnClickListener { v: View ->
+            editor.putBoolean("hide_icon_hotspot", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hide_icon_save).setOnClickListener { v: View ->
+            editor.putBoolean("hide_icon_save", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hide_icon_debug).setOnClickListener { v: View ->
+            editor.putBoolean("hide_icon_debug", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hide_icon_volte).setOnClickListener { v: View ->
+            editor.putBoolean("hide_icon_volte", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hide_icon_shake).setOnClickListener { v: View ->
+            editor.putBoolean("hide_icon_shake", (v as SwitchCompat).isChecked)
+            fix()
+            updateIcon()
+        }
+        `$`<View>(R.id.hide_status_bar_no_sim_icon).setOnClickListener { v: View ->
+            editor.putBoolean("hide_status_bar_no_sim_icon", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hide_status_bar_wifi_icon).setOnClickListener { v: View ->
+            editor.putBoolean("hide_status_bar_wifi_icon", (v as SwitchCompat).isChecked)
+            fix()
+            updateIcon()
+        }
+        `$`<View>(R.id.hide_status_bar_vpn_icon).setOnClickListener { v: View ->
+            editor.putBoolean("hide_status_bar_vpn_icon", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.show_icon_battery_percentage).setOnClickListener { v: View ->
+            editor.putBoolean("show_icon_battery_percentage", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.show_status_bar_time_second_icon).setOnClickListener { v: View ->
+            editor.putBoolean("show_status_bar_time_second_icon", (v as SwitchCompat).isChecked)
+            fix()
+            Shell.su("settings put secure clock_seconds " + if (v.isChecked) "1" else "0").exec()
+        }
+        `$`<View>(R.id.hide_status_bar_slow_rate_icon).setOnClickListener { v: View ->
+            editor.putBoolean("hide_status_bar_slow_rate_icon", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hide_status_bar_time_week_icon).setOnClickListener { v: View ->
+            editor.putBoolean("hide_status_bar_time_week_icon", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hide_status_bar_time_chinese_icon).setOnClickListener { v: View ->
+            editor.putBoolean("hide_status_bar_time_chinese_icon", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hide_status_bar_sim1_icon).setOnClickListener { v: View ->
+            editor.putBoolean("hide_status_bar_sim1_icon", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hide_status_bar_sim2_icon).setOnClickListener { v: View ->
+            editor.putBoolean("hide_status_bar_sim2_icon", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hide_status_bar_location_icon).setOnClickListener { v: View ->
+            editor.putBoolean("hide_status_bar_location_icon", (v as SwitchCompat).isChecked)
+            fix()
+            updateIcon()
+        }
+        `$`<View>(R.id.hide_status_bar_clock_icon).setOnClickListener { v: View ->
+            editor.putBoolean("hide_status_bar_clock_icon", (v as SwitchCompat).isChecked)
+            fix()
+            updateIcon()
+        }
+        `$`<View>(R.id.hide_status_bar_battery_icon).setOnClickListener { v: View ->
+            editor.putBoolean("hide_status_bar_battery_icon", (v as SwitchCompat).isChecked)
+            fix()
+            updateIcon()
+        }
+        `$`<View>(R.id.hide_status_bar_app_icon).setOnClickListener { v: View ->
+            editor.putBoolean("hide_status_bar_app_icon", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.show_status_bar_time_am_pm).setOnClickListener { v: View ->
+            editor.putBoolean("show_status_bar_time_am_pm", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        `$`<View>(R.id.hide_status_bar_time_eng_icon).setOnClickListener { v: View ->
+            editor.putBoolean("hide_status_bar_time_eng_icon", (v as SwitchCompat).isChecked)
+            fix()
+        }
+        val carrierName = `$`<EditText>(R.id.status_bar_custom_carrier_name)
+        carrierName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun afterTextChanged(editable: Editable) {
+                editor.putString("status_bar_custom_carrier_name", editable.toString())
+                fix()
+            }
+        })
+
+        val customTime = `$`<TextView>(R.id.status_bar_custom_time)
+        customTime.setOnClickListener {
+            val anyLayer = AnyLayer.dialog(context)
+                .contentView(R.layout.dialog_input_formate_time)
+                .cancelableOnTouchOutside(true)
+                .cancelableOnClickKeyBack(true)
+                .onClick({ layer: Layer, _: View? ->
+                    val textView = layer.getView<TextView>(R.id.input_qq)
+                    val value = textView.text.toString()
+                    try {
+                        val str = SimpleDateFormat(value, Locale.ENGLISH).format(Date())
+                        Toast.makeText(
+                            mContext,
+                            "当前格式效果: $str",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        editor.putString("status_bar_custom_time", value)
+                        customTime.text = value
+                        fix()
+                        layer.dismiss()
+                    } catch (e: Exception) {
+                        Toast.makeText(
+                            mContext,
+                            "格式错误，无法保存",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }, R.id.dialog_ok)
+            anyLayer.show()
+        }
+    }
+
+    override fun setLayoutResourceID(): Int {
+        return R.layout.fragment_system_ui
+    }
+
+    override fun setUpData() {
+        (`$`<View>(R.id.hide_status_bar_time_eng_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_time_eng_icon", false)
+        (`$`<View>(R.id.status_bar_custom_carrier_name) as EditText).setText(
+            prefs.getString(
+                "status_bar_custom_carrier_name",
+                ""
+            )
+        )
+        (`$`<View>(R.id.hide_icon_bluetooth) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_icon_bluetooth", false)
+        (`$`<View>(R.id.hide_icon_hotspot) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_icon_hotspot", false)
+        (`$`<View>(R.id.hide_icon_debug) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_icon_debug", false)
+        (`$`<View>(R.id.hide_icon_save) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_icon_save", false)
+        (`$`<View>(R.id.hide_icon_alarm_clock) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_icon_alarm_clock", false)
+        (`$`<View>(R.id.hide_icon_volte) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_icon_volte", false)
+        (`$`<View>(R.id.hide_icon_shake) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_icon_shake", false)
+        (`$`<View>(R.id.hide_status_bar_no_sim_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_no_sim_icon", false)
+        (`$`<View>(R.id.hide_status_bar_wifi_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_wifi_icon", false)
+        (`$`<View>(R.id.hide_status_bar_vpn_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_vpn_icon", false)
+        (`$`<View>(R.id.show_status_bar_time_second_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("show_status_bar_time_second_icon", false)
+        (`$`<View>(R.id.show_icon_battery_percentage) as SwitchCompat).isChecked =
+            prefs.getBoolean("show_icon_battery_percentage", false)
+        (`$`<View>(R.id.hide_status_bar_slow_rate_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_slow_rate_icon", false)
+        (`$`<View>(R.id.hide_status_bar_time_week_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_time_week_icon", false)
+        (`$`<View>(R.id.hide_status_bar_time_chinese_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_time_chinese_icon", false)
+        (`$`<View>(R.id.hide_status_bar_sim1_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_sim1_icon", false)
+        (`$`<View>(R.id.hide_status_bar_sim2_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_sim2_icon", false)
+        (`$`<View>(R.id.hide_status_bar_location_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_location_icon", false)
+        (`$`<View>(R.id.hide_status_bar_clock_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_clock_icon", false)
+        (`$`<View>(R.id.hide_status_bar_battery_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_battery_icon", false)
+        (`$`<View>(R.id.hide_status_bar_app_icon) as SwitchCompat).isChecked =
+            prefs.getBoolean("hide_status_bar_app_icon", false)
+        (`$`<View>(R.id.show_status_bar_time_am_pm) as SwitchCompat).isChecked =
+            prefs.getBoolean("show_status_bar_time_am_pm", false)
+        (`$`<View>(R.id.status_bar_custom_time) as TextView).text = prefs.getString(
+            "status_bar_custom_time",
+            ""
+        )
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        setUpData()
+    }
+
+    //location
+    //bluetooth
+    //zen
+    //mute
+    //wifi
+    //battery
+    //alarm_clock
+    //clock
+    fun updateIcon() {
+        val hiddenIcons: MutableList<String> = ArrayList()
+        hiddenIcons.add("rotate")
+        hiddenIcons.add("headset")
+        if (prefs.getBoolean("hide_status_bar_location_icon", false)) hiddenIcons.add("location")
+        if (prefs.getBoolean("hide_icon_bluetooth", false)) hiddenIcons.add("bluetooth")
+        if (prefs.getBoolean("hide_icon_shake", false)) {
+            hiddenIcons.add("zen")
+            hiddenIcons.add("volume")
+            hiddenIcons.add("mute")
+        }
+        if (prefs.getBoolean("hide_status_bar_wifi_icon", false)) {
+            hiddenIcons.add("wifi")
+            hiddenIcons.add("dual_wifi")
+        }
+        if (prefs.getBoolean("hide_status_bar_battery_icon", false)) hiddenIcons.add("battery")
+        if (prefs.getBoolean("hide_icon_alarm_clock", false)) hiddenIcons.add("alarm_clock")
+        if (prefs.getBoolean("hide_status_bar_clock_icon", false)) hiddenIcons.add("clock")
+        val icons: String = if (hiddenIcons.size == 0) {
+            "null"
+        } else {
+            hiddenIcons.stream().collect(Collectors.joining(","))
+        }
+        Shell.su("settings get secure icon_blacklist $icons").exec()
+    }
+}
