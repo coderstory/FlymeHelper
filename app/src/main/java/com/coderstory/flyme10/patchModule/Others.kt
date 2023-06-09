@@ -17,6 +17,24 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 class Others : XposedHelper(), IModule {
     override fun handleInitPackageResources(respray: InitPackageResourcesParam) {}
     override fun handleLoadPackage(param: LoadPackageParam) {
+        if (prefs.getBoolean("hide_icon_label", false)) {
+            // android 10
+            hookAllMethods(
+                "com.android.launcher3.BubbleTextView",
+                param.classLoader,
+                "setText",
+                object : XC_MethodHook() {
+                    @Throws(Throwable::class)
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        super.beforeHookedMethod(param)
+                        // 魅族17 shortcut 80  普通应用 146  魅族18 116 普通app 208
+                        if (XposedHelpers.getIntField(param.thisObject, "mDisplay") != 4) {
+                            param.args[0] = ""
+                        }
+                    }
+                })
+        }
+
         // 禁止安装app时候的安全检验
         if (param.packageName == "com.android.packageinstaller") {
             if (prefs.getBoolean("enableCheckInstaller", false)) {
