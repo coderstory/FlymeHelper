@@ -24,9 +24,6 @@ class Start : XposedHelper(), IXposedHookZygoteInit, IXposedHookLoadPackage,
     }
 
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
-        if (json.isEmpty()) {
-            initJson(lpparam)
-        }
         IsEnable().handleLoadPackage(lpparam)
         HideApp().handleLoadPackage(lpparam)
         Others().handleLoadPackage(lpparam)

@@ -17,11 +17,11 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <ImageView
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_margin="10dp"
-                android:src="@mipmap/ic_launcher_foreground" />
+                app:srcCompat="@mipmap/ic_launcher_foreground" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:background="@color/windowBackground"
-                android:foreground="?android:attr/selectableItemBackground"
+                android:foreground="?attr/selectableItemBackground"
                 android:padding="10dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp">
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:foreground="?android:attr/selectableItemBackground"
+                android:foreground="?attr/selectableItemBackground"
                 android:padding="10dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp" />
@@ -88,7 +88,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
 
-                android:foreground="?android:attr/selectableItemBackground"
+                android:foreground="?attr/selectableItemBackground"
                 android:padding="10dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp">
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:foreground="?android:attr/selectableItemBackground"
+                android:foreground="?attr/selectableItemBackground"
                 android:padding="10dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp">

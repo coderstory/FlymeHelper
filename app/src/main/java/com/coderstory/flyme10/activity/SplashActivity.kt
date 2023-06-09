@@ -1,7 +1,6 @@
 package com.coderstory.flyme10.activity
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
@@ -9,9 +8,10 @@ import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import com.coderstory.flyme10.R
 
-class SplashActivity : Activity() {
+class SplashActivity : AppCompatActivity() {
     override fun getResources(): Resources { //还原字体大小
         val res = super.getResources()
         //非默认值

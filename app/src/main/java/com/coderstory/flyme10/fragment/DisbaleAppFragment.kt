@@ -2,7 +2,6 @@ package com.coderstory.flyme10.fragment
 
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.pm.ApplicationInfo
@@ -17,6 +16,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.coderstory.flyme10.R
 import com.coderstory.flyme10.adapter.AppInfo
@@ -27,7 +27,6 @@ import com.coderstory.flyme10.tools.Misc
 import com.coderstory.flyme10.tools.SnackBarUtils
 import com.coderstory.flyme10.view.PullToRefreshView
 import com.topjohnwu.superuser.Shell
-
 import per.goweii.anylayer.AnyLayer
 import per.goweii.anylayer.DialogLayer
 import per.goweii.anylayer.Layer
@@ -201,7 +200,7 @@ class DisbaleAppFragment : BaseFragment() {
         )
         Thread {
             initData()
-            (mContext as Activity).runOnUiThread {
+            (mContext as AppCompatActivity).runOnUiThread {
                 showData()
                 adapter!!.notifyDataSetChanged()
                 dialog?.dismiss()

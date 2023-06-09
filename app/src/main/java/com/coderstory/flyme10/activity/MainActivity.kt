@@ -151,7 +151,7 @@ class MainActivity : BaseActivity() {
             Log.e("flyme10helper", e.message, e)
         }
         if (helper.getBoolean("firstOpenD", true) && Build.VERSION.SDK_INT <= 28) {
-            val normalDialog = android.app.AlertDialog.Builder(this@MainActivity)
+            val normalDialog = AlertDialog.Builder(this@MainActivity)
             normalDialog.setTitle("提示")
             normalDialog.setMessage("部分涉及系统UI的功能在低版本安卓系统[7.0-9.0]上不可以用")
             normalDialog.setPositiveButton(
@@ -162,7 +162,7 @@ class MainActivity : BaseActivity() {
         }
 
         if (Misc.isTestVersion) {
-            val normalDialog = android.app.AlertDialog.Builder(this@MainActivity)
+            val normalDialog = AlertDialog.Builder(this@MainActivity)
             normalDialog.setTitle("FBI Warning")
             normalDialog.setMessage("当前版本为测试版本,不适合长期使用")
             normalDialog.setPositiveButton(
