@@ -17,7 +17,12 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 class Others : XposedHelper(), IModule {
     override fun handleInitPackageResources(respray: InitPackageResourcesParam) {}
     override fun handleLoadPackage(param: LoadPackageParam) {
-        if (prefs.getBoolean("hide_icon_label", false)) {
+
+        if (param.packageName == "com.meizu.flyme.launcher" && prefs.getBoolean(
+                "hide_icon_label",
+                false
+            )
+        ) {
             // android 10
             hookAllMethods(
                 "com.android.launcher3.BubbleTextView",
