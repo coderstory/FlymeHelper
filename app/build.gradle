@@ -48,7 +48,6 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.goweii:AnyLayer:3.4.3-support'
     implementation "com.github.topjohnwu.libsu:core:3.1.2"
-    implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.alibaba:fastjson:2.0.33'
     implementation "androidx.core:core-ktx:1.10.1"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"

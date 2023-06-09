@@ -2,20 +2,13 @@ package com.coderstory.flyme10.tools
 
 import android.content.Context
 import android.content.pm.PackageManager
-import com.alibaba.fastjson.JSONObject
 import com.coderstory.flyme10.BuildConfig
-import com.google.gson.Gson
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XSharedPreferences
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.XposedHelpers.ClassNotFoundError
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
-import java.io.BufferedReader
 import java.io.File
-import java.io.InputStreamReader
-import java.lang.reflect.InvocationTargetException
-import java.util.zip.ZipFile
 
 open class XposedHelper {
     var prefs: XSharedPreferences
@@ -74,64 +67,9 @@ open class XposedHelper {
         }
     }
 
-    /**
-     * Sets need hook package.
-     *
-     * @param context the context
-     */
-    private fun getConfig(context: Context) {
-        try {
-            val path = findApkFile(context, BuildConfig.APPLICATION_ID).toString()
-            val zipFile = ZipFile(path)
-            val zipEntry = zipFile.getEntry("assets/config")
-            val inputStream = zipFile.getInputStream(zipEntry)
-            val `in` = InputStreamReader(inputStream)
-            val br = BufferedReader(`in`)
-            var line: String?
-            val sb = StringBuilder()
-            while (br.readLine().also { line = it } != null) {
-                sb.append(line)
-            }
-            json = Gson().fromJson(sb.toString(), JSONObject::class.java)
-            br.close()
-            `in`.close()
-            inputStream.close()
-        } catch (e: Exception) {
-            Logger.loge(e.toString())
-        }
-    }
 
-    @Throws(
-        IllegalAccessException::class,
-        InvocationTargetException::class,
-        InstantiationException::class
-    )
-    fun initJson(loadPackageParam: LoadPackageParam) {
-        try {
-            // 获取context对象
-            val context = XposedHelpers.callMethod(
-                XposedHelpers.callStaticMethod(
-                    XposedHelpers.findClass(
-                        "android.app.ActivityThread",
-                        loadPackageParam.classLoader
-                    ),
-                    "currentActivityThread"
-                ),
-                "getSystemContext"
-            ) as Context
-            getConfig(context)
-        } catch (e: Exception) {
-            Logger.loge(
-                String.format(
-                    "Set NeedHookPackage Accounding:%s Error",
-                    BuildConfig.APPLICATION_ID
-                )
-            )
-        }
-    }
 
     companion object {
-        var json = JSONObject()
         fun findClass(classpatch: String, classLoader: ClassLoader?): Class<*> {
             try {
                 return XposedHelpers.findClass(classpatch, classLoader)
