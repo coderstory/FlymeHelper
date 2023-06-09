@@ -65,12 +65,13 @@ class SystemUi : XposedHelper(), IModule {
 
 
                 findAndHookMethod(
-                    "com.flyme10.keyguard.charging.ChargeAnimationController",
+                    "com.flyme.keyguard.charging.ChargeAnimationController",
                     param.classLoader,
                     "loadCharingView",
-                    XC_MethodReplacement.returnConstant(null))
+                    XC_MethodReplacement.returnConstant(null)
+                )
                 hookAllConstructors(
-                    "com.flyme10.keyguard.charging.ChargeAnimationController",
+                    "com.flyme.keyguard.charging.ChargeAnimationController",
                     param.classLoader,
                     object : XC_MethodHook() {
                         @Throws(Throwable::class)
@@ -83,7 +84,7 @@ class SystemUi : XposedHelper(), IModule {
                         }
                     })
                 hookAllMethods(
-                    "com.flyme10.keyguard.charging.ChargeAnimationController",
+                    "com.flyme.keyguard.charging.ChargeAnimationController",
                     param.classLoader,
                     "updateBatteryState",
                     XC_MethodReplacement.returnConstant(null)
@@ -210,7 +211,7 @@ class SystemUi : XposedHelper(), IModule {
             // com.android.systemui.power.PowerUI playBatterySound start 低电量 电量空
             if (prefs.getBoolean("hideDepWarn", false)) {
                 hookAllMethods(
-                    "com.flyme10.developer.DeveloperSettingsController",
+                    "com.flyme.developer.DeveloperSettingsController",
                     param.classLoader,
                     "updateDeveloperNotification",
                     XC_MethodReplacement.returnConstant(null)
@@ -455,7 +456,7 @@ class SystemUi : XposedHelper(), IModule {
             if (clickClock || clickCalendar) {
                 //点击下拉通知栏的时间进入时钟/日历
                 findAndHookMethod(
-                    "com.flyme10.systemui.statusbar.phone.StatusBarHeaderView",
+                    "com.flyme.systemui.statusbar.phone.StatusBarHeaderView",
                     param.classLoader,
                     "onFinishInflate",
                     object : XC_MethodHook() {

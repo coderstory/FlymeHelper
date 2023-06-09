@@ -23,7 +23,7 @@
     <string name="click_to_clock"><b>下拉栏时间</b>\n点击下拉栏时间快捷打开时钟</string>
     <string name="click_to_calendar"><b>下拉栏日历</b>\n点击下拉栏日期快捷打开日历</string>
     <string name="hideDepWarn"><b>隐藏开发者选项风险警告</b>\n禁止开启开发者选项后通知栏弹出的风险警告</string>
-    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题,不会有倒计时之类的提示.如果你使用自带root则还需要开启[全局隐藏ROOT]</string>
+    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题,不会有倒计时之类的提示.也不会还原成默认主题。</string>
     <string name="alarem"><b>闹钟</b>\n启用闹钟后,隐藏状态栏上的闹钟图标</string>
     <string name="hide_icon_debug"><b>USB调试</b>\n隐藏链接电脑后的USB调试图标</string>
     <string name="hide_icon_save"><b>流量监控</b>\n在手机管家中开启流量监控后，隐藏状态栏中对应的水滴图标,偶尔会隐藏失效,重启即可。</string>
