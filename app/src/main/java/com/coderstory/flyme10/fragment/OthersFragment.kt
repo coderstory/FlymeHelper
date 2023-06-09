@@ -36,7 +36,7 @@ class OthersFragment : BaseFragment() {
             .onClick({ AnyLayer: Layer, v: View? -> AnyLayer.dismiss() }, R.id.fl_dialog_no)
             .onClick({ AnyLayer: Layer?, v: View? ->
                 Shell.su("killall com.android.systemui").exec()
-                Shell.su("am force-stop com.meizu.flyme10.launcher").exec()
+                Shell.su("am force-stop com.meizu.flyme.launcher").exec()
                 System.exit(0)
             }, R.id.fl_dialog_yes)
         anyLayer.show()

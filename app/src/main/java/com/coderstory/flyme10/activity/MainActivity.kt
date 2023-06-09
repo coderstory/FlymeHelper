@@ -144,7 +144,7 @@ class MainActivity : BaseActivity() {
         try {
             val classType = Class.forName("android.os.SystemProperties")
             val getMethod = classType.getDeclaredMethod("get", String::class.java)
-            val value = getMethod.invoke(classType, "ro.build.flyme10.version") as String
+            val value = getMethod.invoke(classType, "ro.build.flyme.version") as String
             Log.e("xposed", "当前flyme版本$value")
 
         } catch (e: Exception) {

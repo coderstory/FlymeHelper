@@ -27,10 +27,7 @@ import java.util.*
 
 
 class SystemUi : XposedHelper(), IModule {
-    companion object {
-        private var MODULE_PATH: String? = null
-        private val mClock = arrayOfNulls<TextView>(1)
-    }
+
 
     override fun handleInitPackageResources(respray: InitPackageResourcesParam) {
         if (respray.packageName == "com.android.systemui") {
@@ -60,7 +57,7 @@ class SystemUi : XposedHelper(), IModule {
                     })
             }
 
-            //coord: (0,198,28) | addr: Lcom/flyme10/systemui/charge/ChargeAnimationController;->loadCharingView(Z)V | loc: ?
+            //coord: (0,198,28) | addr: Lcom/flyme/systemui/charge/ChargeAnimationController;->loadCharingView(Z)V | loc: ?
             if (prefs.getBoolean("disable_charge_animation", false)) {
 
 
@@ -230,7 +227,7 @@ class SystemUi : XposedHelper(), IModule {
             }
             if (prefs.getBoolean("hide_status_bar_slow_rate_icon", false)) {
                 hookAllMethods(
-                    "com.android.flyme10.statusbar.connectionRateView.ConnectionRateView",
+                    "com.android.flyme.statusbar.connectionRateView.ConnectionRateView",
                     param.classLoader,
                     "updateConnectionRate",
                     object : XC_MethodHook() {
@@ -470,7 +467,7 @@ class SystemUi : XposedHelper(), IModule {
                                     it.context.startActivity(Intent().apply {
                                         setClassName(
                                             "com.android.alarmclock",
-                                            "com.meizu.flyme10.alarmclock.DeskClock"
+                                            "com.meizu.flyme.alarmclock.DeskClock"
                                         )
                                         flags = Intent.FLAG_ACTIVITY_NEW_TASK
                                     })
@@ -486,7 +483,7 @@ class SystemUi : XposedHelper(), IModule {
                                     it.context.startActivity(Intent().apply {
                                         setClassName(
                                             "com.android.calendar",
-                                            "com.meizu.flyme10.calendar.AllInOneActivity"
+                                            "com.meizu.flyme.calendar.AllInOneActivity"
                                         )
                                         flags = Intent.FLAG_ACTIVITY_NEW_TASK
                                     })
@@ -496,6 +493,10 @@ class SystemUi : XposedHelper(), IModule {
                     })
             }
         }
+    }
+
+    override fun initZygote(startupParam: StartupParam?) {
+
     }
 
     private val notifyBackAction: XC_MethodHook
@@ -548,8 +549,4 @@ class SystemUi : XposedHelper(), IModule {
             }
             return type
         }
-
-    override fun initZygote(startupParam: StartupParam?) {
-        MODULE_PATH = startupParam!!.modulePath
-    }
 }
