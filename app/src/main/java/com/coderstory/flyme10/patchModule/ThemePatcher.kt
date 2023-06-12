@@ -88,12 +88,12 @@ class ThemePatcher : XposedHelper(), IModule {
                 // findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true))
                 // 10.1.x
                 if (findClassWithoutLog(
-                        "com.meizu.flyme10.policy.sdk.ve0",
+                        "com.meizu.flyme.policy.sdk.ve0",
                         param.classLoader
                     ) != null
                 ) {
                     findAndHookMethod(
-                        "com.meizu.flyme10.policy.sdk.ve0",
+                        "com.meizu.flyme.policy.sdk.ve0",
                         param.classLoader,
                         "J",
                         XC_MethodReplacement.returnConstant(true)
@@ -101,7 +101,7 @@ class ThemePatcher : XposedHelper(), IModule {
                 } else {
                     // 10.2.2
                     findAndHookMethod(
-                        "com.meizu.flyme10.policy.sdk.pe0",
+                        "com.meizu.flyme.policy.sdk.pe0",
                         param.classLoader,
                         "J",
                         XC_MethodReplacement.returnConstant(true)
@@ -178,7 +178,7 @@ class ThemePatcher : XposedHelper(), IModule {
                             val objs = param.args
                             val tag = "(ITEMS LIKE"
                             val tag2 = "%zklockscreen;%"
-                            val tag3 = "%com.meizu.flyme10.weather;%"
+                            val tag3 = "%com.meizu.flyme.weather;%"
                             var result = false
                             for (obj in objs) {
                                 if (obj is String && (obj.contains(tag) || obj == tag2 || obj == tag3)) {

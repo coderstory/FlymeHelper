@@ -77,7 +77,7 @@ class Others : XposedHelper(), IModule {
                 )
             }
         }
-        if (param.packageName == "com.meizu.flyme10.update") {
+        if (param.packageName == "com.meizu.flyme.update") {
 
             // 获取Context
             // public abstract class a<T> implements ErrorListener, Listener {
@@ -86,10 +86,11 @@ class Others : XposedHelper(), IModule {
             //        this.c = RequestManager.getInstance(this.b);
             //    }
 
-            XposedBridge.hookAllConstructors(findClass(
-                "com.meizu.flyme10.update.network.RequestManager",
-                param.classLoader
-            ),
+            XposedBridge.hookAllConstructors(
+                findClass(
+                    "com.meizu.flyme.update.network.RequestManager",
+                    param.classLoader
+                ),
                 object : XC_MethodHook() {
                     @Throws(Throwable::class)
                     override fun afterHookedMethod(param: MethodHookParam) {
@@ -116,7 +117,7 @@ class Others : XposedHelper(), IModule {
             //            }
             XposedBridge.hookAllConstructors(
                 findClass(
-                    "com.meizu.flyme10.update.model.n",
+                    "com.meizu.flyme.update.model.n",
                     param.classLoader
                 ), object : XC_MethodHook() {
                     @Throws(Throwable::class)

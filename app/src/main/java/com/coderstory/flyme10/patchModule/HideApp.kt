@@ -18,7 +18,7 @@ import java.util.stream.Collectors
 class HideApp : XposedHelper(), IModule {
     override fun handleInitPackageResources(respray: InitPackageResourcesParam) {}
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
-        if (loadPackageParam.packageName == "com.meizu.flyme10.launcher") {
+        if (loadPackageParam.packageName == "com.meizu.flyme.launcher") {
             // bl.add(new ComponentName("com.android.vending", "com.android.vending.MarketWidgetProvider"));
             val value = prefs.getString("Hide_App_List", "")
             XposedBridge.log("load config$value")
@@ -26,9 +26,9 @@ class HideApp : XposedHelper(), IModule {
                 val hideAppList = Arrays.asList(*value!!.split(":").toTypedArray())
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                     val clazz: Class<*> =
-                        findClass("com.meizu.flyme10.launcher.co", loadPackageParam.classLoader)
+                        findClass("com.meizu.flyme.launcher.co", loadPackageParam.classLoader)
                     findAndHookMethod(
-                        "com.meizu.flyme10.launcher.MzWidgetGroupView",
+                        "com.meizu.flyme.launcher.MzWidgetGroupView",
                         loadPackageParam.classLoader,
                         "a",
                         clazz,
@@ -50,7 +50,7 @@ class HideApp : XposedHelper(), IModule {
                             }
                         })
                     findAndHookMethod(
-                        "com.meizu.flyme10.launcher.cm",
+                        "com.meizu.flyme.launcher.cm",
                         loadPackageParam.classLoader,
                         "b",
                         ComponentName::class.java,
