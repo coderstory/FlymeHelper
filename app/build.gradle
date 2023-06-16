@@ -8,8 +8,8 @@ android {
         minSdkVersion 33
         targetSdk 33
         resConfigs "zh-rCN"
-        versionCode 521
-        versionName "4.6.5"
+        versionCode 522
+        versionName "4.6.6"
     }
 
     signingConfigs {
