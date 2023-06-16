@@ -23,27 +23,11 @@ class FuckAd : XposedHelper(), IModule {
             )) &&
             prefs.getBoolean("EnableBlockAD", false)
         ) {
-            // 处理内嵌网页上的广告  例如天气中的15日天气
-            var clazz = findClassWithoutLog(
-                "com.meizu.advertise.api.JsAdBridge",
-                loadPackageParam.classLoader
-            )
-            if (clazz != null) {
-                val finalClazz = clazz
-                hookAllConstructors(clazz, object : XC_MethodHook() {
-                    @Throws(Throwable::class)
-                    override fun beforeHookedMethod(param: MethodHookParam) {
-                        super.beforeHookedMethod(param)
-                        XposedHelpers.setStaticObjectField(finalClazz, "OBJECT_NAME", "fuck_ad")
-                    }
-                })
-            }
-
             // 禁止app加载魅族的广告插件 com.meizu.advertisef,..plugin.apk
-            clazz = findClassWithoutLog(
-                "com.meizu.advertise.api.AdManager",
-                loadPackageParam.classLoader
-            )
+          var clazz = findClassWithoutLog(
+              "com.meizu.advertise.api.AdManager",
+              loadPackageParam.classLoader
+          )
             if (clazz != null) {
                 hookAllMethods(clazz, "installPlugin", XC_MethodReplacement.returnConstant(null))
                 hookAllMethods(clazz, "install", XC_MethodReplacement.returnConstant(null))

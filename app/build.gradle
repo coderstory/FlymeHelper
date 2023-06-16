@@ -3,11 +3,9 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 33
-    buildToolsVersion "33.0.1"
-
     defaultConfig {
         applicationId "com.coderstory.flyme10"
-        minSdkVersion 26
+        minSdkVersion 33
         targetSdk 33
         resConfigs "zh-rCN"
         versionCode 521
@@ -43,6 +41,8 @@ dependencies {
     implementation 'com.github.goweii:AnyLayer:3.4.3-support'
     implementation "com.github.topjohnwu.libsu:core:3.1.2"
     implementation 'com.alibaba:fastjson:2.0.33'
+    implementation 'com.umeng.umsdk:common:9.6.1'
+    implementation 'com.umeng.umsdk:asms:1.8.0'
 }
 repositories {
     mavenCentral()
