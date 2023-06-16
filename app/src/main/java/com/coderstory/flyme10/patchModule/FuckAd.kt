@@ -33,18 +33,7 @@ class FuckAd : XposedHelper(), IModule {
                 hookAllMethods(clazz, "install", XC_MethodReplacement.returnConstant(null))
                 hookAllMethods(clazz, "init", XC_MethodReplacement.returnConstant(null))
             }
-            clazz =
-                findClassWithoutLog("com.meizu.dynamic.PluginManager", loadPackageParam.classLoader)
-            if (clazz != null) {
-                hookAllMethods(clazz, "install", XC_MethodReplacement.returnConstant(null))
-                hookAllMethods(
-                    clazz,
-                    "installFromDownload",
-                    XC_MethodReplacement.returnConstant(null)
-                )
-                hookAllMethods(clazz, "newContext", XC_MethodReplacement.returnConstant(true))
-                hookAllMethods(clazz, "isFirstInstalled", XC_MethodReplacement.returnConstant(true))
-            }
+
             clazz = findClassWithoutLog(
                 "com.meizu.advertise.update.PluginManager",
                 loadPackageParam.classLoader

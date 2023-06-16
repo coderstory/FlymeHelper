@@ -261,6 +261,6 @@ class SystemUIFragment : BaseFragment() {
         } else {
             hiddenIcons.stream().collect(Collectors.joining(","))
         }
-        Shell.su("settings get secure icon_blacklist $icons").exec()
+        Shell.su("settings put secure icon_blacklist $icons").exec()
     }
 }
