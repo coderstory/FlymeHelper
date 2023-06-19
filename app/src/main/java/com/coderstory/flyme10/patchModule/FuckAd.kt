@@ -24,10 +24,10 @@ class FuckAd : XposedHelper(), IModule {
             prefs.getBoolean("EnableBlockAD", false)
         ) {
             // 禁止app加载魅族的广告插件 com.meizu.advertisef,..plugin.apk
-          var clazz = findClassWithoutLog(
-              "com.meizu.advertise.api.AdManager",
-              loadPackageParam.classLoader
-          )
+            var clazz = findClassWithoutLog(
+                "com.meizu.advertise.api.AdManager",
+                loadPackageParam.classLoader
+            )
             if (clazz != null) {
                 hookAllMethods(clazz, "installPlugin", XC_MethodReplacement.returnConstant(null))
                 hookAllMethods(clazz, "install", XC_MethodReplacement.returnConstant(null))

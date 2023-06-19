@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">flyme10助手</string>
+    <string name="app_name">Flyme10助手</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="authorization_agreement"><b>声明</b>\n软件授权协议</string>

@@ -38,7 +38,7 @@ open class XposedHelper {
     protected fun findClassWithoutLog(classpatch: String, classLoader: ClassLoader): Class<*>? {
         return try {
             XposedHelpers.findClass(classpatch, classLoader)
-        } catch (error: Exception) {
+        } catch (error: ClassNotFoundError) {
             null
         }
     }

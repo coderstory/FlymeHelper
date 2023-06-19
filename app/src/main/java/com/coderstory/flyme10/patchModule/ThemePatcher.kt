@@ -97,15 +97,14 @@ class ThemePatcher : XposedHelper(), IModule {
                         "J",
                         XC_MethodReplacement.returnConstant(true)
                     )
-                } else {
-                    // 10.2.2
-                    findAndHookMethod(
-                        "com.meizu.flyme.policy.sdk.pe0",
-                        param.classLoader,
-                        "J",
-                        XC_MethodReplacement.returnConstant(true)
-                    )
                 }
+                // 10.2.2
+                findAndHookMethod(
+                    "com.meizu.flyme.policy.sdk.pe0",
+                    param.classLoader,
+                    "J",
+                    XC_MethodReplacement.returnConstant(true)
+                )
 
 
                 /**
