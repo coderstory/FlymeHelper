@@ -11,6 +11,8 @@ import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.luckypray.dexkit.DexKitBridge
+import java.lang.reflect.Method
 
 
 class ThemePatcher : XposedHelper(), IModule {
@@ -35,135 +37,103 @@ class ThemePatcher : XposedHelper(), IModule {
                 false
             )
         ) {
+            val apkPath = param.appInfo.sourceDir
+            System.loadLibrary("dexkit")
+
             if (param.packageName == "com.meizu.customizecenter") {
                 XposedBridge.log("开始hook主题")
-                // 开始试用主题
-                findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.theme.f",
-                    param.classLoader,
-                    "N",
-                    String::class.java,
-                    String::class.java,
-                    Int::class.javaPrimitiveType,
-                    Int::class.javaPrimitiveType,
-                    XC_MethodReplacement.returnConstant(null)
-                )
+                DexKitBridge.create(apkPath)?.use { bridge ->
+                    var searchResults = bridge.batchFindMethodsUsingStrings {
+                        addQuery("resetToSystemTheme", setOf("resetToSystemTheme"))
+                        addQuery(
+                            "trialEnd",
+                            setOf(
+                                "com.meizu.customizecenter.theme.trial.end",
+                                "com.meizu.customizecenter"
+                            )
+                        )
+                        addQuery(
+                            "startFontRestoreService",
+                            setOf(
+                                "is_go_to_pay_font",
+                                "is_restore_last_key",
+                                "startFontRestoreService"
+                            )
+                        )
 
-                // 拦截开机自启广播
-                findAndHookMethod(
-                    "com.meizu.customizecenter.admin.receiver.BootBroadcastReceiver",
-                    param.classLoader,
-                    "onReceive",
-                    Context::class.java,
-                    Intent::class.java,
-                    XC_MethodReplacement.returnConstant(null)
-                )
+                        addQuery(
+                            "checkTime",
+                            setOf(
+                                "checkTrialFontWhenAppStart_interval:",
+                                " second"
+                            )
+                        )
 
-                // 拦截试用服务
-                findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.font.FontTrialService",
-                    param.classLoader,
-                    "onStartCommand",
-                    Intent::class.java,
-                    Int::class.javaPrimitiveType,
-                    Int::class.javaPrimitiveType,
-                    XC_MethodReplacement.returnConstant(2)
-                )
-                findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.theme.ThemeTrialService",
-                    param.classLoader,
-                    "onStartCommand",
-                    Intent::class.java,
-                    Int::class.javaPrimitiveType,
-                    Int::class.javaPrimitiveType,
-                    object : XC_MethodReplacement() {
-                        @Throws(Throwable::class)
-                        override fun replaceHookedMethod(param: MethodHookParam): Any {
-                            return 2
+                        addQuery(
+                            "checkTrialFont",
+                            setOf("checkTrialFont:!isUsingTrialFont()", "checkTrialFont_interval:")
+                        )
+                    }
+
+                    searchResults["resetToSystemTheme"]?.let { it ->
+                        it.forEach {
+                            val method: Method = it.getMethodInstance(param.classLoader)
+                            XposedBridge.hookMethod(
+                                method,
+                                XC_MethodReplacement.returnConstant(true)
+                            )
                         }
-                    })
+                    }
 
-                //resetToSystemTheme
-                // findAndHookMethod("com.meizu.customizecenter.manager.managermoduls.theme.common.b", lpparam.classLoader, "c", XC_MethodReplacement.returnConstant(true))
-                // 10.1.x
-                if (findClassWithoutLog(
-                        "com.meizu.flyme.policy.sdk.ve0",
-                        param.classLoader
-                    ) != null
-                ) {
-                    findAndHookMethod(
-                        "com.meizu.flyme.policy.sdk.ve0",
-                        param.classLoader,
-                        "J",
-                        XC_MethodReplacement.returnConstant(true)
-                    )
-                }
-                // 10.2.2
-                findAndHookMethod(
-                    "com.meizu.flyme.policy.sdk.pe0",
-                    param.classLoader,
-                    "J",
-                    XC_MethodReplacement.returnConstant(true)
-                )
+                    searchResults["trialEnd"]?.let { it ->
+                        it.forEach {
+                            val method: Method = it.getMethodInstance(param.classLoader)
+                            XposedBridge.hookMethod(
+                                method,
+                                XC_MethodReplacement.returnConstant(true)
+                            )
+                        }
+                    }
 
+                    searchResults["startFontRestoreService"]?.let { it ->
+                        it.forEach {
+                            val method: Method = it.getMethodInstance(param.classLoader)
+                            XposedBridge.hookMethod(
+                                method,
+                                XC_MethodReplacement.returnConstant(null)
+                            )
+                        }
+                    }
 
-                /**
-                 *
-                 * public void a(boolean arg4, boolean arg5) {
-                 * com.meizu.customizecenter.manager.utilstool.c.b.b(this.b, "startFontRestoreService");
-                 * Intent v0 = new Intent(this.d, FontRestoreService.class);
-                 * v0.putExtra(com.meizu.customizecenter.model.a.a$g.h.a(), this.e().a());
-                 * v0.putExtra("is_go_to_pay_font", arg5);
-                 * v0.putExtra("is_restore_last_key", arg4);
-                 * com.meizu.customizecenter.manager.utilstool.systemutills.a.a.a(this.d, v0);
-                 * }
-                 */
-                // 7.5
-                findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.font.k",
-                    param.classLoader,
-                    "Y",
-                    Boolean::class.javaPrimitiveType,
-                    Boolean::class.javaPrimitiveType,
-                    XC_MethodReplacement.returnConstant(null)
-                )
+                    searchResults["checkTime"]?.let { it ->
+                        it.forEach {
+                            val method: Method = it.getMethodInstance(param.classLoader)
+                            XposedBridge.hookMethod(
+                                method,
+                                XC_MethodReplacement.returnConstant(null)
+                            )
+                        }
+                    }
+
+                    searchResults["checkTrialFont"]?.let { it ->
+                        it.forEach {
+                            val method: Method = it.getMethodInstance(param.classLoader)
+                            XposedBridge.hookMethod(
+                                method,
+                                XC_MethodReplacement.returnConstant(null)
+                            )
+                        }
+                    }
+
+                } ?: XposedBridge.log("search result empty")
 
 
-                /**
-                 * public void k() {
-                 * long v0 = SystemClock.elapsedRealtime() - this.n();
-                 * com.meizu.customizecenter.manager.utilstool.c.b.e(this.b, "checkTrialFontWhenAppStart_interval:" + v0 / 1000 + " second");
-                 * if(!this.f(v0)) {
-                 * this.g();
-                 * }
-                 * }
-                 */
-                findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.font.k",
-                    param.classLoader,
-                    "m",
-                    XC_MethodReplacement.returnConstant(null)
-                )
-
-
-                //"checkTrialFont:!isUsingTrialFont() Context context, String str, long j
-                findAndHookMethod(
-                    "com.meizu.customizecenter.manager.managermoduls.font.k",
-                    param.classLoader,
-                    "l",
-                    Context::class.java,
-                    String::class.java,
-                    Long::class.javaPrimitiveType,
-                    XC_MethodReplacement.returnConstant(null)
-                )
-
-                val themeContentProvider: Class<*> = findClass(
-                    "com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider",
-                    param.classLoader
-                )
                 //主题混搭 ThemeContentProvider query Unknown URI
                 findAndHookMethod(
-                    themeContentProvider,
+                    findClass(
+                        "com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider",
+                        param.classLoader
+                    ),
                     "query",
                     Uri::class.java,
                     Array<String>::class.java,
@@ -228,6 +198,40 @@ class ThemePatcher : XposedHelper(), IModule {
                     Int::class.javaPrimitiveType,
                     XC_MethodReplacement.returnConstant(0)
                 )
+
+                // 拦截开机自启广播
+                findAndHookMethod(
+                    "com.meizu.customizecenter.admin.receiver.BootBroadcastReceiver",
+                    param.classLoader,
+                    "onReceive",
+                    Context::class.java,
+                    Intent::class.java,
+                    XC_MethodReplacement.returnConstant(null)
+                )
+
+                // 拦截试用服务
+                findAndHookMethod(
+                    "com.meizu.customizecenter.manager.managermoduls.font.FontTrialService",
+                    param.classLoader,
+                    "onStartCommand",
+                    Intent::class.java,
+                    Int::class.javaPrimitiveType,
+                    Int::class.javaPrimitiveType,
+                    XC_MethodReplacement.returnConstant(2)
+                )
+                findAndHookMethod(
+                    "com.meizu.customizecenter.manager.managermoduls.theme.ThemeTrialService",
+                    param.classLoader,
+                    "onStartCommand",
+                    Intent::class.java,
+                    Int::class.javaPrimitiveType,
+                    Int::class.javaPrimitiveType,
+                    object : XC_MethodReplacement() {
+                        @Throws(Throwable::class)
+                        override fun replaceHookedMethod(param: MethodHookParam): Any {
+                            return 2
+                        }
+                    })
             }
         }
     }

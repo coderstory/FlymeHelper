@@ -13,6 +13,7 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.luckypray.dexkit.DexKitBridge
 
 class Others : XposedHelper(), IModule {
     override fun handleInitPackageResources(respray: InitPackageResourcesParam) {}
@@ -115,28 +116,48 @@ class Others : XposedHelper(), IModule {
             //                    this.cdnCheckResult = bVar;
             //                }
             //            }
-            XposedBridge.hookAllConstructors(
-                findClass(
-                    "com.meizu.flyme.update.model.n",
-                    param.classLoader
-                ), object : XC_MethodHook() {
-                    @Throws(Throwable::class)
-                    override fun afterHookedMethod(param: MethodHookParam) {
-                        super.afterHookedMethod(param)
-                        val obj = param.thisObject
-                        val currentFimware = XposedHelpers.getObjectField(obj, "currentFimware")
-                        handleInfo(currentFimware)
-                        val upgradeFirmware = XposedHelpers.getObjectField(obj, "upgradeFirmware")
-                        handleInfo(upgradeFirmware)
+            val apkPath = param.appInfo.sourceDir
+            System.loadLibrary("dexkit")
+
+
+            DexKitBridge.create(apkPath)?.use { bridge ->
+                var searchResults = bridge.batchFindClassesUsingStrings {
+                    addQuery(
+                        "upgradeModel",
+                        setOf("cdnCheckResult", "firmwarePlan", "upgradeFirmware", "currentFimware")
+                    )
+                }
+
+                searchResults["upgradeModel"]?.let { it ->
+                    it.forEach {
+                        val clazz = it.getClassInstance(param.classLoader)
+                        XposedBridge.hookAllConstructors(
+                            clazz,
+                            object : XC_MethodHook() {
+                                @Throws(Throwable::class)
+                                override fun afterHookedMethod(param: MethodHookParam) {
+                                    super.afterHookedMethod(param)
+                                    val obj = param.thisObject
+                                    val currentFimware =
+                                        XposedHelpers.getObjectField(obj, "currentFimware")
+                                    handleInfo(currentFimware)
+                                    val upgradeFirmware =
+                                        XposedHelpers.getObjectField(obj, "upgradeFirmware")
+                                    handleInfo(upgradeFirmware)
+                                }
+                            }
+                        )
                     }
-                })
+                }
+
+
+            } ?: XposedBridge.log("search result empty")
         }
     }
 
     private fun handleInfo(info: Any?) {
         if (info != null) {
             var update = SharedHelper(mContext!!).getString("updateList", "")
-            // update = new String(android.util.Base64.decode(update, Base64.DEFAULT));
             val systemVersion = XposedHelpers.getObjectField(info, "systemVersion") as String
             val updateUrl = XposedHelpers.getObjectField(info, "updateUrl") as String
             val releaseDate = XposedHelpers.getObjectField(info, "releaseDate") as String

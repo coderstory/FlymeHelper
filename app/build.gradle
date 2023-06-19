@@ -10,6 +10,9 @@ android {
         resConfigs "zh-rCN"
         versionCode 522
         versionName "4.6.6"
+        ndk {
+            abiFilters 'arm64-v8a'
+        }
     }
 
     signingConfigs {
@@ -43,6 +46,7 @@ dependencies {
     implementation 'com.alibaba:fastjson:2.0.33'
     implementation 'com.umeng.umsdk:common:9.6.1'
     implementation 'com.umeng.umsdk:asms:1.8.0'
+    implementation 'org.luckypray:DexKit:1.1.8'
 }
 repositories {
     mavenCentral()
