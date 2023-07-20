@@ -117,7 +117,7 @@ class Others : XposedHelper(), IModule {
             //            }
             XposedBridge.hookAllConstructors(
                 findClass(
-                    "com.meizu.flyme.update.model.n",
+                    "com.meizu.flyme.update.model.h",
                     param.classLoader
                 ), object : XC_MethodHook() {
                     @Throws(Throwable::class)
