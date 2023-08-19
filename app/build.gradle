@@ -8,7 +8,7 @@ android {
         minSdkVersion 33
         targetSdk 33
         resConfigs "zh-rCN"
-        versionCode 522
+        versionCode 555
         versionName "4.6.7"
     }
 
