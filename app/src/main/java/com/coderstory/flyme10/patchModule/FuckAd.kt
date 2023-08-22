@@ -8,6 +8,7 @@ import com.coderstory.flyme10.xposed.IModule
 import de.robv.android.xposed.IXposedHookZygoteInit.StartupParam
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
+import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
@@ -17,6 +18,55 @@ class FuckAd : XposedHelper(), IModule {
     override fun handleInitPackageResources(respray: InitPackageResourcesParam) {}
     override fun initZygote(startupParam: StartupParam?) {}
     override fun handleLoadPackage(loadPackageParam: LoadPackageParam) {
+
+        if (loadPackageParam.packageName.equals("com.android.browser")) {
+            XposedBridge.log("进入浏览器的逻辑")
+            findAndHookMethod(
+                "com.common.advertise.plugin.utils.DeviceUtils",
+                loadPackageParam.classLoader,
+                "is18Device",
+                XC_MethodReplacement.returnConstant(true)
+            )
+
+            findAndHookMethod(
+                "com.meizu.advertise.admediation.i.a",
+                loadPackageParam.classLoader,
+                "a",
+                XC_MethodReplacement.returnConstant(true)
+            )
+
+            findAndHookMethod(
+                "com.meizu.advertise.admediation.c.e",
+                loadPackageParam.classLoader,
+                "a",
+                XC_MethodReplacement.returnConstant(null)
+            )
+
+            XposedBridge.log("退出浏览器的逻辑")
+
+        }
+
+
+        if (loadPackageParam.packageName.equals("com.meizu.flyme.weather")) {
+
+            findAndHookMethod(
+                "com.common.advertise.plugin.utils.f",
+                loadPackageParam.classLoader,
+                "p",
+                XC_MethodReplacement.returnConstant(true)
+            )
+
+            findAndHookMethod(
+                "com.meizu.flyme.policy.sdk.yw",
+                loadPackageParam.classLoader,
+                "a",
+                XC_MethodReplacement.returnConstant(true)
+            )
+
+        }
+
+
+
         if ((loadPackageParam.packageName.contains("meizu") ||
                     loadPackageParam.packageName.contains("flyme") || loadPackageParam.packageName.contains(
                 "mz"
@@ -53,6 +103,7 @@ class FuckAd : XposedHelper(), IModule {
                 "com.meizu.advertise.api.SimpleJsAdBridge",
                 loadPackageParam.classLoader
             )
+
             if (clazz != null) {
                 XposedHelpers.findAndHookConstructor(
                     clazz,
