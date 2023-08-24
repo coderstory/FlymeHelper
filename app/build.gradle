@@ -1,52 +1,62 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.devtools.ksp'
+}
 
 android {
-    compileSdkVersion 33
+    namespace 'cn.coderstory.flyme'
+    compileSdk 33
+
     defaultConfig {
-        applicationId "com.coderstory.flyme10"
-        minSdkVersion 33
+        applicationId 'cn.coderstory.flyme'
+        minSdk 27
         targetSdk 33
-        resConfigs "zh-rCN"
-        versionCode 556
-        versionName "4.6.8"
+        versionCode rootProject.ext.appVersionCode
+        versionName rootProject.ext.appVersionName
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
-    signingConfigs {
-    }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled rootProject.ext.enableR8
+            shrinkResources rootProject.ext.enableR8
+            zipAlignEnabled rootProject.ext.enableR8
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            zipAlignEnabled true
-            pseudoLocalesEnabled true
-            shrinkResources true
         }
-
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
-    lint {
-        abortOnError false
+    kotlinOptions {
+        jvmTarget = '11'
+        freeCompilerArgs = [
+                '-Xno-param-assertions',
+                '-Xno-call-assertions',
+                '-Xno-receiver-assertions'
+        ]
+    }
+    buildFeatures {
+        buildConfig true
+        viewBinding true
+    }
+    lintOptions {
         checkReleaseBuilds false
     }
-    namespace 'com.coderstory.flyme10'
 }
 
 dependencies {
-    compileOnly fileTree(include: ['*.jar'], dir: 'libs')
+    compileOnly 'de.robv.android.xposed:api:82'
+    implementation 'com.highcapable.yukihookapi:api:1.1.11'
+    ksp 'com.highcapable.yukihookapi:ksp-xposed:1.1.11'
+    implementation 'com.github.duanhong169:drawabletoolbox:1.0.7'
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
-    implementation 'com.github.goweii:AnyLayer:3.4.3-support'
-    implementation "com.github.topjohnwu.libsu:core:3.1.2"
-    implementation 'com.alibaba:fastjson:2.0.33'
-    implementation 'com.umeng.umsdk:common:9.6.1'
-    implementation 'com.umeng.umsdk:asms:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
-repositories {
-    mavenCentral()
-}
-
-
-

@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2196F3</color>
-    <color name="colorPrimaryDark">#2196F3</color>
-    <color name="colorAccent">#2196F3</color>
-    <color name="colorItem">#2196F3</color>
-    <color name="enableApp">#2196F3</color>
-    <color name="splash">#2196F3</color>
-    <color name="white">#ffffff</color>
-    <color name="switchBtn">#fff</color>
-    <color name="divider">#00f7f7f7</color>
-    <color name="disableApp">#B39F9F9F</color>
-    <color name="md_blue_50">#e7e9fd</color>
-    <color name="md_blue_200">#afbfff</color>
-    <color name="windowBackground">#fafafa</color>
-    <color name="md_red_100">#2196F3</color>
-    <color name="listItem">#2196F3</color>
-    <color name="header">#2196F3</color>
-    <color name="red">#C83A3A</color>
+    <color name="colorPrimaryAccent">#FF656565</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="trans">#00000000</color>
 </resources>

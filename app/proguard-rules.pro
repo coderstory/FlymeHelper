@@ -1,40 +1,30 @@
--mergeinterfacesaggressively
--dontusemixedcaseclassnames
-#指定代码的压缩级别
--optimizationpasses 7
--overloadaggressively
-#不去忽略非公共的库类
--dontskipnonpubliclibraryclasses
--dontskipnonpubliclibraryclassmembers
-#优化 不优化输入的类文件
--obfuscationdictionary dictionary.txt
--classobfuscationdictionary dictionary.txt
--packageobfuscationdictionary  dictionary.txt
-#预校验
--dontpreverify
-#混淆时所采用的算法
--optimizations !code/simplification/arithmetic,!code/simplication/cast,!field/*,!class/mergin/*
-#保持哪些类不被混淆
--keep class com.coderstory.flyme10.xposed.Start
+# Add project specific ProGuard rules here.
+# You can control the set of applied configuration files using the
+# proguardFiles setting in build.gradle.
+#
+# For more details, see
+#   http://developer.android.com/guide/developing/tools/proguard.html
 
--keep class com.coderstory.flyme10.activity.MainActivity {
-          boolean isEnable();
- }
-#-dontwarn
+# If your project uses WebView with JS, uncomment the following
+# and specify the fully qualified class name to the JavaScript interface
+# class:
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#   public *;
+#}
 
--keep class com.umeng.** {*;}
+# Uncomment this to preserve the line number information for
+# debugging stack traces.
+#-keepattributes SourceFile,LineNumberTable
 
--keep class org.repackage.** {*;}
+# If you keep the line number information, uncomment this to
+# hide the original source file name.
+#-renamesourcefileattribute SourceFile
 
--keepclassmembers class * {
-   public <init> (org.json.JSONObject);
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+    public static *** throwUninitializedProperty(...);
+    public static *** throwUninitializedPropertyAccessException(...);
 }
 
--keepclassmembers enum * {
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
-}
-
--keep public class com.coderstory.flyme10.R$*{
-    public static final int *;
+-keepclassmembers class * implements androidx.viewbinding.ViewBinding {
+    *** inflate(android.view.LayoutInflater);
 }

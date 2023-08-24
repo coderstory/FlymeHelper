@@ -1,116 +1,12 @@
 <resources>
     <string name="app_name">Flyme10助手</string>
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
-    <string name="authorization_agreement"><b>声明</b>\n软件授权协议</string>
-    <string name="enableBlockADS"><b>基础功能</b>\n删除和屏蔽魅族自家的广告插件,可以屏蔽一部分App的广告</string>
-    <string name="enableHosts"><b>启用模块</b>\n开启Hosts支持模块</string>
-    <string name="blockads"><b>开启常规去广告</b>\nGithub上的hosts合集,用于屏蔽国内广告.</string>
-    <string name="googlehosts"><b>开启常见国外网站访问支持</b>\nGithub上随意找的Hosts,包含了一些常见的国外网站,不含google,有时效性</string>
-    <string name="hostsnote"><b>注意事项:</b>\n本功能需要ROOT权限,通过直接修改hosts文件实现,如果你安装了Magisk则无法生效</string>
-    <string name="enablexposed"><b>开启Xposed启用检测</b>\n开启后,如果未在Xposed中激活则弹出相应提示</string>
-    <string name="enableUpdate"><b>开启更新检测</b>\n每天第一次打开助手时,自动检测并提示新版本</string>
-    <string name="hideicon"><b>隐藏应用图标</b>\n隐藏Flyme助手在桌上面的图标，隐藏图标后可在Xposed中打开.如果你没安装magisk则请勿开启</string>
-    <string name="hide_icon_label"><b>隐藏桌面图标标签</b>\n隐藏桌面图标和文件夹下的标签文字</string>
-    <string name="hide_icon_4x5"><b>桌面图标布局 - 小</b>\n使用4x5的桌面图标布局,可能会导致部分图标丢失</string>
-    <string name="hide_icon_5x5"><b>桌面图标布局 - 中</b>\n使用5x5的桌面图标布局</string>
-    <string name="hide_icon_65"><b>桌面图标布局 - 大</b>\n使用6x5的桌面图标布局</string>
-    <string name="enableCheckInstaller"><b>禁用安全检查</b>\n跳过安装应用时候的安全检查,加快应用安装速度</string>
-    <string name="enableCTS"><b>启用原生应用安装界面</b>\n使用Android原生安装界面替换flyme定制的安装界面</string>
-    <string name="disable_charge_animation"><b>充电动画</b>\n禁止开始充电时显示的全屏充电动画</string>
-    <string name="enable_back_vibrator"><b>侧滑返回-震动</b>\n触发返回时开启震动,输入值为震动时长,推荐30–50</string>
-    <string name="double_clock_sleep"><b>双击状态栏锁屏</b>\n双击顶部状态栏实现锁屏</string>
-    <string name="click_to_clock"><b>下拉栏时间</b>\n点击下拉栏时间快捷打开时钟</string>
-    <string name="click_to_calendar"><b>下拉栏日历</b>\n点击下拉栏日期快捷打开日历</string>
-    <string name="hideDepWarn"><b>隐藏开发者选项风险警告</b>\n禁止开启开发者选项后通知栏弹出的风险警告</string>
-    <string name="fucktheme"><b>主题和谐</b>\n无限制试用主题,不会有倒计时之类的提示.也不会还原成默认主题。</string>
-    <string name="alarem"><b>闹钟</b>\n启用闹钟后,隐藏状态栏上的闹钟图标</string>
-    <string name="hide_icon_debug"><b>USB调试</b>\n隐藏链接电脑后的USB调试图标</string>
-    <string name="hide_icon_save"><b>流量监控</b>\n在手机管家中开启流量监控后，隐藏状态栏中对应的水滴图标,偶尔会隐藏失效,重启即可。</string>
-    <string name="hide_icon_bluetooth"><b>蓝牙</b>\n连接蓝牙设备后,隐藏状态栏上的蓝牙图标</string>
-    <string name="hide_icon_hotspot"><b>手机热点</b>\n隐藏状态栏上的手机热点图标</string>
-    <string name="hide_icon_volte"><b>VoLte</b>\n手机号开通volte后,隐藏状态栏上的HD高清通话图标</string>
-    <string name="hide_icon_shake"><b>震动</b>\n音量为0的情况下,隐藏状态栏上的震动图标</string>
-    <string name="hide_status_bar_no_sim_icon"><b>空SIM</b>\n隐藏状态栏上的空sim卡图标</string>
-    <string name="status_bar_custom_carrier_name"><b>运营商文本</b>\n自定义锁屏运营商文本</string>
-    <string name="status_bar_custom_time_text"><b>自定义时间格式</b>\n自定义状态栏时间格式,例如 HH:mm:ss</string>
-    <string name="hide_status_bar_wifi_icon"><b>隐藏wifi图标</b>\n隐藏状态栏上的wifi图标</string>
-    <string name="hide_status_bar_vpn_icon"><b>隐藏vpn图标</b>\n开启vpn后，自动隐藏状态栏上的VPN图标和相关常驻通知</string>
-    <string name="show_status_bar_time_second_icon"><b>时间显秒</b>\n状态栏上的当前时间格式变成[时:分:秒]</string>
-    <string name="show_icon_battery_percentage"><b>电量百分比</b>\n在状态栏电量百分比后面加个百分号，比如电量97显示成97%, 注意框架必须开启资源钩子才能生效</string>
-    <string name="hide_status_bar_slow_rate_icon"><b>低速隐藏</b> \n在系统设置里开启显示状态栏网速后，当实时网速低于100K/s则自隐藏状态栏上的网速图标</string>
-    <string name="hide_status_bar_time_week_icon"><b>状态栏时间-星期</b>  \n在状态栏时间后面追加星期 \n比如 [18:20 周一]</string>
-    <string name="hide_status_bar_time_chinese_icon"><b>状态栏时间-修饰</b>  \n在状态栏时间前面追加上午下午凌晨等词缀 比如 [傍晚 18:20]</string>
-    <string name="hide_status_bar_time_eng_icon"><b>状态栏星期-英文</b>  \n在状态栏显示英文的日期[需开启 状态栏时间-星期] \n比如 [AM 18:20 Mon]</string>
-    <string name="disableSearch"><b>桌面禁用手势-搜索</b>\n禁止桌面上划手势触发打开搜索</string>
-    <string name="hide_status_bar_sim1_icon"><b>隐藏图标-SIM1</b>\n隐藏状态栏SIM1的图标</string>
-    <string name="hide_status_bar_sim2_icon"><b>隐藏图标-SIM2</b>\n隐藏状态栏SIM2的图标</string>
-    <string name="hide_status_bar_location_icon"><b>定位</b>\n使用GPS的时候，隐藏状态栏上的定位图标</string>
-    <string name="hide_status_bar_clock_icon"><b>时钟</b>\n隐藏状态栏中的时间</string>
-    <string name="hide_status_bar_battery_icon"><b>电池</b>\n隐藏状态栏上的电池图标(不含17系列的环形电池) 修改后立即生效,设置重启后失效</string>
-    <string name="hide_status_bar_app_icon"><b>隐藏应用图标</b>  \n隐藏状态栏上左侧区域的所有图标,比如开启流量监控的图标,usb调试图标等</string>
-    <string name="show_status_bar_time_am_pm"><b>AM-PM</b>\n状态栏时间添加AM-PM前缀</string>
-    <string name="Tips_Title">温馨提示</string>
-    <string name="about">关于应用</string>
-    <string name="Flyme_Purify">基础功能</string>
-    <string name="disableapp">冻结应用</string>
-    <string name="appclean">清理应用缓存</string>
-    <string name="othersettings">常用设置</string>
-    <string name="other">其他</string>
-    <string name="copy_url">复制链接</string>
-    <string name="miuiads"><b>屏蔽Flyme广告</b>\n通过hosts屏蔽部分flyme的广告,但可能导致小部分flyme服务访问异常</string>
-    <string name="Working">正在处理</string>
-    <string name="Waiting">请耐心等待。。</string>
-    <string name="noupdater"><b>禁止系统检测更新</b>\n禁止系统更新检测新版本</string>
-    <string name="nostore"><b>禁止部分应用联网</b>\n屏蔽自带的应用商店,视频和一点资讯联网</string>
-
-    <string name="disableapptips">提示:点击应用切换冻结状态</string>
-    <string name="sureAntiDisable">你确定要解除</string>
-    <string name="sureAntiDisableAfter">的冻结状态吗?</string>
-    <string name="sureDisable">你确定要冻结</string>
-    <string name="sureDisableAfter">吗?</string>
-    <string name="loadappinfo">正在读取应用信息。。。</string>
-
-    <string name="isWorkingTips">请耐心等待应用清理完成再进行其他的操作！</string>
-
-    <string name="notices_title">开放源代码许可</string>
-    <string name="notices_close">关闭</string>
-
-    <string name="cp_url_success">已复制网址到粘贴板！</string>
-    <string name="share_url">网址分享</string>
-    <string name="starting_clean">开始清理</string>
-    <string name="clean_success">应用清理完成！</string>
-    <string name="cleaning">正在清理中…</string>
-    <string name="tips_backup_success">OK,列表备份完成！</string>
-    <string name="tips_backup_error">备份失败,一般是因为APP没读写存储权限导致的</string>
-    <string name="tips_sure_backuplist">你确定要备份当前系统应用的冻结列表吗?</string>
-    <string name="restore_set">你确定要还原当前系统应用的冻结状态吗?</string>
-    <string name="refreshing_list">OK,正在刷新列表</string>
-    <string name="tips">提示</string>
-    <string name="restoreing">OK,正在恢复配置！</string>
-    <string name="not_fond_backup_list">未找到备份列表！</string>
-    <string name="not_fond_backup_list_file">未找到备份列表！</string>
-    <string name="hide_app_icon">隐藏桌面应用图标</string>
-    <string name="appname">应用名: %1$s \n版本号 :%2$s</string>
-    <string name="app_info">版本号: %1$s \n文件大小:%2$s\n发布日期:%3$s</string>
-    <string name="others_appsettings">应用设置</string>
-    <string name="updateList">已检测到的OTA更新包</string>
-    <string name="blog">作者博客</string>
-    <string name="removeStore"><b>移除推广按钮</b>  \n移除应用安装界面的从官方商店下载按钮</string>
-    <string name="autoInstall"><b>自动安装应用</b>  \n打开应用安装界面后，无需点击按钮自动执行安装</string>
-    <string name="systemui_settings">自定义状态栏</string>
-    <string name="open_sources">
-            <b>致谢如下开源项目</b>\n\n
-            <b>MaterialDesignDemo</b>\n https://github.com/burgessjp/MaterialDesignDemo\n\n
-            <b>PullToRefresh</b>\n https://github.com/Yalantis\n\n
-            <b>root-tools</b>\n https://github.com/rarnu/root-tools\n\n
-            <b>LicensesDialog</b>\n https://github.com/PSDev/LicensesDialog\n\n
-    </string>
-    <string name="about_app">\nFlyme助手适配于Flyme10系统，主要用于去除系统自带的一些广告和其他一些修改.功能需要Xposed模块和ROOT支持
-       \n\n <b>QQ群:717515891</b>
-        \n\n<b>作者:CoderStory</b>
-        \n\n<b>博客主页: https://blog.coderstory.cn</b>
-        \n\n<b>微博主页: https://weibo.com/codestory</b>
-    </string>
-    <string name="dialog_msg">dialog_msg</string>
+    <string name="xposed_desc">一个针对Flyme系统的小工具</string>
+    <string name="about_module">This module is made by YukiHookAPI. \nLearn more https://github.com/fankes/YukiHookAPI</string>
+    <string name="module_version">Module version: %1$s</string>
+    <string name="module_not_activated">Module not activated</string>
+    <string name="module_is_activated">Module is activated</string>
+    <string name="display_settings">Display settings</string>
+    <string name="hide_app_icon_on_launcher">Hide app icons on launcher</string>
+    <string name="hide_app_icon_on_launcher_tip">After hiding the app icon, the interface may be closed and will no longer be displayed on the launcher. You can find and open the module settings in EdXposed or LSPosed.</string>
+    <string name="hide_app_icon_on_launcher_notice">Note: Be sure to turn off the \"Force apps to show launcher icons\" feature in LSPosed</string>
 </resources>
