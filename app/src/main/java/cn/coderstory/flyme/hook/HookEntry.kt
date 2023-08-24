@@ -15,8 +15,18 @@ class HookEntry : IYukiHookXposedInit {
     }
 
     override fun onHook() = encase {
-        if (prefs.getBoolean("enable_browser_block_ad", false)) {
-            loadApp("com.android.browser", BrowserHooker())
+        if (prefs.getBoolean("enable_block_ad", false)) {
+
+            if ("com.android.browser" == packageName) {
+                loadApp(packageName, BrowserHooker())
+            }
+            if ("com.meizu.flyme.weather" == packageName) {
+                loadApp(packageName, WeatherHooker())
+            }
+            if (packageName.contains("meizu") || packageName.contains("flyme") || packageName.contains("mz")) {
+                loadApp(packageName, AdBlockHooker())
+            }
         }
+
     }
 }
