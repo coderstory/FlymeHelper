@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="cn.coderstory.flyme">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:name=".application.DefaultApplication"
         android:allowBackup="true"

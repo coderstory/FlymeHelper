@@ -63,6 +63,14 @@ class PkgInstallerHooker : YukiBaseHooker() {
             }
         }
 
+        "com.meizu.safe.security.utils.Utils".hook {
+            injectMember {
+                method {
+                    name = "isCtsRunning"
+                }
+                replaceToTrue()
+            }
+        }
 
 
     }
