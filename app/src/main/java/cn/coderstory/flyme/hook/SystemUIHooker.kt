@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.highcapable.yukihookapi.hook.entity.YukiBaseHooker
+import com.highcapable.yukihookapi.hook.log.loggerI
 import de.robv.android.xposed.XposedHelpers
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -35,51 +36,35 @@ class SystemUIHooker : YukiBaseHooker() {
         // 锁屏 运营商名称自定义
         "com.android.keyguard.CarrierTextManager\$CarrierTextCallbackInfo".hook {
             injectMember {
-                method {
-                    constructor()
-                }
-                beforeHook {
-                    this.args[0] = "不忘初心 方得始终"
-                }
+                method { constructor() }
+                beforeHook { this.args[0] = "不忘初心 方得始终" }
             }
         }
 
         // 禁止充电动画
         "com.flyme.keyguard.charging.ChargeAnimationController".hook {
             injectMember {
-                method {
-                    name = "loadCharingView"
-                }
+                method { name = "loadCharingView" }
                 intercept()
             }
 
             injectMember {
-                method {
-                    constructor()
-                }
+                method { constructor() }
                 afterHook {
-                    XposedHelpers.setObjectField(
-                        this.instance,
-                        "mStartAnimation",
-                        Runnable {})
+                    XposedHelpers.setObjectField(this.instance, "mStartAnimation", Runnable {})
                 }
             }
 
             injectMember {
-                method {
-                    name = "updateBatteryState"
-                }
+                method { name = "updateBatteryState" }
                 intercept()
             }
 
         }
         // 侧滑返回 开启震动
-
         "com.android.systemui.navigationbar.gestural.EdgeBackGestureHandler\$5".hook {
             injectMember {
-                method {
-                    name = "triggerBack"
-                }
+                method { name = "triggerBack" }
                 beforeHook {
                     val vb = AndroidAppHelper.currentApplication().applicationContext.getSystemService(
                         Service.VIBRATOR_MANAGER_SERVICE
@@ -94,11 +79,10 @@ class SystemUIHooker : YukiBaseHooker() {
             }
         }
 
+        // 隐藏状态栏图标
         "com.android.systemui.statusbar.StatusBarIconView".hook {
             injectMember {
-                method {
-                    name = "set"
-                }
+                method { name = "set" }
 
                 beforeHook {
                     val statusBarIcon = this.args[0]
@@ -115,6 +99,7 @@ class SystemUIHooker : YukiBaseHooker() {
                 }
             }
 
+            // 隐藏VPN
             injectMember {
                 method { name = "setVisibility" }
                 beforeHook {
@@ -128,6 +113,7 @@ class SystemUIHooker : YukiBaseHooker() {
                 }
             }
 
+            // 隐藏应用图表
             injectMember {
                 method { name = "setVisibility" }
                 beforeHook {
@@ -137,15 +123,12 @@ class SystemUIHooker : YukiBaseHooker() {
 
 
         }
-
+        // 不知道是啥
         "com.android.systemui.statusbar.phone.StatusBarIconController".hook {
             injectMember {
                 method {
                     name = "setIconVisibility"
-                    param(
-                        String::class.java,
-                        Boolean::class.java
-                    )
+                    param(String::class.java, Boolean::class.java)
                 }
                 beforeHook {
                     if ("rotate" == this.args[0]) {
@@ -154,43 +137,34 @@ class SystemUIHooker : YukiBaseHooker() {
                 }
             }
         }
-
+        // 隐藏volte
         "com.android.systemui.statusbar.SignalClusterView".hook {
             injectMember {
-                method {
-                    name = "setMobileDataIndicators"
-                }
-                beforeHook {
-                    args[4] = 0
-                }
+                method { name = "setMobileDataIndicators" }
+                beforeHook { args[4] = 0 }
             }
         }
-
+        // 隐藏开发者选项警告
         "com.flyme.developer.DeveloperSettingsController".hook {
             injectMember {
-                method {
-                    name = "updateDeveloperNotification"
-                }
+                method { name = "updateDeveloperNotification" }
                 intercept()
             }
         }
 
+        //隐藏 空sim卡图标
         "com.android.systemui.statusbar.connectivity.NetworkControllerImpl".hook {
             injectMember {
-                method {
-                    name = "updateNoSims"
-                }
+                method { name = "updateNoSims" }
                 intercept()
             }
         }
 
 
-
+        // 隐藏状态栏网速
         "com.android.flyme.statusbar.connectionRateView.ConnectionRateView".hook {
             injectMember {
-                method {
-                    name = "updateConnectionRate"
-                }
+                method { name = "updateConnectionRate" }
                 afterHook {
                     // 当前网速 单位kb
                     val rate = args[0] as Double
@@ -203,6 +177,7 @@ class SystemUIHooker : YukiBaseHooker() {
             }
         }
 
+        // 自定义状态栏时间
         "com.android.systemui.statusbar.policy.Clock".hook {
             injectMember {
                 method {
@@ -214,8 +189,6 @@ class SystemUIHooker : YukiBaseHooker() {
                             prefs.getString("status_bar_custom_time", ""),
                             Locale.ENGLISH
                         ).format(Date())
-
-                        //XposedBridge.log(param.result.toString())
                     } else {
                         val view = instance as TextView
                         val is24HourFormat = DateFormat.is24HourFormat(view.context)
@@ -230,7 +203,6 @@ class SystemUIHooker : YukiBaseHooker() {
                         if (prefs.getBoolean("hide_status_bar_time_chinese_icon", false)) {
                             formatStr = "$timeType $formatStr"
                         }
-                        // XposedBridge.log("时间格式" + formatStr);
                         var time = SimpleDateFormat(
                             formatStr,
                             (if (prefs.getBoolean(
@@ -251,61 +223,48 @@ class SystemUIHooker : YukiBaseHooker() {
             }
         }
 
+        // 开启隐藏热点图标
         "com.android.systemui.statusbar.policy.HotspotControllerImpl".hook {
             injectMember {
                 method {
-                    name {
-                        it in listOf("setHotspotEnabled", "enableHotspot")
-                    }
+                    name { it in listOf("setHotspotEnabled", "enableHotspot") }
                 }.all()
                 beforeHook { args[0] = false }
             }
-
-
         }
-
+        // 隐藏蓝牙
         "com.android.settingslib.bluetooth.BluetoothEventManager".hook {
             injectMember {
                 method {
-                    name {
-                        it in listOf("dispatchActiveDeviceChanged", "dispatchConnectionStateChanged")
-                    }
+                    name { it in listOf("dispatchActiveDeviceChanged", "dispatchConnectionStateChanged") }
                 }.all()
                 intercept()
             }
         }
-
+        // 隐藏 卡一 卡二
         "com.android.systemui.statusbar.phone.StatusBarSignalPolicy".hook {
             injectMember {
                 method { name = "setMobileDataIndicators" }
                 afterHook {
-                    var obj = args[0]
-                    var subId = XposedHelpers.getIntField(obj, "subId")
-
-                    var iconState =
-                        XposedHelpers.callMethod(
-                            instance,
-                            "getState",
-                            subId
-                        )
-
+                    val obj = args[0]
+                    val subId = XposedHelpers.getIntField(obj, "subId")
+                    val iconState = XposedHelpers.callMethod(instance, "getState", subId)
                     if (iconState != null) {
                         val slotId = XposedHelpers.getIntField(iconState, "subId") + 1
-
-                        // XposedBridge.log("当前卡槽$slotId")
+                        loggerI("flymeheper","当前卡槽$slotId")
                         if (prefs.getBoolean("hide_status_bar_sim1_icon", false) && slotId == 1) {
-                            // XposedBridge.log("开启隐藏sim1")
+                            // 开启隐藏sim1
                             XposedHelpers.setBooleanField(iconState, "visible", false)
                         }
                         if (prefs.getBoolean("hide_status_bar_sim2_icon", false) && slotId == 2) {
-                            // XposedBridge.log("开启隐藏sim2")
+                            // 开启隐藏sim2
                             XposedHelpers.setBooleanField(iconState, "visible", false)
                         }
                     }
                 }
             }
         }
-
+        // 双击状态栏锁屏
         "com.android.systemui.statusbar.phone.PhoneStatusBarView".hook {
             injectMember {
                 method { name = "onFinishInflate" }
@@ -314,14 +273,9 @@ class SystemUIHooker : YukiBaseHooker() {
                     val statusVarView = instance as ViewGroup
                     statusVarView.setOnTouchListener { view, event ->
                         if (event.action == MotionEvent.ACTION_DOWN) {
-//                                Log.d("LSPosed","点击啦状态栏")
                             val currTime = System.currentTimeMillis()
                             if (currTime - preTime <= 200) {
-                                XposedHelpers.callMethod(
-                                    view.context.getSystemService(Context.POWER_SERVICE),
-                                    "goToSleep",
-                                    SystemClock.uptimeMillis()
-                                )
+                                XposedHelpers.callMethod(view.context.getSystemService(Context.POWER_SERVICE), "goToSleep", SystemClock.uptimeMillis())
                             }
                             preTime = currTime
                         }
@@ -331,36 +285,27 @@ class SystemUIHooker : YukiBaseHooker() {
                 }
             }
         }
-
+        // 状态栏打开 时钟 日历
         "com.flyme.systemui.statusbar.phone.StatusBarHeaderView".hook {
             injectMember {
                 method { name = "onFinishInflate" }
-
                 afterHook {
-                    if (prefs.getBoolean("clock",false)) {
-                        val timeView = XposedHelpers.getObjectField(instance,"mTime") as? ViewGroup
+                    if (prefs.getBoolean("clock", false)) {
+                        val timeView = XposedHelpers.getObjectField(instance, "mTime") as? ViewGroup
                         timeView?.setOnClickListener {
                             //跳转系统闹钟
                             it.context.startActivity(Intent().apply {
-                                setClassName(
-                                    "com.android.alarmclock",
-                                    "com.meizu.flyme.alarmclock.DeskClock"
-                                )
+                                setClassName("com.android.alarmclock", "com.meizu.flyme.alarmclock.DeskClock")
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
                             })
-
                         }
                     }
-
-                    if (prefs.getBoolean("calendar",false)) {
-                        val dateViewGroup = XposedHelpers.getObjectField(instance,"mDateGroup") as? ViewGroup
+                    if (prefs.getBoolean("calendar", false)) {
+                        val dateViewGroup = XposedHelpers.getObjectField(instance, "mDateGroup") as? ViewGroup
                         dateViewGroup?.setOnClickListener {
                             //跳转系统闹钟
                             it.context.startActivity(Intent().apply {
-                                setClassName(
-                                    "com.android.calendar",
-                                    "com.meizu.flyme.calendar.AllInOneActivity"
-                                )
+                                setClassName("com.android.calendar", "com.meizu.flyme.calendar.AllInOneActivity")
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
                             })
                         }

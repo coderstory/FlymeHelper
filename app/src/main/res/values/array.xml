@@ -6,9 +6,7 @@
         <item>com.android.packageinstaller</item>
         <item>com.meizu.mznfcpay</item>
         <item>com.meizu.flyme.update</item>
-        <item>com.meizu.flyme.launcher</item>
         <item>com.meizu.customizecenter</item>
-        <item>com.hy.weather.mz</item>
         <item>com.android.browser</item>
         <item>com.meizu.flyme.weather</item>
     </string-array>

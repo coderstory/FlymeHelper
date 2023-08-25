@@ -10,26 +10,41 @@ import de.robv.android.xposed.XposedHelpers
 
 class SystemUpdaterHooker : YukiBaseHooker() {
     override fun onHook() {
+        var mContext: Context? = null
         "com.meizu.flyme.update.network.RequestManager".hook {
-            var  mContext: Context? = null
+            // 这个hook是为了拿到一个 Context 用于弹出一个Toast
             injectMember {
-                method {
-                    constructor()
-                }
+                method { constructor() }
                 afterHook {
                     if (this.args[0] is Context) {
                         mContext = this.args[0] as Context
                     }
                 }
 
-            }.onAllFailure {
-                loggerE(msg = "Hook Browser fail: ${it.message}")
-            }
+            }.onAllFailure { loggerE(msg = "Hook Browser fail: ${it.message}") }
+        }
 
+        /**
+         * 这个hook类是获取更新包信息反序列化后的实体类
+         * TODO 这个类型的查找需要改进
+         * ```
+         * public class k {
+         *          public b cdnCheckResult;
+         *          public e currentFimware;
+         *          public g firmwarePlan;
+         *          public UpgradeFirmware upgradeFirmware;
+         *          public k(UpgradeFirmware upgradeFirmware, e eVar, g gVar, b bVar) {
+         *              this.upgradeFirmware = upgradeFirmware;
+         *              this.currentFimware = eVar;
+         *              this.firmwarePlan = gVar;
+         *              this.cdnCheckResult = bVar;
+         *          }
+         *      }
+         * ```
+         */
+        "com.meizu.flyme.update.model.h".hook {
             injectMember {
-                method {
-                    constructor()
-                }
+                method { constructor() }
                 afterHook {
                     val obj = this.instance
                     val currentFirmware = XposedHelpers.getObjectField(obj, "currentFimware")
@@ -37,10 +52,7 @@ class SystemUpdaterHooker : YukiBaseHooker() {
                     val upgradeFirmware = XposedHelpers.getObjectField(obj, "upgradeFirmware")
                     handleInfo(upgradeFirmware, mContext)
                 }
-
-            }.onAllFailure {
-                loggerE(msg = "Hook Browser fail: ${it.message}")
-            }
+            }.onAllFailure { loggerE(msg = "Hook Browser fail: ${it.message}") }
         }
     }
 
@@ -54,12 +66,8 @@ class SystemUpdaterHooker : YukiBaseHooker() {
             val msg = "$systemVersion@$updateUrl@$fileSize@$releaseDate"
             if (!update.contains(msg)) {
                 update += "$msg;"
-                prefs.edit().putString(
-                    "updateList",
-                    Base64.encodeToString(update.toByteArray(), Base64.DEFAULT)
-                )
-                Toast.makeText(mContext, "flyme助手:已检测到新的更新包地址", Toast.LENGTH_LONG)
-                    .show()
+                prefs.edit().putString("updateList", Base64.encodeToString(update.toByteArray(), Base64.DEFAULT))
+                Toast.makeText(mContext, "flyme助手:已检测到新的更新包地址", Toast.LENGTH_LONG).show()
                 XposedBridge.log(update)
             }
         }

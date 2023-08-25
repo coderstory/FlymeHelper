@@ -3,6 +3,9 @@ package cn.coderstory.flyme.hook
 import com.highcapable.yukihookapi.hook.entity.YukiBaseHooker
 import com.highcapable.yukihookapi.hook.log.loggerE
 
+/**
+ * 通用-阻止Flyme系统App的广告插件安装
+ */
 class AdBlockHooker : YukiBaseHooker() {
     override fun onHook() {
         findClass("com.meizu.advertise.api.AdManager").runCatching {

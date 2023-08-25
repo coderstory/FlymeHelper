@@ -62,7 +62,7 @@ class PkgInstallerHooker : YukiBaseHooker() {
                 loggerE(msg = "Hook Browser fail: ${it.message}")
             }
         }
-
+        // 开启原生安装界面
         "com.meizu.safe.security.utils.Utils".hook {
             injectMember {
                 method {

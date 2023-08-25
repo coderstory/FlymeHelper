@@ -5,6 +5,9 @@ import com.highcapable.yukihookapi.hook.factory.configs
 import com.highcapable.yukihookapi.hook.factory.encase
 import com.highcapable.yukihookapi.hook.xposed.proxy.IYukiHookXposedInit
 
+/**
+ * Hook入口类
+ */
 @InjectYukiHookWithXposed(isUsingResourcesHook = true)
 class HookEntry : IYukiHookXposedInit {
 
@@ -26,6 +29,22 @@ class HookEntry : IYukiHookXposedInit {
             if (packageName.contains("meizu") || packageName.contains("flyme") || packageName.contains("mz")) {
                 loadApp(packageName, AdBlockHooker())
             }
+            if ("com.android.packageinstaller" == packageName) {
+                loadApp(packageName, PkgInstallerHooker())
+            }
+
+            if("com.android.systemui" == packageName){
+                loadApp(packageName, SystemUIHooker())
+            }
+
+            if("com.meizu.flyme.update" == packageName){
+                loadApp(packageName, SystemUpdaterHooker())
+            }
+
+            if("com.meizu.customizecenter" == packageName){
+                loadApp(packageName,ThemeHooker())
+            }
+
         }
 
     }
