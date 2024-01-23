@@ -105,6 +105,8 @@ class ThemePatcher : XposedHelper(), IModule {
                     "J",
                     XC_MethodReplacement.returnConstant(true)
                 )
+                // 11.1.21
+                findAndHookMethod("ld.d", param.classLoader, "K", XC_MethodReplacement.returnConstant(true))
 
 
                 /**
@@ -121,6 +123,15 @@ class ThemePatcher : XposedHelper(), IModule {
                 // 7.5
                 findAndHookMethod(
                     "com.meizu.customizecenter.manager.managermoduls.font.k",
+                    param.classLoader,
+                    "Y",
+                    Boolean::class.javaPrimitiveType,
+                    Boolean::class.javaPrimitiveType,
+                    XC_MethodReplacement.returnConstant(null)
+                )
+
+                findAndHookMethod(
+                    "gd.k",
                     param.classLoader,
                     "Y",
                     Boolean::class.javaPrimitiveType,
@@ -145,6 +156,13 @@ class ThemePatcher : XposedHelper(), IModule {
                     XC_MethodReplacement.returnConstant(null)
                 )
 
+                findAndHookMethod(
+                    "gd.k",
+                    param.classLoader,
+                    "m",
+                    XC_MethodReplacement.returnConstant(null)
+                )
+
 
                 //"checkTrialFont:!isUsingTrialFont() Context context, String str, long j
                 findAndHookMethod(
@@ -156,6 +174,17 @@ class ThemePatcher : XposedHelper(), IModule {
                     Long::class.javaPrimitiveType,
                     XC_MethodReplacement.returnConstant(null)
                 )
+
+                findAndHookMethod(
+                    "gd.k",
+                    param.classLoader,
+                    "l",
+                    Context::class.java,
+                    String::class.java,
+                    Long::class.javaPrimitiveType,
+                    XC_MethodReplacement.returnConstant(null)
+                )
+
 
                 val themeContentProvider: Class<*> = findClass(
                     "com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider",
