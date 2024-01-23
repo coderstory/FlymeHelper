@@ -12,7 +12,6 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
-
 class ThemePatcher : XposedHelper(), IModule {
     override fun handleInitPackageResources(respray: InitPackageResourcesParam) {
         if (respray.packageName == "com.meizu.customizecenter" && prefs.getBoolean(
@@ -105,6 +104,15 @@ class ThemePatcher : XposedHelper(), IModule {
                     "J",
                     XC_MethodReplacement.returnConstant(true)
                 )
+
+                // 10.3.71
+                findAndHookMethod(
+                    "com.meizu.flyme.policy.sdk.jf0",
+                    param.classLoader,
+                    "L",
+                    XC_MethodReplacement.returnConstant(true)
+                )
+
                 // 11.1.21
                 findAndHookMethod("ld.d", param.classLoader, "K", XC_MethodReplacement.returnConstant(true))
 
@@ -125,6 +133,15 @@ class ThemePatcher : XposedHelper(), IModule {
                     "com.meizu.customizecenter.manager.managermoduls.font.k",
                     param.classLoader,
                     "Y",
+                    Boolean::class.javaPrimitiveType,
+                    Boolean::class.javaPrimitiveType,
+                    XC_MethodReplacement.returnConstant(null)
+                )
+
+                findAndHookMethod(
+                    "com.meizu.customizecenter.manager.managermoduls.theme.e",
+                    param.classLoader,
+                    "j0",
                     Boolean::class.javaPrimitiveType,
                     Boolean::class.javaPrimitiveType,
                     XC_MethodReplacement.returnConstant(null)
