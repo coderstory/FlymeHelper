@@ -12,6 +12,7 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_InitPackageResources.InitPackageResourcesParam
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
+
 class ThemePatcher : XposedHelper(), IModule {
     override fun handleInitPackageResources(respray: InitPackageResourcesParam) {
         if (respray.packageName == "com.meizu.customizecenter" && prefs.getBoolean(
@@ -23,7 +24,7 @@ class ThemePatcher : XposedHelper(), IModule {
                 respray.res.setReplacement(0x7f110338, "开始白嫖")
                 respray.res.setReplacement(0x7f11033f, "开始白嫖")
                 respray.res.setReplacement(0x7f110345, "正在白嫖")
-            }
+             }
         }
     }
     override fun handleLoadPackage(param: LoadPackageParam) {
@@ -47,6 +48,17 @@ class ThemePatcher : XposedHelper(), IModule {
                     Int::class.javaPrimitiveType,
                     XC_MethodReplacement.returnConstant(null)
                 )
+                findAndHookMethod(
+                    "com.meizu.customizecenter.manager.managermoduls.theme.f",
+                    param.classLoader,
+                    "k",
+                    Boolean::class.java,
+                    String::class.java,
+                    Int::class.javaPrimitiveType,
+                    Int::class.javaPrimitiveType,
+                    XC_MethodReplacement.returnConstant(null)
+                )
+
 
                 // 拦截开机自启广播
                 findAndHookMethod(
@@ -115,6 +127,18 @@ class ThemePatcher : XposedHelper(), IModule {
 
                 // 11.1.21
                 findAndHookMethod("ld.d", param.classLoader, "K", XC_MethodReplacement.returnConstant(true))
+
+                findAndHookMethod(
+                    "com.meizu.customizecenter.manager.utilshelper.restorehelper.ThemeRestoreService\$a", param.classLoader, "c", Int::class.javaPrimitiveType,
+                    XC_MethodReplacement.returnConstant(null)
+                )
+
+                findAndHookMethod(
+                    "com.meizu.customizecenter.manager.managermoduls.theme.e", param.classLoader, "t",
+                    Context::class.java,
+                    String::class.java,
+                    Long::class.javaPrimitiveType, XC_MethodReplacement.returnConstant(null)
+                )
 
 
                 /**
@@ -202,6 +226,21 @@ class ThemePatcher : XposedHelper(), IModule {
                     XC_MethodReplacement.returnConstant(null)
                 )
 
+                //   fi0.e(str, "checkTrialThemeWhenAppStart_interval:" + (elapsedRealtime / 1000) + " second");
+                // 重启恢复主题 10.3.71
+                findAndHookMethod(
+                    "com.meizu.customizecenter.admin.application.CustomizeCenterApplicationInit",
+                    param.classLoader,
+                    "S",
+                    XC_MethodReplacement.returnConstant(null)
+                )
+                // 11.1.21
+                findAndHookMethod(
+                    "com.meizu.customizecenter.admin.application.CustomizeCenterApplicationInit",
+                    param.classLoader,
+                    "T",
+                    XC_MethodReplacement.returnConstant(null)
+                )
 
                 val themeContentProvider: Class<*> = findClass(
                     "com.meizu.customizecenter.manager.utilshelper.dbhelper.dao.ThemeContentProvider",
