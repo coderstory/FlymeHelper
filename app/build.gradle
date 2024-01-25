@@ -18,7 +18,6 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            zipAlignEnabled true
             pseudoLocalesEnabled true
             shrinkResources true
         }
@@ -37,7 +36,7 @@ android {
 
 dependencies {
     compileOnly fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.google.android.material:material:1.11.0'
     implementation 'com.github.goweii:AnyLayer:3.4.3-support'
     implementation "com.github.topjohnwu.libsu:core:3.1.2"
     implementation 'com.alibaba:fastjson:2.0.33'
